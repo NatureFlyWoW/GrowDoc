@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GrowDoc — Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-main">
+        <h1>⚙ GrowDoc Admin</h1>
+        <p>Manage documents — commits straight to GitHub</p>
+      </div>
+      <a href="index.html" class="admin-link">← Back to docs</a>
+    </header>
+
+    <main class="admin-main">
+
+      <!-- Login panel -->
+      <section id="login-panel" class="card hidden">
+        <h2>Sign in with GitHub</h2>
+        <p class="muted">You need a GitHub Personal Access Token with <code>public_repo</code> scope to edit documents. Your token is stored only in your browser.</p>
+        <ol class="steps">
+          <li>Go to <a href="https://github.com/settings/tokens/new?scopes=public_repo&description=GrowDoc%20Admin" target="_blank" rel="noopener">github.com/settings/tokens/new</a></li>
+          <li>Scope <code>public_repo</code> is pre-selected. Click "Generate token"</li>
+          <li>Copy the token (starts with <code>ghp_</code>) and paste it below</li>
+        </ol>
+        <form id="login-form">
+          <label>
+            <span>Personal Access Token</span>
+            <input type="password" id="pat-input" placeholder="ghp_..." autocomplete="off" required>
+          </label>
+          <button type="submit" class="btn primary">Sign in</button>
+        </form>
+        <p class="error" id="login-error"></p>
+      </section>
+
+      <!-- Admin panel -->
+      <section id="admin-panel" class="hidden">
+        <div class="bar">
+          <div class="who">Signed in as <strong id="who-name">—</strong> · <button class="link" id="signout-btn">sign out</button></div>
+          <button class="btn primary" id="add-btn">➕ Add new doc</button>
+        </div>
+
+        <div id="notice" class="notice hidden"></div>
+
+        <table class="docs-table">
+          <thead>
+            <tr>
+              <th class="w-icon">Icon</th>
+              <th>Title</th>
+              <th class="w-status">Status</th>
+              <th class="w-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="docs-tbody"></tbody>
+        </table>
+      </section>
+
+      <!-- Edit modal -->
+      <div id="modal-backdrop" class="modal-backdrop hidden">
+        <div class="modal card">
+          <div class="modal-head">
+            <h2 id="modal-title">Add doc</h2>
+            <button class="link" id="modal-close">✕</button>
+          </div>
+
+          <form id="doc-form">
+            <input type="hidden" id="form-id">
+            <input type="hidden" id="form-original-file">
+
+            <div class="row">
+              <label class="w-sm">
+                <span>Icon (emoji)</span>
+                <input type="text" id="form-icon" required maxlength="8" placeholder="📄">
+              </label>
+              <label class="grow">
+                <span>Title</span>
+                <input type="text" id="form-title" required maxlength="120">
+              </label>
+            </div>
+
+            <label>
+              <span>Subtitle</span>
+              <input type="text" id="form-subtitle" maxlength="200">
+            </label>
+
+            <div class="row">
+              <label class="grow">
+                <span>Status</span>
+                <select id="form-status">
+                  <option value="OPEN">OPEN</option>
+                  <option value="IN PROGRESS">IN PROGRESS</option>
+                  <option value="HALTED">HALTED</option>
+                  <option value="IN REVIEW">IN REVIEW</option>
+                  <option value="DONE">DONE</option>
+                </select>
+              </label>
+              <label class="grow">
+                <span>File name</span>
+                <input type="text" id="form-file" required placeholder="my-doc.html" pattern="[a-z0-9\-]+\.html">
+              </label>
+            </div>
+
+            <div class="content-editor">
+              <div class="tabs">
+                <button type="button" class="tab active" data-tab="html">HTML</button>
+                <button type="button" class="tab" data-tab="upload">Upload .html</button>
+                <button type="button" class="tab" data-tab="markdown">Markdown</button>
+                <button type="button" class="tab" data-tab="text">Plain text</button>
+                <button type="button" class="tab" data-tab="keep">Keep existing</button>
+              </div>
+
+              <div class="tab-panel active" data-panel="html">
+                <label>
+                  <span>Paste HTML content (full document or fragment — will be wrapped in the theme template)</span>
+                  <textarea id="form-html" rows="14" placeholder="<h1>Title</h1>&#10;<p class='sub'>Subtitle</p>&#10;<h2>Section</h2>&#10;<p>Content...</p>"></textarea>
+                </label>
+              </div>
+
+              <div class="tab-panel" data-panel="upload">
+                <label>
+                  <span>Upload an .html file</span>
+                  <input type="file" id="form-upload" accept=".html,text/html">
+                </label>
+                <div id="upload-info" class="muted"></div>
+              </div>
+
+              <div class="tab-panel" data-panel="markdown">
+                <label>
+                  <span>Paste Markdown (auto-converted to styled HTML)</span>
+                  <textarea id="form-markdown" rows="14" placeholder="# Title&#10;&#10;Subtitle here.&#10;&#10;## Section&#10;&#10;Content with **bold** and *italic*.&#10;&#10;- List item&#10;- List item"></textarea>
+                </label>
+              </div>
+
+              <div class="tab-panel" data-panel="text">
+                <label>
+                  <span>Paste plain text (auto-paragraphed)</span>
+                  <textarea id="form-text" rows="14"></textarea>
+                </label>
+              </div>
+
+              <div class="tab-panel" data-panel="keep">
+                <p class="muted">Keep the existing document content and only update the metadata (icon, title, status, etc.).</p>
+              </div>
+            </div>
+
+            <p class="error" id="form-error"></p>
+
+            <div class="modal-actions">
+              <button type="button" class="btn" id="cancel-btn">Cancel</button>
+              <button type="submit" class="btn primary" id="save-btn">💾 Save & publish</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="footer">
+      GrowDoc Admin · <span id="repo-label"></span>
+    </footer>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

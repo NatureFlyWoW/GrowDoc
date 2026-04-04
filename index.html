@@ -9,15 +9,20 @@
 <body>
   <div class="app">
     <header class="header">
-      <h1>🌿 GrowDoc</h1>
-      <p>Planning docs for the 80×80 grow project</p>
+      <div class="header-main">
+        <h1>🌿 GrowDoc</h1>
+        <p>Planning docs for the 80×80 grow project</p>
+      </div>
+      <a href="admin.html" class="admin-link">⚙ Admin</a>
     </header>
 
     <div class="mobile-nav" id="mobile-nav"></div>
 
     <div class="main">
       <nav class="sidebar">
-        <div class="sidebar-label">Documents</div>
+        <div class="sidebar-label">Filter by status</div>
+        <div class="filter-bar" id="filter-bar"></div>
+        <div class="sidebar-label" style="margin-top:18px">Documents</div>
         <div id="nav-list"></div>
       </nav>
 

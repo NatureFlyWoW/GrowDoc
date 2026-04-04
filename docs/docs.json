@@ -1,0 +1,34 @@
+[
+  {
+    "id": "tent-guide",
+    "title": "80×80 Grow Tent Guide",
+    "subtitle": "Assembly, Ventilation & Stealth Planning",
+    "icon": "📄",
+    "status": "DONE",
+    "file": "tent-guide.html"
+  },
+  {
+    "id": "construction",
+    "title": "Construction Plans",
+    "subtitle": "8 Illustrated Build Diagrams",
+    "icon": "📐",
+    "status": "DONE",
+    "file": "construction-plans.html"
+  },
+  {
+    "id": "pheno",
+    "title": "Pheno Hunting",
+    "subtitle": "Sativa Super Skunk Selection Guide",
+    "icon": "🧬",
+    "status": "IN REVIEW",
+    "file": "pheno-hunting.html"
+  },
+  {
+    "id": "grow-200g",
+    "title": "200g Grow Guide",
+    "subtitle": "Pushing Yields to the Max",
+    "icon": "🌱",
+    "status": "IN PROGRESS",
+    "file": "200g-grow-guide.html"
+  }
+]
