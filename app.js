@@ -4,31 +4,20 @@ const docs = [
     title: '80×80 Grow Tent Guide',
     subtitle: 'Assembly, Ventilation & Stealth Planning',
     icon: '📄',
-    type: 'pdf',
-    src: 'docs/tent-guide.pdf'
+    src: 'docs/tent-guide.html'
   },
   {
     id: 'construction',
     title: 'Construction Plans',
-    subtitle: 'Illustrated Build Reference',
+    subtitle: '8 Illustrated Build Diagrams',
     icon: '📐',
-    type: 'pdf',
-    src: 'docs/construction-plans.pdf'
+    src: 'docs/construction-plans.html'
   },
   {
-    id: 'pheno-pdf',
+    id: 'pheno',
     title: 'Pheno Hunting',
-    subtitle: 'Sativa Super Skunk',
+    subtitle: 'Sativa Super Skunk Selection Guide',
     icon: '🧬',
-    type: 'pdf',
-    src: 'docs/pheno-hunting.pdf'
-  },
-  {
-    id: 'pheno-html',
-    title: 'Pheno Hunting',
-    subtitle: 'Sativa Super Skunk — Interactive',
-    icon: '🧬',
-    type: 'html',
     src: 'docs/pheno-hunting.html'
   },
   {
@@ -36,8 +25,7 @@ const docs = [
     title: '200g Grow Guide',
     subtitle: 'Pushing Yields to the Max',
     icon: '🌱',
-    type: 'pdf',
-    src: 'docs/200g-grow-guide.pdf'
+    src: 'docs/200g-grow-guide.html'
   }
 ];
 
@@ -51,7 +39,6 @@ function render() {
     <div class="nav-item ${d.id === activeId ? 'active' : ''}" onclick="select('${d.id}')">
       <span class="icon">${d.icon}</span>
       <span>${d.title}</span>
-      <span class="type-badge">${d.type}</span>
     </div>
   `).join('');
 
@@ -65,7 +52,7 @@ function render() {
   // Viewer
   document.getElementById('viewer-title').textContent = active.title;
   document.getElementById('viewer-meta').textContent =
-    active.subtitle + ' · ' + active.type.toUpperCase();
+    active.subtitle;
 
   const iframe = document.getElementById('viewer-iframe');
   iframe.src = active.src;
