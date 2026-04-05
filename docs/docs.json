@@ -61,5 +61,14 @@
     "status": "IN REVIEW",
     "category": "botanical",
     "file": "glossary.html"
+  },
+  {
+    "id": "phenohunting-guide",
+    "title": "Phenohunting — Definitive Guide",
+    "subtitle": "From seed to confirmed keeper — genetics, methodology, craft",
+    "icon": "🔬",
+    "status": "IN REVIEW",
+    "category": "botanical",
+    "file": "phenohunting-guide.html"
   }
 ]
