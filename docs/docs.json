@@ -34,5 +34,14 @@
     "status": "IN REVIEW",
     "category": "botanical",
     "file": "pheno-hunting.html"
+  },
+  {
+    "id": "strain-guide",
+    "title": "Strain Genealogy",
+    "subtitle": "Cannabis Landraces & Phenotype Guide",
+    "icon": "🌳",
+    "status": "IN REVIEW",
+    "category": "botanical",
+    "file": "strain-guide.html"
   }
 ]
