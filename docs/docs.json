@@ -70,5 +70,14 @@
     "status": "IN REVIEW",
     "category": "botanical",
     "file": "strain-selection-guide.html"
+  },
+  {
+    "id": "bellaflora",
+    "title": "Bellaflora Shopping Guide",
+    "subtitle": "Living-Soil Sourcing at Austria's Garden Center — Stealth & Legal",
+    "icon": "🛒",
+    "status": "IN REVIEW",
+    "category": "botanical",
+    "file": "bellaflora-guide.html"
   }
 ]
