@@ -9,13 +9,13 @@
     "file": "citron-givre-guide.html"
   },
   {
-    "id": "construction",
-    "title": "Construction Plans",
-    "subtitle": "Pantry Grow Setup — 8 Illustrated Diagrams",
-    "icon": "📐",
+    "id": "equipment",
+    "title": "Equipment Tracker",
+    "subtitle": "Inventory, Budget & Gear Status — Citron Givré Run",
+    "icon": "📋",
     "status": "IN REVIEW",
     "category": "planning",
-    "file": "construction-plans.html"
+    "file": "equipment.html"
   },
   {
     "id": "grow-150g",
@@ -43,15 +43,6 @@
     "status": "IN REVIEW",
     "category": "botanical",
     "file": "strain-guide.html"
-  },
-  {
-    "id": "setup-review",
-    "title": "Abstellraum Setup Review",
-    "subtitle": "Bestandsaufnahme & Bauanleitung — HS80 Ventilation & AKF",
-    "icon": "🔧",
-    "status": "IN REVIEW",
-    "category": "planning",
-    "file": "setup-review.html"
   },
   {
     "id": "glossary",
