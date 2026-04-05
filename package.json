@@ -1,0 +1,13 @@
+{
+  "name": "growdoc",
+  "version": "1.0.0",
+  "description": "Collaborative grow planning docs",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "setup-password": "node scripts/setup-password.js"
+  }
+}

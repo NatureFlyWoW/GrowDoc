@@ -1,0 +1,7 @@
+.superpowers/
+.playwright-mcp/
+*.png
+docs/superpowers/
+scripts/
+DEPLOY.md
+*-text.txt

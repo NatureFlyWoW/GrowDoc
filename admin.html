@@ -13,7 +13,7 @@
     <header class="header">
       <div class="header-main">
         <h1>⚙ GrowDoc Admin</h1>
-        <p>Manage documents — commits straight to GitHub</p>
+        <p>Manage documents — auto-publishes on save</p>
       </div>
       <a href="index.html" class="admin-link">← Back to docs</a>
     </header>
@@ -22,19 +22,14 @@
 
       <!-- Login panel -->
       <section id="login-panel" class="card hidden">
-        <h2>Sign in with GitHub</h2>
-        <p class="muted">You need a GitHub Personal Access Token with <code>public_repo</code> scope to edit documents. Your token is stored only in your browser.</p>
-        <ol class="steps">
-          <li>Go to <a href="https://github.com/settings/tokens/new?scopes=public_repo&description=GrowDoc%20Admin" target="_blank" rel="noopener">github.com/settings/tokens/new</a></li>
-          <li>Scope <code>public_repo</code> is pre-selected. Click "Generate token"</li>
-          <li>Copy the token (starts with <code>ghp_</code>) and paste it below</li>
-        </ol>
+        <h2>Enter the team password</h2>
+        <p class="muted">Ask your teammate for the shared password. You'll stay signed in on this device for 14 days.</p>
         <form id="login-form">
           <label>
-            <span>Personal Access Token</span>
-            <input type="password" id="pat-input" placeholder="ghp_..." autocomplete="off" required>
+            <span>Team password</span>
+            <input type="password" id="password-input" placeholder="••••••••" autocomplete="current-password" required>
           </label>
-          <button type="submit" class="btn primary">Sign in</button>
+          <button type="submit" class="btn primary" id="login-btn">Sign in</button>
         </form>
         <p class="error" id="login-error"></p>
       </section>
@@ -42,7 +37,7 @@
       <!-- Admin panel -->
       <section id="admin-panel" class="hidden">
         <div class="bar">
-          <div class="who">Signed in as <strong id="who-name">—</strong> · <button class="link" id="signout-btn">sign out</button></div>
+          <div class="who">Signed in · <button class="link" id="signout-btn">sign out</button></div>
           <button class="btn primary" id="add-btn">➕ Add new doc</button>
         </div>
 
@@ -70,7 +65,6 @@
           </div>
 
           <form id="doc-form">
-            <input type="hidden" id="form-id">
             <input type="hidden" id="form-original-file">
 
             <div class="row">
@@ -162,7 +156,7 @@
     </main>
 
     <footer class="footer">
-      GrowDoc Admin · <span id="repo-label"></span>
+      GrowDoc Admin · <span id="footer-label">collaborative planning</span>
     </footer>
   </div>
 

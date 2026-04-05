@@ -1,12 +1,7 @@
 // ─────────────────────────────────────────────────────────────
-// GrowDoc Admin — GitHub API client for collaborative editing
+// GrowDoc Admin — talks to our Vercel backend, which holds the
+// single GitHub token. Friends only need the team password.
 // ─────────────────────────────────────────────────────────────
-
-const REPO_OWNER = 'NatureFlyWoW';
-const REPO_NAME = 'GrowDoc';
-const DOCS_JSON_PATH = 'docs/docs.json';
-const DOCS_DIR = 'docs';
-const BRANCH = 'main';
 
 const STATUS_CONFIG = {
   'OPEN':        '#8b7355',
@@ -16,36 +11,31 @@ const STATUS_CONFIG = {
   'DONE':        '#3B6D11'
 };
 
+const API_BASE = ''; // same origin — Vercel serves both site and API
+
 let state = {
-  pat: null,
-  user: null,
+  token: null,
   docs: [],
-  docsJsonSha: null
+  sha: null
 };
 
-// ── Base64 helpers (UTF-8 safe) ─────────────────────────────
-function b64encode(str) {
-  return btoa(unescape(encodeURIComponent(str)));
-}
-function b64decode(b64) {
-  return decodeURIComponent(escape(atob(b64.replace(/\s/g, ''))));
-}
-
-// ── GitHub API ──────────────────────────────────────────────
-async function gh(path, options = {}) {
-  const url = `https://api.github.com${path}`;
+// ── API client ──────────────────────────────────────────────
+async function api(path, options = {}) {
   const headers = {
-    'Accept': 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
+    'Content-Type': 'application/json',
     ...options.headers
   };
-  if (state.pat) headers['Authorization'] = `Bearer ${state.pat}`;
-  if (options.body) headers['Content-Type'] = 'application/json';
+  if (state.token) headers['Authorization'] = `Bearer ${state.token}`;
 
-  const res = await fetch(url, { ...options, headers });
+  const res = await fetch(API_BASE + path, {
+    ...options,
+    headers,
+    body: options.body ? JSON.stringify(options.body) : undefined
+  });
+
   const data = res.status === 204 ? null : await res.json();
   if (!res.ok) {
-    const err = new Error(data?.message || `HTTP ${res.status}`);
+    const err = new Error(data?.error || `HTTP ${res.status}`);
     err.status = res.status;
     err.data = data;
     throw err;
@@ -53,76 +43,23 @@ async function gh(path, options = {}) {
   return data;
 }
 
-async function getFile(path) {
-  try {
-    const data = await gh(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}`);
-    return { content: b64decode(data.content), sha: data.sha };
-  } catch (err) {
-    if (err.status === 404) return null;
-    throw err;
-  }
-}
-
-async function putFile(path, content, message, sha = null) {
-  const body = {
-    message,
-    content: b64encode(content),
-    branch: BRANCH
-  };
-  if (sha) body.sha = sha;
-  return gh(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
-    method: 'PUT',
-    body: JSON.stringify(body)
-  });
-}
-
-async function deleteFile(path, sha, message) {
-  return gh(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
-    method: 'DELETE',
-    body: JSON.stringify({ message, sha, branch: BRANCH })
-  });
-}
-
 // ── Auth ────────────────────────────────────────────────────
-async function signIn(pat) {
-  state.pat = pat;
-  const user = await gh('/user');
-  state.user = user;
-  localStorage.setItem('growdoc-pat', pat);
-  return user;
+async function signIn(password) {
+  const result = await api('/api/login', { method: 'POST', body: { password } });
+  state.token = result.token;
+  localStorage.setItem('growdoc-token', result.token);
 }
 
 function signOut() {
-  localStorage.removeItem('growdoc-pat');
-  state.pat = null;
-  state.user = null;
+  localStorage.removeItem('growdoc-token');
+  state.token = null;
   location.reload();
 }
 
-async function tryRestoreSession() {
-  const stored = localStorage.getItem('growdoc-pat');
-  if (!stored) return false;
-  try {
-    state.pat = stored;
-    state.user = await gh('/user');
-    return true;
-  } catch {
-    localStorage.removeItem('growdoc-pat');
-    state.pat = null;
-    return false;
-  }
-}
-
-// ── Load docs ───────────────────────────────────────────────
-async function loadDocs() {
-  const file = await getFile(DOCS_JSON_PATH);
-  if (!file) {
-    state.docs = [];
-    state.docsJsonSha = null;
-    return;
-  }
-  state.docs = JSON.parse(file.content);
-  state.docsJsonSha = file.sha;
+async function loadState() {
+  const result = await api('/api/state');
+  state.docs = result.docs;
+  state.sha = result.sha;
 }
 
 // ── Content converters ─────────────────────────────────────
@@ -187,9 +124,7 @@ function textToHtml(text, title) {
 }
 
 function wrapHtmlFragment(html, title) {
-  // If it's already a full document, return as-is
   if (/<!DOCTYPE|<html[\s>]/i.test(html)) return html;
-  // Otherwise wrap in the theme template
   return THEME_TEMPLATE(title, html);
 }
 
@@ -204,7 +139,6 @@ function showLogin() {
 function showAdmin() {
   $('login-panel').classList.add('hidden');
   $('admin-panel').classList.remove('hidden');
-  $('who-name').textContent = '@' + state.user.login;
 }
 
 function renderDocsTable() {
@@ -258,14 +192,13 @@ function openEditModal(index) {
   const doc = isNew ? { icon: '📄', title: '', subtitle: '', status: 'OPEN', file: '' } : state.docs[index];
 
   $('modal-title').textContent = isNew ? 'Add new doc' : 'Edit doc';
-  $('form-id').value = isNew ? '' : doc.id;
   $('form-original-file').value = isNew ? '' : doc.file;
   $('form-icon').value = doc.icon;
   $('form-title').value = doc.title;
   $('form-subtitle').value = doc.subtitle || '';
   $('form-status').value = doc.status || 'OPEN';
   $('form-file').value = doc.file;
-  $('form-file').readOnly = !isNew;
+  $('form-file').readOnly = false;
 
   // Reset content tabs
   $('form-html').value = '';
@@ -274,6 +207,7 @@ function openEditModal(index) {
   $('form-upload').value = '';
   $('upload-info').textContent = '';
   $('form-error').textContent = '';
+  delete $('form-file').dataset.manual;
 
   // For new docs: default to HTML tab. For existing: default to Keep existing.
   switchTab(isNew ? 'html' : 'keep');
@@ -300,10 +234,9 @@ function slugify(str) {
     .slice(0, 60);
 }
 
-// Auto-generate file name from title for new docs
 function setupAutoFilename() {
   $('form-title').addEventListener('input', () => {
-    if (!$('form-file').readOnly && !$('form-file').dataset.manual) {
+    if (!$('form-file').dataset.manual && editingIndex === null) {
       const slug = slugify($('form-title').value);
       $('form-file').value = slug ? slug + '.html' : '';
     }
@@ -315,7 +248,6 @@ function setupAutoFilename() {
 
 async function getContentFromForm(title) {
   const activeTab = document.querySelector('.tab.active').dataset.tab;
-
   switch (activeTab) {
     case 'html': {
       const html = $('form-html').value.trim();
@@ -343,7 +275,7 @@ async function getContentFromForm(title) {
   }
 }
 
-// ── Save / delete ───────────────────────────────────────────
+// ── Save / delete / status ──────────────────────────────────
 async function saveDoc(e) {
   e.preventDefault();
   const saveBtn = $('save-btn');
@@ -379,71 +311,53 @@ async function saveDoc(e) {
       }
     }
 
-    // Get the content
+    // Content
     const html = await getContentFromForm(title);
     const originalFile = $('form-original-file').value;
     const fileRenamed = !isNew && originalFile && originalFile !== fileName;
 
-    // 1. Write the HTML file (if new content provided OR file was renamed)
-    if (html !== null || fileRenamed) {
-      const path = `${DOCS_DIR}/${fileName}`;
-      let existing = null;
-      try { existing = await getFile(path); } catch {}
+    // Build new docs array
+    const newDocs = [...state.docs];
+    if (isNew) newDocs.push(meta);
+    else newDocs[editingIndex] = meta;
 
-      let contentToWrite = html;
-      if (contentToWrite === null && fileRenamed) {
-        // Just moving content from old file to new file
-        const oldFile = await getFile(`${DOCS_DIR}/${originalFile}`);
-        if (!oldFile) throw new Error('Original file not found');
-        contentToWrite = oldFile.content;
-      }
+    // Figure out upsertFile + deleteFile
+    let upsertFile = null;
+    let deleteFileName = null;
 
-      await putFile(
-        path,
-        contentToWrite,
-        `${isNew ? 'Add' : 'Update'} ${fileName}`,
-        existing?.sha || null
-      );
-
-      // Delete old file if renamed
-      if (fileRenamed) {
-        const oldPath = `${DOCS_DIR}/${originalFile}`;
-        const oldFile = await getFile(oldPath);
-        if (oldFile) {
-          await gh(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${oldPath}`, {
-            method: 'DELETE',
-            body: JSON.stringify({
-              message: `Remove ${originalFile} (renamed to ${fileName})`,
-              sha: oldFile.sha,
-              branch: BRANCH
-            })
-          });
-        }
-      }
+    if (html !== null) {
+      upsertFile = { name: fileName, content: html };
+    } else if (fileRenamed) {
+      // Keep-existing + renamed: need to fetch old content and write to new name
+      // For simplicity in this flow: require new content when renaming
+      throw new Error('To rename a file, please also provide new content (or keep the old filename).');
     }
 
-    // 2. Update docs.json
-    if (isNew) {
-      state.docs.push(meta);
-    } else {
-      state.docs[editingIndex] = meta;
+    if (fileRenamed && originalFile) {
+      deleteFileName = originalFile;
     }
 
-    await putFile(
-      DOCS_JSON_PATH,
-      JSON.stringify(state.docs, null, 2) + '\n',
-      `${isNew ? 'Add' : 'Update'} doc: ${meta.title}`,
-      state.docsJsonSha
-    );
+    const result = await api('/api/save', {
+      method: 'POST',
+      body: {
+        docs: newDocs,
+        sha: state.sha,
+        upsertFile,
+        deleteFileName,
+        commitNote: `${isNew ? 'Add' : 'Update'} doc: ${meta.title}`
+      }
+    });
 
-    // Refresh state
-    await loadDocs();
+    state.docs = newDocs;
+    state.sha = result.sha;
     renderDocsTable();
     closeModal();
-    showNotice(`✓ ${isNew ? 'Added' : 'Updated'} "${meta.title}" — live in ~60 seconds`, 'success');
+    showNotice(`✓ ${isNew ? 'Added' : 'Updated'} "${meta.title}" — live in ~30 seconds`, 'success');
   } catch (err) {
-    if (err.status === 409 || /sha|conflict/i.test(err.message)) {
-      errorEl.textContent = 'Someone else edited first — refresh the page and try again.';
+    if (err.status === 409) {
+      errorEl.textContent = err.message;
+      // Refresh state so next attempt has the latest SHA
+      try { await loadState(); renderDocsTable(); } catch {}
     } else {
       errorEl.textContent = 'Error: ' + err.message;
     }
@@ -456,22 +370,28 @@ async function saveDoc(e) {
 async function changeStatus(index, newStatus) {
   const doc = state.docs[index];
   const oldStatus = doc.status;
-  doc.status = newStatus;
+  const newDocs = state.docs.map((d, i) => i === index ? { ...d, status: newStatus } : d);
+
   try {
-    await putFile(
-      DOCS_JSON_PATH,
-      JSON.stringify(state.docs, null, 2) + '\n',
-      `Set status of "${doc.title}" → ${newStatus}`,
-      state.docsJsonSha
-    );
-    await loadDocs();
+    const result = await api('/api/save', {
+      method: 'POST',
+      body: {
+        docs: newDocs,
+        sha: state.sha,
+        commitNote: `Status: "${doc.title}" → ${newStatus}`
+      }
+    });
+    state.docs = newDocs;
+    state.sha = result.sha;
     renderDocsTable();
-    showNotice(`✓ Status updated — live in ~60 seconds`, 'success', 3000);
+    showNotice(`✓ Status updated — live in ~30 seconds`, 'success', 3000);
   } catch (err) {
+    // Revert select value
     doc.status = oldStatus;
     renderDocsTable();
     if (err.status === 409) {
-      showNotice('Someone else edited first — refresh the page and try again.', 'error');
+      showNotice(err.message, 'error');
+      try { await loadState(); renderDocsTable(); } catch {}
     } else {
       showNotice('Error: ' + err.message, 'error');
     }
@@ -482,74 +402,66 @@ async function deleteDoc(index) {
   const doc = state.docs[index];
   if (!confirm(`Delete "${doc.title}"? The HTML file will also be removed.`)) return;
 
+  const newDocs = state.docs.filter((_, i) => i !== index);
   try {
-    // Delete the HTML file
-    const htmlPath = `${DOCS_DIR}/${doc.file}`;
-    const htmlFile = await getFile(htmlPath);
-    if (htmlFile) {
-      await deleteFile(htmlPath, htmlFile.sha, `Delete ${doc.file}`);
-    }
-
-    // Update docs.json
-    state.docs.splice(index, 1);
-    await putFile(
-      DOCS_JSON_PATH,
-      JSON.stringify(state.docs, null, 2) + '\n',
-      `Delete doc: ${doc.title}`,
-      state.docsJsonSha
-    );
-
-    await loadDocs();
+    const result = await api('/api/save', {
+      method: 'POST',
+      body: {
+        docs: newDocs,
+        sha: state.sha,
+        deleteFileName: doc.file,
+        commitNote: `Delete doc: ${doc.title}`
+      }
+    });
+    state.docs = newDocs;
+    state.sha = result.sha;
     renderDocsTable();
     showNotice(`✓ Deleted "${doc.title}"`, 'success');
   } catch (err) {
-    showNotice('Error deleting: ' + err.message, 'error');
-    await loadDocs();
-    renderDocsTable();
+    if (err.status === 409) {
+      showNotice(err.message, 'error');
+      try { await loadState(); renderDocsTable(); } catch {}
+    } else {
+      showNotice('Error deleting: ' + err.message, 'error');
+    }
   }
 }
 
 // ── Wire it up ──────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
-  $('repo-label').textContent = `${REPO_OWNER}/${REPO_NAME}`;
-
   // Login form
   $('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const pat = $('pat-input').value.trim();
+    const password = $('password-input').value;
     $('login-error').textContent = '';
+    $('login-btn').disabled = true;
     try {
-      await signIn(pat);
-      await loadDocs();
+      await signIn(password);
+      await loadState();
       renderDocsTable();
       showAdmin();
     } catch (err) {
       $('login-error').textContent = err.status === 401
-        ? 'Invalid token. Make sure it has public_repo scope.'
+        ? 'Wrong password.'
         : 'Error: ' + err.message;
-      state.pat = null;
+    } finally {
+      $('login-btn').disabled = false;
+      $('password-input').value = '';
     }
   });
 
-  // Sign out
   $('signout-btn').addEventListener('click', signOut);
-
-  // Add button
   $('add-btn').addEventListener('click', () => openEditModal(null));
-
-  // Modal controls
   $('modal-close').addEventListener('click', closeModal);
   $('cancel-btn').addEventListener('click', closeModal);
   $('modal-backdrop').addEventListener('click', (e) => {
     if (e.target.id === 'modal-backdrop') closeModal();
   });
 
-  // Tabs
   document.querySelectorAll('.tab').forEach(t => {
     t.addEventListener('click', () => switchTab(t.dataset.tab));
   });
 
-  // Upload info
   $('form-upload').addEventListener('change', (e) => {
     const file = e.target.files[0];
     $('upload-info').textContent = file
@@ -557,20 +469,22 @@ window.addEventListener('DOMContentLoaded', async () => {
       : '';
   });
 
-  // Form submit
   $('doc-form').addEventListener('submit', saveDoc);
-
   setupAutoFilename();
 
   // Try restore session
-  const restored = await tryRestoreSession();
-  if (restored) {
+  const storedToken = localStorage.getItem('growdoc-token');
+  if (storedToken) {
+    state.token = storedToken;
     try {
-      await loadDocs();
+      await loadState();
       renderDocsTable();
       showAdmin();
     } catch (err) {
-      showNotice('Failed to load docs: ' + err.message, 'error', 0);
+      if (err.status === 401) {
+        localStorage.removeItem('growdoc-token');
+        state.token = null;
+      }
       showLogin();
     }
   } else {
