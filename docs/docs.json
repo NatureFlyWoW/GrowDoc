@@ -52,5 +52,14 @@
     "status": "IN REVIEW",
     "category": "planning",
     "file": "setup-review.html"
+  },
+  {
+    "id": "glossary",
+    "title": "Grow Glossar",
+    "subtitle": "Illustriertes Nachschlagewerk für Indoor-Grow Begriffe",
+    "icon": "📖",
+    "status": "IN REVIEW",
+    "category": "botanical",
+    "file": "glossary.html"
   }
 ]
