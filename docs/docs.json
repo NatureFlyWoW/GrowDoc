@@ -43,5 +43,14 @@
     "status": "IN REVIEW",
     "category": "botanical",
     "file": "strain-guide.html"
+  },
+  {
+    "id": "setup-review",
+    "title": "Abstellraum Setup Review",
+    "subtitle": "Bestandsaufnahme & Bauanleitung — HS80 Ventilation & AKF",
+    "icon": "🔧",
+    "status": "IN REVIEW",
+    "category": "planning",
+    "file": "setup-review.html"
   }
 ]
