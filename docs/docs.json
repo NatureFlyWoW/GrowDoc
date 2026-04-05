@@ -61,5 +61,14 @@
     "status": "IN REVIEW",
     "category": "botanical",
     "file": "phenohunting-guide.html"
+  },
+  {
+    "id": "strain-selection",
+    "title": "Terpene Strain Selection",
+    "subtitle": "10 European Feminized Cultivars — Calm & Clear-Headed",
+    "icon": "🧪",
+    "status": "IN REVIEW",
+    "category": "botanical",
+    "file": "strain-selection-guide.html"
   }
 ]
