@@ -168,9 +168,36 @@ html, body {
   background: rgba(45, 80, 22, 0.08);
 }
 
+/* Category tints — botanical = green, planning = blue */
+.nav-item.cat-botanical {
+  background: rgba(59, 109, 17, 0.09);
+  border-left: 3px solid rgba(59, 109, 17, 0.35);
+  padding-left: 9px;
+}
+
+.nav-item.cat-botanical:hover {
+  background: rgba(59, 109, 17, 0.18);
+}
+
+.nav-item.cat-planning {
+  background: rgba(24, 95, 165, 0.09);
+  border-left: 3px solid rgba(24, 95, 165, 0.35);
+  padding-left: 9px;
+}
+
+.nav-item.cat-planning:hover {
+  background: rgba(24, 95, 165, 0.18);
+}
+
 .nav-item.active {
   background: var(--green-dark);
   color: var(--bg);
+  border-left-color: var(--green-dark);
+}
+
+.nav-item.cat-planning.active {
+  background: #185FA5;
+  border-left-color: #185FA5;
 }
 
 .nav-empty {
@@ -290,10 +317,25 @@ html, body {
     background: rgba(45, 80, 22, 0.08);
   }
 
+  .mobile-nav-item.cat-botanical {
+    border-color: rgba(59, 109, 17, 0.4);
+    background: rgba(59, 109, 17, 0.06);
+  }
+
+  .mobile-nav-item.cat-planning {
+    border-color: rgba(24, 95, 165, 0.4);
+    background: rgba(24, 95, 165, 0.06);
+  }
+
   .mobile-nav-item.active {
     background: var(--green-dark);
     color: var(--bg);
     border-color: var(--green-dark);
+  }
+
+  .mobile-nav-item.cat-planning.active {
+    background: #185FA5;
+    border-color: #185FA5;
   }
 
   .viewer {

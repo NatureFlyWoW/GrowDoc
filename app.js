@@ -46,7 +46,7 @@ function render() {
 
   // Sidebar
   document.getElementById('nav-list').innerHTML = visibleDocs.map(d => `
-    <div class="nav-item ${d.id === activeId ? 'active' : ''}" onclick="select('${d.id}')">
+    <div class="nav-item cat-${d.category || 'none'} ${d.id === activeId ? 'active' : ''}" onclick="select('${d.id}')">
       <div class="nav-line">
         <span class="icon">${d.icon}</span>
         <span class="nav-title">${d.title}</span>
@@ -57,7 +57,7 @@ function render() {
 
   // Mobile nav
   document.getElementById('mobile-nav').innerHTML = visibleDocs.map(d => `
-    <div class="mobile-nav-item ${d.id === activeId ? 'active' : ''}" onclick="select('${d.id}')">
+    <div class="mobile-nav-item cat-${d.category || 'none'} ${d.id === activeId ? 'active' : ''}" onclick="select('${d.id}')">
       ${d.icon} ${d.title}
     </div>
   `).join('');
