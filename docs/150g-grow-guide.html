@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pushing 150g from 108W — Super Skunk Optimization Guide</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+:root{--bg:#FAF9F5;--fg:#1A1A17;--mu:#706E63;--gn:#3B6D11;--gl:#EAF3DE;--am:#BA7517;--al:#FAEEDA;--co:#D85A30;--cl:#FAECE7;--rd:#A32D2D;--rl:#FCEBEB;--bl:#185FA5;--bll:#E6F1FB;--tl:#0F6E56;--tll:#E1F5EE;--pu:#534AB7;--pl:#EEEDFE;--bd:#E0DDd3;--sf:#F0EEE6;--cd:#FFF}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Source Sans 3',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.72;font-size:15px;max-width:860px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+h1{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:700;line-height:1.15;color:var(--gn);margin:0 0 .3rem}
+h1 span{color:var(--am)}
+h2{font-size:1.12rem;font-weight:700;margin:2.5rem 0 .7rem;padding-top:1.5rem;border-top:2px solid var(--bd)}
+h3{font-size:.92rem;font-weight:700;margin:1.2rem 0 .4rem;color:var(--gn)}
+p{margin:0 0 .7rem;font-size:.9rem}
+.sub{font-size:.92rem;color:var(--mu);margin:0 0 2rem;line-height:1.6}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1rem 0}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:1rem 0}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin:1rem 0}
+.cd{background:var(--sf);border-radius:8px;padding:10px 14px}
+.cd .lb{font-size:.68rem;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.cd .vl{font-size:.86rem;font-weight:600;margin-top:2px}
+.il{margin:1.5rem 0;border:1px solid var(--bd);border-radius:10px;overflow:hidden;background:var(--cd)}
+.il svg{display:block;width:100%}
+.ic{padding:8px 14px;font-size:.74rem;color:var(--mu);background:var(--sf);border-top:1px solid var(--bd)}
+.tip{background:var(--gl);border-left:3px solid var(--gn);padding:10px 14px;border-radius:0 8px 8px 0;margin:1rem 0;font-size:.84rem}.tip b{color:var(--gn)}
+.warn{background:var(--cl);border-left:3px solid var(--co);padding:10px 14px;border-radius:0 8px 8px 0;margin:1rem 0;font-size:.84rem}.warn b{color:var(--co)}
+.crit{background:var(--rl);border-left:3px solid var(--rd);padding:10px 14px;border-radius:0 8px 8px 0;margin:1rem 0;font-size:.84rem}.crit b{color:var(--rd)}
+.da{background:var(--pl);border-left:3px solid var(--pu);padding:10px 14px;border-radius:0 8px 8px 0;margin:1rem 0;font-size:.84rem}.da b{color:var(--pu)}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.82rem}
+th{background:var(--sf);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--bd)}
+td{padding:7px 10px;border-bottom:1px solid var(--bd)}
+.hl{background:var(--gl)}
+@media(max-width:600px){body{padding:1.2rem 1rem 3rem}.g2,.g3,.g4{grid-template-columns:1fr}h1{font-size:1.7rem}}
+</style>
+</head>
+<body>
+
+<h1>Pushing <span>150g</span> from 108W</h1>
+<p class="sub">Definitive seed-to-harvest guide for 4 feminized Super Skunk in a Secret Jardin HS80 R2 (80×80×178cm) under 2× Sanlight STIXX 50 (108W total), organic soil, inside a 120×90cm Austrian flat pantry. Quality first, maximum yield second. Every claim recalculated for the actual equipment and pressure-tested from all angles.</p>
+
+<div class="g4">
+<div class="cd"><div class="lb">Light</div><div class="vl">2× STIXX 50 = 108W</div></div>
+<div class="cd"><div class="lb">Plants</div><div class="vl">4× fem. Super Skunk</div></div>
+<div class="cd"><div class="lb">Tent</div><div class="vl">SJ HS80 R2</div></div>
+<div class="cd"><div class="lb">Timeline</div><div class="vl">~18–20 weeks</div></div>
+</div>
+
+<div class="g3">
+<div class="cd" style="background:var(--gl)"><div class="lb">Confident floor</div><div class="vl">100g · 0.9 g/W</div></div>
+<div class="cd" style="background:var(--al);border:2px solid var(--am)"><div class="lb">Realistic target</div><div class="vl">150g · 1.4 g/W</div></div>
+<div class="cd" style="background:var(--sf)"><div class="lb">Hard ceiling</div><div class="vl">175g · 1.6 g/W</div></div>
+</div>
+
+<div class="da"><b>Devil's advocate — yield recalculation from 150W to 108W:</b> The original "Pushing 200g" guide was written for a Caluma Force 150W (400 µmol/s PPF). Your 2× STIXX 50 produce ~270 µmol/s — 68% of the original light. DLI drops from 23–27 to ~15–18 mol/m²/day on 12/12. This proportionally drops the yield ceiling. The new numbers: 100g floor (ScrOG + basic care), 150g target (full optimization), 175g hard ceiling (perfect pheno + stagger harvest). The guide title has been updated accordingly. Future upgrade path: adding a 3rd STIXX 50 (162W total) would push DLI back to ~22 and the ceiling past 200g.</div>
+
+<h2>1. Light Budget — Recalculated for 2× STIXX 50</h2>
+
+<p>Each Sanlight STIXX 50 draws 54W actual and produces approximately 135 µmol/s at ~2.5 µmol/J. Two bars deliver 270 µmol/s total. Inside the reflective HS80 at 25cm height, average PPFD across the 80×80cm footprint is approximately 350–420 µmol/m²/s. During 12/12 flowering, this gives a DLI of ~15–18 mol/m²/day — roughly 45% of the 40 DLI where research shows yield plateaus.</p>
+
+<div class="il">
+<svg viewBox="0 0 760 240" xmlns="http://www.w3.org/2000/svg">
+<rect width="760" height="240" fill="#FAF9F5"/>
+<text font-family="Fraunces,serif" font-size="13" font-weight="700" fill="#1A1A17" x="380" y="24" text-anchor="middle">Expected Dry Yield at 108W by Training Method</text>
+
+<!-- Bars -->
+<rect x="80" y="165" width="100" height="45" rx="4" fill="#D85A30" opacity=".3"/>
+<text font-family="Source Sans 3,sans-serif" font-size="14" font-weight="700" fill="#D85A30" x="130" y="158" text-anchor="middle">45g</text>
+<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#706E63" x="130" y="225" text-anchor="middle">No training</text>
+
+<rect x="220" y="135" width="100" height="75" rx="4" fill="#BA7517" opacity=".3"/>
+<text font-family="Source Sans 3,sans-serif" font-size="14" font-weight="700" fill="#BA7517" x="270" y="128" text-anchor="middle">75g</text>
+<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#706E63" x="270" y="225" text-anchor="middle">LST only</text>
+
+<rect x="360" y="95" width="100" height="115" rx="4" fill="#3B6D11" opacity=".25"/>
+<text font-family="Source Sans 3,sans-serif" font-size="14" font-weight="700" fill="#3B6D11" x="410" y="88" text-anchor="middle">100g</text>
+<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#706E63" x="410" y="225" text-anchor="middle">Top + ScrOG</text>
+
+<rect x="500" y="60" width="100" height="150" rx="4" fill="#3B6D11" opacity=".4" stroke="#3B6D11" stroke-width="1.5"/>
+<text font-family="Source Sans 3,sans-serif" font-size="14" font-weight="700" fill="#3B6D11" x="550" y="53" text-anchor="middle">150g</text>
+<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#706E63" x="550" y="225" text-anchor="middle">Full optimization</text>
+
+<rect x="640" y="48" width="100" height="162" rx="4" fill="#706E63" opacity=".12" stroke="#706E63" stroke-width="1" stroke-dasharray="4"/>
+<text font-family="Source Sans 3,sans-serif" font-size="14" font-weight="700" fill="#706E63" x="690" y="42" text-anchor="middle">175g</text>
+<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#706E63" x="690" y="225" text-anchor="middle">Theoretical max</text>
+
+<!-- Baseline -->
+<line x1="60" y1="210" x2="750" y2="210" stroke="#E0DDD3" stroke-width="1"/>
+</svg>
+<div class="ic">Yield projection scaled to 108W (2× STIXX 50). The jump from "Top + ScrOG" to "Full optimization" comes from VPD control, CalMag, mycorrhizae, aggressive lollipopping, and staggered harvest. All values recalculated from 150W proportionally.</div>
+</div>
+
+<h2>2. ScrOG — Your Highest-Impact Intervention</h2>
+
+<p>With only 108W, canopy efficiency is everything. A flat ScrOG canopy absorbs 95%+ of available photons. An untrained canopy wastes 30–40% on gaps and self-shading. That difference accounts for the gap between 45g and 150g.</p>
+
+<div class="il">
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+<rect width="760" height="340" fill="#FAF9F5"/>
+<text font-family="Fraunces,serif" font-size="13" font-weight="700" fill="#1A1A17" x="380" y="24" text-anchor="middle">HS80 R2 — 80×80cm — ScrOG at Flip Day (Top Down)</text>
+
+<!-- Tent outline -->
+<rect x="80" y="40" width="300" height="300" rx="3" fill="none" stroke="#1A1A17" stroke-width="2"/>
+
+<!-- ScrOG grid -->
+<g stroke="#BA7517" stroke-width=".5" opacity=".4">
+<line x1="100" y1="40" x2="100" y2="340"/><line x1="120" y1="40" x2="120" y2="340"/>
+<line x1="140" y1="40" x2="140" y2="340"/><line x1="160" y1="40" x2="160" y2="340"/>
+<line x1="180" y1="40" x2="180" y2="340"/><line x1="200" y1="40" x2="200" y2="340"/>
+<line x1="220" y1="40" x2="220" y2="340"/><line x1="240" y1="40" x2="240" y2="340"/>
+<line x1="260" y1="40" x2="260" y2="340"/><line x1="280" y1="40" x2="280" y2="340"/>
+<line x1="300" y1="40" x2="300" y2="340"/><line x1="320" y1="40" x2="320" y2="340"/>
+<line x1="340" y1="40" x2="340" y2="340"/><line x1="360" y1="40" x2="360" y2="340"/>
+<line x1="80" y1="60" x2="380" y2="60"/><line x1="80" y1="80" x2="380" y2="80"/>
+<line x1="80" y1="100" x2="380" y2="100"/><line x1="80" y1="120" x2="380" y2="120"/>
+<line x1="80" y1="140" x2="380" y2="140"/><line x1="80" y1="160" x2="380" y2="160"/>
+<line x1="80" y1="180" x2="380" y2="180"/><line x1="80" y1="200" x2="380" y2="200"/>
+<line x1="80" y1="220" x2="380" y2="220"/><line x1="80" y1="240" x2="380" y2="240"/>
+<line x1="80" y1="260" x2="380" y2="260"/><line x1="80" y1="280" x2="380" y2="280"/>
+<line x1="80" y1="300" x2="380" y2="300"/><line x1="80" y1="320" x2="380" y2="320"/>
+</g>
+
+<!-- 4 plant quadrants -->
+<line x1="230" y1="40" x2="230" y2="340" stroke="#706E63" stroke-width="1" stroke-dasharray="6"/>
+<line x1="80" y1="190" x2="380" y2="190" stroke="#706E63" stroke-width="1" stroke-dasharray="6"/>
+
+<!-- Bud sites (filled canopy) -->
+<g fill="#3B6D11">
+<!-- Q1 (top-left) -->
+<circle cx="110" cy="70" r="5" opacity=".5"/><circle cx="130" cy="90" r="6" opacity=".6"/>
+<circle cx="150" cy="70" r="5.5" opacity=".55"/><circle cx="170" cy="90" r="5" opacity=".5"/>
+<circle cx="110" cy="110" r="5.5" opacity=".55"/><circle cx="130" cy="130" r="7" opacity=".7"/>
+<circle cx="150" cy="110" r="6" opacity=".6"/><circle cx="170" cy="130" r="5.5" opacity=".55"/>
+<circle cx="190" cy="70" r="5" opacity=".5"/><circle cx="210" cy="90" r="5.5" opacity=".55"/>
+<circle cx="190" cy="110" r="5" opacity=".5"/><circle cx="210" cy="130" r="5" opacity=".5"/>
+<circle cx="110" cy="150" r="5" opacity=".5"/><circle cx="130" cy="170" r="5.5" opacity=".55"/>
+<circle cx="150" cy="150" r="6" opacity=".6"/><circle cx="170" cy="170" r="5" opacity=".5"/>
+<!-- Q2 (top-right) -->
+<circle cx="250" cy="70" r="5" opacity=".5"/><circle cx="270" cy="90" r="6.5" opacity=".65"/>
+<circle cx="290" cy="70" r="5.5" opacity=".55"/><circle cx="310" cy="90" r="5" opacity=".5"/>
+<circle cx="250" cy="110" r="5.5" opacity=".55"/><circle cx="270" cy="130" r="7" opacity=".7"/>
+<circle cx="290" cy="110" r="6" opacity=".6"/><circle cx="310" cy="130" r="5.5" opacity=".55"/>
+<circle cx="330" cy="70" r="5" opacity=".5"/><circle cx="350" cy="90" r="5" opacity=".5"/>
+<circle cx="330" cy="110" r="5.5" opacity=".55"/><circle cx="350" cy="130" r="5" opacity=".5"/>
+<circle cx="250" cy="150" r="5" opacity=".5"/><circle cx="270" cy="170" r="5.5" opacity=".55"/>
+<circle cx="290" cy="150" r="6" opacity=".6"/><circle cx="350" cy="170" r="5" opacity=".5"/>
+<!-- Q3 (bottom-left) -->
+<circle cx="110" cy="210" r="5.5" opacity=".55"/><circle cx="130" cy="230" r="6" opacity=".6"/>
+<circle cx="150" cy="210" r="5" opacity=".5"/><circle cx="170" cy="230" r="6.5" opacity=".65"/>
+<circle cx="110" cy="250" r="5" opacity=".5"/><circle cx="130" cy="270" r="5.5" opacity=".55"/>
+<circle cx="150" cy="250" r="7" opacity=".7"/><circle cx="170" cy="270" r="5" opacity=".5"/>
+<circle cx="190" cy="210" r="5" opacity=".5"/><circle cx="210" cy="230" r="5" opacity=".5"/>
+<circle cx="190" cy="250" r="5.5" opacity=".55"/><circle cx="210" cy="270" r="5.5" opacity=".55"/>
+<circle cx="110" cy="290" r="5" opacity=".5"/><circle cx="130" cy="310" r="5" opacity=".5"/>
+<!-- Q4 (bottom-right) -->
+<circle cx="250" cy="210" r="5" opacity=".5"/><circle cx="270" cy="230" r="5.5" opacity=".55"/>
+<circle cx="290" cy="210" r="6.5" opacity=".65"/><circle cx="310" cy="230" r="5" opacity=".5"/>
+<circle cx="250" cy="250" r="6" opacity=".6"/><circle cx="270" cy="270" r="7" opacity=".7"/>
+<circle cx="290" cy="250" r="5.5" opacity=".55"/><circle cx="310" cy="270" r="5.5" opacity=".55"/>
+<circle cx="330" cy="210" r="5" opacity=".5"/><circle cx="350" cy="230" r="5" opacity=".5"/>
+<circle cx="330" cy="250" r="5.5" opacity=".55"/><circle cx="350" cy="270" r="5" opacity=".5"/>
+<circle cx="250" cy="290" r="5" opacity=".5"/><circle cx="310" cy="310" r="5.5" opacity=".55"/>
+</g>
+
+<!-- STIXX bar positions -->
+<rect x="150" y="185" width="160" height="4" rx="2" fill="#BA7517"/>
+<rect x="150" y="195" width="160" height="4" rx="2" fill="#BA7517"/>
+
+<!-- Right side legend -->
+<g transform="translate(420,50)" font-family="Source Sans 3,sans-serif">
+<text font-size="11" font-weight="700" fill="#1A1A17" x="0" y="0">Legend</text>
+<rect x="0" y="12" width="12" height="12" rx="3" fill="#3B6D11" opacity=".7"/>
+<text font-size="10" fill="#1A1A17" x="20" y="22">Primary colas (larger)</text>
+<rect x="0" y="32" width="10" height="10" rx="3" fill="#3B6D11" opacity=".5"/>
+<text font-size="10" fill="#1A1A17" x="20" y="42">Secondary tops (smaller)</text>
+<rect x="0" y="52" width="30" height="4" rx="2" fill="#BA7517"/>
+<text font-size="10" fill="#1A1A17" x="38" y="57">STIXX 50 bars</text>
+<line x1="0" y1="70" x2="40" y2="70" stroke="#706E63" stroke-width="1" stroke-dasharray="5"/>
+<text font-size="10" fill="#1A1A17" x="48" y="74">Plant quadrant boundaries</text>
+
+<rect x="0" y="95" width="180" height="55" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/>
+<text font-size="10" font-weight="600" fill="#3B6D11" x="10" y="112">~60 bud sites across 4 plants</text>
+<text font-size="10" fill="#3B6D11" x="10" y="128">~15 per plant, topped once</text>
+<text font-size="10" fill="#3B6D11" x="10" y="144">90%+ net fill at flip</text>
+
+<rect x="0" y="165" width="180" height="35" rx="6" fill="#FCEBEB" stroke="#A32D2D" stroke-width="1"/>
+<text font-size="10" font-weight="600" fill="#A32D2D" x="10" y="182">Lollipop zone</text>
+<text font-size="9" fill="#A32D2D" x="10" y="195">Strip ALL growth below net</text>
+</g>
+</svg>
+<div class="ic">Top-down view of the fully trained ScrOG canopy at flip day. Each plant fills its 40×40cm quadrant. Every empty square in the net is a wasted photon — fill to 90%+ before switching to 12/12.</div>
+</div>
+
+<h2>3. Training Protocol — Week by Week</h2>
+
+<div class="il">
+<svg viewBox="0 0 760 180" xmlns="http://www.w3.org/2000/svg">
+<rect width="760" height="180" fill="#FAF9F5"/>
+<text font-family="Fraunces,serif" font-size="12" font-weight="700" fill="#1A1A17" x="380" y="22" text-anchor="middle">Training Progression — One Super Skunk Plant (Repeat ×4)</text>
+<!-- 4 stages in a row -->
+<g font-family="Source Sans 3,sans-serif">
+<!-- Stage 1 -->
+<g transform="translate(100,140)">
+<rect x="-15" y="-8" width="30" height="8" rx="2" fill="#5C3D1E" opacity=".4"/>
+<line x1="0" y1="-8" x2="0" y2="-45" stroke="#3B6D11" stroke-width="2.5"/>
+<ellipse cx="-10" cy="-30" rx="8" ry="4" fill="#5DA043" opacity=".6"/>
+<ellipse cx="10" cy="-30" rx="8" ry="4" fill="#5DA043" opacity=".6"/>
+<circle cx="0" cy="-48" r="3.5" fill="#6B8F3A"/>
+</g>
+<text font-size="10" font-weight="600" fill="#1A1A17" x="100" y="158" text-anchor="middle">Seedling</text>
+<text font-size="8" fill="#706E63" x="100" y="170" text-anchor="middle">Wk 1–3 · STIXX 25–50%</text>
+<text font-size="14" fill="#BA7517" x="165" y="115">→</text>
+
+<!-- Stage 2 -->
+<g transform="translate(270,140)">
+<rect x="-15" y="-8" width="30" height="8" rx="2" fill="#5C3D1E" opacity=".4"/>
+<line x1="0" y1="-8" x2="0" y2="-40" stroke="#3B6D11" stroke-width="2.5"/>
+<line x1="-6" y1="-37" x2="6" y2="-43" stroke="#D85A30" stroke-width="1.5"/>
+<line x1="0" y1="-40" x2="-15" y2="-55" stroke="#3B6D11" stroke-width="2"/>
+<line x1="0" y1="-40" x2="15" y2="-55" stroke="#3B6D11" stroke-width="2"/>
+<circle cx="-15" cy="-58" r="3" fill="#6B8F3A"/>
+<circle cx="15" cy="-58" r="3" fill="#6B8F3A"/>
+</g>
+<text font-size="10" font-weight="600" fill="#1A1A17" x="270" y="158" text-anchor="middle">Topped at node 3</text>
+<text font-size="8" fill="#706E63" x="270" y="170" text-anchor="middle">Wk 3–4 · STIXX 50–60%</text>
+<text font-size="14" fill="#BA7517" x="345" y="115">→</text>
+
+<!-- Stage 3 -->
+<g transform="translate(450,140)">
+<rect x="-15" y="-8" width="30" height="8" rx="2" fill="#5C3D1E" opacity=".4"/>
+<line x1="0" y1="-8" x2="0" y2="-25" stroke="#3B6D11" stroke-width="2"/>
+<line x1="0" y1="-25" x2="-30" y2="-42" stroke="#3B6D11" stroke-width="1.5"/>
+<line x1="0" y1="-25" x2="30" y2="-42" stroke="#3B6D11" stroke-width="1.5"/>
+<line x1="0" y1="-25" x2="-18" y2="-50" stroke="#3B6D11" stroke-width="1.5"/>
+<line x1="0" y1="-25" x2="18" y2="-50" stroke="#3B6D11" stroke-width="1.5"/>
+<circle cx="-30" cy="-45" r="3" fill="#6B8F3A"/><circle cx="30" cy="-45" r="3" fill="#6B8F3A"/>
+<circle cx="-18" cy="-53" r="2.5" fill="#6B8F3A"/><circle cx="18" cy="-53" r="2.5" fill="#6B8F3A"/>
+<line x1="-30" y1="-42" x2="-38" y2="-8" stroke="#888" stroke-width=".6" stroke-dasharray="2"/>
+<line x1="30" y1="-42" x2="38" y2="-8" stroke="#888" stroke-width=".6" stroke-dasharray="2"/>
+</g>
+<text font-size="10" font-weight="600" fill="#1A1A17" x="450" y="158" text-anchor="middle">LST — 4 colas flat</text>
+<text font-size="8" fill="#706E63" x="450" y="170" text-anchor="middle">Wk 4–5 · STIXX 60–70%</text>
+<text font-size="14" fill="#BA7517" x="530" y="115">→</text>
+
+<!-- Stage 4 -->
+<g transform="translate(640,140)">
+<rect x="-15" y="-8" width="30" height="8" rx="2" fill="#5C3D1E" opacity=".4"/>
+<line x1="0" y1="-8" x2="0" y2="-20" stroke="#3B6D11" stroke-width="1.5"/>
+<line x1="-45" y1="-45" x2="45" y2="-45" stroke="#BA7517" stroke-width="1.5"/>
+<circle cx="-35" cy="-52" r="4" fill="#3B6D11" opacity=".6"/>
+<circle cx="-15" cy="-50" r="4.5" fill="#3B6D11" opacity=".65"/>
+<circle cx="5" cy="-53" r="4" fill="#3B6D11" opacity=".6"/>
+<circle cx="25" cy="-51" r="5" fill="#3B6D11" opacity=".7"/>
+<circle cx="42" cy="-52" r="3.5" fill="#3B6D11" opacity=".55"/>
+<text font-size="7" font-weight="600" fill="#3B6D11" x="0" y="-62" text-anchor="middle">90%+ fill</text>
+</g>
+<text font-size="10" font-weight="600" fill="#3B6D11" x="640" y="158" text-anchor="middle">ScrOG → FLIP</text>
+<text font-size="8" fill="#706E63" x="640" y="170" text-anchor="middle">Wk 5–6 · STIXX 85% · 12/12</text>
+</g>
+</svg>
+<div class="ic">Training stages for one Super Skunk plant. Single topping at node 3 + LST produces 4 colas. Fill the net before flipping. Super Skunk's compact indica morphology makes this straightforward — don't overcomplicate with mainlining on a first run.</div>
+</div>
+
+<h2>4. Nutrient Schedule — BioBizz or Organic</h2>
+
+<table>
+<tr><th>Week</th><th>Stage</th><th>Grow</th><th>Bloom</th><th>Top-Max</th><th>CalMag</th><th>Notes</th></tr>
+<tr><td>1–2</td><td>Seedling</td><td>—</td><td>—</td><td>—</td><td>—</td><td>Soil has enough for 2–3 weeks. Water only.</td></tr>
+<tr><td>3</td><td>Early veg</td><td>1</td><td>—</td><td>—</td><td>1</td><td>Start after transplant to final pot.</td></tr>
+<tr><td>4–5</td><td>Veg</td><td>2–3</td><td>—</td><td>—</td><td>1</td><td>Ramp based on leaf color.</td></tr>
+<tr class="hl"><td>6</td><td>Flip</td><td>2</td><td>1</td><td>1</td><td>1</td><td>Transition: both grow + bloom.</td></tr>
+<tr><td>7–8</td><td>Early flower</td><td>2</td><td>2</td><td>1–2</td><td>1</td><td>Stretch phase. Still needs N.</td></tr>
+<tr><td>9–10</td><td>Mid flower</td><td>1</td><td>3</td><td>2–3</td><td>1</td><td>Peak feeding. Watch for tip burn.</td></tr>
+<tr><td>11–12</td><td>Late flower</td><td>1</td><td>3–4</td><td>3–4</td><td>0.5</td><td>Max bloom. Reduce N slowly.</td></tr>
+<tr><td>13</td><td>Ripen</td><td>0</td><td>2</td><td>2</td><td>—</td><td>Taper down.</td></tr>
+<tr><td>14</td><td>Harvest</td><td>0</td><td>0</td><td>0</td><td>—</td><td>Plain water last 3–5 days.</td></tr>
+</table>
+<p style="font-size:.8rem;color:var(--mu)">All values in ml/L. Feed → plain water → feed rotation. Start at 50% dose and increase based on plant response. With organic soil + Dünger, substitute equivalent NPK ratios. Mycorrhizae at transplant (5g granular on rootball).</p>
+
+<div class="da"><b>Devil's advocate — flushing:</b> With organic nutrients, there's nothing harsh to flush — nutrients are microbially processed. A 3–5 day plain-water finish is sufficient. A 10-day flush is unnecessary for organic growing and costs you feeding days during peak bud development.</div>
+
+<h2>5. Complete Timeline</h2>
+
+<table>
+<tr><th>Wk</th><th>Stage</th><th>Light</th><th>Key Actions</th><th>Temp/RH</th></tr>
+<tr><td>0</td><td>Germ</td><td>Dark</td><td>Soak 12h → paper towel → plant at 1–2cm taproot</td><td>24°C/75%</td></tr>
+<tr><td>1</td><td>Seedling</td><td>STIXX 25%</td><td>Dome on. Mycorrhizae at transplant to 11L.</td><td>25°C/70%</td></tr>
+<tr><td>2</td><td>Seedling</td><td>STIXX 35%</td><td>Remove dome. Light feeding starts.</td><td>25°C/65%</td></tr>
+<tr><td>3</td><td>Veg</td><td>STIXX 50%</td><td>Top above node 3. Begin LST.</td><td>25°C/60%</td></tr>
+<tr><td>4</td><td>Veg</td><td>STIXX 60%</td><td>Install ScrOG net. Begin tucking. Sticky traps.</td><td>25°C/58%</td></tr>
+<tr><td>5</td><td>Veg</td><td>STIXX 70%</td><td>Net 70–80% full. Lollipop bottom third.</td><td>25°C/55%</td></tr>
+<tr class="hl"><td>6</td><td>FLIP</td><td>STIXX 85%</td><td>12/12. Defoliate 15–20%. Net 90%+ full.</td><td>25°C/55%</td></tr>
+<tr><td>7</td><td>F wk1</td><td>STIXX 90%</td><td>Stretch begins. Continue tucking 7–10 days.</td><td>25°C/52%</td></tr>
+<tr><td>8</td><td>F wk2</td><td>STIXX 95%</td><td>First pistils. Last tuck. Stretch slowing.</td><td>25°C/50%</td></tr>
+<tr><td>9</td><td>F wk3</td><td>STIXX 100%</td><td>Day 21 defoliation (max 25%). Stop tucking.</td><td>24°C/48%</td></tr>
+<tr><td>10</td><td>F wk4</td><td>STIXX 100%</td><td>Buds fattening. Add branch support.</td><td>24°C/45%</td></tr>
+<tr><td>11</td><td>F wk5</td><td>STIXX 100%</td><td>Peak feeding. Watch for bud rot daily.</td><td>23°C/44%</td></tr>
+<tr><td>12</td><td>F wk6</td><td>STIXX 100%</td><td>Begin trichome checks (60× loupe).</td><td>23°C/42%</td></tr>
+<tr><td>13</td><td>F wk7</td><td>STIXX 100%</td><td>Trichomes milky. Taper nutrients. Mild drought.</td><td>22°C/40%</td></tr>
+<tr class="hl"><td>14</td><td>F wk8</td><td>STIXX 100%</td><td>70% milky/20% amber → harvest tops. Stagger.</td><td>22°C/38%</td></tr>
+<tr><td>15</td><td>F wk9</td><td>STIXX 90%</td><td>Lower buds 5–7 more days. Harvest rest.</td><td>21°C/38%</td></tr>
+<tr><td>16–17</td><td>Dry</td><td>OFF</td><td>Hang branches in dark tent. Fan on lowest.</td><td>18°C/58%</td></tr>
+<tr><td>18–25</td><td>Cure</td><td>—</td><td>Mason jars. Burp per schedule. Min 4 weeks.</td><td>18°C/62% jar</td></tr>
+</table>
+
+<h2>6. Three Highest-Impact Interventions</h2>
+
+<div class="g3">
+<div class="cd" style="background:var(--gl);border:1px solid var(--gn)"><div class="lb">#1 — Worth 40–60g</div><div class="vl">Flat ScrOG canopy with 90%+ screen fill</div></div>
+<div class="cd" style="background:var(--bll);border:1px solid var(--bl)"><div class="lb">#2 — Prevents hidden loss</div><div class="vl">CalMag + mycorrhizae at transplant (~€20)</div></div>
+<div class="cd" style="background:var(--al);border:1px solid var(--am)"><div class="lb">#3 — Free</div><div class="vl">VPD via hygrometer + fan speed + door gap</div></div>
+</div>
+
+<div class="tip"><b>Best future upgrade:</b> A 3rd STIXX 50 (162W total) pushes DLI from 45% to ~60% of optimal and the ceiling past 200g. That's when the original "Pushing 200g" title becomes accurate.</div>
+
+<div style="margin-top:3rem;padding-top:1.5rem;border-top:2px solid var(--bd);font-size:.82rem;color:var(--mu)">
+<p><strong>Pushing 150g from 108W — Super Skunk Optimization Guide v3.1</strong> — April 2026</p>
+<p>Recalculated from original 150W guide for actual equipment: 2× Sanlight STIXX 50 (108W)</p>
+<p>Equipment: Secret Jardin HS80 R2 · 2× STIXX 50 · CAN RK125 · CAN-Lite 300 · Organic soil</p>
+<p>Devil's advocate reviewed · All yield projections proportionally scaled · Timeline: ~18–20 weeks seed to cured jar</p>
+</div>
+
+</body>
+</html>

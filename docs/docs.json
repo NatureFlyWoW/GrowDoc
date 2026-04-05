@@ -1,19 +1,27 @@
 [
   {
-    "id": "tent-guide",
-    "title": "80×80 Grow Tent Guide",
-    "subtitle": "Assembly, Ventilation & Stealth Planning",
-    "icon": "📄",
-    "status": "DONE",
-    "file": "tent-guide.html"
+    "id": "citron-givre",
+    "title": "Citron Givré Guide",
+    "subtitle": "Complete Indoor Growing Guide",
+    "icon": "🍋",
+    "status": "IN REVIEW",
+    "file": "citron-givre-guide.html"
   },
   {
     "id": "construction",
     "title": "Construction Plans",
-    "subtitle": "8 Illustrated Build Diagrams",
+    "subtitle": "Pantry Grow Setup — 8 Illustrated Diagrams",
     "icon": "📐",
-    "status": "DONE",
+    "status": "IN REVIEW",
     "file": "construction-plans.html"
+  },
+  {
+    "id": "grow-150g",
+    "title": "150g Super Skunk Guide",
+    "subtitle": "Pushing Yields from 108W",
+    "icon": "🌱",
+    "status": "IN REVIEW",
+    "file": "150g-grow-guide.html"
   },
   {
     "id": "pheno",
@@ -22,13 +30,5 @@
     "icon": "🧬",
     "status": "IN REVIEW",
     "file": "pheno-hunting.html"
-  },
-  {
-    "id": "grow-200g",
-    "title": "200g Grow Guide",
-    "subtitle": "Pushing Yields to the Max",
-    "icon": "🌱",
-    "status": "IN PROGRESS",
-    "file": "200g-grow-guide.html"
   }
 ]
