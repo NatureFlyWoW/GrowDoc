@@ -4,1602 +4,252 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Definitive Guide to Phenohunting</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg-primary: #0a0d0a;
-  --bg-card: #111611;
-  --bg-card-hover: #161b16;
-  --bg-section: #0d100d;
-  --text-primary: #e8e4d9;
-  --text-secondary: #9ca38e;
-  --text-muted: #5e6556;
-  --accent-gold: #c9a84c;
-  --accent-gold-dim: #8a7234;
-  --accent-green: #4a7c3f;
-  --accent-green-bright: #6db35f;
-  --accent-green-dim: #2d4a26;
-  --accent-purple: #7c5a9e;
-  --accent-red: #b54c4c;
-  --accent-orange: #c97a2e;
-  --accent-blue: #4a7c9e;
-  --accent-teal: #3a8a7a;
-  --border: #1e241e;
-  --border-light: #2a322a;
-  --font-display: 'Cormorant Garamond', serif;
-  --font-body: 'DM Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: var(--font-body);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.7;
-  font-size: 16px;
-  overflow-x: hidden;
-}
-
-/* --- HERO --- */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 2rem;
-  position: relative;
-  overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 600px 400px at 30% 40%, rgba(74,124,63,0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 500px 500px at 70% 60%, rgba(201,168,76,0.08) 0%, transparent 70%),
-    radial-gradient(ellipse 300px 300px at 50% 80%, rgba(124,90,158,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-subtitle {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--accent-gold);
-  margin-bottom: 1.5rem;
-  opacity: 0;
-  animation: fadeUp 0.8s 0.2s forwards;
-}
-.hero h1 {
-  font-family: var(--font-display);
-  font-size: clamp(2.8rem, 7vw, 5.5rem);
-  font-weight: 700;
-  line-height: 1.1;
-  max-width: 900px;
-  margin-bottom: 1.5rem;
-  opacity: 0;
-  animation: fadeUp 0.8s 0.4s forwards;
-}
-.hero h1 span { color: var(--accent-gold); }
-.hero h1 span em { font-style: italic; font-weight: 400; }
-.hero-desc {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  max-width: 640px;
-  line-height: 1.8;
-  opacity: 0;
-  animation: fadeUp 0.8s 0.6s forwards;
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- SECTIONS --- */
-.section {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 6rem 2rem;
-}
-.section-header { margin-bottom: 3rem; }
-.section-label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--accent-gold-dim);
-  margin-bottom: 0.75rem;
-}
-.section h2 {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  line-height: 1.15;
-  margin-bottom: 1rem;
-}
-.section h2 span { color: var(--accent-gold); }
-.section-intro {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
-  max-width: 720px;
-  line-height: 1.8;
-}
-.section h3 {
-  font-family: var(--font-display);
-  font-size: 1.45rem;
-  font-weight: 700;
-  margin-top: 2.5rem;
-  margin-bottom: 0.9rem;
-  color: var(--text-primary);
-}
-.section h4 {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-top: 1.6rem;
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* --- DIVIDER --- */
-.divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border-light), transparent);
-  margin: 0 auto;
-  max-width: 1100px;
-}
-
-/* --- CARDS --- */
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.5rem;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-  margin: 1.5rem 0;
-}
-.card:hover {
-  border-color: var(--border-light);
-  background: var(--bg-card-hover);
-  transform: translateY(-2px);
-}
-.card-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 0.5rem;
-}
-.card-title {
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.75rem;
-}
-.card-title.green { color: var(--accent-green-bright); }
-.card-title.gold { color: var(--accent-gold); }
-.card-title.red { color: var(--accent-red); }
-.card-title.blue { color: var(--accent-blue); }
-.card-title.purple { color: var(--accent-purple); }
-.card-desc {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-.card.accent-top::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--accent-gold);
-}
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.25rem;
-  margin-top: 2rem;
-}
-
-/* --- CALLOUTS --- */
-.callout {
-  border-left: 3px solid var(--accent-gold);
-  background: rgba(201,168,76,0.04);
-  padding: 1.25rem 1.5rem;
-  margin: 1.5rem 0;
-  border-radius: 0 6px 6px 0;
-}
-.callout-red { border-left-color: var(--accent-red); background: rgba(181,76,76,0.04); }
-.callout-green { border-left-color: var(--accent-green-bright); background: rgba(109,179,95,0.04); }
-.callout-purple { border-left-color: var(--accent-purple); background: rgba(124,90,158,0.04); }
-.callout-blue { border-left-color: var(--accent-blue); background: rgba(74,124,158,0.04); }
-.callout-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 0.4rem;
-  color: var(--accent-gold);
-}
-.callout-red .callout-label { color: var(--accent-red); }
-.callout-green .callout-label { color: var(--accent-green-bright); }
-.callout-purple .callout-label { color: var(--accent-purple); }
-.callout-blue .callout-label { color: var(--accent-blue); }
-.callout p, .callout-red p, .callout-green p, .callout-purple p, .callout-blue p {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 0.6rem;
-}
-.callout p:last-child, .callout-red p:last-child,
-.callout-green p:last-child, .callout-purple p:last-child { margin-bottom: 0; }
-
-/* --- BADGES --- */
-.badge {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  padding: 0.35rem 0.75rem;
-  border-radius: 3px;
-  text-transform: uppercase;
-  display: inline-block;
-}
-.badge-gold { background: rgba(201,168,76,0.12); color: var(--accent-gold); border: 1px solid rgba(201,168,76,0.2); }
-.badge-green { background: rgba(74,124,63,0.12); color: var(--accent-green-bright); border: 1px solid rgba(74,124,63,0.2); }
-.badge-purple { background: rgba(124,90,158,0.12); color: #a88ad4; border: 1px solid rgba(124,90,158,0.2); }
-.badge-red { background: rgba(181,76,76,0.12); color: var(--accent-red); border: 1px solid rgba(181,76,76,0.2); }
-.badge-orange { background: rgba(201,122,46,0.12); color: var(--accent-orange); border: 1px solid rgba(201,122,46,0.2); }
-.badge-blue { background: rgba(74,124,158,0.12); color: var(--accent-blue); border: 1px solid rgba(74,124,158,0.2); }
-.pill {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
-  background: rgba(74,124,63,0.15);
-  color: var(--accent-green-bright);
-  letter-spacing: 0.05em;
-  display: inline-block;
-}
-
-/* --- PROTOCOL TIMELINE --- */
-.protocol-timeline {
-  position: relative;
-  margin: 3rem 0;
-  padding-left: 2rem;
-}
-.protocol-timeline::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 2px;
-  background: linear-gradient(180deg, var(--accent-gold), var(--accent-green), var(--accent-purple));
-}
-.protocol-phase {
-  position: relative;
-  margin-bottom: 2.5rem;
-  padding-left: 2rem;
-}
-.protocol-phase::before {
-  content: '';
-  position: absolute;
-  left: -2rem;
-  top: 0.3rem;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid var(--accent-gold);
-  background: var(--bg-primary);
-  transform: translateX(-5px);
-}
-.protocol-phase.phase-green::before { border-color: var(--accent-green-bright); }
-.protocol-phase.phase-red::before { border-color: var(--accent-red); }
-.protocol-phase.phase-purple::before { border-color: var(--accent-purple); }
-.protocol-week {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--accent-gold-dim);
-  margin-bottom: 0.3rem;
-}
-.protocol-title {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-.protocol-body {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.8;
-}
-.protocol-body strong { color: var(--text-primary); }
-
-/* --- TABLES --- */
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin: 2rem 0;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-  font-size: 0.88rem;
-}
-th {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  background: var(--bg-section);
-  text-align: left;
-  padding: 0.9rem 1.2rem;
-  border-bottom: 1px solid var(--border);
-}
-td {
-  padding: 0.85rem 1.2rem;
-  color: var(--text-secondary);
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
-}
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: var(--bg-card-hover); color: var(--text-primary); }
-td strong { color: var(--text-primary); font-weight: 600; }
-
-/* --- STATS GRID --- */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-  margin: 2rem 0;
-}
-.stat {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.25rem 1.4rem;
-}
-.stat-label {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 0.4rem;
-}
-.stat-value {
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--accent-gold);
-  line-height: 1.1;
-}
-.stat-value.green { color: var(--accent-green-bright); }
-.stat-value.red { color: var(--accent-red); }
-.stat-sub {
-  font-size: 0.78rem;
-  color: var(--text-secondary);
-  margin-top: 0.3rem;
-}
-
-/* --- TREE CONTAINER (genealogy/diagrams) --- */
-.tree-container {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin: 2rem 0;
-  overflow-x: auto;
-}
-.tree-title {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--accent-gold-dim);
-  margin-bottom: 1rem;
-}
-.tree-container svg {
-  width: 100%;
-  height: auto;
-  min-width: 600px;
-  display: block;
-  margin: 0 auto;
-}
-.tree-caption {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  text-align: center;
-  margin-top: 0.8rem;
-  font-style: italic;
-  padding: 0 1rem;
-}
-
-/* --- EQUATION BOX --- */
-.equation {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 700;
-  text-align: center;
-  padding: 1.8rem 2rem;
-  border-radius: 8px;
-  margin: 2rem 0;
-  letter-spacing: 0.02em;
-  color: var(--text-primary);
-}
-.equation em { font-style: italic; color: var(--accent-gold); }
-.equation .op { color: var(--text-muted); margin: 0 0.75rem; }
-
-/* --- KEY TERM --- */
-.key-term {
-  background: rgba(74,124,63,0.1);
-  color: var(--accent-green-bright);
-  padding: 0.1em 0.45em;
-  border-radius: 3px;
-  font-weight: 500;
-  border-bottom: 1px dashed rgba(109,179,95,0.4);
-  cursor: help;
-  position: relative;
-}
-.key-term:hover::after {
-  content: attr(data-def);
-  position: absolute;
-  bottom: 120%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-  color: var(--text-secondary);
-  padding: 0.6rem 0.9rem;
-  border-radius: 6px;
-  font-size: 0.78rem;
-  font-weight: 400;
-  line-height: 1.5;
-  width: 280px;
-  z-index: 100;
-  pointer-events: none;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  font-family: var(--font-body);
-}
-
-/* --- TOC --- */
-.toc {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 2rem;
-  margin: 2.5rem 0;
-}
-.toc-title {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent-gold-dim);
-  margin-bottom: 1.25rem;
-}
-.toc ol {
-  list-style: none;
-  counter-reset: toc;
-  padding: 0;
-}
-.toc li {
-  counter-increment: toc;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-}
-.toc li:last-child { border-bottom: none; }
-.toc li::before {
-  content: counter(toc, decimal-leading-zero);
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--accent-gold-dim);
-  flex-shrink: 0;
-}
-.toc a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 0.88rem;
-  transition: color 0.2s;
-  border-bottom: none;
-}
-.toc a:hover { color: var(--accent-gold); border-bottom: none; }
-
-/* --- INLINE CODE --- */
-code {
-  font-family: var(--font-mono);
-  font-size: 0.82em;
-  background: rgba(255,255,255,0.04);
-  padding: 0.15rem 0.4rem;
-  border-radius: 3px;
-  color: var(--accent-gold);
-}
-
-/* --- TEXT --- */
-p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
-p strong { color: var(--text-primary); font-weight: 600; }
-a { color: var(--accent-gold); text-decoration: none; border-bottom: 1px solid rgba(201,168,76,0.3); transition: all 0.2s; }
-a:hover { border-bottom-color: var(--accent-gold); }
-blockquote {
-  border-left: 3px solid var(--border-light);
-  padding: 0.5rem 1.5rem;
-  margin: 1.5rem 0;
-  color: var(--text-muted);
-  font-style: italic;
-}
-hr { border: none; height: 1px; background: var(--border); margin: 3rem 0; }
-ul, ol { margin: 0 0 1rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; }
-li { margin-bottom: 0.4rem; line-height: 1.7; }
-li strong { color: var(--text-primary); }
-
-/* --- REVEAL --- */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s, transform 0.6s;
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* --- FOOTER --- */
-.footer {
-  text-align: center;
-  padding: 4rem 2rem;
-  border-top: 1px solid var(--border);
-}
-.footer p {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
-  line-height: 1.8;
-}
-
-/* --- RESPONSIVE --- */
-@media (max-width: 768px) {
-  .section { padding: 4rem 1.25rem; }
-  .hero { padding: 2rem 1.25rem; }
-  .card-grid { grid-template-columns: 1fr; }
-  .stats-grid { grid-template-columns: 1fr 1fr; }
-  .key-term:hover::after { width: 220px; font-size: 0.72rem; }
-}
+:root{--bg:#0a0d0a;--bg2:#111611;--bg3:#161b16;--text:#e8e4d9;--text2:#9ca38e;--text3:#5e6556;--accent:#4a7c3f;--accent2:#6db35f;--gold:#c9a84c;--gold2:#8a7234;--red:#c45c4a;--blue:#5a9eb8;--purple:#8a7abf;--border:#1e2e1e;--border2:#2a4a2a;--serif:'DM Serif Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'IBM Plex Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.78;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:60px 32px 80px}
+h1{font-family:var(--serif);font-size:2.4em;font-weight:400;color:var(--accent2);margin-bottom:8px}
+.subtitle{font-size:1em;color:var(--text2);margin-bottom:40px;line-height:1.7;font-weight:300}
+h2{font-family:var(--serif);font-size:1.4em;font-weight:400;color:var(--accent2);margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+h3{font-family:var(--body);font-size:1em;font-weight:600;margin:1.5rem 0 .5rem;color:var(--gold)}
+p{margin:0 0 .85rem;font-weight:300}
+strong{font-weight:600;color:var(--text)}
+em{font-style:italic;color:var(--text2)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.2rem 0}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:1.2rem 0}
+.cd{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.cd .lb{font-family:var(--mono);font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
+.cd .vl{font-size:.92em;font-weight:600;margin-top:4px;color:var(--text)}
+.ill{margin:2rem 0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.ill svg{display:block;width:100%}
+.ill-cap{padding:12px 18px;font-family:var(--mono);font-size:.72rem;color:var(--text3);background:var(--bg);border-top:1px solid var(--border);line-height:1.6}
+.tip{background:rgba(74,124,63,.1);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.tip b{color:var(--accent2);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.warn{background:rgba(201,168,76,.08);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.warn b{color:var(--gold);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.da{background:rgba(138,122,191,.08);border-left:3px solid var(--purple);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.da b{color:var(--purple);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.84rem}
+th{background:var(--bg2);text-align:left;padding:10px 14px;font-weight:600;border-bottom:1px solid var(--border2);font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text2)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;font-weight:300}
+.sn{display:inline-block;font-family:var(--mono);font-size:.7rem;color:var(--accent);background:rgba(74,124,63,.15);padding:2px 8px;border-radius:4px;margin-right:8px}
+@media(max-width:640px){.g2,.g3{grid-template-columns:1fr}.container{padding:28px 16px 60px}h1{font-size:2em}}
 </style>
 </head>
 <body>
+<div class="container">
 
-<!-- ═══════════ HERO ═══════════ -->
-<section class="hero">
-  <div class="hero-subtitle">Phenotype Selection · Genetics · Methodology</div>
-  <h1>The Definitive Guide to <span><em>Phenohunting</em></span></h1>
-  <p class="hero-desc">From seed to confirmed keeper — the genetics, methodology, and craft behind finding exceptional cannabis phenotypes.</p>
-</section>
-<div class="divider"></div>
+<h1>The Definitive Guide to Phenohunting</h1>
+<p class="subtitle">From population genetics to practical plant selection — everything you need to understand why every seed is different, how to identify keepers at each growth stage, what to measure and when, and how to preserve and stabilize the genetics you find. Based on peer-reviewed plant breeding science, community-sourced grow data from ICMag, Rollitup, and Overgrow, and decades of breeder experience.</p>
 
-<!-- ═══════════ TOC ═══════════ -->
-<section class="section" style="padding-top: 4rem; padding-bottom: 2rem;">
-  <nav class="toc">
-    <div class="toc-title">Contents</div>
-    <ol>
-      <li><a href="#s1">The central equation — why every seed is different</a></li>
-      <li><a href="#s2">Genetics primer — alleles, dominance &amp; generations</a></li>
-      <li><a href="#s3">Seed types and what they mean for your hunt</a></li>
-      <li><a href="#s4">How many seeds to pop — the statistics</a></li>
-      <li><a href="#s5">The staged elimination pipeline</a></li>
-      <li><a href="#s6">Morphological markers — what to read in veg</a></li>
-      <li><a href="#s7">Trichome science — separating good from great</a></li>
-      <li><a href="#s8">Red flags and elimination criteria</a></li>
-      <li><a href="#s9">Sensory evaluation — testing with rigor</a></li>
-      <li><a href="#s10">Hash wash testing &amp; lab analysis</a></li>
-      <li><a href="#s11">Clone management &amp; preservation</a></li>
-      <li><a href="#s12">Building a scoring system that works</a></li>
-      <li><a href="#s13">Advanced concepts — IBL, progeny testing, epigenetics</a></li>
-      <li><a href="#s14">The ten mistakes that waste months of work</a></li>
-    </ol>
-  </nav>
-</section>
-<div class="divider"></div>
+<h2><span class="sn">01</span> The Central Equation — Why Every Seed Is Different</h2>
 
-<!-- ═══════════ §1 — THE EQUATION ═══════════ -->
-<section class="section reveal" id="s1">
-  <div class="section-header">
-    <div class="section-label">Section 01</div>
-    <h2>The central <span>equation</span></h2>
-    <p class="section-intro">Why every seed is different — and why phenohunting is both necessary and rewarding.</p>
-  </div>
+<p><strong>Phenotype = Genotype × Environment.</strong> Two seeds from the same pack carry the same potential gene pool but express different combinations. Think of it like siblings — same parents, different faces. The genotype sets the range of possibility; the environment determines where within that range the plant lands.</p>
 
-  <p>Every phenohunt begins with a single insight: <strong>two seeds from the same cross can produce radically different plants.</strong> One may grow short and dense with fuel-soaked trichomes; its sibling may stretch tall with fruity terpenes and wispy buds. The reason is encoded in a deceptively simple equation.</p>
+<p>This means your pheno-hunt is actually two hunts: finding the best <em>genotype</em> (inherent genetic potential), and then providing the best <em>environment</em> to express it. A genetically superior plant in a bad environment will be outperformed by a mediocre genotype in a perfect environment. Both matter.</p>
 
-  <div class="equation">
-    <em>Phenotype</em> <span class="op">=</span> <em>Genotype</em> <span class="op">×</span> <em>Environment</em>
-  </div>
+<h2><span class="sn">02</span> Genetics Primer — Alleles, Dominance &amp; Generations</h2>
 
-  <p>The <span class="key-term" data-def="The complete DNA blueprint inherited from both parents — the specific allele combinations across all 20 chromosomes and ~38,000 genes.">genotype</span> is the plant's complete genetic blueprint — the unique combination of alleles inherited from mother and father across cannabis's 20 chromosomes and approximately 38,000–40,000 protein-coding genes. The <span class="key-term" data-def="Everything you can observe: height, leaf shape, smell, trichome density, cannabinoid content, flowering time, and thousands of other measurable traits.">phenotype</span> is everything you can actually see, smell, smoke, and measure. And the environment — light, temperature, humidity, nutrients, soil biology — acts as a modifier that determines which genetic potential gets expressed and to what degree.</p>
+<p>Cannabis traits are controlled by alleles — versions of genes inherited from each parent. For any trait, a plant carries two alleles: one from the mother, one from the father. If the alleles are the same (homozygous), the trait expresses consistently. If different (heterozygous), one may dominate or they may blend.</p>
 
-  <p>This interaction is profound. Even genetically identical clones grown in different environments develop measurably different phenotypes. Dutch Passion's Blueberry, for example, produces green buds at warm temperatures but vivid purple coloration when nighttime temperatures drop below 18°C — same genotype, dramatically different phenotype. This is why <strong>controlling environmental variables during a pheno hunt is not optional but essential</strong>: inconsistent conditions make it impossible to distinguish true genetic variation from microclimate noise.</p>
+<div class="g3">
+  <div class="cd"><div class="lb">F1 Hybrid</div><div class="vl">First cross — uniform</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Most "designer strains" are F1 hybrids. Relatively uniform because heterosis (hybrid vigor) masks recessive traits. Less phenotype variation.</div></div>
+  <div class="cd"><div class="lb">F2 Population</div><div class="vl">F1 × F1 — maximum variation</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">The segregation generation. Recessive traits emerge. Maximum phenotypic variation. THIS is where pheno-hunting is most productive. Need 50+ plants for meaningful selection.</div></div>
+  <div class="cd"><div class="lb">IBL / Stabilized</div><div class="vl">Many generations — uniform</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Inbred line after 6+ generations of selection. Minimal variation. "True breeding." Fem Super Skunk is here — explaining why sativa phenos are rare.</div></div>
+</div>
 
-  <div class="tree-container">
-    <div class="tree-title">Genotype × Environment = Phenotype</div>
-    <svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
-      <rect width="760" height="340" fill="#0d100d" rx="8"/>
-      <g transform="translate(100,170)">
-        <text x="0" y="-105" text-anchor="middle" font-size="13" font-weight="600" fill="#6db35f">GENOTYPE</text>
-        <text x="0" y="-88" text-anchor="middle" font-size="10" fill="#5e6556">DNA blueprint</text>
-        <path d="M-30,-65 Q-10,-55 0,-45 Q10,-35 -10,-25 Q-30,-15 -10,-5 Q10,5 0,15 Q-10,25 -30,35 Q-10,45 0,55 Q10,65 -10,75" stroke="#4a7c3f" stroke-width="2.5" fill="none"/>
-        <path d="M30,-65 Q10,-55 0,-45 Q-10,-35 10,-25 Q30,-15 10,-5 Q-10,5 0,15 Q10,25 30,35 Q10,45 0,55 Q-10,65 10,75" stroke="#6db35f" stroke-width="2.5" fill="none"/>
-        <line x1="-15" y1="-55" x2="15" y2="-55" stroke="#c9a84c" stroke-width="1.5"/>
-        <line x1="-20" y1="-35" x2="20" y2="-35" stroke="#c9a84c" stroke-width="1.5"/>
-        <line x1="-15" y1="-15" x2="15" y2="-15" stroke="#c9a84c" stroke-width="1.5"/>
-        <line x1="-20" y1="5" x2="20" y2="5" stroke="#c9a84c" stroke-width="1.5"/>
-        <line x1="-15" y1="25" x2="15" y2="25" stroke="#c9a84c" stroke-width="1.5"/>
-        <line x1="-20" y1="45" x2="20" y2="45" stroke="#c9a84c" stroke-width="1.5"/>
-        <line x1="-15" y1="65" x2="15" y2="65" stroke="#c9a84c" stroke-width="1.5"/>
-      </g>
-      <g transform="translate(220,170)">
-        <circle r="20" fill="#4a7c3f" opacity=".15"/>
-        <text y="6" text-anchor="middle" font-size="22" font-weight="300" fill="#6db35f">×</text>
-      </g>
-      <g transform="translate(340,170)">
-        <text x="0" y="-105" text-anchor="middle" font-size="13" font-weight="600" fill="#4a7c9e">ENVIRONMENT</text>
-        <text x="0" y="-88" text-anchor="middle" font-size="10" fill="#5e6556">Growth conditions</text>
-        <circle cx="0" cy="-45" r="14" fill="#c9a84c" opacity="0.5" stroke="#8a7234" stroke-width="1.5"/>
-        <g stroke="#8a7234" stroke-width="1.5">
-          <line x1="0" y1="-67" x2="0" y2="-63"/>
-          <line x1="0" y1="-27" x2="0" y2="-23"/>
-          <line x1="-18" y1="-45" x2="-22" y2="-45"/>
-          <line x1="18" y1="-45" x2="22" y2="-45"/>
-        </g>
-        <rect x="-5" y="-8" width="10" height="40" rx="5" fill="none" stroke="#b54c4c" stroke-width="1.5"/>
-        <rect x="-3" y="8" width="6" height="20" rx="3" fill="#b54c4c" opacity=".5"/>
-        <circle cx="0" cy="38" r="8" fill="#b54c4c" opacity=".25"/>
-        <path d="M0,55 Q-8,65 -8,72 A8,8 0 0,0 8,72 Q8,65 0,55Z" fill="#4a7c9e" opacity=".5"/>
-        <text x="0" y="95" text-anchor="middle" font-size="9" fill="#5e6556">Light · Temp · RH · Nutes</text>
-      </g>
-      <g transform="translate(470,170)">
-        <circle r="20" fill="#4a7c3f" opacity=".15"/>
-        <text y="6" text-anchor="middle" font-size="22" font-weight="300" fill="#6db35f">=</text>
-      </g>
-      <g transform="translate(600,170)">
-        <text x="30" y="-105" text-anchor="middle" font-size="13" font-weight="600" fill="#7c5a9e">PHENOTYPE</text>
-        <text x="30" y="-88" text-anchor="middle" font-size="10" fill="#5e6556">What you observe</text>
-        <g transform="translate(-15,0)">
-          <rect x="-12" y="50" width="24" height="22" rx="3" fill="#8a7234" opacity=".3"/>
-          <line x1="0" y1="50" x2="0" y2="10" stroke="#4a7c3f" stroke-width="3"/>
-          <ellipse cx="0" cy="-5" rx="22" ry="18" fill="#4a7c3f" opacity=".7"/>
-          <ellipse cx="-12" cy="5" rx="14" ry="12" fill="#2d4a26" opacity=".6"/>
-          <ellipse cx="12" cy="5" rx="14" ry="12" fill="#2d4a26" opacity=".6"/>
-          <text x="0" y="85" text-anchor="middle" font-size="9" fill="#6db35f" font-weight="600">Pheno A</text>
-          <text x="0" y="96" text-anchor="middle" font-size="8" fill="#5e6556">Short, dense</text>
-        </g>
-        <g transform="translate(75,0)">
-          <rect x="-10" y="50" width="20" height="20" rx="3" fill="#8a7234" opacity=".3"/>
-          <line x1="0" y1="50" x2="0" y2="-40" stroke="#4a7c3f" stroke-width="2.5"/>
-          <line x1="0" y1="10" x2="-18" y2="0" stroke="#4a7c3f" stroke-width="1.5"/>
-          <line x1="0" y1="-5" x2="16" y2="-15" stroke="#4a7c3f" stroke-width="1.5"/>
-          <line x1="0" y1="-20" x2="-14" y2="-30" stroke="#4a7c3f" stroke-width="1.5"/>
-          <ellipse cx="0" cy="-48" rx="11" ry="12" fill="#6db35f" opacity=".5"/>
-          <text x="0" y="85" text-anchor="middle" font-size="9" fill="#7c5a9e" font-weight="600">Pheno B</text>
-          <text x="0" y="96" text-anchor="middle" font-size="8" fill="#5e6556">Tall, open</text>
-        </g>
-      </g>
-    </svg>
-    <div class="tree-caption">The fundamental equation of phenohunting. Same seed pack, same parents — but different allele combinations and environmental interactions produce visibly distinct plants.</div>
-  </div>
+<h2><span class="sn">03</span> Seed Types and Their Impact</h2>
 
-  <p>Cannabis is one of the most genetically diverse cultivated plants on Earth. The 2025 cannabis pangenome found up to <strong>20× more genetic variation within the species than exists among all humans</strong>. This extraordinary diversity is what makes phenohunting both necessary and rewarding: a single pack of seeds contains more phenotypic potential than most growers realize. Every elite clone-only cultivar in existence — GG4, Girl Scout Cookies, Chemdog, Zkittlez — began as a single remarkable plant discovered among many siblings through this process.</p>
-</section>
-<div class="divider"></div>
+<table>
+<tr><th>Seed Type</th><th>Phenotype Variation</th><th>Sexing Required?</th><th>Best For</th></tr>
+<tr><td><strong>Regular (natural)</strong></td><td>Full genetic range. Best for finding rare phenos.</td><td>Yes — cull males at preflower</td><td>Serious pheno-hunting, breeding</td></tr>
+<tr><td><strong>Feminized</strong></td><td>Reduced variation (selection pressure + STS/CS treatment favors uniformity)</td><td>No — all female</td><td>Simplified grows, uniform production</td></tr>
+<tr><td><strong>Autoflower</strong></td><td>Includes ruderalis genetics (flower by age, not photoperiod)</td><td>Usually feminized</td><td>Speed grows, not ideal for pheno-hunting</td></tr>
+</table>
 
-<!-- ═══════════ §2 — GENETICS PRIMER ═══════════ -->
-<section class="section reveal" id="s2">
-  <div class="section-header">
-    <div class="section-label">Section 02</div>
-    <h2>Genetics primer — alleles, dominance <span>&amp; generations</span></h2>
-    <p class="section-intro">The molecular foundation of why siblings differ — and which generation gives you the best selection opportunity.</p>
-  </div>
+<h2><span class="sn">04</span> How Many Seeds? — The Statistics</h2>
 
-  <h3>Homozygous vs. heterozygous — why cannabis is variable</h3>
+<p>The probability of finding a specific rare phenotype follows basic combinatorics. If a trait has a 5% chance per seed (like sativa expression in feminized Super Skunk), the probability of finding <em>at least one</em> from N seeds is:</p>
 
-  <p>Every trait in cannabis is governed by one or more <span class="key-term" data-def="Variant forms of the same gene. A plant inherits one allele from each parent, giving it two copies (one pair) for every gene.">alleles</span> — variant forms of a gene. A plant that carries two identical alleles for a trait (e.g., PP) is <span class="key-term" data-def="Carrying two identical alleles for a gene. Breeds true — all offspring inherit the same allele for that trait.">homozygous</span> and breeds true for it. A plant carrying one of each (Pp) is <span class="key-term" data-def="Carrying two different alleles for a gene. Expresses the dominant trait but silently carries the recessive one, which can reappear in offspring.">heterozygous</span> — it expresses the <span class="key-term" data-def="The allele that controls the trait's expression when at least one copy is present. Masks the recessive allele in heterozygous plants.">dominant</span> allele's trait but silently carries the <span class="key-term" data-def="The allele that is masked in heterozygous plants. Only expresses when two copies are present (homozygous recessive).">recessive</span> one.</p>
+<p style="font-family:var(--mono);font-size:.85rem;color:var(--accent2);padding:12px;background:var(--bg2);border-radius:8px;margin:1rem 0">P(≥1) = 1 − (0.95)^N → 5 seeds: 23% · 10 seeds: 40% · 15 seeds: 54% · 25 seeds: 72% · 50 seeds: 92%</p>
 
-  <p>Cannabis, as a naturally <span class="key-term" data-def="Having separate male and female individuals — unlike self-pollinating species. Forces cross-pollination and maintains high genetic diversity.">dioecious</span> obligate outcrosser, tends strongly toward heterozygosity. Breeder Sam the Skunkman has stated: all cannabis is heterogeneous, and that won't change soon. This inherent heterozygosity is precisely why phenohunting is necessary — and why siblings from the same cross can look radically different.</p>
+<p>At 15 feminized seeds, you have roughly a coin-flip chance of finding one sativa pheno. With regular seeds (30–50% sativa chance), 15 seeds gives you near-certainty of finding several.</p>
 
-  <div class="tree-container">
-    <div class="tree-title">Mendelian Inheritance — Single Trait (e.g., Purple vs. Green)</div>
-    <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
-      <rect width="760" height="300" fill="#0d100d" rx="8"/>
-      <text x="380" y="30" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4d9">Mendelian Inheritance — Single Trait (e.g., Purple vs. Green)</text>
-      <text x="380" y="48" text-anchor="middle" font-size="10" fill="#5e6556">Both parents heterozygous (Pp) → F2 generation shows 3:1 ratio</text>
-      <g transform="translate(240, 75)">
-        <text x="90" y="-8" text-anchor="middle" font-size="11" fill="#5e6556">Father's alleles</text>
-        <text x="-30" y="72" text-anchor="middle" font-size="11" fill="#5e6556" transform="rotate(-90, -30, 72)">Mother's alleles</text>
-        <rect x="40" y="0" width="50" height="28" fill="#2d4a26" stroke="#1e241e" rx="3"/>
-        <rect x="90" y="0" width="50" height="28" fill="#2d4a26" stroke="#1e241e" rx="3"/>
-        <text x="65" y="19" text-anchor="middle" font-size="14" font-weight="600" fill="#6db35f">P</text>
-        <text x="115" y="19" text-anchor="middle" font-size="14" font-weight="600" fill="#6db35f">p</text>
-        <rect x="0" y="32" width="40" height="50" fill="#2d4a26" stroke="#1e241e" rx="3"/>
-        <text x="20" y="62" text-anchor="middle" font-size="14" font-weight="600" fill="#6db35f">P</text>
-        <rect x="0" y="82" width="40" height="50" fill="#2d4a26" stroke="#1e241e" rx="3"/>
-        <text x="20" y="112" text-anchor="middle" font-size="14" font-weight="600" fill="#6db35f">p</text>
-        <rect x="40" y="32" width="50" height="50" fill="#4a7c3f" opacity=".3" stroke="#1e241e" rx="3"/>
-        <text x="65" y="55" text-anchor="middle" font-size="15" font-weight="700" fill="#6db35f">PP</text>
-        <text x="65" y="72" text-anchor="middle" font-size="9" fill="#6db35f">Green</text>
-        <rect x="90" y="32" width="50" height="50" fill="#4a7c3f" opacity=".2" stroke="#1e241e" rx="3"/>
-        <text x="115" y="55" text-anchor="middle" font-size="15" font-weight="700" fill="#6db35f">Pp</text>
-        <text x="115" y="72" text-anchor="middle" font-size="9" fill="#6db35f">Green*</text>
-        <rect x="40" y="82" width="50" height="50" fill="#4a7c3f" opacity=".2" stroke="#1e241e" rx="3"/>
-        <text x="65" y="105" text-anchor="middle" font-size="15" font-weight="700" fill="#6db35f">Pp</text>
-        <text x="65" y="122" text-anchor="middle" font-size="9" fill="#6db35f">Green*</text>
-        <rect x="90" y="82" width="50" height="50" fill="#7c5a9e" opacity=".25" stroke="#1e241e" rx="3"/>
-        <text x="115" y="105" text-anchor="middle" font-size="15" font-weight="700" fill="#a88ad4">pp</text>
-        <text x="115" y="122" text-anchor="middle" font-size="9" fill="#a88ad4">Purple!</text>
-      </g>
-      <g transform="translate(480, 90)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#e8e4d9">Offspring ratios:</text>
-        <rect x="0" y="15" width="20" height="14" rx="3" fill="#4a7c3f" opacity=".4"/>
-        <text x="26" y="26" font-size="11" fill="#9ca38e"><tspan font-weight="600" fill="#e8e4d9">25%</tspan> PP — homozygous green</text>
-        <rect x="0" y="38" width="20" height="14" rx="3" fill="#4a7c3f" opacity=".25"/>
-        <text x="26" y="49" font-size="11" fill="#9ca38e"><tspan font-weight="600" fill="#e8e4d9">50%</tspan> Pp — green (carries purple)</text>
-        <rect x="0" y="61" width="20" height="14" rx="3" fill="#7c5a9e" opacity=".35"/>
-        <text x="26" y="72" font-size="11" fill="#9ca38e"><tspan font-weight="600" fill="#e8e4d9">25%</tspan> pp — purple expressed!</text>
-        <text x="0" y="100" font-size="10" fill="#5e6556">* Carries recessive purple allele</text>
-        <text x="0" y="115" font-size="10" fill="#c9a84c" font-weight="500">To find 1 purple in F2: need ~12 plants</text>
-        <text x="0" y="130" font-size="10" fill="#c9a84c" font-weight="500">for 95% statistical confidence</text>
-      </g>
-    </svg>
-    <div class="tree-caption">Classic Mendelian 3:1 ratio for a single-gene trait. Real cannabis traits involve many genes, creating far more complex ratios and rarer combinations.</div>
-  </div>
+<h2><span class="sn">05</span> The Staged Elimination Pipeline</h2>
 
-  <h3>Generations — where variation lives</h3>
+<div class="ill">
+<svg viewBox="0 0 800 180" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="180" fill="#111611"/>
+  <text font-family="DM Serif Display,serif" font-size="13" fill="#6db35f" x="400" y="24" text-anchor="middle">Pheno-Hunt Pipeline — From Seeds to Keeper</text>
 
-  <div class="tree-container">
-    <div class="tree-title">Seed Generations &amp; Phenotypic Variation</div>
-    <svg viewBox="0 0 760 520" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
-      <rect width="760" height="520" fill="#0d100d" rx="8"/>
-      <text x="380" y="30" text-anchor="middle" font-size="14" font-weight="600" fill="#e8e4d9">Seed Generations &amp; Phenotypic Variation</text>
-      <!-- F1 -->
-      <g transform="translate(30, 70)">
-        <rect width="220" height="190" rx="10" fill="#111611" stroke="#4a7c3f" stroke-width="1.5"/>
-        <rect width="220" height="32" rx="10" fill="#4a7c3f"/>
-        <rect y="22" width="220" height="10" fill="#4a7c3f"/>
-        <text x="110" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#e8e4d9">F1 — First Filial</text>
-        <g transform="translate(30, 65)"><line x1="0" y1="30" x2="0" y2="10" stroke="#6db35f" stroke-width="2"/><ellipse cx="0" cy="2" rx="10" ry="10" fill="#4a7c3f" opacity=".7"/></g>
-        <g transform="translate(70, 65)"><line x1="0" y1="30" x2="0" y2="10" stroke="#6db35f" stroke-width="2"/><ellipse cx="0" cy="2" rx="10" ry="10" fill="#4a7c3f" opacity=".7"/></g>
-        <g transform="translate(110, 65)"><line x1="0" y1="30" x2="0" y2="10" stroke="#6db35f" stroke-width="2"/><ellipse cx="0" cy="2" rx="10" ry="10" fill="#4a7c3f" opacity=".7"/></g>
-        <g transform="translate(150, 65)"><line x1="0" y1="30" x2="0" y2="10" stroke="#6db35f" stroke-width="2"/><ellipse cx="0" cy="2" rx="10" ry="10" fill="#4a7c3f" opacity=".7"/></g>
-        <g transform="translate(190, 65)"><line x1="0" y1="30" x2="0" y2="10" stroke="#6db35f" stroke-width="2"/><ellipse cx="0" cy="2" rx="10" ry="10" fill="#4a7c3f" opacity=".7"/></g>
-        <rect x="20" y="115" width="180" height="8" rx="4" fill="#1e241e"/>
-        <rect x="75" y="115" width="70" height="8" rx="4" fill="#4a7c3f" opacity=".5"/>
-        <text x="110" y="140" text-anchor="middle" font-size="9" fill="#6db35f" font-weight="600">LOW VARIATION</text>
-        <text x="15" y="162" font-size="10" fill="#9ca38e">✓ Uniform &amp; vigorous (hybrid vigor)</text>
-        <text x="15" y="177" font-size="10" fill="#5e6556">✗ Limited selection opportunity</text>
-      </g>
-      <!-- F2 -->
-      <g transform="translate(270, 70)">
-        <rect width="220" height="190" rx="10" fill="#111611" stroke="#c9a84c" stroke-width="1.5"/>
-        <rect width="220" height="32" rx="10" fill="#8a7234"/>
-        <rect y="22" width="220" height="10" fill="#8a7234"/>
-        <text x="110" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#e8e4d9">F2 — Second Filial ★</text>
-        <g transform="translate(25, 60)"><line x1="0" y1="35" x2="0" y2="18" stroke="#6db35f" stroke-width="2"/><ellipse cx="0" cy="10" rx="8" ry="10" fill="#4a7c3f" opacity=".7"/></g>
-        <g transform="translate(60, 75)"><line x1="0" y1="20" x2="0" y2="5" stroke="#6db35f" stroke-width="1.5"/><ellipse cx="0" cy="0" rx="6" ry="6" fill="#2d4a26" opacity=".6"/></g>
-        <g transform="translate(90, 55)"><line x1="0" y1="40" x2="0" y2="8" stroke="#6db35f" stroke-width="3"/><ellipse cx="0" cy="0" rx="14" ry="12" fill="#4a7c3f" opacity=".8"/><circle cx="0" cy="-5" r="3" fill="#c9a84c" opacity=".6"/></g>
-        <g transform="translate(130, 68)"><line x1="0" y1="27" x2="0" y2="8" stroke="#6db35f" stroke-width="2"/><ellipse cx="0" cy="2" rx="9" ry="8" fill="#7c5a9e" opacity=".5"/></g>
-        <g transform="translate(165, 62)"><line x1="0" y1="33" x2="0" y2="12" stroke="#6db35f" stroke-width="2.5"/><ellipse cx="0" cy="5" rx="11" ry="10" fill="#4a7c3f" opacity=".6"/></g>
-        <g transform="translate(195, 72)"><line x1="0" y1="23" x2="0" y2="8" stroke="#6db35f" stroke-width="1.5"/><ellipse cx="0" cy="2" rx="7" ry="7" fill="#b54c4c" opacity=".4"/></g>
-        <rect x="20" y="115" width="180" height="8" rx="4" fill="#1e241e"/>
-        <rect x="20" y="115" width="180" height="8" rx="4" fill="#c9a84c" opacity=".4"/>
-        <text x="110" y="140" text-anchor="middle" font-size="9" fill="#c9a84c" font-weight="600">MAXIMUM VARIATION ★</text>
-        <text x="15" y="162" font-size="10" fill="#e8e4d9">★ Best &amp; worst plants appear here</text>
-        <text x="15" y="177" font-size="10" fill="#c9a84c" font-weight="500">★ The phenohunter's generation</text>
-      </g>
-      <!-- S1 -->
-      <g transform="translate(510, 70)">
-        <rect width="220" height="190" rx="10" fill="#111611" stroke="#7c5a9e" stroke-width="1.5"/>
-        <rect width="220" height="32" rx="10" fill="#5a3e7a"/>
-        <rect y="22" width="220" height="10" fill="#5a3e7a"/>
-        <text x="110" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#e8e4d9">S1 — Selfed</text>
-        <g transform="translate(30, 63)"><line x1="0" y1="32" x2="0" y2="12" stroke="#6db35f" stroke-width="2"/><ellipse cx="0" cy="5" rx="10" ry="9" fill="#4a7c3f" opacity=".6"/></g>
-        <g transform="translate(70, 65)"><line x1="0" y1="30" x2="0" y2="10" stroke="#6db35f" stroke-width="2"/><ellipse cx="0" cy="3" rx="10" ry="10" fill="#4a7c3f" opacity=".7"/></g>
-        <g transform="translate(110, 68)"><line x1="0" y1="27" x2="0" y2="10" stroke="#6db35f" stroke-width="2"/><ellipse cx="0" cy="3" rx="9" ry="9" fill="#4a7c3f" opacity=".65"/></g>
-        <g transform="translate(150, 64)"><line x1="0" y1="31" x2="0" y2="10" stroke="#6db35f" stroke-width="2"/><ellipse cx="0" cy="3" rx="10" ry="10" fill="#4a7c3f" opacity=".7"/></g>
-        <g transform="translate(190, 70)"><line x1="0" y1="25" x2="0" y2="10" stroke="#6db35f" stroke-width="1.5"/><ellipse cx="0" cy="4" rx="8" ry="8" fill="#7c5a9e" opacity=".4"/></g>
-        <rect x="20" y="115" width="180" height="8" rx="4" fill="#1e241e"/>
-        <rect x="50" y="115" width="120" height="8" rx="4" fill="#7c5a9e" opacity=".4"/>
-        <text x="110" y="140" text-anchor="middle" font-size="9" fill="#a88ad4" font-weight="600">MODERATE VARIATION</text>
-        <text x="15" y="162" font-size="10" fill="#9ca38e">✓ Concentrates parent's genetics</text>
-        <text x="15" y="177" font-size="10" fill="#5e6556">✗ Risk of inbreeding depression</text>
-      </g>
-      <!-- BX row -->
-      <g transform="translate(30, 290)">
-        <rect width="700" height="200" rx="10" fill="#111611" stroke="#4a7c9e" stroke-width="1.5"/>
-        <rect width="700" height="32" rx="10" fill="#2a4a6a"/>
-        <rect y="22" width="700" height="10" fill="#2a4a6a"/>
-        <text x="350" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#e8e4d9">BX — Backcross Generations (recovering a specific parent's traits)</text>
-        <g transform="translate(60, 75)">
-          <text x="0" y="-12" text-anchor="middle" font-size="11" font-weight="600" fill="#4a7c9e">BX1</text>
-          <circle cx="0" cy="28" r="28" fill="#4a7c9e" opacity=".15"/>
-          <path d="M0,0 L0,-28 A28,28 0 1,1 -19.8,19.8 Z" transform="translate(0,28)" fill="#4a7c9e" opacity=".4"/>
-          <text x="0" y="73" text-anchor="middle" font-size="10" font-weight="600" fill="#4a7c9e">75%</text>
-          <text x="0" y="86" text-anchor="middle" font-size="9" fill="#5e6556">parent genetics</text>
-        </g>
-        <text x="155" y="75" text-anchor="middle" font-size="18" fill="#2a322a">→</text>
-        <g transform="translate(230, 75)">
-          <text x="0" y="-12" text-anchor="middle" font-size="11" font-weight="600" fill="#4a7c9e">BX2</text>
-          <circle cx="0" cy="28" r="28" fill="#4a7c9e" opacity=".15"/>
-          <path d="M0,0 L0,-28 A28,28 0 1,1 -3.5,27.8 Z" transform="translate(0,28)" fill="#4a7c9e" opacity=".5"/>
-          <text x="0" y="73" text-anchor="middle" font-size="10" font-weight="600" fill="#4a7c9e">87.5%</text>
-          <text x="0" y="86" text-anchor="middle" font-size="9" fill="#5e6556">parent genetics</text>
-        </g>
-        <text x="325" y="75" text-anchor="middle" font-size="18" fill="#2a322a">→</text>
-        <g transform="translate(400, 75)">
-          <text x="0" y="-12" text-anchor="middle" font-size="11" font-weight="600" fill="#4a7c9e">BX3 "Cubed"</text>
-          <circle cx="0" cy="28" r="28" fill="#4a7c9e" opacity=".15"/>
-          <path d="M0,0 L0,-28 A28,28 0 1,1 1.7,28 Z" transform="translate(0,28)" fill="#4a7c9e" opacity=".6"/>
-          <text x="0" y="73" text-anchor="middle" font-size="10" font-weight="600" fill="#4a7c9e">93.75%</text>
-          <text x="0" y="86" text-anchor="middle" font-size="9" fill="#5e6556">parent genetics</text>
-        </g>
-        <g transform="translate(560, 50)">
-          <text x="0" y="0" font-size="10" fill="#e8e4d9" font-weight="500">Use backcrossing to:</text>
-          <text x="0" y="18" font-size="10" fill="#9ca38e">• Reproduce clone-only in seed</text>
-          <text x="0" y="34" font-size="10" fill="#9ca38e">• Transfer a trait to elite line</text>
-          <text x="0" y="50" font-size="10" fill="#9ca38e">• Stabilize a polyhybrid cross</text>
-          <text x="0" y="74" font-size="10" fill="#c9a84c" font-weight="500">Each BX: cross offspring</text>
-          <text x="0" y="90" font-size="10" fill="#c9a84c" font-weight="500">back to the same parent</text>
-        </g>
-      </g>
-    </svg>
-    <div class="tree-caption">Generation types and their phenotypic variation. F2 is the phenohunter's generation — maximum variation reveals both the best and worst genetic combinations.</div>
-  </div>
+  <!-- Stage 1 -->
+  <rect x="30" y="50" width="140" height="100" rx="8" fill="rgba(74,124,63,.06)" stroke="#4a7c3f" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#6db35f" x="100" y="68" text-anchor="middle">GERMINATE</text>
+  <text font-family="DM Serif Display,serif" font-size="22" fill="#6db35f" x="100" y="100" text-anchor="middle">15</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="100" y="118" text-anchor="middle">seeds</text>
+  <text font-family="IBM Plex Mono,mono" font-size="7" fill="#5e6556" x="100" y="140" text-anchor="middle">Wk 0–1</text>
 
-  <p><strong>F1 seeds</strong> from true inbred parents are remarkably uniform due to hybrid vigor, but most commercial cannabis "F1s" aren't from true inbred lines, so they show more variation than the label implies. <strong>F2 seeds</strong> unleash Mendelian segregation — hidden recessive alleles resurface in new combinations, creating what breeders call a "phenotypic explosion." This is where you'll find both your best and worst plants. <strong>S1 (selfed) seeds</strong> concentrate a single parent's genetics but with Mendelian ratios still active for any heterozygous traits. <strong>Backcrosses</strong> progressively recover a specific parent's genetic contribution — BX3 ("cubing") reaches 93.75% of the recurrent parent's DNA.</p>
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#4a7c3f" x="182" y="100">→</text>
 
-  <div class="callout-purple">
-    <div class="callout-label">Devil's Advocate Review</div>
-    <p><strong>F1 marketing deception.</strong> Many seedbanks label seeds "F1" when the parent lines weren't truly inbred. A cross between two individual plants from different strains is technically an F1, but without 6+ generations of inbreeding on each parent line, the offspring won't show true F1 uniformity or hybrid vigor. Treat commercial "F1" labels with skepticism — expect F2-level variation unless the breeder documents their inbreeding history.</p>
-    <p><strong>Feminized S1 confusion.</strong> Many seedbanks sell feminized versions of named cultivars made by selfing or sister-crossing. These are functionally S1 or F2 (depending on method) with reduced genetic diversity. They produce evaluable phenotypes but with a narrower range than regular F2s from the same cross.</p>
-  </div>
-</section>
-<div class="divider"></div>
+  <!-- Stage 2 -->
+  <rect x="200" y="50" width="140" height="100" rx="8" fill="rgba(74,124,63,.06)" stroke="#4a7c3f" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#c9a84c" x="270" y="68" text-anchor="middle">VIGOR SCREEN</text>
+  <text font-family="DM Serif Display,serif" font-size="22" fill="#c9a84c" x="270" y="100" text-anchor="middle">10–12</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="270" y="118" text-anchor="middle">remove weak/stunted</text>
+  <text font-family="IBM Plex Mono,mono" font-size="7" fill="#5e6556" x="270" y="140" text-anchor="middle">Wk 2–3</text>
 
-<!-- ═══════════ §3 — SEED TYPES ═══════════ -->
-<section class="section reveal" id="s3">
-  <div class="section-header">
-    <div class="section-label">Section 03</div>
-    <h2>Seed types and what they <span>mean for your hunt</span></h2>
-    <p class="section-intro">Regular, feminized, and autoflower seeds each carry different implications for selection scope, space efficiency, and cloning feasibility.</p>
-  </div>
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#4a7c3f" x="352" y="100">→</text>
 
-  <div class="tree-container">
-    <div class="tree-title">Seed Type Comparison</div>
-    <svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
-      <rect width="760" height="260" fill="#0d100d" rx="8"/>
-      <!-- Regular -->
-      <g transform="translate(30, 20)">
-        <rect width="225" height="220" rx="10" fill="#111611" stroke="#4a7c3f" stroke-width="1.5"/>
-        <text x="112" y="30" text-anchor="middle" font-size="13" font-weight="600" fill="#6db35f">Regular Seeds</text>
-        <text x="112" y="48" text-anchor="middle" font-size="10" fill="#5e6556">Natural ♂ × ♀ pollination</text>
-        <rect x="20" y="62" width="92" height="24" rx="5" fill="#4a7c9e" opacity=".2"/>
-        <text x="66" y="79" text-anchor="middle" font-size="10" font-weight="600" fill="#4a7c9e">♂ 50%</text>
-        <rect x="112" y="62" width="93" height="24" rx="5" fill="#b54c4c" opacity=".15"/>
-        <text x="158" y="79" text-anchor="middle" font-size="10" font-weight="600" fill="#b54c4c">♀ 50%</text>
-        <text x="20" y="108" font-size="10" fill="#6db35f">✓ Full genetic diversity</text>
-        <text x="20" y="125" font-size="10" fill="#6db35f">✓ Access to males for breeding</text>
-        <text x="20" y="142" font-size="10" fill="#6db35f">✓ Preferred by serious breeders</text>
-        <text x="20" y="162" font-size="10" fill="#b54c4c">✗ 50% space wasted on males</text>
-        <text x="20" y="179" font-size="10" fill="#b54c4c">✗ Must sex before flower</text>
-        <rect x="20" y="195" width="185" height="18" rx="4" fill="#2d4a26"/>
-        <text x="112" y="208" text-anchor="middle" font-size="9" font-weight="600" fill="#6db35f">BEST FOR: Breeding &amp; deep selection</text>
-      </g>
-      <!-- Feminized -->
-      <g transform="translate(268, 20)">
-        <rect width="225" height="220" rx="10" fill="#111611" stroke="#c9a84c" stroke-width="1.5"/>
-        <text x="112" y="30" text-anchor="middle" font-size="13" font-weight="600" fill="#c9a84c">Feminized Seeds</text>
-        <text x="112" y="48" text-anchor="middle" font-size="10" fill="#5e6556">Reversed female pollination</text>
-        <rect x="20" y="62" width="185" height="24" rx="5" fill="#b54c4c" opacity=".1"/>
-        <text x="112" y="79" text-anchor="middle" font-size="10" font-weight="600" fill="#b54c4c">♀ 99.9%</text>
-        <text x="20" y="108" font-size="10" fill="#6db35f">✓ Every seed = flowering candidate</text>
-        <text x="20" y="125" font-size="10" fill="#6db35f">✓ Maximum space efficiency</text>
-        <text x="20" y="142" font-size="10" fill="#6db35f">✓ No sexing required</text>
-        <text x="20" y="162" font-size="10" fill="#b54c4c">✗ No male selection possible</text>
-        <text x="20" y="179" font-size="10" fill="#b54c4c">✗ Potentially narrower gene pool</text>
-        <rect x="20" y="195" width="185" height="18" rx="4" fill="#2a1f0a"/>
-        <text x="112" y="208" text-anchor="middle" font-size="9" font-weight="600" fill="#c9a84c">BEST FOR: Grower-level pheno hunting</text>
-      </g>
-      <!-- Autoflower -->
-      <g transform="translate(506, 20)">
-        <rect width="225" height="220" rx="10" fill="#111611" stroke="#7c5a9e" stroke-width="1.5"/>
-        <text x="112" y="30" text-anchor="middle" font-size="13" font-weight="600" fill="#a88ad4">Autoflower Seeds</text>
-        <text x="112" y="48" text-anchor="middle" font-size="10" fill="#5e6556">Ruderalis genetics (age-triggered)</text>
-        <rect x="20" y="62" width="185" height="24" rx="5" fill="#7c5a9e" opacity=".1"/>
-        <text x="112" y="79" text-anchor="middle" font-size="10" font-weight="600" fill="#a88ad4">⏱ Flowers by age, not light</text>
-        <text x="20" y="108" font-size="10" fill="#6db35f">✓ Fast cycle (seed-harvest 70-90d)</text>
-        <text x="20" y="125" font-size="10" fill="#6db35f">✓ Modern autos rival photos</text>
-        <text x="20" y="142" font-size="10" fill="#b54c4c">✗ Cannot clone (age continues)</text>
-        <text x="20" y="162" font-size="10" fill="#b54c4c">✗ No recovery from stress</text>
-        <text x="20" y="179" font-size="10" fill="#b54c4c">✗ Must breed from seed each gen</text>
-        <rect x="20" y="195" width="185" height="18" rx="4" fill="#1e1528"/>
-        <text x="112" y="208" text-anchor="middle" font-size="9" font-weight="600" fill="#a88ad4">BEST FOR: Speed runs, NOT pheno hunting</text>
-      </g>
-    </svg>
-    <div class="tree-caption">Seed type determines your selection options. Regular seeds maximize diversity but waste space on males. Feminized seeds maximize evaluable candidates. Autoflowers are impractical for pheno hunting because cloning doesn't work.</div>
-  </div>
-</section>
-<div class="divider"></div>
+  <!-- Stage 3 -->
+  <rect x="370" y="50" width="140" height="100" rx="8" fill="rgba(74,124,63,.06)" stroke="#4a7c3f" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#5a9eb8" x="440" y="68" text-anchor="middle">TRAIT SELECTION</text>
+  <text font-family="DM Serif Display,serif" font-size="22" fill="#5a9eb8" x="440" y="100" text-anchor="middle">6–8</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="440" y="118" text-anchor="middle">clone + compare markers</text>
+  <text font-family="IBM Plex Mono,mono" font-size="7" fill="#5e6556" x="440" y="140" text-anchor="middle">Wk 3–4</text>
 
-<!-- ═══════════ §4 — HOW MANY SEEDS ═══════════ -->
-<section class="section reveal" id="s4">
-  <div class="section-header">
-    <div class="section-label">Section 04</div>
-    <h2>How many seeds to pop — <span>the statistics</span></h2>
-    <p class="section-intro">Probability math, population size, and the case for depth over breadth.</p>
-  </div>
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#4a7c3f" x="522" y="100">→</text>
 
-  <p>The math is straightforward for simple traits: to have a <strong>95% probability of finding at least one plant</strong> expressing a single-gene recessive trait in an F2 population (expected frequency 25%), you need approximately 12 plants. But cannabis traits are rarely controlled by single genes, and the probability of finding an ideal combination of multiple independently segregating traits drops exponentially.</p>
+  <!-- Stage 4 -->
+  <rect x="540" y="50" width="140" height="100" rx="8" fill="rgba(109,179,95,.1)" stroke="#6db35f" stroke-width="1.5"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#6db35f" x="610" y="68" text-anchor="middle">★ KEEPERS</text>
+  <text font-family="DM Serif Display,serif" font-size="22" fill="#6db35f" x="610" y="100" text-anchor="middle">4</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="610" y="118" text-anchor="middle">transplant → 11L → ScrOG</text>
+  <text font-family="IBM Plex Mono,mono" font-size="7" fill="#5e6556" x="610" y="140" text-anchor="middle">Wk 4–5</text>
 
-  <div class="stats-grid">
-    <div class="stat">
-      <div class="stat-label">Home Grower</div>
-      <div class="stat-value">10–20</div>
-      <div class="stat-sub">Minimum viable hunt</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Serious Hobbyist</div>
-      <div class="stat-value">20–50</div>
-      <div class="stat-sub">Expect ~1:10 keeper ratio</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Commercial Operation</div>
-      <div class="stat-value">100+</div>
-      <div class="stat-sub">Statistical minimum</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Professional Breeder</div>
-      <div class="stat-value">1000+</div>
-      <div class="stat-sub">"Good chance" of rare combos</div>
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#4a7c3f" x="692" y="100">→</text>
+
+  <!-- Final assessment -->
+  <rect x="710" y="60" width="70" height="80" rx="8" fill="rgba(201,168,76,.08)" stroke="#8a7234" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="7" font-weight="500" fill="#c9a84c" x="745" y="78" text-anchor="middle">FLOWER</text>
+  <text font-family="IBM Plex Mono,mono" font-size="7" font-weight="500" fill="#c9a84c" x="745" y="90" text-anchor="middle">TEST</text>
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#c9a84c" x="745" y="115" text-anchor="middle">1</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#9ca38e" x="745" y="130" text-anchor="middle">true</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#9ca38e" x="745" y="140" text-anchor="middle">keeper</text>
+</svg>
+<div class="ill-cap">The pheno-hunt pipeline. 15 seeds → 10–12 after vigor screen → 6–8 cloned candidates → 4 keepers for the grow tent → 1 true keeper identified during/after flower. The "keeper" is revealed by terpene profile, potency, bud structure, and smoke quality — traits you can't fully assess until harvest.</div>
+</div>
+
+<h2><span class="sn">06</span> Morphological Markers — What to Read in Veg</h2>
+
+<p>The six markers described in the Pheno-Hunting Sativa Super Skunk guide (internode spacing, leaf blade width, stem rub terpenes, growth rate, leaf color, stem thickness) work for identifying sativa vs indica expression. But pheno-hunting is broader than just "sativa or indica" — you're selecting for the best overall plant.</p>
+
+<h3>What veteran growers actually look at by week 3–4:</h3>
+
+<div class="g2">
+  <div class="cd"><div class="lb">Structure</div><div class="vl">Branching symmetry + vigor</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Well-branched, symmetrical plants with strong secondary growth typically produce the best ScrOG canopies and highest yields. Asymmetric or single-dominant-branch plants are harder to train.</div></div>
+  <div class="cd"><div class="lb">Root Zone</div><div class="vl">White root tips at fabric pot edges</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Aggressive root growth = healthy plant = stronger flower production. Brown or absent root tips = possible root issues that will limit flower-stage performance.</div></div>
+  <div class="cd"><div class="lb">Stem Rub</div><div class="vl">Early terpene preview</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Rub the stem between your fingers and smell. The terpene profile at veg stage roughly correlates with flower aroma. Strains with strong, complex stem rub terpenes tend to produce the most aromatic flower.</div></div>
+  <div class="cd"><div class="lb">Stress Tolerance</div><div class="vl">How the plant handles training</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Plants that recover quickly from topping and LST tend to handle flower-stage defoliation and ScrOG management better. Slow recovery = stress-sensitive genetics.</div></div>
+</div>
+
+<h2><span class="sn">07</span> Trichome Science — Separating Good from Great</h2>
+
+<p>During flower, trichome development becomes the primary selection criterion. Not all trichomes are equal — there are three types, and only one matters for potency.</p>
+
+<div class="ill">
+<svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="trichHead" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8d44c" stop-opacity=".6"/>
+      <stop offset="100%" stop-color="#c9a84c" stop-opacity=".3"/>
+    </linearGradient>
+    <linearGradient id="trichStalk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9ca38e"/>
+      <stop offset="100%" stop-color="#5e6556"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="240" fill="#111611"/>
+  <text font-family="DM Serif Display,serif" font-size="13" fill="#6db35f" x="400" y="24" text-anchor="middle">Three Trichome Types — Only Capitate-Stalked Matters</text>
+
+  <!-- Type 1: Bulbous (tiny, minimal THC) -->
+  <rect x="40" y="45" width="210" height="170" rx="8" fill="rgba(94,101,86,.06)" stroke="#2a4a2a" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="9" fill="#5e6556" x="145" y="65" text-anchor="middle">BULBOUS</text>
+  <!-- Tiny dot trichomes -->
+  <circle cx="120" cy="140" r="2" fill="#9ca38e" opacity=".4"/>
+  <circle cx="135" cy="138" r="2" fill="#9ca38e" opacity=".3"/>
+  <circle cx="150" cy="142" r="1.5" fill="#9ca38e" opacity=".4"/>
+  <circle cx="165" cy="139" r="2" fill="#9ca38e" opacity=".3"/>
+  <!-- Leaf surface -->
+  <line x1="80" y1="155" x2="210" y2="155" stroke="#4a7c3f" stroke-width="1" opacity=".3"/>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#5e6556" x="145" y="175" text-anchor="middle">15–30 µm. No stalk. Minimal</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#5e6556" x="145" y="190" text-anchor="middle">cannabinoid content. Ignore.</text>
+
+  <!-- Type 2: Capitate-Sessile (small head, no stalk) -->
+  <rect x="295" y="45" width="210" height="170" rx="8" fill="rgba(94,101,86,.06)" stroke="#2a4a2a" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="9" fill="#9ca38e" x="400" y="65" text-anchor="middle">CAPITATE-SESSILE</text>
+  <!-- Small headed trichomes sitting on surface -->
+  <circle cx="370" cy="135" r="5" fill="url(#trichHead)"/>
+  <circle cx="390" cy="137" r="4" fill="url(#trichHead)"/>
+  <circle cx="410" cy="134" r="5" fill="url(#trichHead)"/>
+  <circle cx="430" cy="136" r="4.5" fill="url(#trichHead)"/>
+  <line x1="340" y1="143" x2="460" y2="143" stroke="#4a7c3f" stroke-width="1" opacity=".3"/>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="400" y="165" text-anchor="middle">25–100 µm. Visible head but</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="400" y="180" text-anchor="middle">no stalk. Some cannabinoids.</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="400" y="195" text-anchor="middle">On sugar leaves mostly.</text>
+
+  <!-- Type 3: Capitate-Stalked (THE one that matters) -->
+  <rect x="550" y="45" width="210" height="170" rx="8" fill="rgba(109,179,95,.06)" stroke="#6db35f" stroke-width="1.5"/>
+  <text font-family="IBM Plex Mono,mono" font-size="9" font-weight="500" fill="#6db35f" x="655" y="65" text-anchor="middle">★ CAPITATE-STALKED</text>
+  <!-- Realistic stalked trichomes -->
+  <g transform="translate(610,140)">
+    <line x1="0" y1="0" x2="0" y2="-25" stroke="url(#trichStalk)" stroke-width="1.5"/>
+    <circle cx="0" cy="-28" r="7" fill="url(#trichHead)" stroke="#c9a84c" stroke-width=".5" opacity=".8"/>
+  </g>
+  <g transform="translate(635,138)">
+    <line x1="0" y1="0" x2="0" y2="-30" stroke="url(#trichStalk)" stroke-width="1.5"/>
+    <circle cx="0" cy="-33" r="8" fill="url(#trichHead)" stroke="#c9a84c" stroke-width=".5" opacity=".8"/>
+  </g>
+  <g transform="translate(660,142)">
+    <line x1="0" y1="0" x2="0" y2="-22" stroke="url(#trichStalk)" stroke-width="1.5"/>
+    <circle cx="0" cy="-25" r="6" fill="url(#trichHead)" stroke="#c9a84c" stroke-width=".5" opacity=".7"/>
+  </g>
+  <g transform="translate(685,139)">
+    <line x1="0" y1="0" x2="0" y2="-28" stroke="url(#trichStalk)" stroke-width="1.5"/>
+    <circle cx="0" cy="-31" r="7.5" fill="url(#trichHead)" stroke="#c9a84c" stroke-width=".5" opacity=".8"/>
+  </g>
+  <line x1="590" y1="148" x2="720" y2="148" stroke="#4a7c3f" stroke-width="1" opacity=".3"/>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#6db35f" x="655" y="170" text-anchor="middle">50–500 µm. Visible stalk +</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#6db35f" x="655" y="185" text-anchor="middle">bulbous head. Contains 80%+</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#6db35f" x="655" y="200" text-anchor="middle">of THC, CBD, and terpenes.</text>
+</svg>
+<div class="ill-cap">Capitate-stalked trichomes with realistic gradient heads on visible stalks. These are what you're selecting for. Under a 60× loupe, look for dense coverage of tall, fat-headed trichomes on the calyxes. Sugar leaf trichomes mature faster and mislead — always check calyxes.</div>
+</div>
+
+<h2><span class="sn">08</span> The Ten Mistakes That Waste Months</h2>
+
+<div class="g2">
+  <div class="cd" style="border-color:var(--red)">
+    <div class="lb" style="color:var(--red)">Don't</div>
+    <div style="font-size:.85rem;margin-top:8px;line-height:1.8;color:var(--text2)">
+      1. Cull slow starters at week 3 (Cookie lineage is slow)<br>
+      2. Judge by a single trait (need 3+ markers converging)<br>
+      3. Select by bag appeal alone (dense ≠ potent)<br>
+      4. Forget to clone before culling<br>
+      5. Run too few seeds (&lt;10 is a lottery, not a hunt)
     </div>
   </div>
-
-  <div class="callout">
-    <div class="callout-label">The Counter-Argument — Depth Over Breadth</div>
-    <p>Breeder Mean Gene of Aficionado/Freeborn Selections selected his legendary Cherry Lime from just five females and one male in the F1 generation. His philosophy: intimate evaluation across multiple seasons trumps statistical brute force. Both approaches — large populations with rapid elimination and small populations with deep assessment — have produced legendary genetics. The choice depends on your space, time, and evaluation skill.</p>
-  </div>
-</section>
-<div class="divider"></div>
-
-<!-- ═══════════ §5 — THE PIPELINE ═══════════ -->
-<section class="section reveal" id="s5">
-  <div class="section-header">
-    <div class="section-label">Section 05</div>
-    <h2>The staged <span>elimination pipeline</span></h2>
-    <p class="section-intro">Professional phenohunting follows a funnel-shaped elimination pipeline — successive rounds of a tournament, narrowing from many candidates to one confirmed keeper.</p>
-  </div>
-
-  <p>Each round eliminates the weakest and promotes the strongest. Think of it as successive rounds of a tournament. The critical logistical step — clone collection in Stage 2 — is non-negotiable: miss it and you cannot recover your keepers.</p>
-
-  <div class="protocol-timeline">
-    <div class="protocol-phase">
-      <div class="protocol-week">Stage 1 · Weeks 0–3</div>
-      <div class="protocol-title">Germination &amp; Seedling</div>
-      <div class="protocol-body">Pop all seeds in solo cups. Cull deformities, non-germinators, and severe runts. Inspect root balls at transplant — vigorous white roots are a positive sign. <strong>Eliminate approximately 15–25%</strong> at this stage: failed germinations, deformities, and half-size runts.</div>
-    </div>
-    <div class="protocol-phase phase-green">
-      <div class="protocol-week">Stage 2 · Weeks 3–8</div>
-      <div class="protocol-title">Veg Screening &amp; Clone Collection</div>
-      <div class="protocol-body"><strong>Critical step: take 4–6 clones of every remaining candidate before the flip.</strong> Assess vigor, stem rub aroma, node spacing, and branching. Remove males if running regulars. Maintain a clone library on 18/6 while mothers go into flower. <strong>Eliminate approximately 50% of regulars</strong> (males) plus weak females.</div>
-    </div>
-    <div class="protocol-phase">
-      <div class="protocol-week">Stage 3 · Weeks 8–18+</div>
-      <div class="protocol-title">Flowering Evaluation</div>
-      <div class="protocol-body">Flower originals while clones remain in veg hold. Monitor stretch, bud development, and aroma progression. Watch for hermaphrodite traits — any intersex expression means <strong>immediate elimination plus clone disposal</strong>. Eliminate hermies, low-trichome candidates, poor structure, and mold-susceptible phenotypes.</div>
-    </div>
-    <div class="protocol-phase phase-purple">
-      <div class="protocol-week">Stage 4 · Weeks 18–26</div>
-      <div class="protocol-title">Harvest, Cure &amp; Smoke Test</div>
-      <div class="protocol-body">Proper dry (10–14 days) and cure (minimum 2–4 weeks) before any testing. Conduct blind sensory evaluation: effect, flavor, smoothness — with multiple independent testers. <strong>Narrow to the top 2–4 candidates</strong> at this stage.</div>
-    </div>
-    <div class="protocol-phase">
-      <div class="protocol-week">Stage 5 · Weeks 26–40+</div>
-      <div class="protocol-title">Clone Verification Run</div>
-      <div class="protocol-body">Flower clones of finalists side-by-side under identical conditions. Seed plants often perform differently from their clones — <strong>this step is essential, not optional.</strong> A keeper designation without clone verification is premature.</div>
-    </div>
-    <div class="protocol-phase phase-green">
-      <div class="protocol-week">Stage 6 · Total timeline 12–24 months</div>
-      <div class="protocol-title">Confirmed Keeper</div>
-      <div class="protocol-body"><strong>Consistent across 2–3 complete clone runs.</strong> From 20 seeds to one confirmed keeper. Every elite clone-only cultivar followed this path.</div>
+  <div class="cd" style="border-color:var(--red)">
+    <div class="lb" style="color:var(--red)">Also Don't</div>
+    <div style="font-size:.85rem;margin-top:8px;line-height:1.8;color:var(--text2)">
+      6. Skip the smoke test (final selection only after smoking)<br>
+      7. Overvalue yield over quality<br>
+      8. Select in bad environment (you're selecting FOR environment)<br>
+      9. Keep too many keepers (4 max for your tent)<br>
+      10. Assume feminized = identical (they're not)
     </div>
   </div>
+</div>
 
-  <div class="callout-red">
-    <div class="callout-label">The #1 Logistical Failure</div>
-    <p><strong>If you don't clone every candidate before flowering, the hunt fails.</strong> By the time you identify keepers at harvest, it's too late to take cuttings — the plant is done. Take 4–6 cuttings per candidate during late veg, label everything with matching codes, and maintain clones under 18/6 light while mothers flower. This is non-negotiable.</p>
-  </div>
-</section>
-<div class="divider"></div>
+<div class="da"><b>Devil's Advocate — The Meta-Mistake</b> — The biggest pheno-hunting mistake isn't in the selection process — it's running feminized seeds when your stated goal is finding rare phenotypes. Stabilized feminized lines like Super Skunk are specifically bred to MINIMIZE variation. If you're serious about the sativa hunt, the single highest-impact decision is buying regular seeds. Everything else — markers, scoring, cloning — is optimization on top of that fundamental choice.</div>
 
+<div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--text3);line-height:2">
+  <p>The Definitive Guide to Phenohunting v3.0 · April 2026</p>
+  <p style="color:#1e2e1e">From population genetics to practical selection · Devil's advocate reviewed</p>
+  <p style="color:#1e2e1e">Sources: ICMag, SeedFinder, Rollitup, Overgrow, published plant breeding research</p>
+</div>
 
-<!-- SECTION 06 MORPHOLOGICAL MARKERS -->
-<section class="section reveal" id="s6">
-  <div class="section-header">
-    <div class="section-label">Section 06</div>
-    <h2>Morphological markers &#8212; <span>what to read in veg</span></h2>
-    <p class="section-intro">Structure, stem diameter, node spacing, and leaf architecture carry genuine predictive information &#8212; when read with the right caveats.</p>
-  </div>
-
-  <h3>The stem rub technique</h3>
-
-  <p>From approximately 3&#8211;4 weeks of vegetative growth, pinch and rub your fingers along the stem, then smell. The terpenes released reflect the plant&#8217;s genetic profile &#8212; a plant that gives off the most aroma at this early stage will usually be the loudest by flowering. Resinous stems often correspond to potency potential. The technique works best when you already know what aroma you are hunting for &#8212; it is more useful for comparing siblings than for absolute quality assessment.</p>
-
-  <h3>What stem thickness, node spacing, and leaf shape tell you</h3>
-
-  <div class="tree-container">
-    <div class="tree-title">Vegetative Morphology Indicators</div>
-    <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
-      <rect width="760" height="380" fill="#0d100d" rx="8"/>
-      <text x="380" y="28" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4d9">Vegetative Morphology Indicators</text>
-      <g transform="translate(130, 200)">
-        <text x="0" y="-145" text-anchor="middle" font-size="11" font-weight="600" fill="#6db35f">Broad-Leaf Dominant</text>
-        <line x1="0" y1="100" x2="0" y2="-40" stroke="#4a7c3f" stroke-width="5" stroke-linecap="round"/>
-        <ellipse cx="0" cy="60" rx="6" ry="3" fill="#4a7c3f"/>
-        <ellipse cx="0" cy="35" rx="6" ry="3" fill="#4a7c3f"/>
-        <ellipse cx="0" cy="10" rx="6" ry="3" fill="#4a7c3f"/>
-        <ellipse cx="0" cy="-15" rx="6" ry="3" fill="#4a7c3f"/>
-        <g transform="translate(-25, 55) rotate(-30)"><ellipse cx="-15" cy="0" rx="22" ry="8" fill="#4a7c3f" opacity=".6"/></g>
-        <g transform="translate(25, 55) rotate(30)"><ellipse cx="15" cy="0" rx="22" ry="8" fill="#4a7c3f" opacity=".6"/></g>
-        <g transform="translate(-25, 30) rotate(-25)"><ellipse cx="-15" cy="0" rx="20" ry="7" fill="#6db35f" opacity=".5"/></g>
-        <g transform="translate(25, 30) rotate(25)"><ellipse cx="15" cy="0" rx="20" ry="7" fill="#6db35f" opacity=".5"/></g>
-        <line x1="8" y1="60" x2="70" y2="60" stroke="#2a322a" stroke-width="1"/>
-        <text x="75" y="58" font-size="9" fill="#5e6556">Tight nodes (2-5cm)</text>
-        <line x1="8" y1="100" x2="70" y2="110" stroke="#2a322a" stroke-width="1"/>
-        <text x="75" y="108" font-size="9" fill="#5e6556">Thick stem H2=0.52-0.56</text>
-        <text x="0" y="135" text-anchor="middle" font-size="9" fill="#6db35f">Compact, dense colas</text>
-        <text x="0" y="148" text-anchor="middle" font-size="9" fill="#6db35f">Faster flower 7-9wk</text>
-      </g>
-      <g transform="translate(380, 200)">
-        <text x="0" y="-145" text-anchor="middle" font-size="11" font-weight="600" fill="#a88ad4">Narrow-Leaf Dominant</text>
-        <line x1="0" y1="100" x2="0" y2="-70" stroke="#4a7c3f" stroke-width="3.5" stroke-linecap="round"/>
-        <ellipse cx="0" cy="70" rx="5" ry="2.5" fill="#4a7c3f"/>
-        <ellipse cx="0" cy="35" rx="5" ry="2.5" fill="#4a7c3f"/>
-        <ellipse cx="0" cy="0" rx="5" ry="2.5" fill="#4a7c3f"/>
-        <ellipse cx="0" cy="-35" rx="5" ry="2.5" fill="#4a7c3f"/>
-        <g transform="translate(-20, 65) rotate(-20)"><ellipse cx="-15" cy="0" rx="25" ry="4" fill="#6db35f" opacity=".4"/></g>
-        <g transform="translate(20, 65) rotate(20)"><ellipse cx="15" cy="0" rx="25" ry="4" fill="#6db35f" opacity=".4"/></g>
-        <g transform="translate(-20, 30) rotate(-25)"><ellipse cx="-15" cy="0" rx="22" ry="3.5" fill="#6db35f" opacity=".4"/></g>
-        <g transform="translate(20, 30) rotate(25)"><ellipse cx="15" cy="0" rx="22" ry="3.5" fill="#6db35f" opacity=".4"/></g>
-        <line x1="8" y1="35" x2="70" y2="25" stroke="#2a322a" stroke-width="1"/>
-        <text x="75" y="23" font-size="9" fill="#5e6556">Wide nodes 8-15cm</text>
-        <line x1="8" y1="100" x2="70" y2="110" stroke="#2a322a" stroke-width="1"/>
-        <text x="75" y="108" font-size="9" fill="#5e6556">Thinner stem</text>
-        <text x="0" y="135" text-anchor="middle" font-size="9" fill="#a88ad4">Airy, elongated buds</text>
-        <text x="0" y="148" text-anchor="middle" font-size="9" fill="#a88ad4">Longer flower 10-14wk</text>
-      </g>
-      <g transform="translate(560, 85)">
-        <rect x="0" y="0" width="175" height="95" rx="8" fill="#1a1206" stroke="#8a7234" stroke-width="1"/>
-        <text x="87" y="20" text-anchor="middle" font-size="9" font-weight="600" fill="#c9a84c">SCIENCE CAVEAT</text>
-        <text x="12" y="40" font-size="9" fill="#9ca38e">Vergara et al. (2021):</text>
-        <text x="12" y="56" font-size="9" fill="#5e6556">Leaf shape does NOT reliably</text>
-        <text x="12" y="70" font-size="9" fill="#5e6556">predict effects or content.</text>
-        <text x="12" y="86" font-size="9" fill="#c9a84c" font-weight="500">Structure does not equal chemistry.</text>
-      </g>
-      <g transform="translate(560, 200)">
-        <rect x="0" y="0" width="175" height="130" rx="8" fill="#0d1520" stroke="#4a7c9e" stroke-width="1"/>
-        <text x="87" y="20" text-anchor="middle" font-size="9" font-weight="600" fill="#4a7c9e">HERITABILITY H2</text>
-        <text x="87" y="36" text-anchor="middle" font-size="8" fill="#5e6556">Response to selection pressure</text>
-        <text x="12" y="56" font-size="9" fill="#9ca38e">Height</text>
-        <rect x="80" y="47" width="78" height="10" rx="3" fill="#4a7c9e" opacity=".25"/>
-        <text x="162" y="56" font-size="9" fill="#4a7c9e" font-weight="500">0.78</text>
-        <text x="12" y="76" font-size="9" fill="#9ca38e">Stem diameter</text>
-        <rect x="80" y="67" width="55" height="10" rx="3" fill="#4a7c9e" opacity=".25"/>
-        <text x="139" y="76" font-size="9" fill="#4a7c9e" font-weight="500">0.54</text>
-        <text x="12" y="96" font-size="9" fill="#9ca38e">Maturation</text>
-        <rect x="80" y="87" width="53" height="10" rx="3" fill="#4a7c9e" opacity=".25"/>
-        <text x="137" y="96" font-size="9" fill="#4a7c9e" font-weight="500">0.53</text>
-        <text x="12" y="116" font-size="9" fill="#9ca38e">Yield</text>
-        <rect x="80" y="107" width="30" height="10" rx="3" fill="#b54c4c" opacity=".2"/>
-        <text x="114" y="116" font-size="9" fill="#b54c4c" font-weight="500">0.30</text>
-      </g>
-    </svg>
-    <div class="tree-caption">Vegetative morphology indicators and trait heritability values. High H2 means selection pressure is effective; yield at H2=0.30 means environment dominates over genetics for that trait.</div>
-  </div>
-
-  <p><strong>Stem diameter growth rate</strong> is one of the most reliable early predictors of yield potential, with a heritability of H2 = 0.52&#8211;0.56. Node spacing predicts cola structure &#8212; tight internodes forecast dense, stacked bud formation preferred for indoor. Height has the highest heritability (H2 = 0.78), making it the most selection-responsive trait, while yield (H2 = 0.30) is harder to select for because environment dominates.</p>
-</section>
-<div class="divider"></div>
-
-<!-- SECTION 07 TRICHOMES -->
-<section class="section reveal" id="s7">
-  <div class="section-header">
-    <div class="section-label">Section 07</div>
-    <h2>Trichome science &#8212; <span>separating good from great</span></h2>
-    <p class="section-intro">Not all frost is equal. Understanding trichome types, density, head size, and maturity timing is the difference between visual selection and scientific selection.</p>
-  </div>
-
-  <div class="tree-container">
-    <div class="tree-title">Cannabis Trichome Types</div>
-    <svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
-      <rect width="760" height="360" fill="#0d100d" rx="8"/>
-      <text x="380" y="28" text-anchor="middle" font-size="14" font-weight="600" fill="#e8e4d9">Cannabis Trichome Types</text>
-      <g transform="translate(150, 200)">
-        <rect x="-105" y="-135" width="210" height="270" rx="10" fill="#0d1f0d" stroke="#4a7c3f" stroke-width="1.5"/>
-        <text x="0" y="-115" text-anchor="middle" font-size="12" font-weight="700" fill="#6db35f">Capitate-Stalked</text>
-        <text x="0" y="-100" text-anchor="middle" font-size="9" fill="#5e6556">50-500 um visible to naked eye</text>
-        <line x1="0" y1="80" x2="0" y2="-10" stroke="#4a7c3f" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="0" cy="-25" r="22" fill="#2d4a26" stroke="#6db35f" stroke-width="1.5"/>
-        <circle cx="0" cy="-25" r="16" fill="#4a7c3f" opacity=".5"/>
-        <circle cx="-6" cy="-30" r="3" fill="#9ca38e" opacity=".4"/>
-        <line x1="25" y1="-25" x2="65" y2="-35" stroke="#2a322a" stroke-width=".7"/>
-        <text x="68" y="-32" font-size="9" fill="#e8e4d9" font-weight="500">Glandular head</text>
-        <text x="68" y="-18" font-size="8" fill="#5e6556">12-16 secretory cells</text>
-        <text x="68" y="-6" font-size="8" fill="#5e6556">THC, CBD, terpenes</text>
-        <line x1="5" y1="40" x2="65" y2="50" stroke="#2a322a" stroke-width=".7"/>
-        <text x="68" y="48" font-size="9" fill="#e8e4d9" font-weight="500">Stalk</text>
-        <text x="68" y="60" font-size="8" fill="#5e6556">Epidermal + hypodermal</text>
-        <text x="0" y="105" text-anchor="middle" font-size="10" fill="#6db35f" font-weight="600">THE ONE THAT MATTERS</text>
-        <text x="0" y="120" text-anchor="middle" font-size="9" fill="#5e6556">Primary cannabinoid and terpene factory</text>
-      </g>
-      <g transform="translate(420, 200)">
-        <rect x="-85" y="-135" width="170" height="270" rx="10" fill="#111611" stroke="#1e241e"/>
-        <text x="0" y="-115" text-anchor="middle" font-size="11" font-weight="600" fill="#9ca38e">Capitate-Sessile</text>
-        <text x="0" y="-100" text-anchor="middle" font-size="9" fill="#5e6556">20-100 um</text>
-        <line x1="0" y1="80" x2="0" y2="50" stroke="#4a7c3f" stroke-width="2"/>
-        <circle cx="0" cy="40" r="14" fill="#2d4a26" stroke="#4a7c3f" stroke-width="1"/>
-        <circle cx="0" cy="40" r="9" fill="#4a7c3f" opacity=".4"/>
-        <text x="0" y="108" text-anchor="middle" font-size="9" fill="#5e6556">Sits close to surface</text>
-        <text x="0" y="122" text-anchor="middle" font-size="9" fill="#5e6556">Many = immature stalked</text>
-      </g>
-      <g transform="translate(610, 200)">
-        <rect x="-65" y="-135" width="130" height="270" rx="10" fill="#111611" stroke="#1e241e"/>
-        <text x="0" y="-115" text-anchor="middle" font-size="11" font-weight="600" fill="#9ca38e">Bulbous</text>
-        <text x="0" y="-100" text-anchor="middle" font-size="9" fill="#5e6556">10-30 um</text>
-        <circle cx="0" cy="55" r="6" fill="#2d4a26" stroke="#4a7c3f" stroke-width=".8"/>
-        <text x="0" y="108" text-anchor="middle" font-size="9" fill="#5e6556">Negligible contribution</text>
-      </g>
-      <g transform="translate(150, 320)">
-        <text x="-100" y="5" font-size="9" font-weight="600" fill="#9ca38e">Maturity:</text>
-        <circle cx="0" cy="0" r="8" fill="none" stroke="#2a322a" stroke-width="1.5"/>
-        <text x="0" y="22" text-anchor="middle" font-size="8" fill="#5e6556">Clear</text>
-        <circle cx="80" cy="0" r="8" fill="#2a322a" stroke="#4a7c3f" stroke-width="1.5"/>
-        <text x="80" y="22" text-anchor="middle" font-size="8" fill="#6db35f" font-weight="600">Milky peak THC</text>
-        <circle cx="200" cy="0" r="8" fill="#8a7234" opacity=".5" stroke="#c9a84c" stroke-width="1.5"/>
-        <text x="200" y="22" text-anchor="middle" font-size="8" fill="#c9a84c">Amber</text>
-      </g>
-    </svg>
-    <div class="tree-caption">Three trichome types. Only capitate-stalked trichomes meaningfully contribute to potency and flavor. Evaluate density, head size, and onset timing with a 30-60x loupe.</div>
-  </div>
-
-  <p>For selection purposes, track <strong>&#8220;first visible frost day&#8221;</strong> &#8212; early onset of heavy trichome production suggests genetic predisposition toward high resin output. The genotype effect is significant: research found &#8220;Space Queen&#8221; produced significantly more capitate trichomes than &#8220;Moby Dick&#8221; under identical conditions. Larger trichome heads contain more resin &#8212; a trait worth selecting for.</p>
-</section>
-<div class="divider"></div>
-
-<!-- SECTION 08 RED FLAGS -->
-<section class="section reveal" id="s8">
-  <div class="section-header">
-    <div class="section-label">Section 08</div>
-    <h2>Red flags and <span>elimination criteria</span></h2>
-    <p class="section-intro">Hermaphroditism is the most consequential disqualifier &#8212; but it is one of several elimination triggers that must be applied without hesitation.</p>
-  </div>
-
-  <div class="tree-container">
-    <div class="tree-title">Hermaphrodite Identification</div>
-    <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
-      <rect width="760" height="300" fill="#0d100d" rx="8"/>
-      <text x="380" y="25" text-anchor="middle" font-size="14" font-weight="600" fill="#b54c4c">Hermaphrodite Identification &#8212; Immediate Elimination</text>
-      <g transform="translate(130, 165)">
-        <rect x="-95" y="-110" width="190" height="230" rx="10" fill="#0d1f0d" stroke="#4a7c3f" stroke-width="1.5"/>
-        <text x="0" y="-90" text-anchor="middle" font-size="11" font-weight="600" fill="#6db35f">Normal Female</text>
-        <line x1="0" y1="40" x2="0" y2="-10" stroke="#4a7c3f" stroke-width="3"/>
-        <ellipse cx="0" cy="-10" rx="12" ry="14" fill="#4a7c3f" opacity=".4"/>
-        <line x1="0" y1="-15" x2="-14" y2="-30" stroke="#9ca38e" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="0" y1="-15" x2="12" y2="-35" stroke="#9ca38e" stroke-width="1.5" stroke-linecap="round"/>
-        <text x="0" y="65" text-anchor="middle" font-size="9" fill="#6db35f">White pistils emerging from calyx</text>
-        <text x="0" y="100" text-anchor="middle" font-size="10" fill="#6db35f" font-weight="600">KEEP</text>
-      </g>
-      <g transform="translate(380, 165)">
-        <rect x="-95" y="-110" width="190" height="230" rx="10" fill="#1a0d0d" stroke="#b54c4c" stroke-width="1.5"/>
-        <text x="0" y="-90" text-anchor="middle" font-size="11" font-weight="600" fill="#b54c4c">Pollen Sacs</text>
-        <text x="0" y="-75" text-anchor="middle" font-size="9" fill="#b54c4c">Genetic hermaphrodite</text>
-        <line x1="0" y1="40" x2="0" y2="-20" stroke="#4a7c3f" stroke-width="3"/>
-        <circle cx="-12" cy="5" r="7" fill="#4a7c3f" stroke="#2d4a26" stroke-width="1"/>
-        <circle cx="10" cy="-2" r="6" fill="#4a7c3f" stroke="#2d4a26" stroke-width="1"/>
-        <circle cx="-8" cy="-15" r="5.5" fill="#4a7c3f" stroke="#2d4a26" stroke-width="1"/>
-        <circle cx="12" cy="15" r="6.5" fill="#4a7c3f" stroke="#2d4a26" stroke-width="1"/>
-        <text x="0" y="65" text-anchor="middle" font-size="9" fill="#b54c4c">Round balls at nodes</text>
-        <text x="0" y="100" text-anchor="middle" font-size="10" fill="#b54c4c" font-weight="700">ELIMINATE</text>
-      </g>
-      <g transform="translate(620, 165)">
-        <rect x="-95" y="-110" width="190" height="230" rx="10" fill="#1a0d0d" stroke="#b54c4c" stroke-width="1.5"/>
-        <text x="0" y="-90" text-anchor="middle" font-size="11" font-weight="600" fill="#b54c4c">Nanners / Bananas</text>
-        <text x="0" y="-75" text-anchor="middle" font-size="9" fill="#b54c4c">Stress-induced intersex</text>
-        <ellipse cx="0" cy="0" rx="20" ry="25" fill="#4a7c3f" opacity=".2"/>
-        <ellipse cx="-4" cy="-5" rx="2" ry="8" fill="#8a7234" stroke="#c9a84c" stroke-width=".8" transform="rotate(-15, -4, -5)"/>
-        <ellipse cx="6" cy="3" rx="2" ry="7" fill="#8a7234" stroke="#c9a84c" stroke-width=".8" transform="rotate(10, 6, 3)"/>
-        <ellipse cx="0" cy="12" rx="1.8" ry="6" fill="#8a7234" stroke="#c9a84c" stroke-width=".8" transform="rotate(-5, 0, 12)"/>
-        <text x="0" y="55" text-anchor="middle" font-size="9" fill="#b54c4c">Yellow elongated anthers in buds</text>
-        <text x="0" y="70" text-anchor="middle" font-size="9" fill="#5e6556">Peak risk: flower wk 3-4</text>
-        <text x="0" y="100" text-anchor="middle" font-size="10" fill="#b54c4c" font-weight="700">ELIMINATE</text>
-      </g>
-    </svg>
-    <div class="tree-caption">Any plant showing pollen sacs or nanners must be eliminated along with its clones. This trait is highly heritable and will compromise an entire crop if left unchecked.</div>
-  </div>
-
-  <div class="callout-green">
-    <div class="callout-label">Additional Elimination Criteria</div>
-    <p>Beyond hermaphroditism, eliminate candidates showing: poor vigor (plants at half sibling size by week 3 will rarely recover), susceptibility to powdery mildew or botrytis under normal conditions, loose/airy flower structure inconsistent with the genetic background, and flat or generic aromas that do not develop complexity through flowering. Studies indicate 5&#8211;10% of cultivated plants may show intersex traits under various conditions &#8212; genetic lines known for instability include OG Kush, Chemdog derivatives, GG4, and many Cookies crosses.</p>
-  </div>
-</section>
-<div class="divider"></div>
-
-<!-- SECTION 09 SENSORY -->
-<section class="section reveal" id="s9">
-  <div class="section-header">
-    <div class="section-label">Section 09</div>
-    <h2>Sensory evaluation &#8212; <span>testing with rigor</span></h2>
-    <p class="section-intro">Systematic blind testing eliminates confirmation bias and the trap of anti-pot &#8212; a phenotype that grows beautifully but fails where it matters most.</p>
-  </div>
-
-  <p>The most common failure in phenotype evaluation is allowing subjective preference and confirmation bias to override systematic assessment. DJ Short&#8217;s concept of <span class="key-term" data-def="A phenotype that grows beautifully, smells incredible, but lacks desirable effects when consumed. Discovered only through proper smoke testing.">anti-pot</span> &#8212; a phenotype that grows beautifully, smells incredible, and is completely lacking in desirable effects &#8212; haunts phenohunters who skip rigorous testing.</p>
-
-  <div class="callout-blue" style="border-left-color: var(--accent-blue); background: rgba(74,124,158,0.04);">
-    <div class="callout-label" style="color: var(--accent-blue);">Blind Testing Protocol</div>
-    <p>Label samples with codes only, have a separate person prepare them. Use consistent consumption methods &#8212; vaporizers at fixed temperatures (365&#8211;410F / 185&#8211;210C) are preferred for flavor assessment because they eliminate combustion byproducts. Standardize dose at 0.1&#8211;0.25g per session. Use a minimum of 3&#8211;5 independent testers, discarding statistical outliers and looking for consensus.</p>
-    <p>Score each sample on: onset speed (minutes), peak intensity (1&#8211;10), duration, effect character (cerebral vs. body, energizing vs. sedating), flavor complexity, smoothness, aftertaste, and ash quality. Write notes at set intervals &#8212; onset, +15 min, +30 min, +60 min.</p>
-  </div>
-</section>
-<div class="divider"></div>
-
-<!-- SECTION 10 HASH AND LAB -->
-<section class="section reveal" id="s10">
-  <div class="section-header">
-    <div class="section-label">Section 10</div>
-    <h2>Hash wash testing <span>&#38; lab analysis</span></h2>
-    <p class="section-intro">Not all frosty strains make great hash. The wash test and the string test reveal resin quality that visual inspection alone cannot.</p>
-  </div>
-
-  <p>For extraction-focused phenohunting, ice water hash wash testing is indispensable. Not all visually frosty strains produce quality hash &#8212; some have trichome heads that will not separate cleanly from stalks in water. The &#8220;string test&#8221; involves collecting resin on black nitrile gloves, pressing between thumb and finger, then slowly pulling apart: long, elastic strands indicate good wash potential and melt quality.</p>
-
-  <div class="stats-grid">
-    <div class="stat">
-      <div class="stat-label">Excellent Hash Return</div>
-      <div class="stat-value green">15&#8211;20%</div>
-      <div class="stat-sub">Dried material by weight</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Premium Collection Range</div>
-      <div class="stat-value">73&#8211;120&#956;</div>
-      <div class="stat-sub">Trichome size</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Full Melt Gold Standard</div>
-      <div class="stat-value">6-star</div>
-      <div class="stat-sub">~1 in 1,000 phenotypes</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Lab Test Cost Per Sample</div>
-      <div class="stat-value">$100&#8211;200</div>
-      <div class="stat-sub">Cannabinoid + terpene panel</div>
-    </div>
-  </div>
-
-  <p>Lab testing should follow a funnel strategy: narrow to 3&#8211;5 finalists using free evaluation methods (visual, sensory, hash wash), then invest in analytical testing only for those top candidates. The terpene profile functions as a genetic fingerprint &#8212; it is nearly impossible to find two distinct cultivars with identical profiles.</p>
-</section>
-<div class="divider"></div>
-
-<!-- SECTION 11 CLONE MANAGEMENT -->
-<section class="section reveal" id="s11">
-  <div class="section-header">
-    <div class="section-label">Section 11</div>
-    <h2>Clone management <span>&#38; preservation</span></h2>
-    <p class="section-intro">The mechanics of cutting, rooting, labeling, and long-term mother plant management &#8212; including the emerging science of epigenetic drift.</p>
-  </div>
-
-  <div class="tree-container">
-    <div class="tree-title">Clone Preservation Pipeline</div>
-    <svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
-      <rect width="760" height="250" fill="#0d100d" rx="8"/>
-      <text x="380" y="25" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4d9">Clone Preservation Pipeline</text>
-      <g transform="translate(80, 130)">
-        <circle r="38" fill="#0d1f0d" stroke="#4a7c3f" stroke-width="1.5"/>
-        <text x="0" y="-58" text-anchor="middle" font-size="10" font-weight="600" fill="#6db35f">1. CUT</text>
-        <line x1="-10" y1="-8" x2="10" y2="8" stroke="#4a7c3f" stroke-width="2.5"/>
-        <line x1="10" y1="-8" x2="-10" y2="8" stroke="#4a7c3f" stroke-width="2.5"/>
-        <text x="0" y="58" text-anchor="middle" font-size="8" fill="#5e6556">6-8in branch 45deg below node</text>
-      </g>
-      <text x="145" y="135" font-size="20" fill="#2a322a" text-anchor="middle">&#8594;</text>
-      <g transform="translate(230, 130)">
-        <circle r="38" fill="#0d1f0d" stroke="#4a7c3f" stroke-width="1.5"/>
-        <text x="0" y="-58" text-anchor="middle" font-size="10" font-weight="600" fill="#6db35f">2. DIP</text>
-        <rect x="-12" y="-10" width="24" height="22" rx="4" fill="#4a7c3f" opacity=".25" stroke="#4a7c3f"/>
-        <text x="0" y="58" text-anchor="middle" font-size="8" fill="#5e6556">Clonex gel or rooting hormone</text>
-      </g>
-      <text x="295" y="135" font-size="20" fill="#2a322a" text-anchor="middle">&#8594;</text>
-      <g transform="translate(380, 130)">
-        <circle r="38" fill="#0d1f0d" stroke="#4a7c3f" stroke-width="1.5"/>
-        <text x="0" y="-58" text-anchor="middle" font-size="10" font-weight="600" fill="#6db35f">3. PLANT</text>
-        <rect x="-14" y="-5" width="28" height="20" rx="3" fill="#4a7c3f" opacity=".2" stroke="#4a7c3f"/>
-        <line x1="0" y1="-5" x2="0" y2="-20" stroke="#6db35f" stroke-width="2"/>
-        <text x="0" y="58" text-anchor="middle" font-size="8" fill="#5e6556">Rockwool or peat plug</text>
-      </g>
-      <text x="445" y="135" font-size="20" fill="#2a322a" text-anchor="middle">&#8594;</text>
-      <g transform="translate(530, 130)">
-        <circle r="38" fill="#0d1f0d" stroke="#4a7c3f" stroke-width="1.5"/>
-        <text x="0" y="-58" text-anchor="middle" font-size="10" font-weight="600" fill="#6db35f">4. DOME</text>
-        <path d="M-20,8 Q-20,-15 0,-18 Q20,-15 20,8" fill="none" stroke="#4a7c3f" stroke-width="1.5"/>
-        <line x1="-22" y1="8" x2="22" y2="8" stroke="#4a7c3f" stroke-width="1.5"/>
-        <text x="0" y="58" text-anchor="middle" font-size="8" fill="#5e6556">80-90% RH roots in 7-14 days</text>
-      </g>
-      <text x="595" y="135" font-size="20" fill="#2a322a" text-anchor="middle">&#8594;</text>
-      <g transform="translate(680, 130)">
-        <circle r="38" fill="#1a1206" stroke="#c9a84c" stroke-width="1.5"/>
-        <text x="0" y="-58" text-anchor="middle" font-size="10" font-weight="600" fill="#c9a84c">5. LABEL</text>
-        <rect x="-16" y="-10" width="32" height="20" rx="3" fill="#c9a84c" opacity=".12" stroke="#c9a84c"/>
-        <text x="0" y="4" text-anchor="middle" font-size="8" font-weight="600" fill="#c9a84c">GC-7-A</text>
-        <text x="0" y="58" text-anchor="middle" font-size="8" fill="#5e6556">Waterproof: Strain-Seed-Clone</text>
-      </g>
-    </svg>
-    <div class="tree-caption">Clone preservation pipeline. Take 4-6 cuttings per candidate to account for rooting failure. Rooting speed is itself a selection criterion &#8212; but some of the most potent plants are notoriously slow to root.</div>
-  </div>
-
-  <h3>Mother plant maintenance &#38; epigenetic drift</h3>
-
-  <p>Selected keepers are maintained as mother plants under 18/6 lighting, producing 15&#8211;50 cuttings per 8-week pruning cycle. Mothers can theoretically be maintained indefinitely, but a progressive decline is widely reported and now has scientific explanation: a 2026 study found that while genetic mutations in tissue culture were minimal, <strong>epigenetic changes accumulated progressively</strong>, affecting genes involved in cannabinoid and terpene production. This explains why clones from aging mothers sometimes underperform earlier generations. Best practice: refresh mother stock every 1&#8211;3 years.</p>
-
-  <div class="callout-purple">
-    <div class="callout-label">Tissue Culture &#8212; The Gold Standard</div>
-    <p><span class="key-term" data-def="Growing small plant tissue explants in sterile, nutrient-rich media in sealed vessels. Can produce hundreds of identical plants from a single explant and eliminate pathogens through meristem excision.">Tissue culture</span> (micropropagation) offers superior long-term preservation. Meristem culture &#8212; excising the 0.1&#8211;0.5mm growing tip &#8212; can eliminate Hop Latent Viroid (HLVd, estimated to infect ~90% of California crops), viruses, and other pathogens. A budget DIY setup costs approximately 280&#8211;400 EUR (pressure cooker, still air box, starter media). Cannabis is notably challenging for tissue culture, with strong cultivar-specific responses.</p>
-  </div>
-</section>
-<div class="divider"></div>
-
-<!-- SECTION 12 SCORING -->
-<section class="section reveal" id="s12">
-  <div class="section-header">
-    <div class="section-label">Section 12</div>
-    <h2>Building a scoring system <span>that works</span></h2>
-    <p class="section-intro">A consistent scoring framework transforms subjective impressions into comparable data across candidates and growing cycles.</p>
-  </div>
-
-  <p>The simplest effective approach uses a <strong>1&#8211;5 scale across 12 key traits</strong>, scored at four timepoints: late veg, mid-flower, harvest, and post-cure.</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th style="width:25%">Trait</th>
-        <th>What to evaluate</th>
-        <th style="width:15%">Weight</th>
-        <th style="width:20%">Score timepoint</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td><strong>Growth vigor</strong></td><td>Germination speed, stress recovery, veg growth rate</td><td>High</td><td>Veg</td></tr>
-      <tr><td><strong>Structure</strong></td><td>Node spacing, branching, stem thickness</td><td>High</td><td>Veg</td></tr>
-      <tr><td><strong>Stress tolerance</strong></td><td>Response to heat, drought, nutrient variation, training</td><td>High</td><td>Veg + Flower</td></tr>
-      <tr><td><strong>Trichome production</strong></td><td>Density, onset timing, head size, coverage</td><td>Very High</td><td>Mid-flower</td></tr>
-      <tr><td><strong>Aroma quality</strong></td><td>Complexity, uniqueness, intensity (stem rub + flower)</td><td>Critical</td><td>All stages</td></tr>
-      <tr><td><strong>Aroma retention</strong></td><td>Persistence through drying and curing</td><td>Very High</td><td>Post-cure</td></tr>
-      <tr><td><strong>Flower density</strong></td><td>Calyx-to-leaf ratio, structural integrity</td><td>High</td><td>Harvest</td></tr>
-      <tr><td><strong>Pest/disease resistance</strong></td><td>PM, botrytis, mite resistance under normal conditions</td><td>Very High</td><td>Flower</td></tr>
-      <tr><td><strong>Yield potential</strong></td><td>Dry grams per plant or per square foot</td><td>High</td><td>Harvest</td></tr>
-      <tr><td><strong>Effect quality</strong></td><td>Onset, intensity, duration, character (blind-tested)</td><td>Critical</td><td>Post-cure</td></tr>
-      <tr><td><strong>Clone performance</strong></td><td>Rooting speed, success rate, vigor</td><td>High</td><td>Ongoing</td></tr>
-      <tr><td><strong>Hash washability</strong></td><td>Return %, melt quality (if extraction-focused)</td><td>Very High</td><td>Post-harvest</td></tr>
-    </tbody>
-  </table>
-
-  <p>Weight the scoring based on your goals. 710 Labs, focused on extraction, weights terpene profile above all other traits. Commercial flower growers weight yield, bag appeal, and trim ease. The weighting must be decided <strong>before evaluation begins</strong> &#8212; adjusting weights after seeing results introduces bias.</p>
-
-  <div class="callout-green">
-    <div class="callout-label">Minimum Documentation Protocol</div>
-    <p>Record plant ID, every score at every timepoint, photos at weeks 3 and 7 of flower and at harvest, clone rooting data, dry yield, cure observations, and a final keeper status decision with a one-sentence rationale. A spreadsheet is sufficient &#8212; the PhenoHunter App by Happy Valley Genetics is a purpose-built mobile alternative.</p>
-  </div>
-</section>
-<div class="divider"></div>
-
-<!-- SECTION 13 ADVANCED -->
-<section class="section reveal" id="s13">
-  <div class="section-header">
-    <div class="section-label">Section 13</div>
-    <h2>Advanced concepts &#8212; IBL, progeny testing, <span>epigenetics</span></h2>
-    <p class="section-intro">The sophisticated tools that separate serious breeders from casual hunters: progeny testing, inbred line development, and the emerging science of epigenetics.</p>
-  </div>
-
-  <h3>Progeny testing reveals what phenotype cannot</h3>
-
-  <p><span class="key-term" data-def="Evaluating a parent plant based on the performance of its offspring rather than its own phenotype. Reveals breeding value -- how reliably a plant transmits its traits to the next generation.">Progeny testing</span> is the most sophisticated selection tool: cross a candidate with multiple partners, grow out the offspring, and evaluate them. The parent whose progeny consistently outperform is the superior breeder &#8212; regardless of their own appearance. This is particularly valuable for <strong>male selection</strong>, since males cannot be evaluated for flower quality directly but contribute approximately 50% of offspring genetics.</p>
-
-  <h3>From polyhybrid chaos to IBL stability</h3>
-
-  <p><span class="key-term" data-def="Inbred Line -- a genetically stabilized line that breeds true for target traits. Created through 5-10+ generations of sibling crosses or selfing with selection at each generation.">IBL (Inbred Line)</span> creation is the long game &#8212; producing a line that breeds true for target traits. The process requires 5&#8211;7+ generations of selected inbreeding from landraces, or 9&#8211;10+ generations from polyhybrids. Classic examples include Skunk #1 and Northern Lights, which underwent 9 repeated cycles before stabilization. <span class="key-term" data-def="Reduced vigor, slower growth, and decreased potency that appears after several generations of inbreeding, particularly in small populations. Caused by accumulation of homozygous deleterious recessive alleles.">Inbreeding depression</span> typically becomes apparent within 3&#8211;6 generations in small populations &#8212; the mitigation is maintaining parallel lines and outcrossing between them when vigor declines.</p>
-
-  <h3>Epigenetics &#8212; the hidden layer</h3>
-
-  <p><span class="key-term" data-def="Heritable changes in gene expression that occur without DNA sequence changes. Includes DNA methylation, histone modification, and small RNA regulation. Can be triggered by environmental stress and persist across generations.">Epigenetic modifications</span> represent a new frontier. Mild, non-lethal stress can establish molecular memory via stable changes that persist for weeks to entire seasons. Parental cannabinoid exposure has been shown to induce epigenetic changes detectable in offspring. For phenohunters, the key takeaway: <strong>standardizing propagation environments reduces confounding epigenetic variation</strong> that obscures true genetic merit.</p>
-
-  <h3>The chemotype classification</h3>
-
-  <div class="tree-container">
-    <div class="tree-title">Cannabis Chemotype Classification</div>
-    <svg viewBox="0 0 760 180" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
-      <rect width="760" height="180" fill="#0d100d" rx="8"/>
-      <text x="380" y="25" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4d9">Cannabis Chemotype Classification</text>
-      <g transform="translate(70, 95)">
-        <rect x="-50" y="-40" width="100" height="100" rx="8" fill="#b54c4c" opacity=".06" stroke="#b54c4c" stroke-width="1"/>
-        <text x="0" y="-20" text-anchor="middle" font-size="11" font-weight="700" fill="#b54c4c">Type I</text>
-        <text x="0" y="0" text-anchor="middle" font-size="9" fill="#9ca38e">THC-dominant</text>
-        <text x="0" y="15" text-anchor="middle" font-size="8" fill="#5e6556">THC:CBD above 5:1</text>
-        <text x="0" y="35" text-anchor="middle" font-size="8" fill="#5e6556">Most drug cultivars</text>
-        <text x="0" y="48" text-anchor="middle" font-size="8" fill="#5e6556">Super Skunk, OG, etc.</text>
-      </g>
-      <g transform="translate(210, 95)">
-        <rect x="-50" y="-40" width="100" height="100" rx="8" fill="#c9a84c" opacity=".07" stroke="#8a7234" stroke-width="1"/>
-        <text x="0" y="-20" text-anchor="middle" font-size="11" font-weight="700" fill="#c9a84c">Type II</text>
-        <text x="0" y="0" text-anchor="middle" font-size="9" fill="#9ca38e">Mixed ratio</text>
-        <text x="0" y="15" text-anchor="middle" font-size="8" fill="#5e6556">THC:CBD approximately 1:1</text>
-        <text x="0" y="35" text-anchor="middle" font-size="8" fill="#5e6556">Balanced effects</text>
-        <text x="0" y="48" text-anchor="middle" font-size="8" fill="#5e6556">Harlequin, Cannatonic</text>
-      </g>
-      <g transform="translate(350, 95)">
-        <rect x="-50" y="-40" width="100" height="100" rx="8" fill="#4a7c9e" opacity=".07" stroke="#4a7c9e" stroke-width="1"/>
-        <text x="0" y="-20" text-anchor="middle" font-size="11" font-weight="700" fill="#4a7c9e">Type III</text>
-        <text x="0" y="0" text-anchor="middle" font-size="9" fill="#9ca38e">CBD-dominant</text>
-        <text x="0" y="15" text-anchor="middle" font-size="8" fill="#5e6556">CBD:THC above 5:1</text>
-        <text x="0" y="35" text-anchor="middle" font-size="8" fill="#5e6556">Non-intoxicating</text>
-        <text x="0" y="48" text-anchor="middle" font-size="8" fill="#5e6556">Charlotte's Web, ACDC</text>
-      </g>
-      <g transform="translate(490, 95)">
-        <rect x="-50" y="-40" width="100" height="100" rx="8" fill="#4a7c3f" opacity=".08" stroke="#4a7c3f" stroke-width="1"/>
-        <text x="0" y="-20" text-anchor="middle" font-size="11" font-weight="700" fill="#6db35f">Type IV</text>
-        <text x="0" y="0" text-anchor="middle" font-size="9" fill="#9ca38e">CBG-dominant</text>
-        <text x="0" y="15" text-anchor="middle" font-size="8" fill="#5e6556">Rare genotype</text>
-        <text x="0" y="35" text-anchor="middle" font-size="8" fill="#5e6556">Non-functional THCAS</text>
-        <text x="0" y="48" text-anchor="middle" font-size="8" fill="#5e6556">White CBG, Jack Frost</text>
-      </g>
-      <g transform="translate(630, 95)">
-        <rect x="-50" y="-40" width="100" height="100" rx="8" fill="#5e6556" opacity=".06" stroke="#5e6556" stroke-width="1"/>
-        <text x="0" y="-20" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6556">Type V</text>
-        <text x="0" y="0" text-anchor="middle" font-size="9" fill="#5e6556">Negligible</text>
-        <text x="0" y="15" text-anchor="middle" font-size="8" fill="#5e6556">Below 0.3% cannabinoids</text>
-        <text x="0" y="35" text-anchor="middle" font-size="8" fill="#5e6556">Industrial hemp</text>
-        <text x="0" y="48" text-anchor="middle" font-size="8" fill="#5e6556">Fiber/grain varieties</text>
-      </g>
-    </svg>
-    <div class="tree-caption">The five cannabis chemotypes. Chemotype is primarily controlled by alleles at the THCAS/CBDAS locus on chromosome 7. Molecular markers can predict chemotype from seedling tissue with 88-98% accuracy.</div>
-  </div>
-</section>
-<div class="divider"></div>
-
-<!-- SECTION 14 MISTAKES -->
-<section class="section reveal" id="s14">
-  <div class="section-header">
-    <div class="section-label">Section 14</div>
-    <h2>The ten mistakes that <span>waste months of work</span></h2>
-    <p class="section-intro">Each of these errors is avoidable. Each has ended promising hunts before they reached their conclusion.</p>
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th style="width:28%">Mistake</th>
-        <th>Why it matters</th>
-        <th style="width:24%">Fix</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>1. Inconsistent environment</strong></td>
-        <td>Observed differences reflect position in the grow space, not genetics. You cannot distinguish genetic variation from microclimate noise.</td>
-        <td>Uniform conditions. Rotate plant positions weekly. Document any inconsistencies.</td>
-      </tr>
-      <tr>
-        <td><strong>2. Selecting too early</strong></td>
-        <td>Mid-grow guesses prove wrong constantly. Many unremarkable plants reveal exceptional qualities after proper curing.</td>
-        <td>Wait for full cure (min 2&#8211;4 weeks). Confirm across 2&#8211;3 clone runs.</td>
-      </tr>
-      <tr>
-        <td><strong>3. Running too few seeds</strong></td>
-        <td>A 10-pack with regulars yields ~5 evaluable females &#8212; barely enough to judge a strain's range, let alone find its best.</td>
-        <td>20+ seeds minimum. 50+ for serious selection.</td>
-      </tr>
-      <tr>
-        <td><strong>4. Not cloning before flower</strong></td>
-        <td>Identify keepers at harvest and you cannot recover them. The entire hunt is wasted.</td>
-        <td>Clone every candidate during late veg. No exceptions.</td>
-      </tr>
-      <tr>
-        <td><strong>5. Ignoring males</strong></td>
-        <td>Males contribute ~50% of offspring genetics. Dismissing them discards half the breeding equation.</td>
-        <td>Evaluate males for stem rub, vigor, structure, disease resistance.</td>
-      </tr>
-      <tr>
-        <td><strong>6. Confirmation bias</strong></td>
-        <td>Your brain convinces you the most exciting plant is the best. Pattern recognition without data is wishful thinking.</td>
-        <td>Blind testing. Numeric scoring. Multiple independent testers.</td>
-      </tr>
-      <tr>
-        <td><strong>7. Skipping clone verification</strong></td>
-        <td>Seed plants often perform differently from their clones. A keeper designation without verification is premature.</td>
-        <td>Run finalists as clones side-by-side for a full cycle.</td>
-      </tr>
-      <tr>
-        <td><strong>8. Sloppy labeling</strong></td>
-        <td>One misplaced or faded tag ruins months of careful observation. Genetic identity becomes uncertain.</td>
-        <td>Waterproof tags. Consistent naming convention. Photo documentation.</td>
-      </tr>
-      <tr>
-        <td><strong>9. No documentation</strong></td>
-        <td>Relying on memory across a 6-month selection process guarantees errors. You cannot compare runs without records.</td>
-        <td>Spreadsheet or app. Score at every stage. Keep photos.</td>
-      </tr>
-      <tr>
-        <td><strong>10. Adjusting criteria post-hoc</strong></td>
-        <td>Moving goalposts to favor a preferred plant defeats the purpose of systematic selection. Results become unrepeatable.</td>
-        <td>Define selection criteria and weightings before starting. Stick to them.</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-<div class="divider"></div>
-
-<!-- FINAL DA REVIEW -->
-<section class="section reveal">
-  <div class="section-header">
-    <div class="section-label">Devil's Advocate &#183; Guide Review</div>
-    <h2>Pressure-testing <span>the methodology</span></h2>
-    <p class="section-intro">Every claim in this guide reviewed for oversimplification, edge cases, and real-world applicability.</p>
-  </div>
-
-  <div class="callout-red">
-    <div class="callout-label">Warning &#8212; Solo-Cup Screening Oversimplified</div>
-    <p>The guide recommends culling runts by week 3, but some exceptionally potent genetics are notoriously slow starters. Chemdog, GG4, and many Cookies descendants show poor early vigor but produce world-class flowers. If working with genetics known for slow starts, extend the seedling evaluation window to week 4&#8211;5 before culling for vigor. <strong>Slow growth alone should not eliminate a candidate from a line with a known slow-starting history.</strong></p>
-  </div>
-
-  <div class="callout-red">
-    <div class="callout-label">Warning &#8212; Stem Rub Predictive Value Overstated</div>
-    <p>While stem rub terpene intensity often correlates with final flower aroma, experienced breeders on Overgrow and ICMag regularly report plants with minimal stem rub that develop exceptional terpene profiles during flowering, and vice versa. Use stem rub for early comparison between siblings, but never as a sole elimination criterion. The correlation is real but far from 1:1.</p>
-  </div>
-
-  <div class="callout-purple">
-    <div class="callout-label">Note &#8212; Small-Space Phenohunting Is Possible</div>
-    <p>The guide&#8217;s population recommendations (20&#8211;50+ seeds) may feel overwhelming for a grower with a single 80&#215;80cm tent. A practical small-space approach: pop 10 seeds in solo cups, screen to 4&#8211;6 females during early veg, take clones of all, flower in the tent, evaluate, then run winner clones in subsequent cycles. It takes longer &#8212; 2&#8211;3 cycles vs. one &#8212; but works within real-world space constraints. You are trading statistical breadth for depth of evaluation, which Mean Gene&#8217;s approach validates.</p>
-  </div>
-
-  <div class="callout">
-    <div class="callout-label">Note &#8212; Hash Wash Testing Accessibility</div>
-    <p>Most home growers will not have the equipment or material volume for proper wash testing. The string test and visual trichome assessment provide reasonable proxies for resin quality. Reserve full wash testing for commercial-scale hunts or when specifically breeding for extraction.</p>
-  </div>
-
-  <div class="callout-green">
-    <div class="callout-label">Verdict</div>
-    <p>Guide is comprehensive and well-sourced. The two warnings above should be kept in mind &#8212; especially the slow-starter genetics caveat, which could cause premature elimination of valuable phenos. The small-space adaptation note is directly relevant to home grower reality.</p>
-  </div>
-</section>
-
-<footer class="footer">
-  <p>The Definitive Guide to Phenohunting &#8212; Built for the indoor stealth cultivation project</p>
-  <p>Sources: Nature (cannabis pangenome, 2025) &#183; Science Advances (Ren et al., 2021) &#183; PMC (trichome biology, cannabinoid inheritance) &#183; Genetics (QTL study, Stack et al., 2021) &#183; Frontiers (olfactory discrimination, epigenetics) &#183; ICMag &#183; Rollitup &#183; Overgrow &#183; THCFarmer &#183; Humboldt Seed Company &#183; Sensi Seeds &#183; 710 Labs &#183; Green Avenger Seeds &#183; Kannabia &#183; Elevated Botanist</p>
-  <p>Every claim pressure-tested through devil&#8217;s advocate review &#183; April 2026</p>
-</footer>
-
-<script>
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
+</div>
 </body>
 </html>

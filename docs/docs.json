@@ -10,6 +10,16 @@
     "file": "citron-givre-14-day-guide.html"
   },
   {
+    "id": "citron-givre-care",
+    "title": "Citron Givré — Illustrated Care",
+    "subtitle": "Visual care guide for the active grow",
+    "icon": "🩺",
+    "status": "IN REVIEW",
+    "category": "botanical",
+    "priority": 1,
+    "file": "citron-givre-care-guide.html"
+  },
+  {
     "id": "citron-givre",
     "title": "Citron Givré Guide",
     "subtitle": "Complete Indoor Growing Guide",
@@ -40,24 +50,14 @@
     "file": "bellaflora-guide.html"
   },
   {
-    "id": "grow-150g",
-    "title": "150g Super Skunk Guide",
-    "subtitle": "Pushing Yields from 108W",
-    "icon": "🌱",
+    "id": "setup-review",
+    "title": "Setup Review & Construction",
+    "subtitle": "Citron Givré — Ventilation & AKF Construction Guide",
+    "icon": "🔧",
     "status": "IN REVIEW",
-    "category": "botanical",
-    "priority": 3,
-    "file": "150g-grow-guide.html"
-  },
-  {
-    "id": "pheno",
-    "title": "Pheno Hunting",
-    "subtitle": "Sativa Super Skunk Selection Guide",
-    "icon": "🧬",
-    "status": "IN REVIEW",
-    "category": "botanical",
-    "priority": 3,
-    "file": "pheno-hunting.html"
+    "category": "planning",
+    "priority": 2,
+    "file": "setup-review.html"
   },
   {
     "id": "phenohunting-guide",

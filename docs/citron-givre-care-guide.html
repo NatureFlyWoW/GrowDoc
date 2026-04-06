@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citron Givré — Illustrated Care Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0f0a;--bg2:#141a10;--bg3:#1a2214;--text:#d4cdb7;--text2:#a39e8a;--text3:#6b6756;--accent:#8fb856;--accent2:#6a9e3a;--accent3:#4a7a25;--gold:#c9a84c;--gold2:#a8872e;--lemon:#e8d44c;--red:#c45c4a;--blue:#5a9eb8;--purple:#8a7abf;--border:#2a3320;--border2:#3a4530;--serif:'DM Serif Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'IBM Plex Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.78;font-size:15px;-webkit-font-smoothing:antialiased}
+.container{max-width:880px;margin:0 auto;padding:60px 32px 80px}
+h1{font-family:var(--serif);font-size:2.6em;font-weight:400;color:var(--accent);margin-bottom:8px;line-height:1.1}
+.subtitle{font-size:1em;color:var(--text2);margin-bottom:40px;line-height:1.7;font-weight:300}
+h2{font-family:var(--serif);font-size:1.5em;font-weight:400;color:var(--accent);margin:3rem 0 1rem;padding-top:2rem;border-top:1px solid var(--border)}
+h3{font-family:var(--body);font-size:1.05em;font-weight:600;margin:1.8rem 0 .6rem;color:var(--gold)}
+p{margin:0 0 .85rem;font-weight:300}
+strong{font-weight:600;color:var(--text)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.2rem 0}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:1.2rem 0}
+.cd{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.cd .lb{font-family:var(--mono);font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
+.cd .vl{font-size:.92em;font-weight:600;margin-top:4px;color:var(--text)}
+.ill{margin:2rem 0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.ill svg{display:block;width:100%}
+.ill-cap{padding:12px 18px;font-family:var(--mono);font-size:.72rem;color:var(--text3);background:var(--bg);border-top:1px solid var(--border);line-height:1.6}
+.tip{background:rgba(106,158,58,.1);border-left:3px solid var(--accent2);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.tip b{color:var(--accent);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.warn{background:rgba(201,168,76,.08);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.warn b{color:var(--gold);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.crit{background:rgba(196,92,74,.1);border-left:3px solid var(--red);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.crit b{color:var(--red);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.da{background:rgba(138,122,191,.08);border-left:3px solid var(--purple);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.da b{color:var(--purple);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.84rem}
+th{background:var(--bg2);text-align:left;padding:10px 14px;font-weight:600;border-bottom:1px solid var(--border2);font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text2)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;font-weight:300}
+.sn{display:inline-block;font-family:var(--mono);font-size:.7rem;color:var(--accent3);background:rgba(74,122,37,.15);padding:2px 8px;border-radius:4px;margin-right:8px}
+@media(max-width:640px){.g2,.g3{grid-template-columns:1fr}.container{padding:28px 16px 60px}h1{font-size:2em}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Citron Givré — Illustrated Care</h1>
+<p class="subtitle">Visual quick-reference for daily and weekly plant care routines. Watering technique, light adjustment, training methods, deficiency spotting, and environment monitoring — all illustrated for at-a-glance use during your grow sessions. Companion to the Complete Guide.</p>
+
+<h2><span class="sn">01</span> The Lift Test — Watering by Weight</h2>
+
+<p>The single most reliable watering method. Forget moisture meters, forget fixed schedules. Pick up the pot. Your hands are the best sensor you have.</p>
+
+<div class="ill">
+<svg viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="soilWet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a3020"/><stop offset="100%" stop-color="#2a2018"/>
+    </linearGradient>
+    <linearGradient id="soilDry" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6a5a3a"/><stop offset="100%" stop-color="#5a4a2a"/>
+    </linearGradient>
+    <linearGradient id="soilDead" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8a7a5a"/><stop offset="100%" stop-color="#7a6a4a"/>
+    </linearGradient>
+    <linearGradient id="waterGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#3a7a9e" stop-opacity=".3"/><stop offset="100%" stop-color="#5a9eb8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="260" fill="#141a10"/>
+  <text font-family="DM Serif Display,serif" font-size="13" fill="#8fb856" x="400" y="24" text-anchor="middle">The Lift Test — Never Water on a Schedule</text>
+
+  <!-- Pot 1: Just Watered -->
+  <text font-family="IBM Plex Mono,mono" font-size="10" font-weight="500" fill="#5a9eb8" x="135" y="55" text-anchor="middle">JUST WATERED</text>
+  <path d="M70,180 L80,100 L190,100 L200,180 Z" fill="rgba(168,138,90,.3)" stroke="#a8872e" stroke-width="1.5"/>
+  <rect x="82" y="102" width="106" height="76" rx="2" fill="url(#soilWet)"/>
+  <rect x="82" y="140" width="106" height="38" rx="0" fill="url(#waterGrad)"/>
+  <!-- Water droplets visible -->
+  <circle cx="100" cy="155" r="2" fill="#5a9eb8" opacity=".3"/>
+  <circle cx="120" cy="160" r="1.5" fill="#5a9eb8" opacity=".3"/>
+  <circle cx="165" cy="148" r="2" fill="#5a9eb8" opacity=".2"/>
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#5a9eb8" x="135" y="210" text-anchor="middle">Heavy</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#a39e8a" x="135" y="228" text-anchor="middle">Water until 10–15% runoff</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#a39e8a" x="135" y="244" text-anchor="middle">Empty drip tray after 15 min</text>
+
+  <!-- Pot 2: Ready to Water (target) -->
+  <text font-family="IBM Plex Mono,mono" font-size="10" font-weight="500" fill="#8fb856" x="400" y="55" text-anchor="middle">★ READY TO WATER</text>
+  <rect x="335" y="60" width="130" height="130" rx="8" fill="rgba(143,184,86,.04)" stroke="#4a7a25" stroke-width="1.5" stroke-dasharray="0"/>
+  <path d="M340,180 L350,100 L450,100 L460,180 Z" fill="rgba(168,138,90,.3)" stroke="#a8872e" stroke-width="1.5"/>
+  <rect x="352" y="102" width="96" height="76" rx="2" fill="url(#soilDry)"/>
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#8fb856" x="400" y="210" text-anchor="middle">Light</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#8fb856" x="400" y="228" text-anchor="middle">Pot feels noticeably lighter</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#8fb856" x="400" y="244" text-anchor="middle">Soil surface dry to touch</text>
+
+  <!-- Pot 3: Too Dry -->
+  <text font-family="IBM Plex Mono,mono" font-size="10" font-weight="500" fill="#c45c4a" x="665" y="55" text-anchor="middle">⚠ TOO DRY</text>
+  <path d="M600,180 L610,100 L720,100 L730,180 Z" fill="rgba(168,138,90,.3)" stroke="#a8872e" stroke-width="1.5"/>
+  <rect x="612" y="102" width="106" height="76" rx="2" fill="url(#soilDead)"/>
+  <!-- Crack lines in soil -->
+  <line x1="640" y1="115" x2="645" y2="155" stroke="#9a8a6a" stroke-width=".8"/>
+  <line x1="680" y1="110" x2="675" y2="148" stroke="#9a8a6a" stroke-width=".8"/>
+  <line x1="650" y1="130" x2="690" y2="135" stroke="#9a8a6a" stroke-width=".6"/>
+  <!-- Gap between soil and pot wall -->
+  <line x1="614" y1="105" x2="614" y2="175" stroke="#4a3a22" stroke-width="2"/>
+  <line x1="716" y1="105" x2="716" y2="175" stroke="#4a3a22" stroke-width="2"/>
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#c45c4a" x="665" y="210" text-anchor="middle">Feather</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#c45c4a" x="665" y="228" text-anchor="middle">Soil pulling from pot edges</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#c45c4a" x="665" y="244" text-anchor="middle">Water immediately, slowly</text>
+</svg>
+<div class="ill-cap">The lift test: pick up the pot with one hand. If heavy → wait. If noticeably lighter → water. If feather-light with visible soil gaps → water immediately but slowly (dry soil repels water initially). Veg: every 2–3 days. Peak flower: every 1–2 days. Fabric pots dry faster than plastic.</div>
+</div>
+
+<h2><span class="sn">02</span> LST Training — The Bend</h2>
+
+<p>Low Stress Training works by bending the main stem to horizontal, breaking apical dominance, and allowing lower branches to receive equal light. Only bend green, flexible stems during active veg growth. Never bend lignified (woody) sections — they'll snap.</p>
+
+<div class="ill">
+<svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="stemG2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3a5a1c"/><stop offset="30%" stop-color="#5a8a2e"/><stop offset="70%" stop-color="#4a7a25"/><stop offset="100%" stop-color="#2a4a12"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="300" fill="#141a10"/>
+  <text font-family="DM Serif Display,serif" font-size="13" fill="#8fb856" x="400" y="24" text-anchor="middle">LST Technique — Before &amp; After</text>
+
+  <!-- BEFORE -->
+  <text font-family="IBM Plex Mono,mono" font-size="10" font-weight="500" fill="#c45c4a" x="200" y="50" text-anchor="middle">BEFORE — Apical dominance</text>
+  <!-- Pot -->
+  <path d="M140,260 L150,190 L250,190 L260,260 Z" fill="rgba(168,138,90,.2)" stroke="#a8872e" stroke-width="1"/>
+  <!-- Straight stem -->
+  <path d="M200,188 L200,90" stroke="url(#stemG2)" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <!-- Top growth (dominant) -->
+  <g transform="translate(200,80) scale(1.2)">
+    <path d="M0,0 C-2,-8 -6,-18 -4,-28 C-2,-22 -1,-15 0,-10 C1,-15 2,-22 4,-28 C6,-18 2,-8 0,0" fill="#5a8a2e" stroke="#3a6a1c" stroke-width=".4"/>
+    <path d="M0,-5 C-5,-12 -12,-18 -15,-24 C-10,-18 -6,-13 -2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+    <path d="M0,-5 C5,-12 12,-18 15,-24 C10,-18 6,-13 2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+  </g>
+  <!-- Side shoots (suppressed, small) -->
+  <g transform="translate(200,130)" opacity=".5">
+    <line x1="0" y1="0" x2="-20" y2="-12" stroke="#4a7a25" stroke-width="1.5"/>
+    <ellipse cx="-22" cy="-14" rx="5" ry="3" fill="#4a7a25"/>
+    <line x1="0" y1="0" x2="20" y2="-12" stroke="#4a7a25" stroke-width="1.5"/>
+    <ellipse cx="22" cy="-14" rx="5" ry="3" fill="#4a7a25"/>
+  </g>
+  <g transform="translate(200,160)" opacity=".4">
+    <line x1="0" y1="0" x2="-18" y2="-8" stroke="#4a7a25" stroke-width="1"/>
+    <ellipse cx="-20" cy="-10" rx="4" ry="2.5" fill="#4a7a25"/>
+    <line x1="0" y1="0" x2="18" y2="-8" stroke="#4a7a25" stroke-width="1"/>
+    <ellipse cx="20" cy="-10" rx="4" ry="2.5" fill="#4a7a25"/>
+  </g>
+  <!-- Arrow indicating auxin flow -->
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#c45c4a" x="125" y="130">auxin concentrates</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#c45c4a" x="125" y="142">at top → suppresses</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#c45c4a" x="125" y="154">side branches</text>
+
+  <!-- Arrow between -->
+  <text font-family="DM Serif Display,serif" font-size="24" fill="#4a7a25" x="370" y="170">→</text>
+
+  <!-- AFTER -->
+  <text font-family="IBM Plex Mono,mono" font-size="10" font-weight="500" fill="#8fb856" x="600" y="50" text-anchor="middle">AFTER — Auxin redistributed</text>
+  <!-- Pot -->
+  <path d="M540,260 L550,190 L650,190 L660,260 Z" fill="rgba(168,138,90,.2)" stroke="#a8872e" stroke-width="1"/>
+  <!-- Bent stem -->
+  <path d="M600,188 L600,155 Q600,140 580,135 L480,130" stroke="url(#stemG2)" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <!-- LST tie -->
+  <line x1="480" y1="130" x2="545" y2="195" stroke="#a39e8a" stroke-width="1" stroke-dasharray="3"/>
+  <text font-family="IBM Plex Mono,mono" font-size="6" fill="#a39e8a" x="505" y="175">soft tie</text>
+  <!-- Side shoots now growing upward (equal) -->
+  <g transform="translate(500,125)">
+    <line x1="0" y1="0" x2="0" y2="-30" stroke="#6a9e3a" stroke-width="2"/>
+    <g transform="translate(0,-38) scale(.8)">
+      <path d="M0,0 C-2,-8 -6,-18 -4,-28 C-2,-22 -1,-15 0,-10 C1,-15 2,-22 4,-28 C6,-18 2,-8 0,0" fill="#5a8a2e" stroke="#3a6a1c" stroke-width=".4"/>
+      <path d="M0,-5 C-5,-12 -12,-18 -15,-24 C-10,-18 -6,-13 -2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+      <path d="M0,-5 C5,-12 12,-18 15,-24 C10,-18 6,-13 2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+    </g>
+  </g>
+  <g transform="translate(540,128)">
+    <line x1="0" y1="0" x2="0" y2="-28" stroke="#6a9e3a" stroke-width="2"/>
+    <g transform="translate(0,-36) scale(.8)">
+      <path d="M0,0 C-2,-8 -6,-18 -4,-28 C-2,-22 -1,-15 0,-10 C1,-15 2,-22 4,-28 C6,-18 2,-8 0,0" fill="#5a8a2e" stroke="#3a6a1c" stroke-width=".4"/>
+      <path d="M0,-5 C-5,-12 -12,-18 -15,-24 C-10,-18 -6,-13 -2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+      <path d="M0,-5 C5,-12 12,-18 15,-24 C10,-18 6,-13 2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+    </g>
+  </g>
+  <g transform="translate(580,130)">
+    <line x1="0" y1="0" x2="0" y2="-32" stroke="#6a9e3a" stroke-width="2"/>
+    <g transform="translate(0,-40) scale(.85)">
+      <path d="M0,0 C-2,-8 -6,-18 -4,-28 C-2,-22 -1,-15 0,-10 C1,-15 2,-22 4,-28 C6,-18 2,-8 0,0" fill="#5a8a2e" stroke="#3a6a1c" stroke-width=".4"/>
+      <path d="M0,-5 C-5,-12 -12,-18 -15,-24 C-10,-18 -6,-13 -2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+      <path d="M0,-5 C5,-12 12,-18 15,-24 C10,-18 6,-13 2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+    </g>
+  </g>
+  <!-- Former apex (now just another branch) -->
+  <g transform="translate(478,125)">
+    <line x1="0" y1="0" x2="-5" y2="-25" stroke="#6a9e3a" stroke-width="2"/>
+    <g transform="translate(-5,-33) scale(.75)">
+      <path d="M0,0 C-2,-8 -6,-18 -4,-28 C-2,-22 -1,-15 0,-10 C1,-15 2,-22 4,-28 C6,-18 2,-8 0,0" fill="#5a8a2e" stroke="#3a6a1c" stroke-width=".4"/>
+    </g>
+  </g>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#8fb856" x="700" y="100">auxin redistributed</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#8fb856" x="700" y="112">→ all shoots grow</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#8fb856" x="700" y="124">equally = flat canopy</text>
+
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#a39e8a" x="400" y="288" text-anchor="middle">LST redistributes growth hormones. Former apex loses dominance. Every node becomes an equal growth point → flat, even canopy.</text>
+</svg>
+<div class="ill-cap">LST before and after with realistic plant anatomy. The key mechanism: auxin (growth hormone) concentrates at the highest point. Bending the main stem to horizontal makes ALL nodes equally "high" → equal growth distribution → flat canopy → maximum light capture from your 108W.</div>
+</div>
+
+<h2><span class="sn">03</span> Leaf Health Quick Reference</h2>
+
+<div class="g2">
+  <div class="cd" style="border-color:var(--accent3)">
+    <div class="lb" style="color:var(--accent)">Healthy Signs</div>
+    <div style="font-size:.88rem;margin-top:8px;line-height:1.8;color:var(--text2)">
+      ✓ Leaves angled slightly upward ("praying")<br>
+      ✓ Bright green new growth at tips<br>
+      ✓ Stem firm and green<br>
+      ✓ Visible daily growth during veg<br>
+      ✓ White root tips visible at fabric pot edges
+    </div>
+  </div>
+  <div class="cd" style="border-color:var(--red)">
+    <div class="lb" style="color:var(--red)">Warning Signs</div>
+    <div style="font-size:.88rem;margin-top:8px;line-height:1.8;color:var(--text2)">
+      ⚠ Drooping (soft + heavy pot = overwater)<br>
+      ⚠ Yellow lower leaves (N or Mg deficiency)<br>
+      ⚠ Brown spots (Ca def — add CalMag)<br>
+      ⚠ Pale new growth (pH too high — Fe lockout)<br>
+      ⚠ Burnt tips (nutrient excess — reduce 20%)
+    </div>
+  </div>
+</div>
+
+<div class="tip"><b>The 70% Rule</b> — Fix pH + watering first. 70% of all plant symptoms resolve within one week of correcting just these two variables. Don't chase multiple deficiency diagnoses simultaneously. Fix the foundation, then observe.</div>
+
+<h2><span class="sn">04</span> Weekly Care Checklist</h2>
+
+<table>
+<tr><th>Task</th><th>Frequency</th><th>How</th></tr>
+<tr><td>Lift test (watering)</td><td>Every 1–3 days</td><td>Pick up pot. Light = water until 10–15% runoff. Heavy = wait.</td></tr>
+<tr><td>VPD check</td><td>Daily (min/max)</td><td>Hygrometer at canopy level. Check stored min/max each morning.</td></tr>
+<tr><td>Tuck ScrOG</td><td>Daily during net-filling</td><td>Push new growth back under the net. Every shoot pokes above = tuck it.</td></tr>
+<tr><td>Leaf inspection</td><td>Every 2–3 days</td><td>Check undersides for pests. Check lower leaves for yellowing/spots.</td></tr>
+<tr><td>Stem rub</td><td>Weekly</td><td>Rub stem between fingers. Note terpene development (citrus, sweet, skunk).</td></tr>
+<tr><td>Sticky trap check</td><td>Weekly</td><td>Count and identify any caught insects. Replace monthly.</td></tr>
+<tr><td>Light height adjust</td><td>Weekly</td><td>Maintain 25–35cm from tallest growth point. Raise as plant grows.</td></tr>
+<tr><td>Stealth audit</td><td>Monthly + before visitors</td><td>See Construction Plans stealth checklist.</td></tr>
+</table>
+
+<div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--text3);line-height:2">
+  <p>Citron Givré Illustrated Care Guide · v3.0 · April 2026</p>
+  <p style="color:var(--border2)">Visual companion to the Complete Guide · HS80 · 2× STIXX 50 · Living soil</p>
+</div>
+
+</div>
+</body>
+</html>

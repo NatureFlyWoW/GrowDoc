@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citron Givré — Setup Review &amp; Construction Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0f0a;--bg2:#151a12;--bg3:#1c2218;--text:#e8eed8;--text2:#9aaa80;--text3:#6b7a58;--accent:#7cb342;--accent2:#5a8a2a;--gold:#c9a84c;--red:#c45c4a;--blue:#5a9eb8;--purple:#8a7abf;--border:#2a3424;--border2:#3a4a30;--serif:'DM Serif Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'IBM Plex Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.78;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:60px 32px 80px}
+h1{font-family:var(--serif);font-size:2.4em;font-weight:400;color:var(--accent);margin-bottom:8px}
+.subtitle{font-size:1em;color:var(--text2);margin-bottom:40px;line-height:1.7;font-weight:300}
+h2{font-family:var(--serif);font-size:1.4em;font-weight:400;color:var(--accent);margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+h3{font-family:var(--body);font-size:1.05em;font-weight:600;margin:1.5rem 0 .5rem;color:var(--gold)}
+p{margin:0 0 .85rem;font-weight:300}
+strong{font-weight:600;color:var(--text)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.2rem 0}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:1.2rem 0}
+.cd{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.cd .lb{font-family:var(--mono);font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
+.cd .vl{font-size:.92em;font-weight:600;margin-top:4px;color:var(--text)}
+.ill{margin:2rem 0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.ill svg{display:block;width:100%}
+.ill-cap{padding:12px 18px;font-family:var(--mono);font-size:.72rem;color:var(--text3);background:var(--bg);border-top:1px solid var(--border);line-height:1.6}
+.tip{background:rgba(124,179,66,.08);border-left:3px solid var(--accent2);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.tip b{color:var(--accent);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.warn{background:rgba(201,168,76,.08);border-left:3px solid var(--gold);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.warn b{color:var(--gold);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.crit{background:rgba(196,92,74,.1);border-left:3px solid var(--red);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.crit b{color:var(--red);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.da{background:rgba(138,122,191,.08);border-left:3px solid var(--purple);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.da b{color:var(--purple);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.84rem}
+th{background:var(--bg2);text-align:left;padding:10px 14px;font-weight:600;border-bottom:1px solid var(--border2);font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text2)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;font-weight:300}
+.checklist{margin:1rem 0}
+.check-item{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);font-size:.9rem}
+.check-item:last-child{border-bottom:none}
+.check{font-family:var(--mono);font-size:.7rem;padding:3px 8px;border-radius:4px;white-space:nowrap}
+.check.done{background:rgba(124,179,66,.15);color:var(--accent)}
+.check.todo{background:rgba(196,92,74,.15);color:var(--red)}
+.check.pend{background:rgba(201,168,76,.15);color:var(--gold)}
+.sn{display:inline-block;font-family:var(--mono);font-size:.7rem;color:var(--accent2);background:rgba(90,138,42,.15);padding:2px 8px;border-radius:4px;margin-right:8px}
+@media(max-width:640px){.g2,.g3{grid-template-columns:1fr}.container{padding:28px 16px 60px}h1{font-size:2em}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Setup Review &amp; Build Status</h1>
+<p class="subtitle">Comprehensive review of the current grow setup based on actual photos, receipts, and room measurements. Equipment status, room analysis, installation checklist, ventilation plan, lighting configuration, and plant assessment. Updated for real-world conditions as discovered during construction.</p>
+
+<div class="g3">
+  <div class="cd"><div class="lb">Investment</div><div class="vl">€420 (core) + €125 (2nd STIXX)</div></div>
+  <div class="cd"><div class="lb">Location</div><div class="vl">Abstellraum · 1.32 m² · Linz</div></div>
+  <div class="cd"><div class="lb">Plant</div><div class="vl">Citron Givré · recovering clone</div></div>
+</div>
+
+<h2><span class="sn">01</span> Equipment Übersicht &amp; Rechnung</h2>
+
+<p>Alles bar bezahlt bei Viva Sativa in Linz. Gesamtsumme <strong>€420</strong> für die Erstausstattung (ohne 2. STIXX 50). Der Kassenbon zeigt Nachlässe auf mehrere Posten — gute Rabatte für Barzahlung.</p>
+
+<table>
+<tr><th>Artikel</th><th>Modell</th><th>Preis</th><th>Status</th></tr>
+<tr><td>Monkey Fan 2er Set</td><td>SJ M F120, 24V</td><td>€42 (−€3 Rabatt)</td><td style="color:var(--accent)">✓ installiert</td></tr>
+<tr><td>Grow Tent</td><td>SJ Hydro Shoot HS 80 R2</td><td>€120 (−€5)</td><td style="color:var(--accent)">✓ installiert</td></tr>
+<tr><td>Carbon Filter</td><td>CAN-Lite AKF 300</td><td>€42</td><td style="color:var(--gold)">○ bereit</td></tr>
+<tr><td>LED Bar #1</td><td>Sanlight STIXX 50, 54W</td><td>€125</td><td style="color:var(--accent)">✓ installiert</td></tr>
+<tr><td>Hangers</td><td>GHP ProHanger 68kg ×2</td><td>€9 (−€1.90)</td><td style="color:var(--accent)">✓ installiert</td></tr>
+<tr><td>Flansch</td><td>CAN 125mm</td><td>€4 (−€0.90)</td><td style="color:var(--accent)">✓ vorhanden</td></tr>
+<tr><td>Inline Fan</td><td>CAN RK125, 310 m³/h</td><td>€75 (−€9.90)</td><td style="color:var(--gold)">○ bereit</td></tr>
+<tr><td>Netzkabel</td><td>IEC, Schuko, 2m</td><td>€3 (−€2.90)</td><td style="color:var(--accent)">✓ vorhanden</td></tr>
+<tr style="color:var(--accent)"><td colspan="2"><strong>Gesamt (Rechnung)</strong></td><td><strong>€420</strong></td><td></td></tr>
+<tr style="color:var(--gold)"><td colspan="2"><em>+ 2. STIXX 50 (nächste Woche)</em></td><td><em>€125</em></td><td style="color:var(--gold)">○ bestellt</td></tr>
+</table>
+
+<h2><span class="sn">02</span> Raumanalyse — AR Grundriss</h2>
+
+<p>Der Abstellraum ist laut Grundriss <strong>1.32 m²</strong> groß mit einer 80cm breiten Tür (200cm hoch, öffnet nach außen in die Diele). Fliesenboden, weiße Wände, eine Deckenlampe mit E27-Fassung. Der Raum liegt zwischen Diele und Küche, angrenzend an Bad/WC.</p>
+
+<div class="g2">
+  <div class="cd"><div class="lb">Breite</div><div class="vl">~90cm (laut Plan + Fotos)</div></div>
+  <div class="cd"><div class="lb">Tiefe</div><div class="vl">~120cm (geschätzt)</div></div>
+</div>
+
+<div class="warn"><b>Lüftungsgitter</b> — An der linken Wand (sichtbar in den Fotos) befindet sich ein Lüftungsgitter. Dieses muss vor Blütebeginn abgedichtet werden — es ist ein direkter Geruchspfad in die Gebäude-Infrastruktur. Lösung: magnetische Lüftungsabdeckung oder Schaumstoff + Klebeband (entfernbar für Auszug).</div>
+
+<div class="warn"><b>Deckenlampe</b> — Die E27-Fassung an der Decke ist ein potenzielles Lichtleck. Lösung: Glühbirne abschrauben und sicher aufbewahren (für Auszug). Lichtschalter mit Klebeband sichern. Bei Bedarf eine grüne Stirnlampe verwenden.</div>
+
+<h2><span class="sn">03</span> Ventilation — Installationsplan</h2>
+
+<p>CAN RK125 + CAN-Lite AKF Installation mit Freunden geplant. Hier der optimale Aufbau:</p>
+
+<div class="checklist">
+  <div class="check-item"><span class="check todo">1</span><strong>125mm Flansch</strong> an CAN-Lite AKF schrauben (dicht!)</div>
+  <div class="check-item"><span class="check todo">2</span><strong>AKF mit ProHanger</strong> an Zeltstange aufhängen — am oberen Ende, nah am Auslass</div>
+  <div class="check-item"><span class="check todo">3</span><strong>125mm Schlauch</strong> von AKF-Flansch zu RK125 Einlass verbinden</div>
+  <div class="check-item"><span class="check todo">4</span><strong>Alle Verbindungen</strong> mit Aluminium-Klebeband abdichten (kein Stoffband!)</div>
+  <div class="check-item"><span class="check todo">5</span><strong>Abluftschlauch</strong> vom RK125 nach oben durch Zelt-Socke leiten</div>
+  <div class="check-item"><span class="check todo">6</span><strong>Speed Controller</strong> am RK125 anschließen — SOFORT kaufen, nicht "später"</div>
+  <div class="check-item"><span class="check todo">7</span><strong>Test:</strong> Zelt schließen, Fan an → Zeltwände müssen leicht nach innen gesaugt werden (Unterdruck)</div>
+</div>
+
+<div class="crit"><b>Speed Controller = Tag-1-Pflicht</b> — Der RK125 auf voller Leistung ist zu laut für eine Wohnung. Ohne Drehzahlregler ist die Stealth-Anlage kompromittiert. Kosten: ~€25. Priorität: gleichzeitig mit Fan-Installation kaufen und einbauen.</div>
+
+<h2><span class="sn">04</span> Beleuchtung — Aktuell &amp; Dual-Bar</h2>
+
+<p>Aktuell läuft <strong>eine STIXX 50 (54W)</strong> mittig montiert. Nächste Woche kommt die zweite Bar. Der Unterschied ist erheblich:</p>
+
+<div class="g2">
+  <div class="cd" style="border-color:var(--gold)">
+    <div class="lb">Aktuell — 1× STIXX 50</div>
+    <div class="vl">54W · ~135 µmol/s</div>
+    <p style="font-size:.82rem;color:var(--text2);margin-top:6px">PPFD ~200–250 µmol/m²/s. Ausreichend für Clone-Recovery und frühe Veg bei 30–50% Dimmer. Nicht genug für Blüte.</p>
+  </div>
+  <div class="cd" style="border-color:var(--accent)">
+    <div class="lb">Ziel — 2× STIXX 50</div>
+    <div class="vl">108W · ~270 µmol/s</div>
+    <p style="font-size:.82rem;color:var(--text2);margin-top:6px">PPFD ~350–420 µmol/m²/s bei 25cm. DLI ~15–18 in Blüte. Minimum für anständige Erträge. Bars parallel, 20–25cm Abstand.</p>
+  </div>
+</div>
+
+<h2><span class="sn">05</span> Pflanzen-Status — Citron Givré</h2>
+
+<p>Der Steckling ist eine irreplaceable Birthday Cut Selektion aus T.H. Seeds Birthday Cake Kush (GSC × Cherry Pie × Kush). Bereits einmal getoppt — zwei Hauptäste wachsen. Derzeit in Recovery-Phase nach Transport.</p>
+
+<div class="g3">
+  <div class="cd"><div class="lb">Priorität #1</div><div class="vl">Clone-Backup nehmen (Wk 6–8)</div></div>
+  <div class="cd"><div class="lb">Priorität #2</div><div class="vl">pH-Test der Tomatenerde</div></div>
+  <div class="cd"><div class="lb">Priorität #3</div><div class="vl">VPD 0.8–1.0 kPa einstellen</div></div>
+</div>
+
+<h2><span class="sn">06</span> Devil's Advocate — Setup Review</h2>
+
+<div class="da"><b>CRITICAL — Speed Controller</b> — Ohne Drehzahlregler ist der CAN RK125 bei voller Leistung in einer Wohnung hörbar. Das ist das größte offene Stealth-Risiko. Lösung: Varispeed oder vergleichbaren Spannungsregler gleichzeitig mit der Fan-Installation kaufen. Kosten ~€25. Kein Kompromiss hier möglich.</div>
+
+<div class="da"><b>WARNING — Lüftungsgitter</b> — Das Gitter in der AR-Wand ist ein direkter Geruchspfad. In der Blüte wird der Geruch durch dieses Gitter in gemeinsame Gebäudebereiche dringen. Vor dem ersten Tag der Blüte abdichten — nicht "bald", sondern jetzt.</div>
+
+<div class="da"><b>WARNING — Tomatenerde pH</b> — Österreichische vorgedüngte Tomatenerde kann pH 7.0–7.5 haben. Bei pH >7.0 sperrt Eisen aus — die Pflanze zeigt Mangelerscheinungen trotz vorhandener Nährstoffe. Runoff-pH messen bevor irgendwelche Dünger hinzugefügt werden.</div>
+
+<div class="da"><b>NOTE — Dunkelperiode</b> — Die Deckenlampe im AR und das Licht aus angrenzenden Räumen sind potenzielle Lichtlecks während der Dunkelperiode. STIXX 50 hat keinen Standby-Glow (bestätigt). Aber: Zeltreißverschlüsse und -nähte auf Lichtstellen prüfen. Deckenlampe abschrauben.</div>
+
+<div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--text3);line-height:2">
+  <p>Setup Review &amp; Construction Guide v3.0 · April 2026</p>
+  <p style="color:#2a3424">Based on actual room photos, purchase receipt, and floor plan analysis</p>
+  <p style="color:#2a3424">Devil's advocate reviewed · Equipment corrected to actual purchased hardware</p>
+</div>
+
+</div>
+</body>
+</html>
