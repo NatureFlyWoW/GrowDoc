@@ -90,6 +90,16 @@
     "file": "strain-selection-guide.html"
   },
   {
+    "id": "le-male-cannabis",
+    "title": "Le Male × Cannabis",
+    "subtitle": "Terpene Breeding Feasibility Study",
+    "icon": "🧫",
+    "status": "IN REVIEW",
+    "category": "botanical",
+    "priority": 3,
+    "file": "le-male-cannabis.html"
+  },
+  {
     "id": "glossary",
     "title": "Grow Glossar",
     "subtitle": "Illustriertes Nachschlagewerk für Indoor-Grow Begriffe",
