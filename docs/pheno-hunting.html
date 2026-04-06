@@ -3,306 +3,910 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pheno-Hunting Sativa Super Skunk — Selection Guide</title>
+<title>Finding the Sativa Pheno in Super Skunk — GrowDoc</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
-:root{--bg:#FAFAF7;--fg:#1B1B18;--mu:#6E6D64;--bl:#185FA5;--bll:#E6F1FB;--gn:#3B6D11;--gl:#EAF3DE;--am:#BA7517;--al:#FAEEDA;--co:#D85A30;--cl:#FAECE7;--rd:#A32D2D;--rl:#FCEBEB;--pu:#534AB7;--pl:#EEEDFE;--tl:#0F6E56;--tll:#E1F5EE;--bd:#E0DDD3;--sf:#F0EEE5;--cd:#FFF}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Source Sans 3',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.72;font-size:15px;max-width:860px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
-h1{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:700;line-height:1.15;color:var(--bl);margin:0 0 .3rem}
-h2{font-size:1.12rem;font-weight:700;margin:2.5rem 0 .7rem;padding-top:1.5rem;border-top:2px solid var(--bd)}
-h3{font-size:.92rem;font-weight:700;margin:1.2rem 0 .4rem}
-p{margin:0 0 .7rem;font-size:.9rem}
-.sub{font-size:.92rem;color:var(--mu);margin:0 0 2rem;line-height:1.6}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1rem 0}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:1rem 0}
-.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin:1rem 0}
-.cd{background:var(--sf);border-radius:8px;padding:10px 14px}
-.cd .lb{font-size:.68rem;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-.cd .vl{font-size:.86rem;font-weight:600;margin-top:2px}
-.il{margin:1.5rem 0;border:1px solid var(--bd);border-radius:10px;overflow:hidden;background:var(--cd)}
-.il svg{display:block;width:100%}
-.ic{padding:8px 14px;font-size:.74rem;color:var(--mu);background:var(--sf);border-top:1px solid var(--bd)}
-.tip{background:var(--gl);border-left:3px solid var(--gn);padding:10px 14px;border-radius:0 8px 8px 0;margin:1rem 0;font-size:.84rem}.tip b{color:var(--gn)}
-.warn{background:var(--cl);border-left:3px solid var(--co);padding:10px 14px;border-radius:0 8px 8px 0;margin:1rem 0;font-size:.84rem}.warn b{color:var(--co)}
-.da{background:var(--pl);border-left:3px solid var(--pu);padding:10px 14px;border-radius:0 8px 8px 0;margin:1rem 0;font-size:.84rem}.da b{color:var(--pu)}
-.crit{background:var(--rl);border-left:3px solid var(--rd);padding:10px 14px;border-radius:0 8px 8px 0;margin:1rem 0;font-size:.84rem}.crit b{color:var(--rd)}
-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.82rem}
-th{background:var(--sf);text-align:left;padding:7px 10px;font-weight:600;border-bottom:2px solid var(--bd)}
-td{padding:7px 10px;border-bottom:1px solid var(--bd)}
-.hl{background:var(--bll)}
-@media(max-width:600px){body{padding:1.2rem 1rem 3rem}.g2,.g3,.g4{grid-template-columns:1fr}h1{font-size:1.7rem}}
+:root {
+  --bg-primary: #0a0d0a;
+  --bg-card: #111611;
+  --bg-card-hover: #161b16;
+  --bg-section: #0d100d;
+  --text-primary: #e8e4d9;
+  --text-secondary: #9ca38e;
+  --text-muted: #5e6556;
+  --accent-gold: #c9a84c;
+  --accent-gold-dim: #8a7234;
+  --accent-green: #4a7c3f;
+  --accent-green-bright: #6db35f;
+  --accent-green-dim: #2d4a26;
+  --accent-purple: #7c5a9e;
+  --accent-red: #b54c4c;
+  --accent-orange: #c97a2e;
+  --accent-blue: #4a7c9e;
+  --accent-teal: #3a8a7a;
+  --border: #1e241e;
+  --border-light: #2a322a;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+/* --- HERO --- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 30% 40%, rgba(74,124,63,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 70% 60%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 300px at 50% 80%, rgba(124,90,158,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  max-width: 900px;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+.hero h1 span { color: var(--accent-gold); }
+.hero-desc {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- SECTIONS --- */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+.section-header { margin-bottom: 3rem; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent-gold-dim);
+  margin-bottom: 0.75rem;
+}
+.section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.section h2 span { color: var(--accent-gold); }
+.section-intro {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 720px;
+  line-height: 1.8;
+}
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+  margin: 0 auto;
+  max-width: 1100px;
+}
+
+/* --- STATS GRID --- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem 1.4rem;
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  line-height: 1.1;
+}
+.stat-sub {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.3rem;
+}
+
+/* --- CARDS --- */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.card:hover {
+  border-color: var(--border-light);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+.card-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.card-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.card.accent-top::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.card.accent-blue::before { background: var(--accent-blue); }
+.card.accent-green::before { background: var(--accent-green-bright); }
+.card.accent-purple::before { background: var(--accent-purple); }
+.card.accent-gold::before { background: var(--accent-gold); }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+/* --- BADGES --- */
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+.badge-gold { background: rgba(201,168,76,0.12); color: var(--accent-gold); border: 1px solid rgba(201,168,76,0.2); }
+.badge-green { background: rgba(74,124,63,0.12); color: var(--accent-green-bright); border: 1px solid rgba(74,124,63,0.2); }
+.badge-purple { background: rgba(124,90,158,0.12); color: #a88ad4; border: 1px solid rgba(124,90,158,0.2); }
+.badge-red { background: rgba(181,76,76,0.12); color: var(--accent-red); border: 1px solid rgba(181,76,76,0.2); }
+.badge-orange { background: rgba(201,122,46,0.12); color: var(--accent-orange); border: 1px solid rgba(201,122,46,0.2); }
+.badge-blue { background: rgba(74,124,158,0.12); color: var(--accent-blue); border: 1px solid rgba(74,124,158,0.2); }
+
+/* --- CALLOUTS --- */
+.callout {
+  border-left: 3px solid var(--accent-gold);
+  background: rgba(201,168,76,0.04);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+.callout-red { border-left-color: var(--accent-red); background: rgba(181,76,76,0.04); }
+.callout-green { border-left-color: var(--accent-green-bright); background: rgba(109,179,95,0.04); }
+.callout-purple { border-left-color: var(--accent-purple); background: rgba(124,90,158,0.04); }
+.callout-blue { border-left-color: var(--accent-blue); background: rgba(74,124,158,0.04); }
+.callout-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  color: var(--accent-gold);
+}
+.callout-red .callout-label { color: var(--accent-red); }
+.callout-green .callout-label { color: var(--accent-green-bright); }
+.callout-purple .callout-label { color: var(--accent-purple); }
+.callout-blue .callout-label { color: var(--accent-blue); }
+.callout p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/* --- SVG CONTAINERS --- */
+.tree-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+.tree-title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold-dim);
+  margin-bottom: 1rem;
+}
+.tree-container svg {
+  width: 100%;
+  height: auto;
+  min-width: 600px;
+}
+.tree-caption {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  line-height: 1.6;
+}
+
+/* --- TABLES --- */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.88rem;
+}
+th {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  background: var(--bg-section);
+  text-align: left;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 0.85rem 1.2rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg-card-hover); color: var(--text-primary); }
+td strong { color: var(--text-primary); font-weight: 600; }
+tr.row-highlight td { background: rgba(74,124,158,0.05); }
+
+/* --- LISTS --- */
+ul, ol {
+  margin: 0 0 1rem 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+li { margin-bottom: 0.4rem; line-height: 1.7; }
+li strong { color: var(--text-primary); }
+
+/* --- TEXT --- */
+p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
+p strong { color: var(--text-primary); font-weight: 600; }
+a { color: var(--accent-gold); text-decoration: none; border-bottom: 1px solid rgba(201,168,76,0.3); transition: all 0.2s; }
+a:hover { border-bottom-color: var(--accent-gold); }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  background: rgba(255,255,255,0.04);
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  color: var(--accent-gold);
+}
+
+/* --- TWO-COL GRID --- */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+/* --- PHENO CARD SPECIFICS --- */
+.pheno-stats {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.pheno-stat {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+.pheno-stat strong {
+  color: var(--text-secondary);
+  display: block;
+  font-size: 0.9rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+/* --- FOOTER --- */
+.footer {
+  text-align: center;
+  padding: 4rem 2rem;
+  border-top: 1px solid var(--border);
+}
+.footer p {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+/* --- REVEAL --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .section { padding: 4rem 1.25rem; }
+  .hero { padding: 2rem 1.25rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<h1>Pheno-Hunting Sativa Super Skunk</h1>
-<p class="sub">A visual guide to germinating 10–15 feminized Super Skunk seeds, identifying the rare sativa-leaning phenotypes as early as nodes 3–5, selecting the best 4 keepers, and preserving genetics via clones. All within the constraints of an HS80 R2 (80×80cm) under STIXX 50 LEDs. Devil's advocate reviewed.</p>
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-subtitle">Phenotype Hunting &middot; Sativa &middot; Super Skunk</div>
+  <h1>Finding the <span>Sativa</span> Pheno in Super Skunk</h1>
+  <p class="hero-desc">A visual guide to germinating 10&ndash;15 feminized Super Skunk seeds, identifying the rare sativa-leaning phenotypes as early as nodes 3&ndash;5, selecting the best 4 keepers, and preserving genetics via clones. All within the constraints of an HS80 R2 (80&times;80cm) under STIXX 50 LEDs.</p>
+</section>
+<div class="divider"></div>
 
-<div class="g4">
-<div class="cd"><div class="lb">Seeds</div><div class="vl">10–15 fem. Super Skunk</div></div>
-<div class="cd"><div class="lb">Goal</div><div class="vl">Find sativa phenos</div></div>
-<div class="cd"><div class="lb">Selection window</div><div class="vl">Weeks 3–4 (nodes 3–5)</div></div>
-<div class="cd"><div class="lb">Final keepers</div><div class="vl">4 plants → 11L → ScrOG</div></div>
-</div>
+<!-- ========== SECTION 01 · OVERVIEW STATS ========== -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Section 01 &middot; Hunt Parameters</div>
+    <h2>The <span>Mission</span> at a Glance</h2>
+    <p class="section-intro">Four numbers define this pheno-hunt. Know them before you pop a single seed.</p>
+  </div>
 
-<div class="da"><b>Devil's advocate — honest odds:</b> Feminized Super Skunk is heavily stabilized for indica uniformity. Sensi Seeds markets the feminized line as producing "an extremely uniform crop." From 15 feminized seeds, expect 0–1 plants with genuinely sativa-leaning traits, versus 4–7 from regular seeds. The pheno-hunt process is still valuable — it selects the 4 strongest performers regardless — but if finding the sativa pheno is your primary objective, regular seeds would dramatically improve your odds.</div>
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-label">Seeds</div>
+      <div class="stat-value">10–15</div>
+      <div class="stat-sub">Feminized Super Skunk</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Goal</div>
+      <div class="stat-value">Sativa</div>
+      <div class="stat-sub">Find sativa phenos</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Selection Window</div>
+      <div class="stat-value">Wk 3–4</div>
+      <div class="stat-sub">Nodes 3–5 visible</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Final Keepers</div>
+      <div class="stat-value">4</div>
+      <div class="stat-sub">Plants &rarr; 11L &rarr; ScrOG</div>
+    </div>
+  </div>
 
-<h2>1. The Four Super Skunk Phenotypes</h2>
+  <div class="callout callout-purple">
+    <div class="callout-label">Devil's Advocate &mdash; Honest Odds</div>
+    <p>Feminized Super Skunk is heavily stabilized for indica uniformity. Sensi Seeds markets the feminized line as producing <strong>"an extremely uniform crop."</strong> From 15 feminized seeds, expect 0&ndash;1 plants with genuinely sativa-leaning traits, versus 4&ndash;7 from regular seeds. The pheno-hunt process is still valuable &mdash; it selects the 4 strongest performers regardless &mdash; but if finding the sativa pheno is your primary objective, <strong>regular seeds would dramatically improve your odds.</strong></p>
+  </div>
+</section>
+<div class="divider"></div>
 
-<p>SeedFinder's database of 26 indoor grow reviews and ICMag breeder reports identify four distinct phenotypes along two axes: plant structure (tall vs. short) and flowering speed (fast vs. slow). Most feminized seeds express Pheno 3 (short/fast indica). The sativa treasure is Pheno 1 or 2.</p>
+<!-- ========== SECTION 02 · THE FOUR PHENOTYPES ========== -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Section 02 &middot; Phenotype Map</div>
+    <h2>The Four Super Skunk <span>Phenotypes</span></h2>
+    <p class="section-intro">SeedFinder's database of 26 indoor grow reviews and ICMag breeder reports identify four distinct phenotypes along two axes: plant structure (tall vs. short) and flowering speed (fast vs. slow). Most feminized seeds express Pheno 3 (short/fast indica). The sativa treasure is Pheno 1 or 2.</p>
+  </div>
 
-<div class="il">
-<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg">
-<rect width="760" height="380" fill="#FAFAF7"/>
-<text font-family="Fraunces,serif" font-size="13" font-weight="700" fill="#1B1B18" x="380" y="24" text-anchor="middle">Four Documented Super Skunk Phenotypes</text>
+  <!-- Phenotype map SVG — dark theme -->
+  <div class="tree-container">
+    <div class="tree-title">Four Documented Super Skunk Phenotypes &mdash; Structure &times; Flowering Speed</div>
+    <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg">
+      <rect width="760" height="380" fill="#111611"/>
 
-<!-- Axes -->
-<line x1="340" y1="50" x2="340" y2="350" stroke="#E0DDD3" stroke-width="1"/>
-<line x1="50" y1="200" x2="630" y2="200" stroke="#E0DDD3" stroke-width="1"/>
-<text font-family="Source Sans 3,sans-serif" font-size="10" font-weight="600" fill="#6E6D64" x="340" y="44" text-anchor="middle">TALL / STRETCHED</text>
-<text font-family="Source Sans 3,sans-serif" font-size="10" font-weight="600" fill="#6E6D64" x="340" y="370" text-anchor="middle">SHORT / COMPACT</text>
-<text font-family="Source Sans 3,sans-serif" font-size="10" font-weight="600" fill="#6E6D64" x="40" y="204" text-anchor="end">FAST</text>
-<text font-family="Source Sans 3,sans-serif" font-size="10" font-weight="600" fill="#6E6D64" x="640" y="204" text-anchor="start">SLOW</text>
+      <!-- Title -->
+      <text font-family="Cormorant Garamond,serif" font-size="13" font-weight="700" fill="#e8e4d9" x="380" y="24" text-anchor="middle">Four Documented Super Skunk Phenotypes</text>
 
-<!-- Pheno 1: Tall/Fast SATIVA (target) -->
-<rect x="80" y="65" width="220" height="110" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="2"/>
-<text font-family="Source Sans 3,sans-serif" font-size="12" font-weight="700" fill="#0C447C" x="190" y="88" text-anchor="middle">PHENO 1 — Sativa/Fast ★</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#185FA5" x="190" y="106" text-anchor="middle">Tall, narrow leaves, wide internodes</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#185FA5" x="190" y="120" text-anchor="middle">49–55 day flower, 2–3× stretch</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#185FA5" x="190" y="134" text-anchor="middle">Citrus/fruit stem rub, lighter green</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" font-weight="600" fill="#0C447C" x="190" y="150" text-anchor="middle">Cerebral, energetic high</text>
-<text font-family="Source Sans 3,sans-serif" font-size="8" fill="#D85A30" x="190" y="168" text-anchor="middle">~5% of feminized seeds (very rare)</text>
+      <!-- Axes -->
+      <line x1="340" y1="50" x2="340" y2="350" stroke="#2a322a" stroke-width="1"/>
+      <line x1="50" y1="200" x2="630" y2="200" stroke="#2a322a" stroke-width="1"/>
+      <text font-family="JetBrains Mono,monospace" font-size="9" font-weight="600" fill="#5e6556" x="340" y="44" text-anchor="middle">TALL / STRETCHED</text>
+      <text font-family="JetBrains Mono,monospace" font-size="9" font-weight="600" fill="#5e6556" x="340" y="370" text-anchor="middle">SHORT / COMPACT</text>
+      <text font-family="JetBrains Mono,monospace" font-size="9" font-weight="600" fill="#5e6556" x="40" y="204" text-anchor="end">FAST</text>
+      <text font-family="JetBrains Mono,monospace" font-size="9" font-weight="600" fill="#5e6556" x="640" y="204" text-anchor="start">SLOW</text>
 
-<!-- Pheno 2: Tall/Slow SATIVA -->
-<rect x="370" y="65" width="220" height="110" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1.5"/>
-<text font-family="Source Sans 3,sans-serif" font-size="12" font-weight="700" fill="#3C3489" x="480" y="88" text-anchor="middle">PHENO 2 — Sativa/Slow</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#534AB7" x="480" y="106" text-anchor="middle">Very tall, foxtailing buds</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#534AB7" x="480" y="120" text-anchor="middle">65–83 day flower (!), extreme resin</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#534AB7" x="480" y="134" text-anchor="middle">Rotten-fruit aroma, bizarre leaves</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" font-weight="600" fill="#3C3489" x="480" y="150" text-anchor="middle">Unique "freak sativa" expression</text>
-<text font-family="Source Sans 3,sans-serif" font-size="8" fill="#D85A30" x="480" y="168" text-anchor="middle">&lt;5% of seeds (extremely rare)</text>
+      <!-- Pheno 1: Tall/Fast SATIVA (target) — blue -->
+      <rect x="80" y="65" width="220" height="110" rx="8" fill="rgba(74,124,158,0.08)" stroke="#4a7c9e" stroke-width="2"/>
+      <text font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#7ab4d4" x="190" y="88" text-anchor="middle">PHENO 1 — Sativa/Fast ★</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#4a7c9e" x="190" y="106" text-anchor="middle">Tall, narrow leaves, wide internodes</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#4a7c9e" x="190" y="120" text-anchor="middle">49–55 day flower, 2–3× stretch</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#4a7c9e" x="190" y="134" text-anchor="middle">Citrus/fruit stem rub, lighter green</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#7ab4d4" x="190" y="150" text-anchor="middle">Cerebral, energetic high</text>
+      <text font-family="DM Sans,sans-serif" font-size="8" fill="#b54c4c" x="190" y="168" text-anchor="middle">~5% of feminized seeds (very rare)</text>
 
-<!-- Pheno 3: Short/Fast INDICA (most common) -->
-<rect x="80" y="225" width="220" height="110" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="2"/>
-<text font-family="Source Sans 3,sans-serif" font-size="12" font-weight="700" fill="#2B5A0A" x="190" y="248" text-anchor="middle">PHENO 3 — Indica/Fast</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#3B6D11" x="190" y="266" text-anchor="middle">Short, compact, wide fan leaves</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#3B6D11" x="190" y="280" text-anchor="middle">44–53 day flower, 50–80% stretch</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#3B6D11" x="190" y="294" text-anchor="middle">Classic skunk-oil aroma, dense buds</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" font-weight="600" fill="#2B5A0A" x="190" y="310" text-anchor="middle">Heavy body stone, couchlock</text>
-<text font-family="Source Sans 3,sans-serif" font-size="8" font-weight="700" fill="#3B6D11" x="190" y="328" text-anchor="middle">70–80% of feminized seeds (most common)</text>
+      <!-- Pheno 2: Tall/Slow SATIVA — purple -->
+      <rect x="370" y="65" width="220" height="110" rx="8" fill="rgba(124,90,158,0.08)" stroke="#7c5a9e" stroke-width="1.5"/>
+      <text font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#a88ad4" x="480" y="88" text-anchor="middle">PHENO 2 — Sativa/Slow</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#7c5a9e" x="480" y="106" text-anchor="middle">Very tall, foxtailing buds</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#7c5a9e" x="480" y="120" text-anchor="middle">65–83 day flower (!), extreme resin</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#7c5a9e" x="480" y="134" text-anchor="middle">Rotten-fruit aroma, bizarre leaves</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#a88ad4" x="480" y="150" text-anchor="middle">Unique "freak sativa" expression</text>
+      <text font-family="DM Sans,sans-serif" font-size="8" fill="#b54c4c" x="480" y="168" text-anchor="middle">&lt;5% of seeds (extremely rare)</text>
 
-<!-- Pheno 4: Short/Slow INDICA -->
-<rect x="370" y="225" width="220" height="110" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5"/>
-<text font-family="Source Sans 3,sans-serif" font-size="12" font-weight="700" fill="#8B6914" x="480" y="248" text-anchor="middle">PHENO 4 — Indica/Slow</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#BA7517" x="480" y="266" text-anchor="middle">Short, very dense structure</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#BA7517" x="480" y="280" text-anchor="middle">55–65 day flower, minimal stretch</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#BA7517" x="480" y="294" text-anchor="middle">Sweet/hashy aroma, rock-hard buds</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" font-weight="600" fill="#8B6914" x="480" y="310" text-anchor="middle">Deep sedation, pain relief</text>
-<text font-family="Source Sans 3,sans-serif" font-size="8" fill="#BA7517" x="480" y="328" text-anchor="middle">15–20% of feminized seeds</text>
-</svg>
-<div class="ic">The four documented Super Skunk phenotypes mapped by structure and flowering speed. Pheno 1 (sativa/fast) is the target — the blue box — but appears in only ~5% of feminized seeds. Pheno 3 (indica/fast) is what you'll mostly get.</div>
-</div>
+      <!-- Pheno 3: Short/Fast INDICA (most common) — green -->
+      <rect x="80" y="225" width="220" height="110" rx="8" fill="rgba(74,124,63,0.08)" stroke="#4a7c3f" stroke-width="2"/>
+      <text font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#6db35f" x="190" y="248" text-anchor="middle">PHENO 3 — Indica/Fast</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#4a7c3f" x="190" y="266" text-anchor="middle">Short, compact, wide fan leaves</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#4a7c3f" x="190" y="280" text-anchor="middle">44–53 day flower, 50–80% stretch</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#4a7c3f" x="190" y="294" text-anchor="middle">Classic skunk-oil aroma, dense buds</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#6db35f" x="190" y="310" text-anchor="middle">Heavy body stone, couchlock</text>
+      <text font-family="DM Sans,sans-serif" font-size="8" font-weight="700" fill="#4a7c3f" x="190" y="328" text-anchor="middle">70–80% of feminized seeds (most common)</text>
 
-<h2>2. Identification Markers — What to Look For</h2>
+      <!-- Pheno 4: Short/Slow INDICA — gold -->
+      <rect x="370" y="225" width="220" height="110" rx="8" fill="rgba(201,168,76,0.06)" stroke="#8a7234" stroke-width="1.5"/>
+      <text font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#c9a84c" x="480" y="248" text-anchor="middle">PHENO 4 — Indica/Slow</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#8a7234" x="480" y="266" text-anchor="middle">Short, very dense structure</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#8a7234" x="480" y="280" text-anchor="middle">55–65 day flower, minimal stretch</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#8a7234" x="480" y="294" text-anchor="middle">Sweet/hashy aroma, rock-hard buds</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#c9a84c" x="480" y="310" text-anchor="middle">Deep sedation, pain relief</text>
+      <text font-family="DM Sans,sans-serif" font-size="8" fill="#8a7234" x="480" y="328" text-anchor="middle">15–20% of feminized seeds</text>
+    </svg>
+    <div class="tree-caption">The four documented Super Skunk phenotypes mapped by structure and flowering speed. Pheno 1 (sativa/fast) is the target &mdash; the blue box &mdash; but appears in only ~5% of feminized seeds. Pheno 3 (indica/fast) is what you'll mostly get.</div>
+  </div>
 
-<div class="il">
-<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
-<rect width="760" height="320" fill="#FAFAF7"/>
-<text font-family="Fraunces,serif" font-size="13" font-weight="700" fill="#1B1B18" x="380" y="24" text-anchor="middle">Sativa vs. Indica Trait Identification at Nodes 3–5</text>
+  <!-- Four pheno cards -->
+  <div class="card-grid">
+    <!-- Pheno 1 — Blue (sativa) -->
+    <div class="card accent-top accent-blue">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+        <span class="badge badge-blue">Pheno 1</span>
+        <span class="badge badge-gold">Target ★</span>
+      </div>
+      <div class="card-title">Sativa / Fast</div>
+      <div class="card-desc">
+        Tall with narrow leaf blades and characteristically wide internodes. Flowers in 49&ndash;55 days with a 2&ndash;3&times; stretch. Stem rub produces a citrus or fruit aroma; foliage tends lighter green than sisters.
+      </div>
+      <div class="pheno-stats">
+        <div class="pheno-stat"><strong>49–55 d</strong>Flower time</div>
+        <div class="pheno-stat"><strong>2–3×</strong>Stretch</div>
+        <div class="pheno-stat"><strong>~5%</strong>Fem. frequency</div>
+      </div>
+    </div>
 
-<!-- Indica plant -->
-<g transform="translate(200,270)">
-<rect x="-20" y="-8" width="40" height="8" rx="2" fill="#5C3D1E" opacity=".5"/>
-<line x1="0" y1="-8" x2="0" y2="-90" stroke="#3B6D11" stroke-width="3"/>
-<!-- Short internodes (marks) -->
-<line x1="5" y1="-20" x2="15" y2="-20" stroke="#D85A30" stroke-width="1"/>
-<line x1="5" y1="-35" x2="15" y2="-35" stroke="#D85A30" stroke-width="1"/>
-<line x1="5" y1="-50" x2="15" y2="-50" stroke="#D85A30" stroke-width="1"/>
-<line x1="5" y1="-65" x2="15" y2="-65" stroke="#D85A30" stroke-width="1"/>
-<text font-family="Source Sans 3,sans-serif" font-size="7" fill="#D85A30" x="20" y="-40">short gaps</text>
-<!-- Wide leaves -->
-<ellipse cx="-35" cy="-30" rx="22" ry="9" fill="#4A8B35" opacity=".5"/>
-<ellipse cx="35" cy="-30" rx="22" ry="9" fill="#4A8B35" opacity=".5"/>
-<ellipse cx="-30" cy="-55" rx="20" ry="8" fill="#4A8B35" opacity=".5"/>
-<ellipse cx="30" cy="-55" rx="20" ry="8" fill="#4A8B35" opacity=".5"/>
-<ellipse cx="-25" cy="-75" rx="16" ry="7" fill="#4A8B35" opacity=".5"/>
-<ellipse cx="25" cy="-75" rx="16" ry="7" fill="#4A8B35" opacity=".5"/>
-<!-- Labels -->
-<text font-family="Source Sans 3,sans-serif" font-size="7" fill="#3B6D11" x="-50" y="-55">WIDE leaves</text>
-</g>
-<text font-family="Source Sans 3,sans-serif" font-size="11" font-weight="600" fill="#3B6D11" x="200" y="290" text-anchor="middle">Indica-Dominant (common)</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#6E6D64" x="200" y="305" text-anchor="middle">Dark green · Thick stem · Skunk smell</text>
+    <!-- Pheno 2 — Purple (indica-slow) -->
+    <div class="card accent-top accent-purple">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+        <span class="badge badge-purple">Pheno 2</span>
+        <span class="badge badge-orange">Very Rare</span>
+      </div>
+      <div class="card-title">Sativa / Slow</div>
+      <div class="card-desc">
+        Very tall with foxtailing buds and extremely long flowering time of 65&ndash;83 days. Produces extreme resin but an unusual rotten-fruit aroma and bizarre leaf geometry. A "freak sativa" expression.
+      </div>
+      <div class="pheno-stats">
+        <div class="pheno-stat"><strong>65–83 d</strong>Flower time</div>
+        <div class="pheno-stat"><strong>Extreme</strong>Resin</div>
+        <div class="pheno-stat"><strong>&lt;5%</strong>Fem. frequency</div>
+      </div>
+    </div>
 
-<!-- Sativa plant -->
-<g transform="translate(500,270)">
-<rect x="-20" y="-8" width="40" height="8" rx="2" fill="#5C3D1E" opacity=".5"/>
-<line x1="0" y1="-8" x2="0" y2="-150" stroke="#3B6D11" stroke-width="2.5"/>
-<!-- Long internodes (marks) -->
-<line x1="5" y1="-30" x2="15" y2="-30" stroke="#185FA5" stroke-width="1"/>
-<line x1="5" y1="-60" x2="15" y2="-60" stroke="#185FA5" stroke-width="1"/>
-<line x1="5" y1="-90" x2="15" y2="-90" stroke="#185FA5" stroke-width="1"/>
-<line x1="5" y1="-120" x2="15" y2="-120" stroke="#185FA5" stroke-width="1"/>
-<text font-family="Source Sans 3,sans-serif" font-size="7" fill="#185FA5" x="20" y="-72">wide gaps!</text>
-<!-- Narrow leaves -->
-<ellipse cx="-30" cy="-35" rx="18" ry="4" fill="#5DA043" opacity=".5" transform="rotate(-10,-30,-35)"/>
-<ellipse cx="30" cy="-35" rx="18" ry="4" fill="#5DA043" opacity=".5" transform="rotate(10,30,-35)"/>
-<ellipse cx="-28" cy="-65" rx="16" ry="3.5" fill="#5DA043" opacity=".5" transform="rotate(-10,-28,-65)"/>
-<ellipse cx="28" cy="-65" rx="16" ry="3.5" fill="#5DA043" opacity=".5" transform="rotate(10,28,-65)"/>
-<ellipse cx="-25" cy="-95" rx="14" ry="3" fill="#5DA043" opacity=".5" transform="rotate(-8,-25,-95)"/>
-<ellipse cx="25" cy="-95" rx="14" ry="3" fill="#5DA043" opacity=".5" transform="rotate(8,25,-95)"/>
-<ellipse cx="-20" cy="-125" rx="12" ry="2.5" fill="#5DA043" opacity=".45"/>
-<ellipse cx="20" cy="-125" rx="12" ry="2.5" fill="#5DA043" opacity=".45"/>
-<!-- Labels -->
-<text font-family="Source Sans 3,sans-serif" font-size="7" fill="#185FA5" x="-45" y="-65">NARROW leaves</text>
-</g>
-<text font-family="Source Sans 3,sans-serif" font-size="11" font-weight="600" fill="#185FA5" x="500" y="290" text-anchor="middle">Sativa-Leaning (rare target)</text>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#6E6D64" x="500" y="305" text-anchor="middle">Light green · Thin stem · Citrus/fruit smell</text>
+    <!-- Pheno 3 — Green (indica-fast) -->
+    <div class="card accent-top accent-green">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+        <span class="badge badge-green">Pheno 3</span>
+        <span class="badge badge-green">Most Common</span>
+      </div>
+      <div class="card-title">Indica / Fast</div>
+      <div class="card-desc">
+        The dominant expression in feminized seeds. Short, compact structure with wide fan leaves and classic dense buds. Skunk-oil aroma is strong. Delivers a heavy body stone with significant couchlock.
+      </div>
+      <div class="pheno-stats">
+        <div class="pheno-stat"><strong>44–53 d</strong>Flower time</div>
+        <div class="pheno-stat"><strong>50–80%</strong>Stretch</div>
+        <div class="pheno-stat"><strong>70–80%</strong>Fem. frequency</div>
+      </div>
+    </div>
 
-<!-- Comparison table on right -->
-<g transform="translate(620,45)" font-family="Source Sans 3,sans-serif" font-size="9">
-<rect x="0" y="0" width="130" height="230" rx="6" fill="#FFF" stroke="#E0DDD3" stroke-width="1"/>
-<text font-size="10" font-weight="700" fill="#1B1B18" x="65" y="20" text-anchor="middle">Trait Reliability</text>
-<line x1="10" y1="28" x2="120" y2="28" stroke="#E0DDD3" stroke-width=".5"/>
-<text fill="#3B6D11" x="10" y="45">1. Internode spacing</text>
-<text font-weight="600" fill="#3B6D11" x="10" y="58">★★★★★ Most reliable</text>
-<text fill="#3B6D11" x="10" y="80">2. Leaf blade width</text>
-<text font-weight="600" fill="#3B6D11" x="10" y="93">★★★★☆</text>
-<text fill="#BA7517" x="10" y="115">3. Stem rub terpenes</text>
-<text font-weight="600" fill="#BA7517" x="10" y="128">★★★☆☆ Subjective</text>
-<text fill="#BA7517" x="10" y="150">4. Growth rate</text>
-<text font-weight="600" fill="#BA7517" x="10" y="163">★★★☆☆</text>
-<text fill="#6E6D64" x="10" y="185">5. Leaf color</text>
-<text font-weight="600" fill="#6E6D64" x="10" y="198">★★☆☆☆ Variable</text>
-<text fill="#6E6D64" x="10" y="220">6. Stem thickness</text>
-<text font-weight="600" fill="#6E6D64" x="10" y="233">★★☆☆☆</text>
-</g>
-</svg>
-<div class="ic">Side-by-side comparison at nodes 3–5. The two most reliable identification markers are internode spacing (wide = sativa) and leaf blade width (narrow = sativa). Look for multiple traits converging in the same plant — no single trait is conclusive on its own.</div>
-</div>
+    <!-- Pheno 4 — Gold (indica-slow) -->
+    <div class="card accent-top accent-gold">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+        <span class="badge badge-gold">Pheno 4</span>
+        <span class="badge badge-orange">Secondary</span>
+      </div>
+      <div class="card-title">Indica / Slow</div>
+      <div class="card-desc">
+        Short, very dense structure with minimal stretch. Flowers in 55&ndash;65 days with a sweet, hashy aroma and rock-hard buds. Delivers deep sedation. Appears in roughly 15&ndash;20% of feminized seeds.
+      </div>
+      <div class="pheno-stats">
+        <div class="pheno-stat"><strong>55–65 d</strong>Flower time</div>
+        <div class="pheno-stat"><strong>Minimal</strong>Stretch</div>
+        <div class="pheno-stat"><strong>15–20%</strong>Fem. frequency</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
 
-<h2>3. Screening Protocol — 15 Seeds in Your HS80 R2</h2>
+<!-- ========== SECTION 03 · IDENTIFICATION MARKERS ========== -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Section 03 &middot; Visual Identification</div>
+    <h2>Identification <span>Markers</span> &mdash; What to Look For</h2>
+    <p class="section-intro">At nodes 3&ndash;5, two traits stand above all others: internode spacing and leaf blade width. No single marker is conclusive &mdash; you need convergence across multiple indicators.</p>
+  </div>
 
-<div class="il">
-<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
-<rect width="760" height="340" fill="#FAFAF7"/>
-<text font-family="Fraunces,serif" font-size="13" font-weight="700" fill="#1B1B18" x="380" y="24" text-anchor="middle">Solo-Cup Screening Layout — 15 Seeds in HS80 R2</text>
+  <!-- Identification timeline SVG — dark theme -->
+  <div class="tree-container">
+    <div class="tree-title">Sativa vs. Indica Trait Identification at Nodes 3&ndash;5</div>
+    <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+      <rect width="760" height="320" fill="#111611"/>
 
-<!-- Tent outline -->
-<rect x="130" y="45" width="280" height="280" rx="3" fill="none" stroke="#1B1B18" stroke-width="2"/>
-<text font-family="Source Sans 3,sans-serif" font-size="9" fill="#6E6D64" x="270" y="40" text-anchor="middle">HS80 R2 — 80×80cm</text>
+      <!-- Title -->
+      <text font-family="Cormorant Garamond,serif" font-size="13" font-weight="700" fill="#e8e4d9" x="380" y="24" text-anchor="middle">Sativa vs. Indica Trait Identification at Nodes 3–5</text>
 
-<!-- STIXX bar (dimmed) -->
-<rect x="200" y="50" width="140" height="4" rx="2" fill="#BA7517" opacity=".5"/>
-<text font-family="Source Sans 3,sans-serif" font-size="7" fill="#BA7517" x="345" y="55">STIXX 25–50%</text>
+      <!-- Indica plant -->
+      <g transform="translate(200,270)">
+        <rect x="-20" y="-8" width="40" height="8" rx="2" fill="#3a2a1a" opacity=".8"/>
+        <line x1="0" y1="-8" x2="0" y2="-90" stroke="#4a7c3f" stroke-width="3"/>
+        <!-- Short internodes -->
+        <line x1="5" y1="-20" x2="18" y2="-20" stroke="#b54c4c" stroke-width="1"/>
+        <line x1="5" y1="-35" x2="18" y2="-35" stroke="#b54c4c" stroke-width="1"/>
+        <line x1="5" y1="-50" x2="18" y2="-50" stroke="#b54c4c" stroke-width="1"/>
+        <line x1="5" y1="-65" x2="18" y2="-65" stroke="#b54c4c" stroke-width="1"/>
+        <text font-family="JetBrains Mono,monospace" font-size="7" fill="#b54c4c" x="22" y="-40">short gaps</text>
+        <!-- Wide leaves -->
+        <ellipse cx="-35" cy="-30" rx="22" ry="9" fill="#4a7c3f" opacity=".4"/>
+        <ellipse cx="35" cy="-30" rx="22" ry="9" fill="#4a7c3f" opacity=".4"/>
+        <ellipse cx="-30" cy="-55" rx="20" ry="8" fill="#4a7c3f" opacity=".4"/>
+        <ellipse cx="30" cy="-55" rx="20" ry="8" fill="#4a7c3f" opacity=".4"/>
+        <ellipse cx="-25" cy="-75" rx="16" ry="7" fill="#4a7c3f" opacity=".4"/>
+        <ellipse cx="25" cy="-75" rx="16" ry="7" fill="#4a7c3f" opacity=".4"/>
+        <!-- Label -->
+        <text font-family="JetBrains Mono,monospace" font-size="7" fill="#6db35f" x="-52" y="-55">WIDE leaves</text>
+      </g>
+      <text font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#6db35f" x="200" y="290" text-anchor="middle">Indica-Dominant (common)</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="200" y="305" text-anchor="middle">Dark green · Thick stem · Skunk smell</text>
 
-<!-- 15 pots in roughly 4x4 grid (minus one) -->
-<g font-family="Source Sans 3,sans-serif" font-size="8">
-<!-- Row 1 -->
-<rect x="155" y="75" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="177" y="102" text-anchor="middle">1</text>
-<rect x="210" y="75" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="232" y="102" text-anchor="middle">2</text>
-<rect x="265" y="75" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="287" y="102" text-anchor="middle">3</text>
-<rect x="320" y="75" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="342" y="102" text-anchor="middle">4</text>
-<!-- Row 2 -->
-<rect x="155" y="130" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="177" y="157" text-anchor="middle">5</text>
-<rect x="210" y="130" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="232" y="157" text-anchor="middle">6</text>
-<rect x="265" y="130" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="287" y="157" text-anchor="middle">7</text>
-<rect x="320" y="130" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="342" y="157" text-anchor="middle">8</text>
-<!-- Row 3 -->
-<rect x="155" y="185" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="177" y="212" text-anchor="middle">9</text>
-<rect x="210" y="185" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="232" y="212" text-anchor="middle">10</text>
-<rect x="265" y="185" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="287" y="212" text-anchor="middle">11</text>
-<rect x="320" y="185" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="342" y="212" text-anchor="middle">12</text>
-<!-- Row 4 (3 pots) -->
-<rect x="155" y="240" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="177" y="267" text-anchor="middle">13</text>
-<rect x="210" y="240" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="232" y="267" text-anchor="middle">14</text>
-<rect x="265" y="240" width="45" height="45" rx="4" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/><text fill="#3B6D11" x="287" y="267" text-anchor="middle">15</text>
-</g>
+      <!-- Sativa plant -->
+      <g transform="translate(500,270)">
+        <rect x="-20" y="-8" width="40" height="8" rx="2" fill="#3a2a1a" opacity=".8"/>
+        <line x1="0" y1="-8" x2="0" y2="-150" stroke="#4a7c3f" stroke-width="2.5"/>
+        <!-- Long internodes -->
+        <line x1="5" y1="-30" x2="18" y2="-30" stroke="#4a7c9e" stroke-width="1"/>
+        <line x1="5" y1="-60" x2="18" y2="-60" stroke="#4a7c9e" stroke-width="1"/>
+        <line x1="5" y1="-90" x2="18" y2="-90" stroke="#4a7c9e" stroke-width="1"/>
+        <line x1="5" y1="-120" x2="18" y2="-120" stroke="#4a7c9e" stroke-width="1"/>
+        <text font-family="JetBrains Mono,monospace" font-size="7" fill="#4a7c9e" x="22" y="-72">wide gaps!</text>
+        <!-- Narrow leaves -->
+        <ellipse cx="-30" cy="-35" rx="18" ry="4" fill="#5da043" opacity=".45" transform="rotate(-10,-30,-35)"/>
+        <ellipse cx="30" cy="-35" rx="18" ry="4" fill="#5da043" opacity=".45" transform="rotate(10,30,-35)"/>
+        <ellipse cx="-28" cy="-65" rx="16" ry="3.5" fill="#5da043" opacity=".45" transform="rotate(-10,-28,-65)"/>
+        <ellipse cx="28" cy="-65" rx="16" ry="3.5" fill="#5da043" opacity=".45" transform="rotate(10,28,-65)"/>
+        <ellipse cx="-25" cy="-95" rx="14" ry="3" fill="#5da043" opacity=".45" transform="rotate(-8,-25,-95)"/>
+        <ellipse cx="25" cy="-95" rx="14" ry="3" fill="#5da043" opacity=".45" transform="rotate(8,25,-95)"/>
+        <ellipse cx="-20" cy="-125" rx="12" ry="2.5" fill="#5da043" opacity=".4"/>
+        <ellipse cx="20" cy="-125" rx="12" ry="2.5" fill="#5da043" opacity=".4"/>
+        <!-- Label -->
+        <text font-family="JetBrains Mono,monospace" font-size="7" fill="#4a7c9e" x="-52" y="-65">NARROW leaves</text>
+      </g>
+      <text font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#4a7c9e" x="500" y="290" text-anchor="middle">Sativa-Leaning (rare target)</text>
+      <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="500" y="305" text-anchor="middle">Light green · Thin stem · Citrus/fruit smell</text>
 
-<!-- Right side timeline -->
-<g transform="translate(450,55)" font-family="Source Sans 3,sans-serif">
-<rect x="0" y="0" width="280" height="270" rx="8" fill="#FFF" stroke="#E0DDD3" stroke-width="1"/>
-<text font-size="11" font-weight="700" fill="#1B1B18" x="140" y="22" text-anchor="middle">Screening Timeline</text>
+      <!-- Trait reliability panel -->
+      <g transform="translate(620,45)" font-family="JetBrains Mono,monospace" font-size="9">
+        <rect x="0" y="0" width="130" height="240" rx="6" fill="#0d100d" stroke="#2a322a" stroke-width="1"/>
+        <text font-size="9" font-weight="700" fill="#e8e4d9" x="65" y="20" text-anchor="middle">Trait Reliability</text>
+        <line x1="10" y1="28" x2="120" y2="28" stroke="#2a322a" stroke-width=".5"/>
+        <text fill="#6db35f" x="10" y="48">1. Internode spacing</text>
+        <text font-weight="600" fill="#6db35f" x="10" y="61">★★★★★ Most reliable</text>
+        <text fill="#6db35f" x="10" y="83">2. Leaf blade width</text>
+        <text font-weight="600" fill="#6db35f" x="10" y="96">★★★★☆</text>
+        <text fill="#c9a84c" x="10" y="118">3. Stem rub terpenes</text>
+        <text font-weight="600" fill="#c9a84c" x="10" y="131">★★★☆☆ Subjective</text>
+        <text fill="#c9a84c" x="10" y="153">4. Growth rate</text>
+        <text font-weight="600" fill="#c9a84c" x="10" y="166">★★★☆☆</text>
+        <text fill="#5e6556" x="10" y="188">5. Leaf color</text>
+        <text font-weight="600" fill="#5e6556" x="10" y="201">★★☆☆☆ Variable</text>
+        <text fill="#5e6556" x="10" y="223">6. Stem thickness</text>
+        <text font-weight="600" fill="#5e6556" x="10" y="236">★★☆☆☆</text>
+      </g>
+    </svg>
+    <div class="tree-caption">Side-by-side comparison at nodes 3&ndash;5. The two most reliable identification markers are internode spacing (wide = sativa) and leaf blade width (narrow = sativa). Look for multiple traits converging in the same plant &mdash; no single trait is conclusive on its own.</div>
+  </div>
+</section>
+<div class="divider"></div>
 
-<text font-size="10" font-weight="600" fill="#3B6D11" x="15" y="48">Week 1–2: Germination + settling</text>
-<text font-size="9" fill="#6E6D64" x="15" y="62">All 15 in 1L square pots. STIXX at 25%.</text>
-<text font-size="9" fill="#6E6D64" x="15" y="76">Note germination speed — faster = more vigorous.</text>
+<!-- ========== SECTION 04 · SCREENING PROTOCOL ========== -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Section 04 &middot; Screening Protocol</div>
+    <h2>15 Seeds in Your <span>HS80 R2</span></h2>
+    <p class="section-intro">Solo cups in a 4&times;4 grid under a dimmed STIXX 50 &mdash; the most efficient use of 80&times;80cm for a comparative pheno screen at seedling stage.</p>
+  </div>
 
-<text font-size="10" font-weight="600" fill="#BA7517" x="15" y="100">Week 3: First selection round</text>
-<text font-size="9" fill="#6E6D64" x="15" y="114">Remove any weak/stunted seedlings (keep 10–12).</text>
-<text font-size="9" fill="#6E6D64" x="15" y="128">Begin recording leaf shape + internode data.</text>
+  <!-- Screening layout SVG — dark theme -->
+  <div class="tree-container">
+    <div class="tree-title">Solo-Cup Screening Layout &mdash; 15 Seeds in HS80 R2</div>
+    <svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+      <rect width="760" height="340" fill="#111611"/>
 
-<text font-size="10" font-weight="600" fill="#185FA5" x="15" y="152">Week 4: Trait comparison</text>
-<text font-size="9" fill="#6E6D64" x="15" y="166">Nodes 3–5 visible. Compare all 6 markers across</text>
-<text font-size="9" fill="#6E6D64" x="15" y="180">sister plants. Stem rub test on every plant.</text>
-<text font-size="9" font-weight="600" fill="#185FA5" x="15" y="194">Flag any with narrow leaves + wide internodes.</text>
+      <!-- Tent outline -->
+      <rect x="130" y="45" width="280" height="280" rx="3" fill="none" stroke="#e8e4d9" stroke-width="2"/>
+      <text font-family="JetBrains Mono,monospace" font-size="9" fill="#5e6556" x="270" y="40" text-anchor="middle">HS80 R2 — 80×80cm</text>
 
-<text font-size="10" font-weight="600" fill="#534AB7" x="15" y="218">Week 4–5: Clone + cull</text>
-<text font-size="9" fill="#6E6D64" x="15" y="232">Take clones from best 6–8 candidates.</text>
-<text font-size="9" fill="#6E6D64" x="15" y="246">Select top 4 for 11L transplant.</text>
-<text font-size="9" font-weight="600" fill="#534AB7" x="15" y="260">Resume the 150g Grow Guide from week 5.</text>
-</g>
-</svg>
-<div class="ic">15 numbered 1L square pots in a 4×4 grid (minus one) under a single STIXX 50 dimmed to 25–50%. Each pot gets a numbered label. Record observations in a simple spreadsheet: plant #, leaf width, internode length, stem rub smell, color, vigor rating.</div>
-</div>
+      <!-- STIXX bar -->
+      <rect x="200" y="50" width="140" height="4" rx="2" fill="#c97a2e" opacity=".6"/>
+      <text font-family="JetBrains Mono,monospace" font-size="7" fill="#c97a2e" x="345" y="55">STIXX 25–50%</text>
 
-<h2>4. The Selection Decision</h2>
+      <!-- 15 pots in 4×4 grid (minus one) -->
+      <g font-family="JetBrains Mono,monospace" font-size="8">
+        <!-- Row 1 -->
+        <rect x="155" y="75" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="177" y="102" text-anchor="middle">1</text>
+        <rect x="210" y="75" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="232" y="102" text-anchor="middle">2</text>
+        <rect x="265" y="75" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="287" y="102" text-anchor="middle">3</text>
+        <rect x="320" y="75" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="342" y="102" text-anchor="middle">4</text>
+        <!-- Row 2 -->
+        <rect x="155" y="130" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="177" y="157" text-anchor="middle">5</text>
+        <rect x="210" y="130" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="232" y="157" text-anchor="middle">6</text>
+        <rect x="265" y="130" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="287" y="157" text-anchor="middle">7</text>
+        <rect x="320" y="130" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="342" y="157" text-anchor="middle">8</text>
+        <!-- Row 3 -->
+        <rect x="155" y="185" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="177" y="212" text-anchor="middle">9</text>
+        <rect x="210" y="185" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="232" y="212" text-anchor="middle">10</text>
+        <rect x="265" y="185" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="287" y="212" text-anchor="middle">11</text>
+        <rect x="320" y="185" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="342" y="212" text-anchor="middle">12</text>
+        <!-- Row 4 (3 pots) -->
+        <rect x="155" y="240" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="177" y="267" text-anchor="middle">13</text>
+        <rect x="210" y="240" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="232" y="267" text-anchor="middle">14</text>
+        <rect x="265" y="240" width="45" height="45" rx="4" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1"/><text fill="#6db35f" x="287" y="267" text-anchor="middle">15</text>
+      </g>
 
-<p>After 3–4 weeks, compare all plants side-by-side against the 6 trait markers. The strongest sativa signal is when multiple traits converge in the same plant: narrow leaf blades + wide internodes + lighter green color + citrus stem rub. No single trait alone is conclusive — you need at least 3 of 6 markers pointing sativa to have confidence.</p>
+      <!-- Screening timeline panel -->
+      <g transform="translate(450,55)" font-family="DM Sans,sans-serif">
+        <rect x="0" y="0" width="280" height="270" rx="8" fill="#0d100d" stroke="#2a322a" stroke-width="1"/>
+        <text font-size="11" font-weight="700" fill="#e8e4d9" x="140" y="22" text-anchor="middle">Screening Timeline</text>
 
-<table>
-<tr><th>Marker</th><th>Indica-dominant (most plants)</th><th>Sativa-leaning (target)</th><th>Reliability</th></tr>
-<tr class="hl"><td>Internode spacing</td><td>Tight (2–3cm)</td><td>Wide (4–6cm+)</td><td>★★★★★</td></tr>
-<tr class="hl"><td>Leaf blade width</td><td>Wide, overlapping fingers</td><td>Narrow, separated fingers</td><td>★★★★☆</td></tr>
-<tr><td>Stem rub terpenes</td><td>Skunk, earthy, oily</td><td>Citrus, fruit, sweet</td><td>★★★☆☆</td></tr>
-<tr><td>Growth rate</td><td>Moderate, stocky</td><td>Fast vertical growth</td><td>★★★☆☆</td></tr>
-<tr><td>Leaf color</td><td>Dark green</td><td>Lighter, yellow-green</td><td>★★☆☆☆</td></tr>
-<tr><td>Stem thickness</td><td>Thick, woody</td><td>Thinner, flexible</td><td>★★☆☆☆</td></tr>
-</table>
+        <text font-size="10" font-weight="600" fill="#6db35f" x="15" y="48">Week 1–2: Germination + settling</text>
+        <text font-size="9" fill="#5e6556" x="15" y="62">All 15 in 1L square pots. STIXX at 25%.</text>
+        <text font-size="9" fill="#5e6556" x="15" y="76">Note germination speed — faster = more vigorous.</text>
 
-<div class="tip"><b>Even if no sativa pheno appears:</b> The screening process still selects the 4 most vigorous, best-structured, best-smelling plants from your seed stock. This alone is a significant upgrade over randomly planting 4 seeds and hoping for the best. The pheno-hunt adds ~3–4 weeks to your timeline but gives you the cream of 15 seeds instead of a random draw of 4.</div>
+        <text font-size="10" font-weight="600" fill="#c9a84c" x="15" y="100">Week 3: First selection round</text>
+        <text font-size="9" fill="#5e6556" x="15" y="114">Remove any weak/stunted seedlings (keep 10–12).</text>
+        <text font-size="9" fill="#5e6556" x="15" y="128">Begin recording leaf shape + internode data.</text>
 
-<h2>5. Clone Backup Strategy</h2>
+        <text font-size="10" font-weight="600" fill="#4a7c9e" x="15" y="152">Week 4: Trait comparison</text>
+        <text font-size="9" fill="#5e6556" x="15" y="166">Nodes 3–5 visible. Compare all 6 markers across</text>
+        <text font-size="9" fill="#5e6556" x="15" y="180">sister plants. Stem rub test on every plant.</text>
+        <text font-size="9" font-weight="600" fill="#4a7c9e" x="15" y="194">Flag any with narrow leaves + wide internodes.</text>
 
-<p>Before culling any candidates, take cuttings from the best 6–8. This preserves genetics in case a "backup" plant turns out to be the star performer during flower. Two storage methods work in small spaces:</p>
+        <text font-size="10" font-weight="600" fill="#7c5a9e" x="15" y="218">Week 4–5: Clone + cull</text>
+        <text font-size="9" fill="#5e6556" x="15" y="232">Take clones from best 6–8 candidates.</text>
+        <text font-size="9" fill="#5e6556" x="15" y="246">Select top 4 for 11L transplant.</text>
+        <text font-size="9" font-weight="600" fill="#7c5a9e" x="15" y="260">Resume the 150g Grow Guide from week 5.</text>
+      </g>
+    </svg>
+    <div class="tree-caption">15 numbered 1L square pots in a 4&times;4 grid (minus one) under a single STIXX 50 dimmed to 25&ndash;50%. Each pot gets a numbered label. Record observations in a simple spreadsheet: plant #, leaf width, internode length, stem rub smell, color, vigor rating.</div>
+  </div>
+</section>
+<div class="divider"></div>
 
-<div class="g2">
-<div class="cd" style="background:var(--gl)"><div class="lb">Shelf method (active)</div><div class="vl">Root clones under a 15–20W CFL or LED at 18/6. Keep in 0.5L pots. Survives indefinitely with weekly watering. Cost: ~€5.</div></div>
-<div class="cd" style="background:var(--bll)"><div class="lb">Fridge method (dormant)</div><div class="vl">Rooted clone in a sealed bag with damp paper towel at 4–6°C. Survives 2–5 months. Zero maintenance. Check monthly for mold.</div></div>
-</div>
+<!-- ========== SECTION 05 · SELECTION DECISION ========== -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Section 05 &middot; The Decision Matrix</div>
+    <h2>The <span>Selection</span> Decision</h2>
+    <p class="section-intro">After 3&ndash;4 weeks, compare all plants side-by-side against the 6 trait markers. The strongest sativa signal is when multiple traits converge in the same plant: narrow leaf blades + wide internodes + lighter green color + citrus stem rub. No single trait alone is conclusive &mdash; you need at least 3 of 6 markers pointing sativa to have confidence.</p>
+  </div>
 
-<h2>6. Feminized vs. Regular — The Strategic Pivot</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Marker</th>
+        <th>Indica-dominant (most plants)</th>
+        <th>Sativa-leaning (target)</th>
+        <th>Reliability</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-highlight">
+        <td><strong>Internode spacing</strong></td>
+        <td>Tight (2&ndash;3cm)</td>
+        <td>Wide (4&ndash;6cm+)</td>
+        <td>★★★★★</td>
+      </tr>
+      <tr class="row-highlight">
+        <td><strong>Leaf blade width</strong></td>
+        <td>Wide, overlapping fingers</td>
+        <td>Narrow, separated fingers</td>
+        <td>★★★★☆</td>
+      </tr>
+      <tr>
+        <td><strong>Stem rub terpenes</strong></td>
+        <td>Skunk, earthy, oily</td>
+        <td>Citrus, fruit, sweet</td>
+        <td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td><strong>Growth rate</strong></td>
+        <td>Moderate, stocky</td>
+        <td>Fast vertical growth</td>
+        <td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td><strong>Leaf color</strong></td>
+        <td>Dark green</td>
+        <td>Lighter, yellow-green</td>
+        <td>★★☆☆☆</td>
+      </tr>
+      <tr>
+        <td><strong>Stem thickness</strong></td>
+        <td>Thick, woody</td>
+        <td>Thinner, flexible</td>
+        <td>★★☆☆☆</td>
+      </tr>
+    </tbody>
+  </table>
 
-<div class="il">
-<svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg">
-<rect width="760" height="200" fill="#FAFAF7"/>
+  <div class="callout callout-green">
+    <div class="callout-label">Even If No Sativa Pheno Appears</div>
+    <p>The screening process still selects the 4 most vigorous, best-structured, best-smelling plants from your seed stock. This alone is a significant upgrade over randomly planting 4 seeds and hoping for the best. The pheno-hunt adds ~3&ndash;4 weeks to your timeline but gives you the cream of 15 seeds instead of a random draw of 4.</p>
+  </div>
+</section>
+<div class="divider"></div>
 
-<!-- Feminized -->
-<rect x="40" y="30" width="320" height="140" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1.5"/>
-<text font-family="Source Sans 3,sans-serif" font-size="12" font-weight="700" fill="#3B6D11" x="200" y="55" text-anchor="middle">Feminized Seeds (current plan)</text>
-<text font-family="Source Sans 3,sans-serif" font-size="10" fill="#3B6D11" x="200" y="78" text-anchor="middle">All female, no sexing needed</text>
-<text font-family="Source Sans 3,sans-serif" font-size="10" fill="#D85A30" x="200" y="98" text-anchor="middle">~5% chance of sativa pheno (0–1 from 15)</text>
-<text font-family="Source Sans 3,sans-serif" font-size="10" fill="#6E6D64" x="200" y="118" text-anchor="middle">Lower complexity, lower sativa reward</text>
-<text font-family="Source Sans 3,sans-serif" font-size="10" font-weight="600" fill="#3B6D11" x="200" y="142" text-anchor="middle">Best for: reliable indica-dominant grow</text>
+<!-- ========== SECTION 06 · CLONE BACKUP ========== -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Section 06 &middot; Genetic Preservation</div>
+    <h2>Clone <span>Backup</span> Strategy</h2>
+    <p class="section-intro">Before culling any candidates, take cuttings from the best 6&ndash;8. This preserves genetics in case a "backup" plant turns out to be the star performer during flower. Two storage methods work in small spaces.</p>
+  </div>
 
-<!-- Regular -->
-<rect x="400" y="30" width="320" height="140" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="1.5"/>
-<text font-family="Source Sans 3,sans-serif" font-size="12" font-weight="700" fill="#185FA5" x="560" y="55" text-anchor="middle">Regular Seeds (alternative)</text>
-<text font-family="Source Sans 3,sans-serif" font-size="10" fill="#185FA5" x="560" y="78" text-anchor="middle">30–50% sativa pheno chance (4–7 from 15)</text>
-<text font-family="Source Sans 3,sans-serif" font-size="10" fill="#BA7517" x="560" y="98" text-anchor="middle">Requires sexing at preflower (wk 4–5)</text>
-<text font-family="Source Sans 3,sans-serif" font-size="10" fill="#6E6D64" x="560" y="118" text-anchor="middle">Higher complexity, much higher sativa reward</text>
-<text font-family="Source Sans 3,sans-serif" font-size="10" font-weight="600" fill="#185FA5" x="560" y="142" text-anchor="middle">Best for: serious sativa pheno hunt</text>
-</svg>
-<div class="ic">The fundamental trade-off: feminized seeds simplify growing but nearly eliminate sativa expression. If the sativa hunt is your primary goal, regular seeds dramatically improve the odds — at the cost of needing to identify and cull males.</div>
-</div>
+  <div class="two-col">
+    <div class="card accent-top accent-green">
+      <div class="card-label">Shelf Method &mdash; Active</div>
+      <div class="card-title">Living Clone Shelf</div>
+      <div class="card-desc">Root clones under a 15&ndash;20W CFL or LED at 18/6. Keep in 0.5L pots. Survives indefinitely with weekly watering. Cost: ~&euro;5. Allows immediate re-entry to the garden if a keeper is lost.</div>
+    </div>
+    <div class="card accent-top accent-blue">
+      <div class="card-label">Fridge Method &mdash; Dormant</div>
+      <div class="card-title">Cold Storage Clone</div>
+      <div class="card-desc">Rooted clone in a sealed bag with damp paper towel at 4&ndash;6&deg;C. Survives 2&ndash;5 months. Zero maintenance. Check monthly for mold. Best for long-term insurance without extra light infrastructure.</div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
 
-<div class="da"><b>Devil's advocate — strongest recommendation:</b> If finding a sativa-leaning Super Skunk is genuinely your primary objective (not just a nice-to-have), acquiring regular seeds is the single most impactful decision. Running regular seeds through this same protocol would realistically yield 2–4 sativa-leaning females from 15 seeds — enough to fill the tent. With feminized seeds, the process still produces four excellent indica-dominant plants, but the specific sativa treasure hunt has long odds.</div>
+<!-- ========== SECTION 07 · FEM VS REGULAR ========== -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Section 07 &middot; Strategic Pivot</div>
+    <h2>Feminized vs. Regular &mdash; The <span>Trade-off</span></h2>
+    <p class="section-intro">The fundamental choice that precedes every other decision in this guide. Feminized seeds simplify the grow but nearly eliminate sativa expression.</p>
+  </div>
 
-<div style="margin-top:3rem;padding-top:1.5rem;border-top:2px solid var(--bd);font-size:.82rem;color:var(--mu)">
-<p><strong>Pheno-Hunting Sativa Super Skunk v2.0</strong> — April 2026</p>
-<p>Devil's advocate reviewed · Equipment updated for Secret Jardin HS80 R2 + Sanlight STIXX 50</p>
-<p>After selection (week 4–5), transplant the top 4 keepers to 11L pots and resume the "Pushing 150g from 108W" grow guide from week 5 onward.</p>
-</div>
+  <!-- Fem vs Regular SVG — dark theme -->
+  <div class="tree-container">
+    <div class="tree-title">Feminized vs. Regular Seeds &mdash; Sativa Pheno Probability</div>
+    <svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="760" height="200" fill="#111611"/>
 
+      <!-- Feminized -->
+      <rect x="40" y="30" width="320" height="140" rx="8" fill="rgba(74,124,63,0.08)" stroke="#4a7c3f" stroke-width="1.5"/>
+      <text font-family="DM Sans,sans-serif" font-size="12" font-weight="700" fill="#6db35f" x="200" y="55" text-anchor="middle">Feminized Seeds (current plan)</text>
+      <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="200" y="78" text-anchor="middle">All female, no sexing needed</text>
+      <text font-family="DM Sans,sans-serif" font-size="10" fill="#b54c4c" x="200" y="98" text-anchor="middle">~5% chance of sativa pheno (0–1 from 15)</text>
+      <text font-family="DM Sans,sans-serif" font-size="10" fill="#5e6556" x="200" y="118" text-anchor="middle">Lower complexity, lower sativa reward</text>
+      <text font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#6db35f" x="200" y="142" text-anchor="middle">Best for: reliable indica-dominant grow</text>
+
+      <!-- Regular -->
+      <rect x="400" y="30" width="320" height="140" rx="8" fill="rgba(74,124,158,0.08)" stroke="#4a7c9e" stroke-width="1.5"/>
+      <text font-family="DM Sans,sans-serif" font-size="12" font-weight="700" fill="#7ab4d4" x="560" y="55" text-anchor="middle">Regular Seeds (alternative)</text>
+      <text font-family="DM Sans,sans-serif" font-size="10" fill="#4a7c9e" x="560" y="78" text-anchor="middle">30–50% sativa pheno chance (4–7 from 15)</text>
+      <text font-family="DM Sans,sans-serif" font-size="10" fill="#c97a2e" x="560" y="98" text-anchor="middle">Requires sexing at preflower (wk 4–5)</text>
+      <text font-family="DM Sans,sans-serif" font-size="10" fill="#5e6556" x="560" y="118" text-anchor="middle">Higher complexity, much higher sativa reward</text>
+      <text font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#7ab4d4" x="560" y="142" text-anchor="middle">Best for: serious sativa pheno hunt</text>
+    </svg>
+    <div class="tree-caption">The fundamental trade-off: feminized seeds simplify growing but nearly eliminate sativa expression. If the sativa hunt is your primary goal, regular seeds dramatically improve the odds &mdash; at the cost of needing to identify and cull males.</div>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Devil's Advocate &mdash; Strongest Recommendation</div>
+    <p>If finding a sativa-leaning Super Skunk is genuinely your primary objective (not just a nice-to-have), acquiring regular seeds is the single most impactful decision. Running regular seeds through this same protocol would realistically yield <strong>2&ndash;4 sativa-leaning females from 15 seeds</strong> &mdash; enough to fill the tent. With feminized seeds, the process still produces four excellent indica-dominant plants, but the specific sativa treasure hunt has long odds.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <p>Pheno-Hunting Sativa Super Skunk &mdash; v2.0 &mdash; April 2026</p>
+  <p>Devil&apos;s advocate reviewed &middot; Equipment updated for Secret Jardin HS80 R2 + Sanlight STIXX 50</p>
+  <p>After selection (week 4&ndash;5), transplant the top 4 keepers to 11L pots and resume the &ldquo;Pushing 150g from 108W&rdquo; grow guide from week 5 onward.</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

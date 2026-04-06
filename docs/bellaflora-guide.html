@@ -3,436 +3,541 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bellaflora Field Guide — Stealth Organic Indoor Grow</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<title>Bellaflora Decoded — Indoor Organic Grows</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0e1108;
-    --bg-card: #161c10;
-    --bg-card-hover: #1c2416;
-    --border: #2a3520;
-    --border-accent: #4a6630;
-    --text: #d4dcc8;
-    --text-muted: #8a9878;
-    --text-dim: #5a6a4a;
-    --accent: #7fb840;
-    --accent-dim: #5a8a2a;
-    --amber: #d4a020;
-    --amber-dim: #8a6a10;
-    --red: #c04030;
-    --red-dim: #6a2820;
-    --blue: #4a90c0;
-    --blue-dim: #2a5a7a;
-    --tier1: #7fb840;
-    --tier2: #d4a020;
-    --tier3: #4a90c0;
-    --tier-trick: #c06040;
-    --serif: 'Source Serif 4', Georgia, serif;
-    --display: 'DM Serif Display', Georgia, serif;
-    --mono: 'IBM Plex Mono', 'Courier New', monospace;
-  }
+:root {
+  --bg-primary: #0a0d0a;
+  --bg-card: #111611;
+  --bg-card-hover: #161b16;
+  --bg-section: #0d100d;
+  --text-primary: #e8e4d9;
+  --text-secondary: #9ca38e;
+  --text-muted: #5e6556;
+  --accent-gold: #c9a84c;
+  --accent-gold-dim: #8a7234;
+  --accent-green: #4a7c3f;
+  --accent-green-bright: #6db35f;
+  --accent-green-dim: #2d4a26;
+  --accent-purple: #7c5a9e;
+  --accent-red: #b54c4c;
+  --accent-orange: #c97a2e;
+  --accent-blue: #4a7c9e;
+  --accent-teal: #3a8a7a;
+  --border: #1e241e;
+  --border-light: #2a322a;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  font-size: 16px;
+  overflow-x: hidden;
+}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--serif);
-    font-size: 16px;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
+/* --- HERO --- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 30% 40%, rgba(74,124,63,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 70% 60%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 300px at 50% 80%, rgba(124,90,158,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  max-width: 900px;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+.hero h1 span { color: var(--accent-gold); }
+.hero h1 span em {
+  font-style: italic;
+  color: var(--accent-gold);
+}
+.hero-desc {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+.hero-meta {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+}
+.hero-meta-item {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  /* Grain overlay */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 256px;
-    z-index: 9999;
-  }
+/* --- SECTIONS --- */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+.section-header { margin-bottom: 3rem; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent-gold-dim);
+  margin-bottom: 0.75rem;
+}
+.section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.section h2 span { color: var(--accent-gold); }
+.section-intro {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 720px;
+  line-height: 1.8;
+}
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+  margin: 0 auto;
+  max-width: 1100px;
+}
 
-  .container {
-    max-width: 920px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
+/* --- CARDS --- */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.card:hover {
+  border-color: var(--border-light);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+.card.accent-top::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent-gold);
+}
+.card.accent-green::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent-green-bright);
+}
+.card.accent-orange::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent-orange);
+}
+.card.accent-blue::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent-blue);
+}
+.card-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.card-label.green { color: var(--accent-green-bright); }
+.card-label.gold { color: var(--accent-gold); }
+.card-label.orange { color: var(--accent-orange); }
+.card-label.blue { color: var(--accent-blue); }
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+.card-brand {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+.card-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.card-desc strong { color: var(--text-primary); font-weight: 600; }
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
 
-  /* ─── HERO ─── */
-  .hero {
-    padding: 80px 0 60px;
-    border-bottom: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -100px;
-    right: -150px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(127,184,64,0.06) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-badge {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .hero-badge::before {
-    content: '';
-    width: 24px;
-    height: 1px;
-    background: var(--accent);
-  }
-  .hero h1 {
-    font-family: var(--display);
-    font-size: clamp(2.4rem, 5vw, 3.6rem);
-    line-height: 1.15;
-    color: #eef2e8;
-    margin-bottom: 16px;
-    font-weight: 400;
-  }
-  .hero h1 em {
-    color: var(--accent);
-    font-style: italic;
-  }
-  .hero-sub {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    max-width: 600px;
-    margin-bottom: 32px;
-  }
-  .hero-meta {
-    display: flex;
-    gap: 28px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-dim);
-  }
-  .hero-meta span { display: flex; align-items: center; gap: 6px; }
+/* --- BADGES --- */
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+.badge-gold { background: rgba(201,168,76,0.12); color: var(--accent-gold); border: 1px solid rgba(201,168,76,0.2); }
+.badge-green { background: rgba(74,124,63,0.12); color: var(--accent-green-bright); border: 1px solid rgba(74,124,63,0.2); }
+.badge-purple { background: rgba(124,90,158,0.12); color: #a88ad4; border: 1px solid rgba(124,90,158,0.2); }
+.badge-red { background: rgba(181,76,76,0.12); color: var(--accent-red); border: 1px solid rgba(181,76,76,0.2); }
+.badge-orange { background: rgba(201,122,46,0.12); color: var(--accent-orange); border: 1px solid rgba(201,122,46,0.2); }
+.badge-blue { background: rgba(74,124,158,0.12); color: var(--accent-blue); border: 1px solid rgba(74,124,158,0.2); }
 
-  /* ─── LEGEND ─── */
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 28px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-  .legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-  }
+.pill {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  background: rgba(74,124,63,0.15);
+  color: var(--accent-green-bright);
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
 
-  /* ─── SECTIONS ─── */
-  section {
-    padding: 56px 0 40px;
-    border-bottom: 1px solid var(--border);
-  }
-  section:last-of-type { border-bottom: none; }
+/* --- CALLOUTS --- */
+.callout {
+  border-left: 3px solid var(--accent-gold);
+  background: rgba(201,168,76,0.04);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+.callout-red { border-left-color: var(--accent-red); background: rgba(181,76,76,0.04); }
+.callout-green { border-left-color: var(--accent-green-bright); background: rgba(109,179,95,0.04); }
+.callout-purple { border-left-color: var(--accent-purple); background: rgba(124,90,158,0.04); }
+.callout-blue { border-left-color: var(--accent-blue); background: rgba(74,124,158,0.04); }
+.callout-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  color: var(--accent-gold);
+}
+.callout-red .callout-label { color: var(--accent-red); }
+.callout-green .callout-label { color: var(--accent-green-bright); }
+.callout-purple .callout-label { color: var(--accent-purple); }
+.callout-blue .callout-label { color: var(--accent-blue); }
+.callout p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.callout p strong { color: var(--text-primary); }
+.callout p em { color: var(--text-secondary); font-style: italic; }
 
-  .section-num {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 8px;
-  }
-  .section-title {
-    font-family: var(--display);
-    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-    color: #eef2e8;
-    margin-bottom: 8px;
-    font-weight: 400;
-  }
-  .section-lead {
-    color: var(--text-muted);
-    font-size: 1.05rem;
-    margin-bottom: 32px;
-    max-width: 700px;
-  }
+/* --- STATS --- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem 1.4rem;
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  line-height: 1.1;
+}
+.stat-sub {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.3rem;
+}
 
-  /* ─── PRODUCT CARDS ─── */
-  .product-grid {
-    display: grid;
-    gap: 16px;
-  }
-  .product-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 24px;
-    display: grid;
-    grid-template-columns: 80px 1fr auto;
-    gap: 20px;
-    align-items: start;
-    transition: border-color 0.3s, background 0.3s;
-  }
-  .product-card:hover {
-    border-color: var(--border-accent);
-    background: var(--bg-card-hover);
-  }
-  .product-card.tier-1 { border-left: 3px solid var(--tier1); }
-  .product-card.tier-2 { border-left: 3px solid var(--tier2); }
-  .product-card.tier-3 { border-left: 3px solid var(--tier3); }
-  .product-card.tier-trick { border-left: 3px solid var(--tier-trick); }
+/* --- TABLES --- */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.88rem;
+}
+th {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  background: var(--bg-section);
+  text-align: left;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 0.85rem 1.2rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg-card-hover); color: var(--text-primary); }
+td strong { color: var(--text-primary); font-weight: 600; }
 
-  .product-icon {
-    width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .product-icon svg {
-    width: 100%;
-    height: 100%;
-  }
+/* --- LEGEND --- */
+.legend {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
 
-  .product-info h3 {
-    font-family: var(--mono);
-    font-size: 14px;
-    font-weight: 600;
-    color: #eef2e8;
-    margin-bottom: 4px;
-  }
-  .product-brand {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-dim);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .product-desc {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-  .product-desc strong { color: var(--text); }
+/* --- GAP LIST --- */
+.gap-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
+  margin: 2rem 0;
+}
+.gap-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.85rem 1.1rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.3s;
+}
+.gap-item:hover {
+  border-color: var(--border-light);
+  background: var(--bg-card-hover);
+}
+.gap-item .label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.gap-arrow { color: var(--text-muted); flex-shrink: 0; }
 
-  .product-tag {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 3px;
-    white-space: nowrap;
-    align-self: start;
-  }
-  .tag-must { background: rgba(127,184,64,0.12); color: var(--tier1); border: 1px solid rgba(127,184,64,0.25); }
-  .tag-nice { background: rgba(212,160,32,0.12); color: var(--tier2); border: 1px solid rgba(212,160,32,0.25); }
-  .tag-know { background: rgba(74,144,192,0.12); color: var(--tier3); border: 1px solid rgba(74,144,192,0.25); }
-  .tag-trick { background: rgba(192,96,64,0.12); color: var(--tier-trick); border: 1px solid rgba(192,96,64,0.2); }
+/* --- ILLUSTRATION PANELS --- */
+.illus-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  overflow-x: auto;
+}
+.illus-panel svg { max-width: 100%; height: auto; }
+.illus-caption {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+  letter-spacing: 0.05em;
+}
 
-  /* ─── DEVIL'S ADVOCATE CALLOUT ─── */
-  .devil {
-    background: rgba(192,64,48,0.06);
-    border: 1px solid rgba(192,64,48,0.15);
-    border-radius: 8px;
-    padding: 20px 24px;
-    margin: 24px 0;
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.7;
-  }
-  .devil-header {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+/* --- TEXT --- */
+p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
+p strong { color: var(--text-primary); font-weight: 600; }
+ul, ol { margin: 0 0 1rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; }
+li { margin-bottom: 0.4rem; line-height: 1.7; }
+li strong { color: var(--text-primary); }
+a { color: var(--accent-gold); text-decoration: none; border-bottom: 1px solid rgba(201,168,76,0.3); transition: all 0.2s; }
+a:hover { border-bottom-color: var(--accent-gold); }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  background: rgba(255,255,255,0.04);
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  color: var(--accent-gold);
+}
+hr { border: none; height: 1px; background: var(--border); margin: 2rem 0; }
 
-  /* ─── TRICK BOXES ─── */
-  .trick-box {
-    background: linear-gradient(135deg, rgba(192,96,64,0.08), rgba(192,96,64,0.02));
-    border: 1px solid rgba(192,96,64,0.18);
-    border-radius: 8px;
-    padding: 24px;
-    margin: 16px 0;
-  }
-  .trick-box h4 {
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--tier-trick);
-    margin-bottom: 8px;
-  }
-  .trick-box p {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.7;
-  }
-  .trick-box p strong { color: var(--text); }
+/* --- REVEAL ANIMATION --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* ─── ILLUSTRATION PANELS ─── */
-  .illus-panel {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 32px;
-    margin: 28px 0;
-    text-align: center;
-  }
-  .illus-panel svg {
-    max-width: 100%;
-    height: auto;
-  }
-  .illus-caption {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-top: 16px;
-    letter-spacing: 0.5px;
-  }
+/* --- FOOTER --- */
+.footer {
+  text-align: center;
+  padding: 4rem 2rem;
+  border-top: 1px solid var(--border);
+}
+.footer p {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+}
 
-  /* ─── COMPARISON TABLE ─── */
-  .compare-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 24px 0;
-    font-size: 14px;
-  }
-  .compare-table th {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    text-align: left;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    font-weight: 500;
-  }
-  .compare-table td {
-    padding: 14px 16px;
-    border-bottom: 1px solid rgba(42,53,32,0.5);
-    color: var(--text-muted);
-    vertical-align: top;
-  }
-  .compare-table tr:hover td { background: rgba(127,184,64,0.03); }
-  .compare-table td:first-child { color: var(--text); font-weight: 500; }
-  .check { color: var(--accent); }
-  .cross { color: var(--red-dim); }
-
-  /* ─── GAP LIST ─── */
-  .gap-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 12px;
-    margin: 20px 0;
-  }
-  .gap-item {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 14px 18px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .gap-item .label { color: var(--text); font-weight: 500; }
-  .gap-arrow { color: var(--text-dim); font-size: 14px; }
-
-  /* ─── FOOTER ─── */
-  footer {
-    padding: 40px 0;
-    text-align: center;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-dim);
-    letter-spacing: 1px;
-  }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 700px) {
-    .product-card {
-      grid-template-columns: 60px 1fr;
-      gap: 14px;
-    }
-    .product-tag {
-      grid-column: 1 / -1;
-      justify-self: start;
-      order: -1;
-    }
-    .product-icon { width: 60px; height: 60px; }
-    .hero-meta { flex-direction: column; gap: 8px; }
-    .legend { gap: 10px; }
-    .gap-list { grid-template-columns: 1fr; }
-  }
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .section { padding: 4rem 1.25rem; }
+  .hero { padding: 2rem 1.25rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .gap-list { grid-template-columns: 1fr; }
+  .hero-meta { flex-direction: column; gap: 0.75rem; }
+  .legend { padding: 1.25rem; gap: 1rem; }
+}
 </style>
 </head>
 <body>
 
-<div class="container">
-
-<!-- ════════════════════════════════════════ HERO ════════════════════════════════════════ -->
-<header class="hero">
-  <div class="hero-badge">Field Guide</div>
-  <h1>Bellaflora <em>Decoded</em><br>for Indoor Organic Grows</h1>
-  <p class="hero-sub">Was du bei Österreichs größter Gartencenter-Kette tatsächlich für einen Living-Soil-Grow brauchst — und was die meisten Grower übersehen. Alles legal, alles bar, alles unauffällig auf der Rechnung.</p>
+<!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+<section class="hero">
+  <div class="hero-subtitle">Österreich · Gartencenter · Stealth</div>
+  <h1>Bellaflora <span><em>Decoded</em></span><br>für Indoor Organic Grows</h1>
+  <p class="hero-desc">Was du bei Österreichs größter Gartencenter-Kette tatsächlich für einen Living-Soil-Grow brauchst — und was die meisten Grower übersehen. Alles legal, alles bar, alles unauffällig auf der Rechnung.</p>
   <div class="hero-meta">
-    <span>📍 Linz · Zaunmüllerstr. 1 + Leonding</span>
-    <span>🕐 Mo–Fr 08:30–18:30 · Sa 08:30–18:00</span>
-    <span>💶 Bar, keine Kundenkarte nötig</span>
+    <span class="hero-meta-item">Linz · Zaunmüllerstr. 1 + Leonding</span>
+    <span class="hero-meta-item">Mo–Fr 08:30–18:30 · Sa 08:30–18:00</span>
+    <span class="hero-meta-item">Bar, keine Kundenkarte nötig</span>
   </div>
-</header>
+</section>
 
-<!-- ════════════════════════════════════════ LEGEND ════════════════════════════════════════ -->
+<div class="divider"></div>
+
+<!-- ══════════════════════════════ LEGEND ══════════════════════════════ -->
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:var(--tier1)"></div> Must-Have — kaufen, sofort</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--tier2)"></div> Nice-to-Have — wenn Budget da</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--tier3)"></div> Good-to-Know — Wissen = Vorteil</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--tier-trick)"></div> Insider-Trick — kennt kaum wer</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent-green-bright)"></div> Must-Have — kaufen, sofort</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent-gold)"></div> Nice-to-Have — wenn Budget da</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent-blue)"></div> Good-to-Know — Wissen = Vorteil</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--accent-orange)"></div> Insider-Trick — kennt kaum wer</div>
 </div>
 
-<!-- ══════════════════════════ 01 · SUBSTRATE & ERDE ══════════════════════════ -->
-<section>
-  <div class="section-num">01 — Substrate & Erde</div>
-  <h2 class="section-title">Die Basis: Torffrei, bio-zertifiziert, kein Blaukorn</h2>
-  <p class="section-lead">Seit 2014 verkauft Bellaflora ausschließlich organische Dünger. Alle biogarten-Erden sind FiBL-zertifiziert und 100% torffrei. Für Living Soil eine der wenigen Mainstream-Quellen ohne mineralische Vordüngung.</p>
+<!-- ══════════════════════════════ 01 · SUBSTRAT ══════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Sektion 01 · Substrate & Erde</div>
+    <h2>Die <span>Basis</span>: Torffrei, bio-zertifiziert, kein Blaukorn</h2>
+    <p class="section-intro">Seit 2014 verkauft Bellaflora ausschließlich organische Dünger. Alle biogarten-Erden sind FiBL-zertifiziert und 100% torffrei. Für Living Soil eine der wenigen Mainstream-Quellen ohne mineralische Vordüngung.</p>
+  </div>
 
-  <!-- Soil Layer Illustration -->
   <div class="illus-panel">
     <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
-      <!-- Pot outline -->
       <path d="M180,40 L580,40 L560,300 L200,300 Z" fill="none" stroke="#4a6630" stroke-width="2"/>
-      <!-- Top soil layer -->
       <rect x="184" y="44" width="392" height="60" rx="2" fill="#3a2a18" opacity="0.7"/>
-      <text x="390" y="80" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="#d4dcc8" letter-spacing="1">NATURERDE — organisch vorgedüngt ~4 Wo.</text>
-      <!-- Perlite mixed layer -->
+      <text x="390" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#d4dcc8" letter-spacing="1">NATURERDE — organisch vorgedüngt ~4 Wo.</text>
       <rect x="186" y="108" width="388" height="80" rx="2" fill="#2a1e10" opacity="0.7"/>
-      <!-- Perlite dots -->
       <circle cx="220" cy="130" r="4" fill="#d4dcc8" opacity="0.3"/>
       <circle cx="260" cy="150" r="3" fill="#d4dcc8" opacity="0.25"/>
       <circle cx="310" cy="125" r="5" fill="#d4dcc8" opacity="0.3"/>
@@ -445,13 +550,10 @@
       <circle cx="300" cy="172" r="4" fill="#d4dcc8" opacity="0.2"/>
       <circle cx="370" cy="118" r="3" fill="#d4dcc8" opacity="0.2"/>
       <circle cx="460" cy="170" r="3.5" fill="#d4dcc8" opacity="0.2"/>
-      <text x="390" y="148" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="#d4dcc8" letter-spacing="1">NATURERDE + 20-25% PERLITE</text>
-      <!-- Mycorrhizae zone -->
-      <rect x="280" y="192" width="200" height="40" rx="2" fill="rgba(127,184,64,0.15)" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4 3"/>
-      <text x="380" y="217" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#7fb840" letter-spacing="1">MYKORRHIZA-ZONE am Wurzelballen</text>
-      <!-- Drainage layer -->
+      <text x="390" y="148" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#d4dcc8" letter-spacing="1">NATURERDE + 20-25% PERLITE</text>
+      <rect x="280" y="192" width="200" height="40" rx="2" fill="rgba(109,179,95,0.1)" stroke="#6db35f" stroke-width="1" stroke-dasharray="4 3"/>
+      <text x="380" y="217" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6db35f" letter-spacing="1">MYKORRHIZA-ZONE am Wurzelballen</text>
       <rect x="196" y="240" width="368" height="56" rx="2" fill="#1a1610" opacity="0.8"/>
-      <!-- Clay pebbles -->
       <circle cx="230" cy="262" r="8" fill="none" stroke="#6a5a40" stroke-width="1.5"/>
       <circle cx="260" cy="272" r="7" fill="none" stroke="#6a5a40" stroke-width="1.5"/>
       <circle cx="295" cy="258" r="9" fill="none" stroke="#6a5a40" stroke-width="1.5"/>
@@ -462,430 +564,469 @@
       <circle cx="468" cy="270" r="7.5" fill="none" stroke="#6a5a40" stroke-width="1.5"/>
       <circle cx="500" cy="260" r="8" fill="none" stroke="#6a5a40" stroke-width="1.5"/>
       <circle cx="530" cy="272" r="6.5" fill="none" stroke="#6a5a40" stroke-width="1.5"/>
-      <text x="390" y="268" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#8a7a60" letter-spacing="1">TONGRANULAT — 3-4cm Drainage</text>
-      <!-- Labels outside -->
+      <text x="390" y="268" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#8a7a60" letter-spacing="1">TONGRANULAT — 3-4cm Drainage</text>
       <line x1="585" y1="74" x2="650" y2="74" stroke="#4a6630" stroke-width="1"/>
-      <text x="656" y="78" font-family="IBM Plex Mono" font-size="10" fill="#8a9878">Top Layer</text>
+      <text x="656" y="78" font-family="JetBrains Mono" font-size="10" fill="#9ca38e">Top Layer</text>
       <line x1="578" y1="148" x2="650" y2="148" stroke="#4a6630" stroke-width="1"/>
-      <text x="656" y="152" font-family="IBM Plex Mono" font-size="10" fill="#8a9878">Main Mix</text>
-      <line x1="484" y1="212" x2="650" y2="212" stroke="#7fb840" stroke-width="1" stroke-dasharray="3 2"/>
-      <text x="656" y="216" font-family="IBM Plex Mono" font-size="10" fill="#7fb840">Wurzelballen</text>
+      <text x="656" y="152" font-family="JetBrains Mono" font-size="10" fill="#9ca38e">Main Mix</text>
+      <line x1="484" y1="212" x2="650" y2="212" stroke="#6db35f" stroke-width="1" stroke-dasharray="3 2"/>
+      <text x="656" y="216" font-family="JetBrains Mono" font-size="10" fill="#6db35f">Wurzelballen</text>
       <line x1="568" y1="268" x2="650" y2="268" stroke="#4a6630" stroke-width="1"/>
-      <text x="656" y="272" font-family="IBM Plex Mono" font-size="10" fill="#8a9878">Drainage</text>
+      <text x="656" y="272" font-family="JetBrains Mono" font-size="10" fill="#9ca38e">Drainage</text>
     </svg>
     <div class="illus-caption">Schichtaufbau im 7–11L Topf — alle Materialien bei Bellaflora erhältlich</div>
   </div>
 
-  <div class="product-grid">
-    <div class="product-card tier-1">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="15" y="25" width="50" height="45" rx="3" fill="none" stroke="#7fb840" stroke-width="1.5"/><path d="M20,25 C25,15 55,15 60,25" fill="none" stroke="#7fb840" stroke-width="1.5"/><line x1="30" y1="40" x2="30" y2="55" stroke="#5a4a30" stroke-width="1"/><line x1="40" y1="35" x2="40" y2="60" stroke="#5a4a30" stroke-width="1"/><line x1="50" y1="38" x2="50" y2="52" stroke="#5a4a30" stroke-width="1"/><circle cx="30" cy="37" r="3" fill="#7fb840" opacity="0.4"/><circle cx="40" cy="32" r="3.5" fill="#7fb840" opacity="0.5"/><circle cx="50" cy="35" r="3" fill="#7fb840" opacity="0.4"/></svg>
+  <div class="card-grid">
+
+    <div class="card accent-green">
+      <div class="card-label green">BODEN · Must-Have</div>
+      <div class="card-title">biogarten Naturerde (torffrei)</div>
+      <div class="card-brand">bellaflora biogarten · FiBL-zertifiziert</div>
+      <p class="card-desc">Die <strong>einzige Forum-validierte Mainstream-Erde ohne mineralische Vordüngung</strong>. Organisch vorgedüngt für ca. 4 Wochen. ICMag-User bestätigen: keine chemischen NPK-Salze. 100% torffreie Basis für Living Soil. Mix: <strong>75% Naturerde + 25% Perlite</strong>.</p>
+      <div class="card-footer">
+        <span class="badge-green badge">kaufen</span>
       </div>
-      <div class="product-info">
-        <h3>biogarten Naturerde (torffrei)</h3>
-        <div class="product-brand">bellaflora biogarten · FiBL-zertifiziert</div>
-        <p class="product-desc">Die <strong>einzige Forum-validierte Mainstream-Erde ohne mineralische Vordüngung</strong>. Organisch vorgedüngt für ca. 4 Wochen. ICMag-User bestätigen: keine chemischen NPK-Salze. 100% torffreie Basis für Living Soil. Mix: <strong>75% Naturerde + 25% Perlite</strong>.</p>
-      </div>
-      <div class="product-tag tag-must">Must-Have</div>
     </div>
 
-    <div class="product-card tier-1">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><circle cx="25" cy="40" r="5" fill="#d4dcc8" opacity="0.3"/><circle cx="40" cy="35" r="7" fill="#d4dcc8" opacity="0.25"/><circle cx="55" cy="42" r="4" fill="#d4dcc8" opacity="0.3"/><circle cx="35" cy="52" r="6" fill="#d4dcc8" opacity="0.2"/><circle cx="50" cy="55" r="5" fill="#d4dcc8" opacity="0.25"/><circle cx="30" cy="28" r="4.5" fill="#d4dcc8" opacity="0.2"/><circle cx="52" cy="28" r="3.5" fill="#d4dcc8" opacity="0.25"/></svg>
+    <div class="card accent-green">
+      <div class="card-label green">DRAINAGE · Must-Have</div>
+      <div class="card-title">Perlite</div>
+      <div class="card-brand">JH Naturrein Biogarten</div>
+      <p class="card-desc">Drainage + Belüftung in einem. <strong>20–25% zum Substrat mischen</strong>. Verhindert Verdichtung, fördert Wurzelatmung. Unverzichtbar für organische Erdmischungen in Töpfen. Bonus: Trauermückenlarven mögen kein Perlite.</p>
+      <div class="card-footer">
+        <span class="badge-green badge">kaufen</span>
       </div>
-      <div class="product-info">
-        <h3>Perlite</h3>
-        <div class="product-brand">JH Naturrein Biogarten</div>
-        <p class="product-desc">Drainage + Belüftung in einem. <strong>20–25% zum Substrat mischen</strong>. Verhindert Verdichtung, fördert Wurzelatmung. Unverzichtbar für organische Erdmischungen in Töpfen. Bonus: Trauermückenlarven mögen kein Perlite.</p>
-      </div>
-      <div class="product-tag tag-must">Must-Have</div>
     </div>
 
-    <div class="product-card tier-1">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><circle cx="30" cy="45" r="10" fill="none" stroke="#8a7a60" stroke-width="1.5"/><circle cx="50" cy="40" r="11" fill="none" stroke="#8a7a60" stroke-width="1.5"/><circle cx="40" cy="55" r="9" fill="none" stroke="#8a7a60" stroke-width="1.5"/><circle cx="35" cy="32" r="8" fill="none" stroke="#8a7a60" stroke-width="1.5"/><circle cx="52" cy="55" r="7" fill="none" stroke="#8a7a60" stroke-width="1.5"/></svg>
+    <div class="card accent-green">
+      <div class="card-label green">DRAINAGE · Must-Have</div>
+      <div class="card-title">Tongranulat (Blähton)</div>
+      <div class="card-brand">Westland · 100% natürlicher Ton</div>
+      <p class="card-desc"><strong>3–4 cm Drainageschicht am Topfboden</strong>. Verhindert Staunässe, die organische Erden anfälliger für Wurzelfäule macht. Wiederverwendbar nach Spülen. Kann auch als Mulch-Schicht oben drauf gegen Trauermücken.</p>
+      <div class="card-footer">
+        <span class="badge-green badge">kaufen</span>
       </div>
-      <div class="product-info">
-        <h3>Tongranulat (Blähton)</h3>
-        <div class="product-brand">Westland · 100% natürlicher Ton</div>
-        <p class="product-desc"><strong>3–4 cm Drainageschicht am Topfboden</strong>. Verhindert Staunässe, die organische Erden anfälliger für Wurzelfäule macht. Wiederverwendbar nach Spülen. Kann auch als Mulch-Schicht oben drauf gegen Trauermücken.</p>
-      </div>
-      <div class="product-tag tag-must">Must-Have</div>
     </div>
 
-    <div class="product-card tier-2">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="20" y="20" width="40" height="50" rx="2" fill="none" stroke="#d4a020" stroke-width="1.5"/><line x1="28" y1="35" x2="52" y2="35" stroke="#d4a020" stroke-width="1" opacity="0.5"/><line x1="28" y1="42" x2="52" y2="42" stroke="#d4a020" stroke-width="1" opacity="0.5"/><line x1="28" y1="49" x2="42" y2="49" stroke="#d4a020" stroke-width="1" opacity="0.5"/><circle cx="40" cy="27" r="3" fill="#d4a020" opacity="0.4"/></svg>
+    <div class="card accent-top">
+      <div class="card-label gold">BODEN · Nice-to-Have</div>
+      <div class="card-title">biogarten Kräuter- und Aussaaterde</div>
+      <div class="card-brand">bellaflora biogarten · 20L · torffrei</div>
+      <p class="card-desc">Explizit <strong>nicht aufgedüngt</strong> — perfekt für Stecklinge und Keimlinge. Grower.ch-User empfehlen sie direkt neben BioBizz Light-Mix. Für die Citron Givré-Bewurzelung und Solo-Cup-Screening ideal.</p>
+      <div class="card-footer">
+        <span class="badge-gold badge">nice to have</span>
       </div>
-      <div class="product-info">
-        <h3>biogarten Kräuter- und Aussaaterde</h3>
-        <div class="product-brand">bellaflora biogarten · 20L · torffrei</div>
-        <p class="product-desc">Explizit <strong>nicht aufgedüngt</strong> — perfekt für Stecklinge und Keimlinge. Grower.ch-User empfehlen sie direkt neben BioBizz Light-Mix. Für die Citron Givré-Bewurzelung und Solo-Cup-Screening ideal.</p>
-      </div>
-      <div class="product-tag tag-nice">Nice-to-Have</div>
     </div>
+
   </div>
 
-  <div class="devil">
-    <div class="devil-header">
-      <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1L13 13H1L7 1Z" fill="none" stroke="#c04030" stroke-width="1.5"/><line x1="7" y1="5" x2="7" y2="9" stroke="#c04030" stroke-width="1.5"/><circle cx="7" cy="11" r="0.8" fill="#c04030"/></svg>
-      Devil's Advocate — Substrat
-    </div>
-    Die Naturerde hat eine organische Vordüngung für ~4 Wochen. Für Stecklinge (wie die Citron Givré) ist das <strong>grenzwertig</strong> — junge Wurzeln sind empfindlicher. Lösung: Untere 2/3 des Topfes mit Naturerde+Perlite, oberes 1/3 mit der ungedüngten Kräutererde. So wachsen die Wurzeln „ins Futter hinein". Alternativ: Steckling erst in Kräutererde vorziehen, dann in Naturerde-Mix umtopfen.
+  <div class="callout callout-red">
+    <div class="callout-label">Achtung · Substrat-Timing</div>
+    <p>Die Naturerde hat eine organische Vordüngung für ~4 Wochen. Für Stecklinge (wie die Citron Givré) ist das <strong>grenzwertig</strong> — junge Wurzeln sind empfindlicher. Lösung: Untere 2/3 des Topfes mit Naturerde+Perlite, oberes 1/3 mit der ungedüngten Kräutererde. So wachsen die Wurzeln „ins Futter hinein". Alternativ: Steckling erst in Kräutererde vorziehen, dann in Naturerde-Mix umtopfen.</p>
   </div>
+
 </section>
 
-<!-- ══════════════════════════ 02 · DÜNGER & AMENDMENTS ══════════════════════════ -->
-<section>
-  <div class="section-num">02 — Dünger & Amendments</div>
-  <h2 class="section-title">Alles bio, manches Gold wert</h2>
-  <p class="section-lead">Bellaflora verkauft ausschließlich für den ökologischen Landbau zugelassene Dünger. Kein BioBizz, kein Plagron — aber einzelne Produkte sind für Living Soil erstaunlich brauchbar.</p>
+<div class="divider"></div>
 
-  <div class="product-grid">
-    <div class="product-card tier-1">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="28" y="15" width="24" height="55" rx="4" fill="none" stroke="#7fb840" stroke-width="1.5"/><rect x="32" y="35" width="16" height="20" rx="1" fill="#7fb840" opacity="0.15"/><line x1="40" y1="20" x2="40" y2="30" stroke="#7fb840" stroke-width="1" stroke-dasharray="2 2"/><text x="40" y="48" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="#7fb840">Mg</text></svg>
-      </div>
-      <div class="product-info">
-        <h3>Bittersalz (Magnesiumsulfat)</h3>
-        <div class="product-brand">bellaflora · Blumendünger-Regal</div>
-        <p class="product-desc"><strong>Budget-CalMag-Ersatz für die Mg-Komponente.</strong> 1–2 g/L als Blattspray oder Bodendrench gegen Magnesiummangel unter LED. Kostet einen Bruchteil von CalMag aus dem Growshop. Unter LED praktisch Pflicht ab Woche 3.</p>
-      </div>
-      <div class="product-tag tag-must">Must-Have</div>
-    </div>
-
-    <div class="product-card tier-1">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="22" y="20" width="36" height="48" rx="3" fill="none" stroke="#7fb840" stroke-width="1.5"/><text x="40" y="42" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#7fb840">K+Mg</text><text x="40" y="54" text-anchor="middle" font-family="IBM Plex Mono" font-size="6" fill="#5a8a2a">30:10:42</text></svg>
-      </div>
-      <div class="product-info">
-        <h3>Patentkali / Kalimagnesia</h3>
-        <div class="product-brand">bellaflora · Gartendünger-Regal</div>
-        <p class="product-desc"><strong>Kalium + Magnesium + Schwefel in einem.</strong> Stärkt Zellwände, fördert Blütenbildung und Terpensynthese. 1–2 g/L ab Blütewoche 3. Das Kalium-Pendant zum Bittersalz — zusammen decken sie K, Mg und S ab.</p>
-      </div>
-      <div class="product-tag tag-must">Must-Have</div>
-    </div>
-
-    <div class="product-card tier-1">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><path d="M25,55 Q40,15 55,55" fill="none" stroke="#7fb840" stroke-width="1.5"/><line x1="40" y1="55" x2="40" y2="68" stroke="#5a4a30" stroke-width="2"/><circle cx="32" cy="45" r="2" fill="#7fb840" opacity="0.5"/><circle cx="48" cy="42" r="2" fill="#7fb840" opacity="0.5"/><circle cx="40" cy="30" r="2.5" fill="#7fb840" opacity="0.6"/></svg>
-      </div>
-      <div class="product-info">
-        <h3>Hornspäne (5 kg)</h3>
-        <div class="product-brand">bellaflora biogarten</div>
-        <p class="product-desc"><strong>Günstigste organische Stickstoff-Quelle.</strong> Slow-Release über 6–8 Wochen. Top-Dressing: 1 EL pro 10L Topf alle 3–4 Wochen in der Veg-Phase. Nicht übertreiben — Hornspäne können bei Überdosierung Stickstoff-Toxizität auslösen.</p>
-      </div>
-      <div class="product-tag tag-must">Must-Have</div>
-    </div>
-
-    <div class="product-card tier-trick">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="18" y="22" width="44" height="46" rx="3" fill="none" stroke="#c06040" stroke-width="1.5"/><text x="40" y="38" text-anchor="middle" font-family="IBM Plex Mono" font-size="6" fill="#c06040">KNOCHEN</text><text x="40" y="46" text-anchor="middle" font-family="IBM Plex Mono" font-size="6" fill="#c06040">FEDER</text><text x="40" y="54" text-anchor="middle" font-family="IBM Plex Mono" font-size="6" fill="#c06040">HORN</text><text x="40" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="6" fill="#c06040">VINASSE+MYKO</text></svg>
-      </div>
-      <div class="product-info">
-        <h3>biogarten Rasendünger Langzeitwirkung</h3>
-        <div class="product-brand">bellaflora biogarten · GEHEIM-TIPP</div>
-        <p class="product-desc"><strong>Liest sich wie ein Living-Soil-Rezept.</strong> Enthält: Fleischknochenmehl, Federmehl, Hornmehl, Kaliumsulfat, Vinasse (Melasse-Nebenprodukt), Traubentrester, Haarmehl, und <strong>Mykorrhiza-Pilze</strong>. Zum Preis eines Rasendüngers bekommst du einen Multi-Component-Amendment. 5–10g pro Liter Erde untermischen.</p>
-      </div>
-      <div class="product-tag tag-trick">Insider-Trick</div>
-    </div>
-
-    <div class="product-card tier-2">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="26" y="18" width="28" height="50" rx="12" fill="none" stroke="#d4a020" stroke-width="1.5"/><path d="M34,40 Q40,30 46,40 Q40,50 34,40Z" fill="#d4a020" opacity="0.2"/><text x="40" y="44" text-anchor="middle" font-family="IBM Plex Mono" font-size="6" fill="#d4a020">BIO</text></svg>
-      </div>
-      <div class="product-info">
-        <h3>Neudorff BioTrissol Tomaten- und Gemüsedünger</h3>
-        <div class="product-brand">Neudorff · flüssig</div>
-        <p class="product-desc">Organischer Flüssigdünger für Fruchtkulturen — <strong>direkt in der Blütephase einsetzbar</strong>. P+K-betont. Auf der Rechnung steht „Tomatendünger". 3–5ml/L ab Blütewoche 2.</p>
-      </div>
-      <div class="product-tag tag-nice">Nice-to-Have</div>
-    </div>
-
-    <div class="product-card tier-2">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="20" y="25" width="40" height="40" rx="3" fill="none" stroke="#d4a020" stroke-width="1.5"/><circle cx="32" cy="40" r="3" fill="#d4a020" opacity="0.3"/><circle cx="40" cy="48" r="2" fill="#d4a020" opacity="0.3"/><circle cx="48" cy="38" r="2.5" fill="#d4a020" opacity="0.3"/><text x="40" y="58" text-anchor="middle" font-family="IBM Plex Mono" font-size="6" fill="#d4a020">AKTIV</text></svg>
-      </div>
-      <div class="product-info">
-        <h3>Bodenaktivator (5 kg)</h3>
-        <div class="product-brand">JH Naturrein Biogarten</div>
-        <p class="product-desc">Enthält <strong>lebende Mikroorganismen</strong>, reguliert pH, speichert 20× sein Gewicht an Wasser. Bodenbiologie-Booster für müde Substrate. 50g pro 10L Erde einmischen oder als Top-Dressing.</p>
-      </div>
-      <div class="product-tag tag-nice">Nice-to-Have</div>
-    </div>
-
-    <div class="product-card tier-3">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="22" y="20" width="36" height="48" rx="3" fill="none" stroke="#4a90c0" stroke-width="1.5"/><circle cx="40" cy="44" r="12" fill="none" stroke="#4a90c0" stroke-width="1" stroke-dasharray="2 2"/><text x="40" y="47" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="#4a90c0">SiO₂</text></svg>
-      </div>
-      <div class="product-info">
-        <h3>Multikraft ZeoBas Gesteinsmehl (10 kg)</h3>
-        <div class="product-brand">Multikraft · Zeolith + Basalt</div>
-        <p class="product-desc"><strong>Silikat-reicher Slow-Release-Mineralstoff.</strong> Stärkt Zellwände (dickere Stängel, schwerere Buds), erhöht Schädlingsresistenz. 20–30g pro 10L Erde. Auch als leichter Blatt-Stäuber gegen Schädlinge einsetzbar.</p>
-      </div>
-      <div class="product-tag tag-know">Good-to-Know</div>
-    </div>
+<!-- ══════════════════════════════ 02 · DÜNGER ══════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Sektion 02 · Dünger & Amendments</div>
+    <h2>Alles bio, manches <span>Gold</span> wert</h2>
+    <p class="section-intro">Bellaflora verkauft ausschließlich für den ökologischen Landbau zugelassene Dünger. Kein BioBizz, kein Plagron — aber einzelne Produkte sind für Living Soil erstaunlich brauchbar.</p>
   </div>
 
-  <div class="trick-box">
-    <h4>🔥 Insider-Trick: Bittersalz + Patentkali = DIY CalMag+K</h4>
+  <div class="card-grid">
+
+    <div class="card accent-green">
+      <div class="card-label green">DÜNGER · Must-Have</div>
+      <div class="card-title">Bittersalz (Magnesiumsulfat)</div>
+      <div class="card-brand">bellaflora · Blumendünger-Regal</div>
+      <p class="card-desc"><strong>Budget-CalMag-Ersatz für die Mg-Komponente.</strong> 1–2 g/L als Blattspray oder Bodendrench gegen Magnesiummangel unter LED. Kostet einen Bruchteil von CalMag aus dem Growshop. Unter LED praktisch Pflicht ab Woche 3.</p>
+      <div class="card-footer">
+        <span class="badge-green badge">kaufen</span>
+        <span class="badge-gold badge">1–2 g/L</span>
+      </div>
+    </div>
+
+    <div class="card accent-green">
+      <div class="card-label green">DÜNGER · Must-Have</div>
+      <div class="card-title">Patentkali / Kalimagnesia</div>
+      <div class="card-brand">bellaflora · Gartendünger-Regal</div>
+      <p class="card-desc"><strong>Kalium + Magnesium + Schwefel in einem.</strong> Stärkt Zellwände, fördert Blütenbildung und Terpensynthese. 1–2 g/L ab Blütewoche 3. Das Kalium-Pendant zum Bittersalz — zusammen decken sie K, Mg und S ab.</p>
+      <div class="card-footer">
+        <span class="badge-green badge">kaufen</span>
+        <span class="badge-gold badge">ab Blüte Wk3</span>
+      </div>
+    </div>
+
+    <div class="card accent-green">
+      <div class="card-label green">DÜNGER · Must-Have</div>
+      <div class="card-title">Hornspäne (5 kg)</div>
+      <div class="card-brand">bellaflora biogarten</div>
+      <p class="card-desc"><strong>Günstigste organische Stickstoff-Quelle.</strong> Slow-Release über 6–8 Wochen. Top-Dressing: 1 EL pro 10L Topf alle 3–4 Wochen in der Veg-Phase. Nicht übertreiben — Hornspäne können bei Überdosierung Stickstoff-Toxizität auslösen.</p>
+      <div class="card-footer">
+        <span class="badge-green badge">kaufen</span>
+        <span class="badge-gold badge">1 EL / 10L</span>
+      </div>
+    </div>
+
+    <div class="card accent-orange">
+      <div class="card-label orange">DÜNGER · Insider-Trick</div>
+      <div class="card-title">biogarten Rasendünger Langzeitwirkung</div>
+      <div class="card-brand">bellaflora biogarten · Geheim-Tipp</div>
+      <p class="card-desc"><strong>Liest sich wie ein Living-Soil-Rezept.</strong> Enthält: Fleischknochenmehl, Federmehl, Hornmehl, Kaliumsulfat, Vinasse (Melasse-Nebenprodukt), Traubentrester, Haarmehl, und <strong>Mykorrhiza-Pilze</strong>. Zum Preis eines Rasendüngers bekommst du einen Multi-Component-Amendment. 5–10g pro Liter Erde untermischen.</p>
+      <div class="card-footer">
+        <span class="badge-orange badge">insider-trick</span>
+        <span class="badge-gold badge">5–10 g/L Erde</span>
+      </div>
+    </div>
+
+    <div class="card accent-top">
+      <div class="card-label gold">DÜNGER · Nice-to-Have</div>
+      <div class="card-title">Neudorff BioTrissol Tomaten- und Gemüsedünger</div>
+      <div class="card-brand">Neudorff · flüssig</div>
+      <p class="card-desc">Organischer Flüssigdünger für Fruchtkulturen — <strong>direkt in der Blütephase einsetzbar</strong>. P+K-betont. Auf der Rechnung steht „Tomatendünger". 3–5ml/L ab Blütewoche 2.</p>
+      <div class="card-footer">
+        <span class="badge-gold badge">nice to have</span>
+        <span class="badge-gold badge">3–5 ml/L</span>
+      </div>
+    </div>
+
+    <div class="card accent-top">
+      <div class="card-label gold">AMENDMENT · Nice-to-Have</div>
+      <div class="card-title">Bodenaktivator (5 kg)</div>
+      <div class="card-brand">JH Naturrein Biogarten</div>
+      <p class="card-desc">Enthält <strong>lebende Mikroorganismen</strong>, reguliert pH, speichert 20× sein Gewicht an Wasser. Bodenbiologie-Booster für müde Substrate. 50g pro 10L Erde einmischen oder als Top-Dressing.</p>
+      <div class="card-footer">
+        <span class="badge-gold badge">nice to have</span>
+        <span class="badge-gold badge">50 g / 10L</span>
+      </div>
+    </div>
+
+    <div class="card accent-blue">
+      <div class="card-label blue">AMENDMENT · Good-to-Know</div>
+      <div class="card-title">Multikraft ZeoBas Gesteinsmehl (10 kg)</div>
+      <div class="card-brand">Multikraft · Zeolith + Basalt</div>
+      <p class="card-desc"><strong>Silikat-reicher Slow-Release-Mineralstoff.</strong> Stärkt Zellwände (dickere Stängel, schwerere Buds), erhöht Schädlingsresistenz. 20–30g pro 10L Erde. Auch als leichter Blatt-Stäuber gegen Schädlinge einsetzbar.</p>
+      <div class="card-footer">
+        <span class="badge-blue badge">good to know</span>
+        <span class="badge-gold badge">20–30 g / 10L</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Insider-Trick · DIY CalMag+K</div>
     <p>Bellaflora führt kein CalMag. Aber <strong>Bittersalz (MgSO₄)</strong> + <strong>Patentkali (K₂SO₄·MgSO₄)</strong> zusammen liefern Magnesium, Kalium und Schwefel — drei der vier häufigsten LED-bedingten Mängel. Für Calcium brauchst du zusätzlich <strong>Algenkalk</strong> (Neudorff, ca. €5) oder Eierschalenpulver. Gesamt unter €15 für den ganzen Grow — ein „Growshop-CalMag" kostet €12–18 pro Flasche.</p>
   </div>
+
 </section>
 
-<!-- ══════════════════════════ 03 · IPM & SCHÄDLINGSSCHUTZ ══════════════════════════ -->
-<section>
-  <div class="section-num">03 — IPM & Schädlingsschutz</div>
-  <h2 class="section-title">Biologisch seit 2013 — und richtig stark</h2>
-  <p class="section-lead">Bellaflora hat als erster großer Gartencenter Europas alle synthetischen Pestizide ausgelistet. Die Auswahl an biologischem Pflanzenschutz ist die beste Kategorie für Indoor-Grower.</p>
+<div class="divider"></div>
 
-  <!-- IPM Illustration -->
+<!-- ══════════════════════════════ 03 · IPM ══════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Sektion 03 · IPM & Schädlingsschutz</div>
+    <h2>Biologisch seit 2013 — und <span>richtig stark</span></h2>
+    <p class="section-intro">Bellaflora hat als erster großer Gartencenter Europas alle synthetischen Pestizide ausgelistet. Die Auswahl an biologischem Pflanzenschutz ist die beste Kategorie für Indoor-Grower.</p>
+  </div>
+
   <div class="illus-panel">
     <svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg">
-      <!-- Timeline -->
-      <line x1="60" y1="100" x2="700" y2="100" stroke="#2a3520" stroke-width="2"/>
-      <!-- Phase markers -->
-      <circle cx="120" cy="100" r="6" fill="#7fb840"/>
-      <circle cx="280" cy="100" r="6" fill="#7fb840"/>
-      <circle cx="440" cy="100" r="6" fill="#d4a020"/>
-      <circle cx="600" cy="100" r="6" fill="#c04030"/>
-      <!-- Labels -->
-      <text x="120" y="80" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#7fb840">PRÄVENTION</text>
-      <text x="120" y="130" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#8a9878">Gelbtafeln</text>
-      <text x="120" y="143" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#8a9878">Gesteinsmehl</text>
-      <text x="120" y="156" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#8a9878">Tongranulat-Mulch</text>
-
-      <text x="280" y="80" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#7fb840">BIOLOGISCH</text>
-      <text x="280" y="130" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#8a9878">Nützlinge bestellen</text>
-      <text x="280" y="143" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#8a9878">Nematoden (SF)</text>
-      <text x="280" y="156" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#8a9878">Raubmilben (PP)</text>
-
-      <text x="440" y="80" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#d4a020">BOTANISCH</text>
-      <text x="440" y="130" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#8a9878">Neem Plus (Azadirachtin)</text>
-      <text x="440" y="143" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#8a9878">Brennnesselextrakt</text>
-      <text x="440" y="156" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#8a9878">Natron (gg. Mehltau)</text>
-
-      <text x="600" y="80" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#c04030">NOTFALL</text>
-      <text x="600" y="130" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#8a9878">Spruzit (Pyrethrin)</text>
-      <text x="600" y="143" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#8a9878">Nur in Veg!</text>
-      <text x="600" y="156" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#c04030">Nie nach Woche 3 Blüte</text>
+      <line x1="60" y1="100" x2="700" y2="100" stroke="#1e241e" stroke-width="2"/>
+      <circle cx="120" cy="100" r="6" fill="#6db35f"/>
+      <circle cx="280" cy="100" r="6" fill="#6db35f"/>
+      <circle cx="440" cy="100" r="6" fill="#c9a84c"/>
+      <circle cx="600" cy="100" r="6" fill="#b54c4c"/>
+      <text x="120" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6db35f">PRÄVENTION</text>
+      <text x="120" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#9ca38e">Gelbtafeln</text>
+      <text x="120" y="143" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#9ca38e">Gesteinsmehl</text>
+      <text x="120" y="156" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#9ca38e">Tongranulat-Mulch</text>
+      <text x="280" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6db35f">BIOLOGISCH</text>
+      <text x="280" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#9ca38e">Nützlinge bestellen</text>
+      <text x="280" y="143" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#9ca38e">Nematoden (SF)</text>
+      <text x="280" y="156" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#9ca38e">Raubmilben (PP)</text>
+      <text x="440" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#c9a84c">BOTANISCH</text>
+      <text x="440" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#9ca38e">Neem Plus (Azadirachtin)</text>
+      <text x="440" y="143" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#9ca38e">Brennnesselextrakt</text>
+      <text x="440" y="156" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#9ca38e">Natron (gg. Mehltau)</text>
+      <text x="600" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#b54c4c">NOTFALL</text>
+      <text x="600" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#9ca38e">Spruzit (Pyrethrin)</text>
+      <text x="600" y="143" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#9ca38e">Nur in Veg!</text>
+      <text x="600" y="156" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#b54c4c">Nie nach Woche 3 Blüte</text>
     </svg>
     <div class="illus-caption">IPM-Eskalationsstufen — alles bei Bellaflora erhältlich. Von links nach rechts bei Bedarf eskalieren.</div>
   </div>
 
-  <div class="product-grid">
-    <div class="product-card tier-1">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="20" y="15" width="40" height="55" rx="3" fill="#d4a020" opacity="0.1"/><rect x="20" y="15" width="40" height="55" rx="3" fill="none" stroke="#7fb840" stroke-width="1.5"/><rect x="26" y="22" width="28" height="8" rx="1" fill="#7fb840" opacity="0.3"/></svg>
+  <div class="card-grid">
+
+    <div class="card accent-green">
+      <div class="card-label green">IPM · Must-Have</div>
+      <div class="card-title">Gelbsticker / Gelbtafeln (10er-Pack)</div>
+      <div class="card-brand">bellaflora biogarten · indoor</div>
+      <p class="card-desc"><strong>Frühwarnsystem und erste Verteidigungslinie.</strong> Ab Tag 1 im Zelt aufhängen. Fängt Trauermücken, Weiße Fliegen, geflügelte Blattläuse. Auch als <strong>Blausticker</strong> (Compo BIO, gegen Thripse) erhältlich. Wöchentlich kontrollieren.</p>
+      <div class="card-footer">
+        <span class="badge-green badge">kaufen</span>
       </div>
-      <div class="product-info">
-        <h3>Gelbsticker / Gelbtafeln (10er-Pack)</h3>
-        <div class="product-brand">bellaflora biogarten · indoor</div>
-        <p class="product-desc"><strong>Frühwarnsystem und erste Verteidigungslinie.</strong> Ab Tag 1 im Zelt aufhängen. Fängt Trauermücken, Weiße Fliegen, geflügelte Blattläuse. Auch als <strong>Blausticker</strong> (Compo BIO, gegen Thripse) erhältlich. Wöchentlich kontrollieren.</p>
-      </div>
-      <div class="product-tag tag-must">Must-Have</div>
     </div>
 
-    <div class="product-card tier-1">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="24" y="20" width="32" height="48" rx="3" fill="none" stroke="#7fb840" stroke-width="1.5"/><path d="M32,40 C35,35 45,35 48,40 C45,45 35,45 32,40Z" fill="#7fb840" opacity="0.15" stroke="#7fb840" stroke-width="1"/><text x="40" y="43" text-anchor="middle" font-family="IBM Plex Mono" font-size="6" fill="#7fb840">NEEM</text></svg>
+    <div class="card accent-green">
+      <div class="card-label green">IPM · Must-Have</div>
+      <div class="card-title">Neudorff Neem Plus Schädlingsfrei</div>
+      <div class="card-brand">Neudorff · 100/200 mL Konzentrat</div>
+      <p class="card-desc"><strong>Azadirachtin 1,17g/L + Rapsöl 866g/L.</strong> Systemische Wirkung (pflanzensaugend aufgenommen) + Kontaktwirkung. Gegen Spinnmilben, Blattläuse, Thripse, Wollläuse. <strong>Nur in Veg und früher Blüte anwenden — nie auf Buds sprühen.</strong></p>
+      <div class="card-footer">
+        <span class="badge-green badge">kaufen</span>
+        <span class="badge-red badge">nur Veg</span>
       </div>
-      <div class="product-info">
-        <h3>Neudorff Neem Plus Schädlingsfrei</h3>
-        <div class="product-brand">Neudorff · 100/200 mL Konzentrat</div>
-        <p class="product-desc"><strong>Azadirachtin 1,17g/L + Rapsöl 866g/L.</strong> Systemische Wirkung (pflanzensaugend aufgenommen) + Kontaktwirkung. Gegen Spinnmilben, Blattläuse, Thripse, Wollläuse. <strong>Nur in Veg und früher Blüte anwenden — nie auf Buds sprühen.</strong></p>
-      </div>
-      <div class="product-tag tag-must">Must-Have</div>
     </div>
 
-    <div class="product-card tier-trick">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="18" fill="none" stroke="#c06040" stroke-width="1" stroke-dasharray="3 2"/><circle cx="32" cy="36" r="2" fill="#c06040" opacity="0.5"/><circle cx="48" cy="38" r="1.5" fill="#c06040" opacity="0.5"/><circle cx="36" cy="48" r="1.8" fill="#c06040" opacity="0.5"/><circle cx="44" cy="44" r="2" fill="#c06040" opacity="0.5"/><path d="M38,30 L42,30 L40,26Z" fill="#c06040" opacity="0.4"/></svg>
+    <div class="card accent-orange">
+      <div class="card-label orange">IPM · Insider-Trick</div>
+      <div class="card-title">Nützlings-Bestellkarte (an der Kassa)</div>
+      <div class="card-brand">biohelp + Neudorff · Versand nach Hause</div>
+      <p class="card-desc"><strong>Lebende Nützlinge direkt nach Hause bestellt — über Bellaflora.</strong> Raubmilben (<em>Phytoseiulus persimilis</em>, Code PP) gegen Spinnmilben. Nematoden (<em>Steinernema feltiae</em>, Code SF) gegen Trauermücken. Florfliegen (<em>Chrysoperla carnea</em>, Code CC) gegen Blattläuse. Alles ganzjährig für geschlossene Räume.</p>
+      <div class="card-footer">
+        <span class="badge-orange badge">insider-trick</span>
       </div>
-      <div class="product-info">
-        <h3>Nützlings-Bestellkarte (an der Kassa)</h3>
-        <div class="product-brand">biohelp + Neudorff · Versand nach Hause</div>
-        <p class="product-desc"><strong>Lebende Nützlinge direkt nach Hause bestellt — über Bellaflora.</strong> Raubmilben (<em>Phytoseiulus persimilis</em>, Code PP) gegen Spinnmilben. Nematoden (<em>Steinernema feltiae</em>, Code SF) gegen Trauermücken. Florfliegen (<em>Chrysoperla carnea</em>, Code CC) gegen Blattläuse. Alles ganzjährig für geschlossene Räume.</p>
-      </div>
-      <div class="product-tag tag-trick">Insider-Trick</div>
     </div>
 
-    <div class="product-card tier-2">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><path d="M25,55 L30,30 Q40,18 50,30 L55,55Z" fill="none" stroke="#d4a020" stroke-width="1.5"/><line x1="35" y1="40" x2="45" y2="40" stroke="#d4a020" stroke-width="1" opacity="0.4"/><line x1="33" y1="47" x2="47" y2="47" stroke="#d4a020" stroke-width="1" opacity="0.4"/></svg>
+    <div class="card accent-top">
+      <div class="card-label gold">IPM · Nice-to-Have</div>
+      <div class="card-title">Fermentierter Brennnesselextrakt</div>
+      <div class="card-brand">Multikraft · EM-basiert</div>
+      <p class="card-desc">Milchsäurebakterien + Photosynthesebakterien. <strong>10–20 mL/L als Blattspray</strong> — stärkt die Pflanze und macht die Blattoberfläche für Schädlinge unattraktiv. Doppelfunktion: leichte Düngung + IPM. Riecht nicht gut — nur im geschlossenen Zelt.</p>
+      <div class="card-footer">
+        <span class="badge-gold badge">nice to have</span>
+        <span class="badge-gold badge">10–20 ml/L</span>
       </div>
-      <div class="product-info">
-        <h3>Fermentierter Brennnesselextrakt</h3>
-        <div class="product-brand">Multikraft · EM-basiert</div>
-        <p class="product-desc">Milchsäurebakterien + Photosynthesebakterien. <strong>10–20 mL/L als Blattspray</strong> — stärkt die Pflanze und macht die Blattoberfläche für Schädlinge unattraktiv. Doppelfunktion: leichte Düngung + IPM. Riecht nicht gut — nur im geschlossenen Zelt.</p>
-      </div>
-      <div class="product-tag tag-nice">Nice-to-Have</div>
     </div>
+
   </div>
 
-  <div class="devil">
-    <div class="devil-header">
-      <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1L13 13H1L7 1Z" fill="none" stroke="#c04030" stroke-width="1.5"/><line x1="7" y1="5" x2="7" y2="9" stroke="#c04030" stroke-width="1.5"/><circle cx="7" cy="11" r="0.8" fill="#c04030"/></svg>
-      Devil's Advocate — Neem-Timing
-    </div>
-    Neem hat eine Wartezeit von <strong>7–14 Tagen</strong> vor der Ernte bei Gemüse. Für Cannabis-Qualität bedeutet das: <strong>kein Neem nach Blütewoche 3, Punkt.</strong> Rückstände beeinflussen Geschmack und können bei Verbrennung problematisch sein. In der Blüte nur noch Nützlinge oder mechanische Kontrolle (Abwaschen, Absaugen). Spruzit (Pyrethrin) ist noch kritischer — es hinterlässt nachweisbare Rückstände und sollte wirklich nur als Veg-Notfall dienen.
+  <div class="callout callout-red">
+    <div class="callout-label">Warnung · Neem-Timing</div>
+    <p>Neem hat eine Wartezeit von <strong>7–14 Tagen</strong> vor der Ernte bei Gemüse. Für Cannabis-Qualität bedeutet das: <strong>kein Neem nach Blütewoche 3, Punkt.</strong> Rückstände beeinflussen Geschmack und können bei Verbrennung problematisch sein. In der Blüte nur noch Nützlinge oder mechanische Kontrolle (Abwaschen, Absaugen). Spruzit (Pyrethrin) ist noch kritischer — es hinterlässt nachweisbare Rückstände und sollte wirklich nur als Veg-Notfall dienen.</p>
   </div>
+
 </section>
 
-<!-- ══════════════════════════ 04 · ZUBEHÖR & TOOLS ══════════════════════════ -->
-<section>
-  <div class="section-num">04 — Zubehör & Werkzeug</div>
-  <h2 class="section-title">Was sonst noch in den Einkaufswagen gehört</h2>
-  <p class="section-lead">Keine Stofftöpfe, keine Air-Pots — aber ScrOG-Netz, Bambusstäbe, Drucksprüher und Pflanzenbinder gibt's zum halben Growshop-Preis.</p>
+<div class="divider"></div>
 
-  <div class="product-grid">
-    <div class="product-card tier-1">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80">
-          <line x1="15" y1="25" x2="65" y2="25" stroke="#7fb840" stroke-width="1"/>
-          <line x1="15" y1="35" x2="65" y2="35" stroke="#7fb840" stroke-width="1"/>
-          <line x1="15" y1="45" x2="65" y2="45" stroke="#7fb840" stroke-width="1"/>
-          <line x1="15" y1="55" x2="65" y2="55" stroke="#7fb840" stroke-width="1"/>
-          <line x1="20" y1="20" x2="20" y2="60" stroke="#7fb840" stroke-width="1"/>
-          <line x1="30" y1="20" x2="30" y2="60" stroke="#7fb840" stroke-width="1"/>
-          <line x1="40" y1="20" x2="40" y2="60" stroke="#7fb840" stroke-width="1"/>
-          <line x1="50" y1="20" x2="50" y2="60" stroke="#7fb840" stroke-width="1"/>
-          <line x1="60" y1="20" x2="60" y2="60" stroke="#7fb840" stroke-width="1"/>
-        </svg>
-      </div>
-      <div class="product-info">
-        <h3>Windhager Jute Ranknetz (200×200 cm)</h3>
-        <div class="product-brand">Windhager · 100% biologisch abbaubar</div>
-        <p class="product-desc"><strong>ScrOG-Netz für unter €10.</strong> 200×200cm auf ~80×80cm zusammenfalten = perfekte Maschenweite. Jute ist weich genug, um Stängel nicht zu beschädigen, aber stabil genug für schwere Colas. Auf Teleskopstangen oder an den Zeltstangen befestigen.</p>
-      </div>
-      <div class="product-tag tag-must">Must-Have</div>
-    </div>
-
-    <div class="product-card tier-1">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="30" y="15" width="20" height="55" rx="10" fill="none" stroke="#7fb840" stroke-width="1.5"/><circle cx="40" cy="24" r="4" fill="#7fb840" opacity="0.2"/><line x1="40" y1="28" x2="40" y2="60" stroke="#7fb840" stroke-width="1" stroke-dasharray="2 2"/></svg>
-      </div>
-      <div class="product-info">
-        <h3>Drucksprüher 1,25L (GARDENA)</h3>
-        <div class="product-brand">GARDENA · Messingdüse · 360° Funktion</div>
-        <p class="product-desc"><strong>Für Blattsprays (Neem, Bittersalz, Brennnessel).</strong> Die 360°-Funktion erlaubt Sprühen von unten — wichtig, um die Blattunterseiten zu erreichen, wo Schädlinge sitzen. Messing-Düse für feinen Nebel.</p>
-      </div>
-      <div class="product-tag tag-must">Must-Have</div>
-    </div>
-
-    <div class="product-card tier-2">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><line x1="30" y1="15" x2="30" y2="65" stroke="#d4a020" stroke-width="2"/><line x1="40" y1="20" x2="40" y2="65" stroke="#d4a020" stroke-width="2"/><line x1="50" y1="18" x2="50" y2="65" stroke="#d4a020" stroke-width="2"/></svg>
-      </div>
-      <div class="product-info">
-        <h3>Bambus Pflanzstäbe + Tonkinstäbe</h3>
-        <div class="product-brand">Esschert + Windhager · diverse Größen</div>
-        <p class="product-desc">Für LST-Training und ScrOG-Rahmen. 60cm-Stäbe für den Topf-Rand, längere als Zeltstützen. In der Spätblüte als <strong>Bud-Support</strong> für schwere Cola-Äste. 20er-Pack für ein paar Euro.</p>
-      </div>
-      <div class="product-tag tag-nice">Nice-to-Have</div>
-    </div>
-
-    <div class="product-card tier-2">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="3" fill="#d4a020"/><path d="M30,50 Q25,40 30,30" fill="none" stroke="#d4a020" stroke-width="1.5"/><path d="M50,50 Q55,40 50,30" fill="none" stroke="#d4a020" stroke-width="1.5"/><line x1="30" y1="50" x2="35" y2="55" stroke="#d4a020" stroke-width="1.5"/><line x1="50" y1="50" x2="45" y2="55" stroke="#d4a020" stroke-width="1.5"/></svg>
-      </div>
-      <div class="product-info">
-        <h3>Pflanzenbinder (20/50 Stk.)</h3>
-        <div class="product-brand">Windhager · weich ummantelt</div>
-        <p class="product-desc">Weich ummantelte Bindeclips für LST. Beschädigen Stängel nicht. Auch für die Fixierung am ScrOG-Netz und an Bambusstäben. Besser als Draht, sicherer als Kabelbinder.</p>
-      </div>
-      <div class="product-tag tag-nice">Nice-to-Have</div>
-    </div>
-
-    <div class="product-card tier-2">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><path d="M25,40 L38,25 L42,29 L55,16" fill="none" stroke="#d4a020" stroke-width="2" stroke-linecap="round"/><path d="M38,25 L42,29 L32,55 L28,51Z" fill="none" stroke="#d4a020" stroke-width="1.5"/></svg>
-      </div>
-      <div class="product-info">
-        <h3>Gartenschere (Bypass)</h3>
-        <div class="product-brand">GARDENA / Fiskars Pro</div>
-        <p class="product-desc">Bypass-Scheren für saubere Schnitte beim Topping, Lollipopping, und Ernten. <strong>Sauberer Schnitt = weniger Infektionsrisiko.</strong> Vor jedem Schnitt mit Isopropanol desinfizieren. Die Fiskars Pro hat die beste Klingen-Schärfe im Sortiment.</p>
-      </div>
-      <div class="product-tag tag-nice">Nice-to-Have</div>
-    </div>
+<!-- ══════════════════════════════ 04 · ZUBEHÖR ══════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Sektion 04 · Zubehör & Werkzeug</div>
+    <h2>Was sonst noch in den <span>Einkaufswagen</span> gehört</h2>
+    <p class="section-intro">Keine Stofftöpfe, keine Air-Pots — aber ScrOG-Netz, Bambusstäbe, Drucksprüher und Pflanzenbinder gibt's zum halben Growshop-Preis.</p>
   </div>
 
-  <div class="trick-box">
-    <h4>🔥 Insider-Trick: Tongranulat-Mulch gegen Trauermücken</h4>
+  <div class="card-grid">
+
+    <div class="card accent-green">
+      <div class="card-label green">TRAINING · Must-Have</div>
+      <div class="card-title">Windhager Jute Ranknetz (200×200 cm)</div>
+      <div class="card-brand">Windhager · 100% biologisch abbaubar</div>
+      <p class="card-desc"><strong>ScrOG-Netz für unter €10.</strong> 200×200cm auf ~80×80cm zusammenfalten = perfekte Maschenweite. Jute ist weich genug, um Stängel nicht zu beschädigen, aber stabil genug für schwere Colas. Auf Teleskopstangen oder an den Zeltstangen befestigen.</p>
+      <div class="card-footer">
+        <span class="badge-green badge">kaufen</span>
+      </div>
+    </div>
+
+    <div class="card accent-green">
+      <div class="card-label green">WERKZEUG · Must-Have</div>
+      <div class="card-title">Drucksprüher 1,25L (GARDENA)</div>
+      <div class="card-brand">GARDENA · Messingdüse · 360° Funktion</div>
+      <p class="card-desc"><strong>Für Blattsprays (Neem, Bittersalz, Brennnessel).</strong> Die 360°-Funktion erlaubt Sprühen von unten — wichtig, um die Blattunterseiten zu erreichen, wo Schädlinge sitzen. Messing-Düse für feinen Nebel.</p>
+      <div class="card-footer">
+        <span class="badge-green badge">kaufen</span>
+      </div>
+    </div>
+
+    <div class="card accent-top">
+      <div class="card-label gold">TRAINING · Nice-to-Have</div>
+      <div class="card-title">Bambus Pflanzstäbe + Tonkinstäbe</div>
+      <div class="card-brand">Esschert + Windhager · diverse Größen</div>
+      <p class="card-desc">Für LST-Training und ScrOG-Rahmen. 60cm-Stäbe für den Topf-Rand, längere als Zeltstützen. In der Spätblüte als <strong>Bud-Support</strong> für schwere Cola-Äste. 20er-Pack für ein paar Euro.</p>
+      <div class="card-footer">
+        <span class="badge-gold badge">nice to have</span>
+      </div>
+    </div>
+
+    <div class="card accent-top">
+      <div class="card-label gold">TRAINING · Nice-to-Have</div>
+      <div class="card-title">Pflanzenbinder (20/50 Stk.)</div>
+      <div class="card-brand">Windhager · weich ummantelt</div>
+      <p class="card-desc">Weich ummantelte Bindeclips für LST. Beschädigen Stängel nicht. Auch für die Fixierung am ScrOG-Netz und an Bambusstäben. Besser als Draht, sicherer als Kabelbinder.</p>
+      <div class="card-footer">
+        <span class="badge-gold badge">nice to have</span>
+      </div>
+    </div>
+
+    <div class="card accent-top">
+      <div class="card-label gold">WERKZEUG · Nice-to-Have</div>
+      <div class="card-title">Gartenschere (Bypass)</div>
+      <div class="card-brand">GARDENA / Fiskars Pro</div>
+      <p class="card-desc">Bypass-Scheren für saubere Schnitte beim Topping, Lollipopping, und Ernten. <strong>Sauberer Schnitt = weniger Infektionsrisiko.</strong> Vor jedem Schnitt mit Isopropanol desinfizieren. Die Fiskars Pro hat die beste Klingen-Schärfe im Sortiment.</p>
+      <div class="card-footer">
+        <span class="badge-gold badge">nice to have</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Insider-Trick · Tongranulat-Mulch gegen Trauermücken</div>
     <p>Die meisten Grower kennen Tongranulat nur als Drainage-Schicht am Topfboden. Aber eine <strong>2–3 cm dicke Schicht Tongranulat oben auf die Erde</strong> verhindert, dass Trauermücken ihre Eier in die feuchte Erdoberfläche legen. Trocknet die Oberfläche optisch aus, hält aber die Feuchtigkeit darunter. Kombiniert mit Gelbtafeln + Nematoden (SF) ein dreistufiges Trauermücken-Abwehrsystem — komplett aus dem Bellaflora-Regal.</p>
   </div>
+
 </section>
 
-<!-- ══════════════════════════ 05 · EM & MIKROBIOLOGIE ══════════════════════════ -->
-<section>
-  <div class="section-num">05 — Effektive Mikroorganismen & Bodenbiologie</div>
-  <h2 class="section-title">Der Living-Soil-Boost aus dem Gartenregal</h2>
-  <p class="section-lead">Bellaflora führt eine komplette Multikraft EM-Linie. Für Living Soil sind das die wertvollsten Produkte im ganzen Laden — und die meisten Gartenkunden gehen dran vorbei.</p>
+<div class="divider"></div>
 
-  <div class="product-grid">
-    <div class="product-card tier-trick">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><circle cx="28" cy="35" r="3" fill="#c06040" opacity="0.4"/><circle cx="40" cy="30" r="2" fill="#c06040" opacity="0.5"/><circle cx="52" cy="38" r="2.5" fill="#c06040" opacity="0.4"/><circle cx="35" cy="48" r="2" fill="#c06040" opacity="0.3"/><circle cx="48" cy="50" r="3" fill="#c06040" opacity="0.4"/><circle cx="40" cy="40" r="14" fill="none" stroke="#c06040" stroke-width="1" stroke-dasharray="2 3"/><path d="M28,35 Q34,32 40,30 Q46,34 52,38" fill="none" stroke="#c06040" stroke-width="0.5" opacity="0.4"/></svg>
-      </div>
-      <div class="product-info">
-        <h3>Effektive Mikroorganismen Aktiv (EM Aktiv)</h3>
-        <div class="product-brand">Multikraft · 1L</div>
-        <p class="product-desc"><strong>Flüssiges Mikroben-Inokulum</strong> — Milchsäurebakterien, Hefen, Photosynthesebakterien. 10 mL/L als Bodenguss alle 1–2 Wochen. Beschleunigt organischen Nährstoffabbau, unterdrückt pathogene Pilze, verbessert Nährstoffverfügbarkeit. <strong>Das Herzstück jeder Living-Soil-Strategie</strong> — und bei Bellaflora regulär im Regal.</p>
-      </div>
-      <div class="product-tag tag-trick">Insider-Trick</div>
-    </div>
-
-    <div class="product-card tier-trick">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="20" y="25" width="40" height="35" rx="2" fill="none" stroke="#c06040" stroke-width="1.5"/><text x="40" y="40" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#c06040">EM</text><text x="40" y="52" text-anchor="middle" font-family="IBM Plex Mono" font-size="6" fill="#c06040" opacity="0.7">KERAMIK</text></svg>
-      </div>
-      <div class="product-info">
-        <h3>EM Keramikpulver</h3>
-        <div class="product-brand">Multikraft</div>
-        <p class="product-desc"><strong>Gebrannte EM-Keramik als Bodenverbesser.</strong> Gibt über Monate Frequenzmuster an die Bodenbiologie ab (klingt esoterisch, ist in der EM-Community aber Standard). 20–30g pro 10L Erde. Hält ewig, kann über mehrere Grows verwendet werden.</p>
-      </div>
-      <div class="product-tag tag-trick">Insider-Trick</div>
-    </div>
-
-    <div class="product-card tier-3">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="26" y="18" width="28" height="50" rx="12" fill="none" stroke="#4a90c0" stroke-width="1.5"/><text x="40" y="42" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="#4a90c0">KLAR</text><text x="40" y="52" text-anchor="middle" font-family="IBM Plex Mono" font-size="6" fill="#4a90c0" opacity="0.6">AKTIV</text></svg>
-      </div>
-      <div class="product-info">
-        <h3>EM Klar Aktiv</h3>
-        <div class="product-brand">Multikraft · fermentiert</div>
-        <p class="product-desc">Stärkere Konzentration als EM Aktiv. Zur <strong>Blattbehandlung</strong> und als Bodenguss. Kann auch zum <strong>Desinfizieren der Grow-Umgebung</strong> verwendet werden (verdünnt auf Oberflächen). Verdrängt pathogene Keime durch Besiedlung mit nützlichen Mikroben.</p>
-      </div>
-      <div class="product-tag tag-know">Good-to-Know</div>
-    </div>
-
-    <div class="product-card tier-3">
-      <div class="product-icon">
-        <svg viewBox="0 0 80 80"><rect x="22" y="22" width="36" height="44" rx="3" fill="none" stroke="#4a90c0" stroke-width="1.5"/><text x="40" y="42" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="#4a90c0">PLANTS</text><text x="40" y="52" text-anchor="middle" font-family="IBM Plex Mono" font-size="6" fill="#4a90c0" opacity="0.6">1L</text></svg>
-      </div>
-      <div class="product-info">
-        <h3>Multikraft Plants (1L)</h3>
-        <div class="product-brand">Multikraft</div>
-        <p class="product-desc">Speziell formulierte EM-Mischung <strong>für Pflanzenstärkung</strong>. Enthält pflanzenverfügbare Aminosäuren und Vitamine neben den Mikroorganismen. Eher als Blattspray gedacht. Teurer als EM Aktiv, aber gezielter.</p>
-      </div>
-      <div class="product-tag tag-know">Good-to-Know</div>
-    </div>
+<!-- ══════════════════════════════ 05 · MIKROBIOLOGIE ══════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Sektion 05 · Effektive Mikroorganismen & Bodenbiologie</div>
+    <h2>Der <span>Living-Soil-Boost</span> aus dem Gartenregal</h2>
+    <p class="section-intro">Bellaflora führt eine komplette Multikraft EM-Linie. Für Living Soil sind das die wertvollsten Produkte im ganzen Laden — und die meisten Gartenkunden gehen dran vorbei.</p>
   </div>
 
-  <div class="devil">
-    <div class="devil-header">
-      <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1L13 13H1L7 1Z" fill="none" stroke="#c04030" stroke-width="1.5"/><line x1="7" y1="5" x2="7" y2="9" stroke="#c04030" stroke-width="1.5"/><circle cx="7" cy="11" r="0.8" fill="#c04030"/></svg>
-      Devil's Advocate — EM Keramikpulver
+  <div class="card-grid">
+
+    <div class="card accent-orange">
+      <div class="card-label orange">MIKROBIOLOGIE · Insider-Trick</div>
+      <div class="card-title">Effektive Mikroorganismen Aktiv (EM Aktiv)</div>
+      <div class="card-brand">Multikraft · 1L</div>
+      <p class="card-desc"><strong>Flüssiges Mikroben-Inokulum</strong> — Milchsäurebakterien, Hefen, Photosynthesebakterien. 10 mL/L als Bodenguss alle 1–2 Wochen. Beschleunigt organischen Nährstoffabbau, unterdrückt pathogene Pilze, verbessert Nährstoffverfügbarkeit. <strong>Das Herzstück jeder Living-Soil-Strategie</strong> — und bei Bellaflora regulär im Regal.</p>
+      <div class="card-footer">
+        <span class="badge-orange badge">insider-trick</span>
+        <span class="badge-gold badge">10 ml/L</span>
+      </div>
     </div>
-    Ehrlich: die wissenschaftliche Evidenz für EM-Keramik ist <strong>dünn bis nicht existent</strong> in peer-reviewed Journals. Die EM-Community schwört drauf, aber der Mechanismus („informierte Keramik") hat keine belastbare physikalische Grundlage. Das Standard-EM-Aktiv (lebende Kulturen) hat dagegen durchaus dokumentierte Effekte auf Bodenmikrobiologie. Priorität: EM Aktiv > Brennnesselextrakt > Bodenaktivator > … > Keramikpulver ganz am Ende.
+
+    <div class="card accent-orange">
+      <div class="card-label orange">MIKROBIOLOGIE · Insider-Trick</div>
+      <div class="card-title">EM Keramikpulver</div>
+      <div class="card-brand">Multikraft</div>
+      <p class="card-desc"><strong>Gebrannte EM-Keramik als Bodenverbesser.</strong> Gibt über Monate Frequenzmuster an die Bodenbiologie ab (klingt esoterisch, ist in der EM-Community aber Standard). 20–30g pro 10L Erde. Hält ewig, kann über mehrere Grows verwendet werden.</p>
+      <div class="card-footer">
+        <span class="badge-orange badge">insider-trick</span>
+        <span class="badge-gold badge">20–30 g / 10L</span>
+      </div>
+    </div>
+
+    <div class="card accent-blue">
+      <div class="card-label blue">MIKROBIOLOGIE · Good-to-Know</div>
+      <div class="card-title">EM Klar Aktiv</div>
+      <div class="card-brand">Multikraft · fermentiert</div>
+      <p class="card-desc">Stärkere Konzentration als EM Aktiv. Zur <strong>Blattbehandlung</strong> und als Bodenguss. Kann auch zum <strong>Desinfizieren der Grow-Umgebung</strong> verwendet werden (verdünnt auf Oberflächen). Verdrängt pathogene Keime durch Besiedlung mit nützlichen Mikroben.</p>
+      <div class="card-footer">
+        <span class="badge-blue badge">good to know</span>
+      </div>
+    </div>
+
+    <div class="card accent-blue">
+      <div class="card-label blue">MIKROBIOLOGIE · Good-to-Know</div>
+      <div class="card-title">Multikraft Plants (1L)</div>
+      <div class="card-brand">Multikraft</div>
+      <p class="card-desc">Speziell formulierte EM-Mischung <strong>für Pflanzenstärkung</strong>. Enthält pflanzenverfügbare Aminosäuren und Vitamine neben den Mikroorganismen. Eher als Blattspray gedacht. Teurer als EM Aktiv, aber gezielter.</p>
+      <div class="card-footer">
+        <span class="badge-blue badge">good to know</span>
+      </div>
+    </div>
+
   </div>
+
+  <div class="callout callout-red">
+    <div class="callout-label">Kritisch · EM Keramikpulver</div>
+    <p>Ehrlich: die wissenschaftliche Evidenz für EM-Keramik ist <strong>dünn bis nicht existent</strong> in peer-reviewed Journals. Die EM-Community schwört drauf, aber der Mechanismus („informierte Keramik") hat keine belastbare physikalische Grundlage. Das Standard-EM-Aktiv (lebende Kulturen) hat dagegen durchaus dokumentierte Effekte auf Bodenmikrobiologie. Priorität: EM Aktiv > Brennnesselextrakt > Bodenaktivator > … > Keramikpulver ganz am Ende.</p>
+  </div>
+
 </section>
 
-<!-- ══════════════════════════ 06 · WAS FEHLT ══════════════════════════ -->
-<section>
-  <div class="section-num">06 — Was Bellaflora nicht hat</div>
-  <h2 class="section-title">Der Growshop-Einkaufszettel</h2>
-  <p class="section-lead">Diese Lücken musst du im Linzer Growshop schließen. Alle akzeptieren Bar.</p>
+<div class="divider"></div>
+
+<!-- ══════════════════════════════ 06 · STEALTH-TIPPS ══════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Sektion 06 · Stealth-Tipps</div>
+    <h2>Unauffällig <span>einkaufen</span></h2>
+    <p class="section-intro">Alles legal, alles bar, alles unauffällig auf der Rechnung. So bleibt der Bellaflora-Einkauf unverfänglich — auch wenn man dabei einen kompletten Grow ausstattet.</p>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Stealth · Rechnung und Bezahlung</div>
+    <p>Bar bezahlen — keine Kundenkarte nötig, keine digitale Kaufhistorie. Auf der Kassenrechnung stehen Produktnamen wie „Tomatendünger", „Rasendünger Langzeit", „Naturerde torffrei" — kein einziger Eintrag wirkt verdächtig. Bellaflora-Produkte sind Gartenprodukte für Hobbygärtner, das ist der natürliche Kontext.</p>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Stealth · Einkaufsverhalten</div>
+    <p>Den Warenkorb wie ein Hobbygärtner zusammenstellen: Erde, Perlite, Dünger, Schädlingsschutz, Gartenwerkzeug. Das ist exakt das, was jeder Tomaten- oder Kräutergärtner kauft. Keine Ausrüstung kaufen, die ausschließlich mit Indoor-Grows assoziiert wird (Lichtmessgeräte, spezielle Hydroponik-Zubehör) — die gibts bei Bellaflora ohnehin nicht.</p>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Stealth · Nützlings-Bestellkarte</div>
+    <p>Die Bestellkarte für Nützlinge (Raubmilben, Nematoden, Florfliegen) liegt an der Kassa. Man füllt sie aus und die Lieferung kommt per Post nach Hause — diskret verpackt. Kein Bezug zu Cannabis, kein verdächtiges Paket: lebende Nützlinge für den Garten sind ein völlig normales Produkt.</p>
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════ 07 · INSIDER-TRICKS ══════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Sektion 07 · Tricks, die kaum wer kennt</div>
+    <h2>Wissen aus <span>20+ Jahren</span> Indoor-Erfahrung</h2>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Insider-Trick · Neudorff Azet Rosendünger enthält MyccoVital Mykorrhiza</div>
+    <p>Bellaflora hat <strong>kein standalone Mykorrhiza-Produkt</strong> — aber der <strong>Azet Rosendünger</strong> enthält Neudorffs MyccoVital-Mykorrhiza plus Bodenbakterien. Eine Handvoll beim Umtopfen direkt an die Wurzeln = Mykorrhiza-Inokulation für unter €5. Nicht ideal (Dosierung unkontrolliert), aber besser als gar keine Mykorrhiza bis zum nächsten Growshop-Besuch.</p>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Insider-Trick · Tannendünger als Silikat-Quelle</div>
+    <p>Der Neudorff <strong>Tannen-Koniferendünger</strong> enthält einen höheren Silikat-Anteil als die meisten anderen organischen Dünger (Nadelbäume brauchen das). <strong>5g/10L Erde</strong> als Amendment untermischen — verstärkt Zellwände, ähnlich wie dedizierte Silikat-Produkte aus dem Growshop, aber zu einem Bruchteil des Preises.</p>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Insider-Trick · Vinasse im Rasendünger = natürliche Melasse</div>
+    <p>Vinasse ist ein <strong>Nebenprodukt der Zuckerrübenverarbeitung</strong> — chemisch fast identisch mit der Melasse (Molasses), die Living-Soil-Grower zum Füttern der Bodenmikroben verwenden. Der biogarten Rasendünger enthält Vinasse — durch Topdressing mit dem Rasendünger fütterst du gleichzeitig deine Mykorrhiza-Pilze. Oder du besorgst Melasse (Backregal, Reformhaus) separat: 5mL/L alle 1–2 Wochen.</p>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Insider-Trick · Natron gegen Mehltau — BioKraft Grundstoff Natron</div>
+    <p>Bellaflora führt <strong>Neudorff BioKraft Grundstoff Natron (500 mL)</strong>. Natriumbicarbonat als Blattspray gegen echten Mehltau. Aber <strong>Vorsicht</strong>: Natron erhöht den pH auf der Blattoberfläche — nicht bei empfindlichen Pflanzen in der Spätblüte. Als Veg-Prävention bei 5g/L Wasser + 2mL Rapsöl als Haftmittel aber sehr effektiv.</p>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Insider-Trick · Gießkanne mit Brause — nicht unterschätzen</div>
+    <p>Die <strong>Vog Metall-Gießkanne mit abnehmbarer Brause</strong> bei Bellaflora ist ein unterschätztes Tool. Brause drauf = <strong>sanftes Top-Watering ohne Bodenverdichtung</strong> (Living Soil will nicht gestört werden). Brause ab = gezielter Guss an die Basis. Die meisten Grower gießen mit irgendwas und verdichten dabei die Erdoberfläche — das killt aerobe Bodenbiologie.</p>
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════ 08 · WAS FEHLT ══════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Sektion 08 · Was Bellaflora nicht hat</div>
+    <h2>Der <span>Growshop-Einkaufszettel</span></h2>
+    <p class="section-intro">Diese Lücken musst du im Linzer Growshop schließen. Alle akzeptieren Bar.</p>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-label">Rechtlicher Hinweis · Österreich</div>
+    <p>Alle bei Bellaflora erhältlichen Produkte sind legale Gartenbedarfsartikel. Deren Einsatz für den Anbau von Cannabis fällt unter österreichisches Suchtmittelgesetz (SMG). Dieser Guide dient ausschließlich zur Information und beschreibt Produkte für legale Gartenpflanzen.</p>
+  </div>
 
   <div class="gap-list">
     <div class="gap-item"><span class="label">BioBizz Grow/Bloom/TopMax</span> <span class="gap-arrow">→</span> La Ganja Loca</div>
@@ -898,8 +1039,7 @@
     <div class="gap-item"><span class="label">Huminsäure / Fulvinsäure</span> <span class="gap-arrow">→</span> Growee</div>
   </div>
 
-  <!-- Linz Grow Shops -->
-  <table class="compare-table">
+  <table>
     <thead>
       <tr>
         <th>Growshop</th>
@@ -910,71 +1050,45 @@
     </thead>
     <tbody>
       <tr>
-        <td>La Ganja Loca</td>
+        <td><strong>La Ganja Loca</strong></td>
         <td>Hartheimerstr. 24, 4030 Linz</td>
         <td>BioBizz komplett, Plagron, Hesi, Canna</td>
         <td>Mo–Fr 10–19, Sa 12–17</td>
       </tr>
       <tr>
-        <td>Seeds24</td>
+        <td><strong>Seeds24</strong></td>
         <td>Leonding</td>
         <td>Plagron Substrate, Sanlight</td>
         <td>Online + Abholung</td>
       </tr>
       <tr>
-        <td>Green Habit</td>
+        <td><strong>Green Habit</strong></td>
         <td>Schirmerstr. 28c, Leonding</td>
         <td>Töpfe, Venti, LED</td>
         <td>Mo–Fr 10–18, Sa 10–14</td>
       </tr>
       <tr>
-        <td>Growee</td>
+        <td><strong>Growee</strong></td>
         <td>Franzosenhausweg 51, 4030 Linz</td>
         <td>Breites Sortiment</td>
         <td>Online + Abholung</td>
       </tr>
     </tbody>
   </table>
+
 </section>
 
-<!-- ══════════════════════════ 07 · TRICKS ══════════════════════════ -->
-<section>
-  <div class="section-num">07 — Tricks, die kaum wer kennt</div>
-  <h2 class="section-title">Wissen aus 20+ Jahren Indoor-Erfahrung</h2>
+<div class="divider"></div>
 
-  <div class="trick-box">
-    <h4>🔥 Neudorff Azet Rosendünger enthält MyccoVital Mykorrhiza</h4>
-    <p>Bellaflora hat <strong>kein standalone Mykorrhiza-Produkt</strong> — aber der <strong>Azet Rosendünger</strong> enthält Neudorffs MyccoVital-Mykorrhiza plus Bodenbakterien. Eine Handvoll beim Umtopfen direkt an die Wurzeln = Mykorrhiza-Inokulation für unter €5. Nicht ideal (Dosierung unkontrolliert), aber besser als gar keine Mykorrhiza bis zum nächsten Growshop-Besuch.</p>
+<!-- ══════════════════════════════ ZUSAMMENFASSUNG ══════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Zusammenfassung</div>
+    <h2>Die Bellaflora-<span>Einkaufsliste</span></h2>
+    <p class="section-intro">Kopier die Must-Haves, rest ist Kür.</p>
   </div>
 
-  <div class="trick-box">
-    <h4>🔥 Tannendünger als Silikat-Quelle</h4>
-    <p>Der Neudorff <strong>Tannen-Koniferendünger</strong> enthält einen höheren Silikat-Anteil als die meisten anderen organischen Dünger (Nadelbäume brauchen das). <strong>5g/10L Erde</strong> als Amendment untermischen — verstärkt Zellwände, ähnlich wie dedizierte Silikat-Produkte aus dem Growshop, aber zu einem Bruchteil des Preises.</p>
-  </div>
-
-  <div class="trick-box">
-    <h4>🔥 Vinasse im Rasendünger = natürliche Melasse</h4>
-    <p>Vinasse ist ein <strong>Nebenprodukt der Zuckerrübenverarbeitung</strong> — chemisch fast identisch mit der Melasse (Molasses), die Living-Soil-Grower zum Füttern der Bodenmikroben verwenden. Der biogarten Rasendünger enthält Vinasse — durch Topdressing mit dem Rasendünger fütterst du gleichzeitig deine Mykorrhiza-Pilze. Oder du besorgst Melasse (Backregal, Reformhaus) separat: 5mL/L alle 1–2 Wochen.</p>
-  </div>
-
-  <div class="trick-box">
-    <h4>🔥 Natron gegen Mehltau — BioKraft Grundstoff Natron</h4>
-    <p>Bellaflora führt <strong>Neudorff BioKraft Grundstoff Natron (500 mL)</strong>. Natriumbicarbonat als Blattspray gegen echten Mehltau. Aber <strong>Vorsicht</strong>: Natron erhöht den pH auf der Blattoberfläche — nicht bei empfindlichen Pflanzen in der Spätblüte. Als Veg-Prävention bei 5g/L Wasser + 2mL Rapsöl als Haftmittel aber sehr effektiv.</p>
-  </div>
-
-  <div class="trick-box">
-    <h4>🔥 Gießkanne mit Brause — nicht unterschätzen</h4>
-    <p>Die <strong>Vog Metall-Gießkanne mit abnehmbarer Brause</strong> bei Bellaflora ist ein unterschätztes Tool. Brause drauf = <strong>sanftes Top-Watering ohne Bodenverdichtung</strong> (Living Soil will nicht gestört werden). Brause ab = gezielter Guss an die Basis. Die meisten Grower gießen mit irgendwas und verdichten dabei die Erdoberfläche — das killt aerobe Bodenbiologie.</p>
-  </div>
-</section>
-
-<!-- ══════════════════════════ SUMMARY ══════════════════════════ -->
-<section>
-  <div class="section-num">Zusammenfassung</div>
-  <h2 class="section-title">Die Bellaflora-Einkaufsliste</h2>
-  <p class="section-lead">Kopier die Must-Haves, rest ist Kür.</p>
-
-  <table class="compare-table">
+  <table>
     <thead>
       <tr>
         <th>Produkt</th>
@@ -985,95 +1099,99 @@
     </thead>
     <tbody>
       <tr>
-        <td>Naturerde torffrei</td>
-        <td><span class="check">●</span> Must</td>
+        <td><strong>Naturerde torffrei</strong></td>
+        <td><span class="badge-green badge">Must</span></td>
         <td>Hauptsubstrat</td>
         <td>75% der Erdmischung</td>
       </tr>
       <tr>
-        <td>Perlite</td>
-        <td><span class="check">●</span> Must</td>
+        <td><strong>Perlite</strong></td>
+        <td><span class="badge-green badge">Must</span></td>
         <td>Drainage + Belüftung</td>
         <td>20–25% zumischen</td>
       </tr>
       <tr>
-        <td>Tongranulat</td>
-        <td><span class="check">●</span> Must</td>
+        <td><strong>Tongranulat</strong></td>
+        <td><span class="badge-green badge">Must</span></td>
         <td>Drainage + Mulch</td>
         <td>3–4cm Boden, 2cm oben</td>
       </tr>
       <tr>
-        <td>Bittersalz</td>
-        <td><span class="check">●</span> Must</td>
+        <td><strong>Bittersalz</strong></td>
+        <td><span class="badge-green badge">Must</span></td>
         <td>Mg-Supplement (LED!)</td>
         <td>1–2g/L ab Woche 3</td>
       </tr>
       <tr>
-        <td>Patentkali</td>
-        <td><span class="check">●</span> Must</td>
+        <td><strong>Patentkali</strong></td>
+        <td><span class="badge-green badge">Must</span></td>
         <td>K+Mg für Blüte</td>
         <td>1–2g/L ab Blüte Wk3</td>
       </tr>
       <tr>
-        <td>Hornspäne</td>
-        <td><span class="check">●</span> Must</td>
+        <td><strong>Hornspäne</strong></td>
+        <td><span class="badge-green badge">Must</span></td>
         <td>Slow-Release N</td>
         <td>1 EL/10L alle 3–4 Wo</td>
       </tr>
       <tr>
-        <td>Gelbsticker</td>
-        <td><span class="check">●</span> Must</td>
+        <td><strong>Gelbsticker</strong></td>
+        <td><span class="badge-green badge">Must</span></td>
         <td>Schädlings-Monitoring</td>
         <td>2–3 Stk. im Zelt</td>
       </tr>
       <tr>
-        <td>Neem Plus</td>
-        <td><span class="check">●</span> Must</td>
+        <td><strong>Neem Plus</strong></td>
+        <td><span class="badge-green badge">Must</span></td>
         <td>IPM (nur Veg!)</td>
         <td>nach Packungsangabe</td>
       </tr>
       <tr>
-        <td>Jute Ranknetz</td>
-        <td><span class="check">●</span> Must</td>
+        <td><strong>Jute Ranknetz</strong></td>
+        <td><span class="badge-green badge">Must</span></td>
         <td>ScrOG-Netz</td>
         <td>auf 80×80cm falten</td>
       </tr>
       <tr>
-        <td>Drucksprüher</td>
-        <td><span class="check">●</span> Must</td>
+        <td><strong>Drucksprüher</strong></td>
+        <td><span class="badge-green badge">Must</span></td>
         <td>Blattsprays</td>
         <td>1,25L ausreichend</td>
       </tr>
       <tr>
-        <td>Rasendünger LZ</td>
-        <td><span style="color:var(--tier-trick)">●</span> Trick</td>
+        <td><strong>Rasendünger LZ</strong></td>
+        <td><span class="badge-orange badge">Trick</span></td>
         <td>Multi-Amendment</td>
         <td>5–10g/L Erde</td>
       </tr>
       <tr>
-        <td>EM Aktiv</td>
-        <td><span style="color:var(--tier-trick)">●</span> Trick</td>
+        <td><strong>EM Aktiv</strong></td>
+        <td><span class="badge-orange badge">Trick</span></td>
         <td>Bodenbiologie</td>
         <td>10mL/L alle 1–2 Wo</td>
       </tr>
       <tr>
-        <td>Nützlinge (SF/PP)</td>
-        <td><span style="color:var(--tier-trick)">●</span> Trick</td>
+        <td><strong>Nützlinge (SF/PP)</strong></td>
+        <td><span class="badge-orange badge">Trick</span></td>
         <td>Bio-IPM</td>
         <td>Bestellkarte an Kassa</td>
       </tr>
     </tbody>
   </table>
+
 </section>
 
-</div>
-
-<footer>
-  <div class="container">
-    Bellaflora Field Guide · Living Soil Indoor · Linz 2026<br>
-    Alle Angaben ohne Gewähr · Sortiment kann variieren · In-Store-Auswahl größer als online
-  </div>
+<footer class="footer">
+  <p>Bellaflora Field Guide · Living Soil Indoor · Linz 2026<br>
+  Alle Angaben ohne Gewähr · Sortiment kann variieren · In-Store-Auswahl größer als online</p>
 </footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>

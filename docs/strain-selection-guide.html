@@ -3,626 +3,603 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terpene-Guided Strain Selection — 10 European Feminized Cultivars</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>10 Strains for Calm, Clear-Headed Productivity — GrowDoc</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg-deep: #0a0f0a;
-  --bg-card: #111a11;
-  --bg-card-hover: #162016;
-  --bg-surface: #0d140d;
-  --border: #1e2e1e;
-  --border-accent: #2a4a2a;
-  --text-primary: #e8efe8;
-  --text-secondary: #9ab89a;
-  --text-muted: #5e7a5e;
-  --accent-green: #4ade80;
-  --accent-lime: #a3e635;
-  --accent-amber: #fbbf24;
-  --accent-orange: #fb923c;
-  --accent-rose: #fb7185;
-  --accent-violet: #a78bfa;
-  --accent-cyan: #22d3ee;
-  --accent-teal: #2dd4bf;
-  /* Terpene colors */
-  --caryophyllene: #f59e0b;
-  --limonene: #facc15;
-  --myrcene: #4ade80;
-  --linalool: #c084fc;
-  --pinene: #34d399;
-  --humulene: #fb923c;
-  --terpinolene: #38bdf8;
+  --bg-primary: #0a0d0a;
+  --bg-card: #111611;
+  --bg-card-hover: #161b16;
+  --bg-section: #0d100d;
+  --text-primary: #e8e4d9;
+  --text-secondary: #9ca38e;
+  --text-muted: #5e6556;
+  --accent-gold: #c9a84c;
+  --accent-gold-dim: #8a7234;
+  --accent-green: #4a7c3f;
+  --accent-green-bright: #6db35f;
+  --accent-green-dim: #2d4a26;
+  --accent-purple: #7c5a9e;
+  --accent-red: #b54c4c;
+  --accent-orange: #c97a2e;
+  --accent-blue: #4a7c9e;
+  --accent-teal: #3a8a7a;
+  --border: #1e241e;
+  --border-light: #2a322a;
+  --sativa: #e8c84c;
+  --indica: #5a3e8a;
+  --hybrid: #4a7c3f;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  /* Terpene palette */
+  --terp-caryophyllene: #c97a2e;
+  --terp-limonene: #c9a84c;
+  --terp-myrcene: #4a7c3f;
+  --terp-linalool: #7c5a9e;
+  --terp-pinene: #3a8a5a;
+  --terp-humulene: #8a7234;
+  --terp-terpinolene: #4a7c9e;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
-
 body {
-  background: var(--bg-deep);
+  font-family: var(--font-body);
+  background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'DM Sans', sans-serif;
   line-height: 1.7;
+  font-size: 16px;
   overflow-x: hidden;
 }
 
-/* Grain overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* Hero */
+/* ======================================================
+   HERO
+   ====================================================== */
 .hero {
-  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 4rem 2rem;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
   overflow: hidden;
 }
-
-.hero-bg {
+.hero::before {
+  content: '';
   position: absolute;
   inset: 0;
-  background: 
-    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(74, 222, 128, 0.06) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(250, 204, 21, 0.04) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 40% at 50% 80%, rgba(192, 132, 252, 0.03) 0%, transparent 70%);
-  z-index: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 30% 40%, rgba(74,124,63,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 70% 60%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 300px at 50% 80%, rgba(124,90,158,0.06) 0%, transparent 70%);
+  pointer-events: none;
 }
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 1rem;
-  background: rgba(74, 222, 128, 0.08);
-  border: 1px solid rgba(74, 222, 128, 0.2);
-  border-radius: 100px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--accent-green);
-  letter-spacing: 0.08em;
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  margin-bottom: 2rem;
-  animation: fadeInUp 0.8s ease both;
-}
-
-.hero-badge::before {
-  content: '';
-  width: 6px; height: 6px;
-  background: var(--accent-green);
-  border-radius: 50%;
-  animation: pulse-dot 2s ease infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.7); }
-}
-
-h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.8rem, 6vw, 5rem);
-  font-weight: 900;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  color: var(--accent-gold);
   margin-bottom: 1.5rem;
-  animation: fadeInUp 0.8s ease 0.1s both;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
 }
-
-h1 .accent { color: var(--accent-green); }
-h1 .accent-gold { color: var(--caryophyllene); }
-
-.hero-sub {
-  font-size: 1.15rem;
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  max-width: 900px;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+.hero h1 span { color: var(--accent-gold); }
+.hero-desc {
+  font-size: 1.1rem;
   color: var(--text-secondary);
   max-width: 640px;
-  margin-bottom: 2.5rem;
-  animation: fadeInUp 0.8s ease 0.2s both;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
 }
-
-@keyframes fadeInUp {
+.hero-terp-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+}
+.terp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--border-light);
+  border-radius: 3px;
+  color: var(--text-muted);
+  transition: all 0.3s;
+}
+.terp-pill:hover {
+  border-color: var(--accent-gold-dim);
+  color: var(--text-secondary);
+  background: rgba(201,168,76,0.04);
+}
+.terp-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+@keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Terpene legend bar */
-.terp-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  animation: fadeInUp 0.8s ease 0.3s both;
-}
-
-.terp-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.75rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 0.78rem;
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--text-secondary);
-  transition: all 0.3s ease;
-}
-
-.terp-tag:hover {
-  background: rgba(255,255,255,0.06);
-  border-color: var(--border-accent);
-}
-
-.terp-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-/* Science section */
-.science-section {
-  padding: 5rem 2rem;
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-.science-inner {
+/* ======================================================
+   SECTIONS
+   ====================================================== */
+.section {
   max-width: 1100px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: start;
+  padding: 6rem 2rem;
 }
-
-@media (max-width: 768px) {
-  .science-inner { grid-template-columns: 1fr; }
+.section-header { margin-bottom: 3rem; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent-gold-dim);
+  margin-bottom: 0.75rem;
 }
-
-.science-text h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem;
+.section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
-  margin-bottom: 1.2rem;
-}
-
-.science-text p {
-  color: var(--text-secondary);
+  line-height: 1.15;
   margin-bottom: 1rem;
-  font-size: 0.95rem;
+}
+.section h2 span { color: var(--accent-gold); }
+.section-intro {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 720px;
+  line-height: 1.8;
+}
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+  margin: 0 auto;
+  max-width: 1100px;
 }
 
-.science-text .highlight {
-  color: var(--text-primary);
-  background: rgba(74, 222, 128, 0.08);
-  padding: 0.1em 0.4em;
-  border-radius: 4px;
-  font-weight: 500;
+/* ======================================================
+   STATS GRID
+   ====================================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem 1.4rem;
+  position: relative;
+  overflow: hidden;
+}
+.stat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.stat.gold::before { background: var(--accent-gold); }
+.stat.orange::before { background: var(--terp-caryophyllene); }
+.stat.yellow::before { background: var(--terp-limonene); }
+.stat.green::before { background: var(--terp-myrcene); }
+.stat.purple::before { background: var(--terp-linalool); }
+.stat.teal::before { background: var(--terp-pinene); }
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  line-height: 1.1;
+}
+.stat-value.orange { color: var(--terp-caryophyllene); }
+.stat-value.yellow { color: var(--terp-limonene); }
+.stat-value.green { color: var(--accent-green-bright); }
+.stat-value.purple { color: #a88ad4; }
+.stat-value.teal { color: var(--accent-teal); }
+.stat-sub {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.4rem;
+  line-height: 1.5;
 }
 
+/* ======================================================
+   PATHWAY CARDS
+   ====================================================== */
+.pathway-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
 .pathway-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1.5rem;
-  margin-bottom: 1rem;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
-
 .pathway-card:hover {
-  border-color: var(--border-accent);
+  border-color: var(--border-light);
   background: var(--bg-card-hover);
+  transform: translateY(-2px);
 }
-
-.pathway-card h4 {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
-  font-weight: 500;
+.pathway-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-
-.pathway-card p {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-/* Strain cards */
-.strains-section {
-  padding: 5rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.strains-section > h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.5rem;
+.pathway-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
   font-weight: 700;
-  text-align: center;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 }
-
-.strains-section > .subtitle {
-  text-align: center;
-  color: var(--text-secondary);
-  max-width: 600px;
-  margin: 0 auto 3rem;
-  font-size: 0.95rem;
-}
-
-.strain-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  margin-bottom: 2.5rem;
-  overflow: hidden;
-  transition: all 0.4s ease;
-  position: relative;
-}
-
-.strain-card:hover {
-  border-color: var(--border-accent);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-}
-
-.strain-header {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 0;
-  min-height: 220px;
-}
-
-@media (max-width: 768px) {
-  .strain-header { grid-template-columns: 1fr; }
-}
-
-.strain-visual {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  min-height: 200px;
-}
-
-.strain-info {
-  padding: 1.8rem 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.strain-rank {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 0.3rem;
-}
-
-.strain-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 0.2rem;
-  line-height: 1.2;
-}
-
-.strain-breeder {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.6rem;
-}
-
-.strain-genetics {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  margin-bottom: 0.8rem;
-  line-height: 1.5;
-}
-
-.strain-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.72rem;
-  font-weight: 500;
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: 0.02em;
-}
-
-.badge-green { background: rgba(74, 222, 128, 0.1); color: var(--accent-green); border: 1px solid rgba(74, 222, 128, 0.2); }
-.badge-amber { background: rgba(251, 191, 36, 0.1); color: var(--accent-amber); border: 1px solid rgba(251, 191, 36, 0.2); }
-.badge-rose { background: rgba(251, 113, 133, 0.1); color: var(--accent-rose); border: 1px solid rgba(251, 113, 133, 0.2); }
-.badge-violet { background: rgba(167, 139, 250, 0.1); color: var(--accent-violet); border: 1px solid rgba(167, 139, 250, 0.2); }
-.badge-cyan { background: rgba(34, 211, 238, 0.1); color: var(--accent-cyan); border: 1px solid rgba(34, 211, 238, 0.2); }
-.badge-teal { background: rgba(45, 212, 191, 0.1); color: var(--accent-teal); border: 1px solid rgba(45, 212, 191, 0.2); }
-
-/* Strain body */
-.strain-body {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  border-top: 1px solid var(--border);
-}
-
-@media (max-width: 768px) {
-  .strain-body { grid-template-columns: 1fr; }
-}
-
-.strain-col {
-  padding: 1.5rem 2rem;
-}
-
-.strain-col:first-child {
-  border-right: 1px solid var(--border);
-}
-
-@media (max-width: 768px) {
-  .strain-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
-}
-
-.strain-col h4 {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 0.8rem;
-}
-
-.strain-col p {
+.pathway-body {
   font-size: 0.88rem;
   color: var(--text-secondary);
   line-height: 1.7;
 }
 
-/* Terpene bar chart */
-.terp-bars {
+/* ======================================================
+   BADGES
+   ====================================================== */
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+.badge-gold { background: rgba(201,168,76,0.12); color: var(--accent-gold); border: 1px solid rgba(201,168,76,0.2); }
+.badge-green { background: rgba(74,124,63,0.12); color: var(--accent-green-bright); border: 1px solid rgba(74,124,63,0.2); }
+.badge-purple { background: rgba(124,90,158,0.12); color: #a88ad4; border: 1px solid rgba(124,90,158,0.2); }
+.badge-red { background: rgba(181,76,76,0.12); color: var(--accent-red); border: 1px solid rgba(181,76,76,0.2); }
+.badge-orange { background: rgba(201,122,46,0.12); color: var(--accent-orange); border: 1px solid rgba(201,122,46,0.2); }
+.badge-blue { background: rgba(74,124,158,0.12); color: var(--accent-blue); border: 1px solid rgba(74,124,158,0.2); }
+.badge-sativa { background: rgba(232,200,76,0.12); color: var(--sativa); border: 1px solid rgba(232,200,76,0.2); }
+.badge-indica { background: rgba(90,62,138,0.12); color: #a88ad4; border: 1px solid rgba(90,62,138,0.2); }
+.badge-hybrid { background: rgba(74,124,63,0.12); color: var(--accent-green-bright); border: 1px solid rgba(74,124,63,0.2); }
+
+/* ======================================================
+   CALLOUTS
+   ====================================================== */
+.callout {
+  border-left: 3px solid var(--accent-gold);
+  background: rgba(201,168,76,0.04);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+.callout-red { border-left-color: var(--accent-red); background: rgba(181,76,76,0.04); }
+.callout-green { border-left-color: var(--accent-green-bright); background: rgba(109,179,95,0.04); }
+.callout-purple { border-left-color: var(--accent-purple); background: rgba(124,90,158,0.04); }
+.callout-blue { border-left-color: var(--accent-blue); background: rgba(74,124,158,0.04); }
+.callout-orange { border-left-color: var(--accent-orange); background: rgba(201,122,46,0.04); }
+.callout-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  color: var(--accent-gold);
+}
+.callout-red .callout-label { color: var(--accent-red); }
+.callout-green .callout-label { color: var(--accent-green-bright); }
+.callout-purple .callout-label { color: var(--accent-purple); }
+.callout-blue .callout-label { color: var(--accent-blue); }
+.callout-orange .callout-label { color: var(--accent-orange); }
+.callout p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ======================================================
+   STRAIN SECTION LAYOUT
+   ====================================================== */
+.strain-section {
+  padding: 5rem 0;
+  border-top: 1px solid var(--border);
+}
+.strain-section:first-of-type { border-top: none; }
+
+.strain-rank-number {
+  font-family: var(--font-mono);
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 500;
+  color: var(--accent-gold);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+  opacity: 0.85;
+}
+
+.strain-header-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 0.75rem;
+}
+.strain-name {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+.strain-meta {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  margin-top: 0.5rem;
+  align-items: flex-end;
+  gap: 0.4rem;
+  padding-top: 0.5rem;
 }
-
-.terp-bar-row {
-  display: grid;
-  grid-template-columns: 90px 1fr 40px;
-  align-items: center;
-  gap: 0.6rem;
+.strain-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 3px;
+  text-transform: uppercase;
 }
-
-.terp-bar-label {
-  font-family: 'JetBrains Mono', monospace;
+.strain-breeder {
+  font-family: var(--font-mono);
   font-size: 0.7rem;
   color: var(--text-muted);
-  text-align: right;
+  margin-bottom: 0.5rem;
 }
-
-.terp-bar-track {
-  height: 10px;
-  background: rgba(255,255,255,0.04);
-  border-radius: 5px;
-  overflow: hidden;
-  position: relative;
-}
-
-.terp-bar-fill {
-  height: 100%;
-  border-radius: 5px;
-  transition: width 1s ease;
-  position: relative;
-}
-
-.terp-bar-fill::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15));
-  border-radius: 5px;
-}
-
-.terp-bar-value {
-  font-family: 'JetBrains Mono', monospace;
+.strain-genetics {
+  font-family: var(--font-mono);
   font-size: 0.68rem;
   color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
 }
+.strain-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.75rem;
+}
+.strain-story {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.85;
+  max-width: 760px;
+  margin-bottom: 2rem;
+}
+.strain-story strong { color: var(--text-primary); font-weight: 600; }
 
-/* Grow specs footer */
-.strain-footer {
+/* Two-column body */
+.strain-body {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 0;
-  border-top: 1px solid var(--border);
-  background: rgba(0,0,0,0.15);
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
 }
+.strain-col h4 {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.strain-col p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 0.75rem;
+}
+.strain-col p strong { color: var(--text-primary); }
 
+/* Spec footer bar */
+.strain-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0;
+  background: var(--bg-section);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 1.75rem;
+}
 .spec-item {
   padding: 1rem 1.2rem;
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.25rem;
 }
-
 .spec-item:last-child { border-right: none; }
-
 .spec-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--text-muted);
-  letter-spacing: 0.08em;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--text-muted);
 }
-
 .spec-value {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: var(--text-primary);
 }
+.spec-value.good { color: var(--accent-green-bright); }
+.spec-value.caution { color: var(--accent-orange); }
+.spec-value.warning { color: var(--accent-red); }
 
-/* Comparison table */
-.comparison-section {
-  padding: 5rem 2rem;
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border);
+/* ======================================================
+   TERPENE BAR CHARTS
+   ====================================================== */
+.terp-profile { margin: 0.5rem 0; }
+.terp-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
 }
-
-.comparison-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.comparison-inner h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.table-wrap {
-  overflow-x: auto;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--bg-card);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.82rem;
-  white-space: nowrap;
-}
-
-thead th {
-  font-family: 'JetBrains Mono', monospace;
+.terp-name {
+  font-family: var(--font-mono);
   font-size: 0.68rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 1rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-  background: rgba(0,0,0,0.2);
-  position: sticky;
-  top: 0;
-}
-
-tbody td {
-  padding: 0.8rem 1rem;
-  border-bottom: 1px solid var(--border);
+  width: 120px;
+  text-align: right;
   color: var(--text-secondary);
-  vertical-align: middle;
+  flex-shrink: 0;
 }
-
-tbody tr:last-child td { border-bottom: none; }
-
-tbody tr:hover td { background: rgba(74, 222, 128, 0.03); }
-
-td .strain-link {
-  color: var(--text-primary);
-  font-weight: 600;
-  font-size: 0.85rem;
-}
-
-td .mini-bar {
-  display: inline-block;
-  width: 60px;
-  height: 6px;
-  background: rgba(255,255,255,0.06);
+.terp-bar-bg {
+  flex: 1;
+  height: 20px;
+  background: rgba(255,255,255,0.03);
   border-radius: 3px;
   overflow: hidden;
-  vertical-align: middle;
+  position: relative;
 }
-
-td .mini-bar-fill {
+.terp-bar-fill {
   height: 100%;
   border-radius: 3px;
+  position: relative;
+  transition: width 1.5s cubic-bezier(0.25,0.46,0.45,0.94);
 }
-
-/* Recommendation tiers */
-.tiers-section {
-  padding: 5rem 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
+.terp-bar-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12));
+  border-radius: 3px;
 }
-
-.tiers-section h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  text-align: center;
+.terp-pct {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  width: 48px;
+  flex-shrink: 0;
+  text-align: left;
 }
+/* Terpene fill colors */
+.fill-caryophyllene { background: linear-gradient(90deg, #c97a2e, #e09940); }
+.fill-limonene      { background: linear-gradient(90deg, #c9a84c, #e8c84c); }
+.fill-myrcene       { background: linear-gradient(90deg, #4a7c3f, #6db35f); }
+.fill-linalool      { background: linear-gradient(90deg, #7c5a9e, #a88ad4); }
+.fill-pinene        { background: linear-gradient(90deg, #3a8a5a, #5ab87a); }
+.fill-humulene      { background: linear-gradient(90deg, #8a7234, #b09550); }
+.fill-terpinolene   { background: linear-gradient(90deg, #4a7c9e, #6a9cbe); }
 
+/* ======================================================
+   COMPARISON TABLE
+   ====================================================== */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.88rem;
+}
+th {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  background: var(--bg-section);
+  text-align: left;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+td {
+  padding: 0.85rem 1.2rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg-card-hover); color: var(--text-primary); }
+td strong { color: var(--text-primary); font-weight: 600; }
+.table-wrap { overflow-x: auto; }
+
+/* ======================================================
+   TIER CARDS
+   ====================================================== */
 .tier-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 2rem;
-  margin-bottom: 1.5rem;
-  transition: all 0.3s ease;
+  margin-bottom: 1.25rem;
+  transition: all 0.3s;
+  position: relative;
 }
-
 .tier-card:hover {
-  border-color: var(--border-accent);
+  border-color: var(--border-light);
+  background: var(--bg-card-hover);
 }
-
 .tier-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   margin-bottom: 0.6rem;
 }
-
 .tier-card h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.75rem;
 }
-
 .tier-card p {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.8;
+  margin-bottom: 0.5rem;
 }
-
 .tier-strains {
   display: flex;
   flex-wrap: wrap;
@@ -630,333 +607,1039 @@ td .mini-bar-fill {
   margin-top: 1rem;
 }
 
-/* Devil's advocate */
-.devils-advocate {
-  background: rgba(251, 113, 133, 0.04);
-  border: 1px solid rgba(251, 113, 133, 0.15);
-  border-left: 3px solid var(--accent-rose);
-  border-radius: 8px;
-  padding: 1.2rem 1.5rem;
-  margin: 2rem 0;
+/* ======================================================
+   GENERAL TEXT / LISTS / P
+   ====================================================== */
+p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
+p strong { color: var(--text-primary); font-weight: 600; }
+ul, ol { margin: 0 0 1rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; }
+li { margin-bottom: 0.4rem; line-height: 1.7; }
+li strong { color: var(--text-primary); }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  background: rgba(255,255,255,0.04);
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  color: var(--accent-gold);
 }
 
-.devils-advocate h4 {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--accent-rose);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.devils-advocate p {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-
-/* Availability section */
-.avail-section {
-  padding: 4rem 2rem;
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border);
-}
-
-.avail-inner {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.avail-inner h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-}
-
-.avail-inner p {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  margin-bottom: 1rem;
-}
-
-/* Footer */
-footer {
-  padding: 3rem 2rem;
-  text-align: center;
-  border-top: 1px solid var(--border);
-  font-size: 0.78rem;
-  color: var(--text-muted);
-}
-
-/* Scroll animations */
+/* ======================================================
+   REVEAL ANIMATION
+   ====================================================== */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(30px);
+  transition: opacity 0.6s, transform 0.6s;
 }
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ======================================================
+   FOOTER
+   ====================================================== */
+.footer {
+  text-align: center;
+  padding: 4rem 2rem;
+  border-top: 1px solid var(--border);
+}
+.footer p {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
 }
 
-/* Data quality stars */
-.data-stars {
-  display: inline-flex;
-  gap: 2px;
-  margin-left: 0.3rem;
-}
-.data-star {
-  width: 10px; height: 10px;
-  fill: var(--caryophyllene);
-}
-.data-star.empty {
-  fill: var(--border);
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-deep); }
-::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 3px; }
-
-/* Leaf SVG in strain visual */
-.leaf-illustration {
-  width: 140px;
-  height: 180px;
-  opacity: 0.9;
+/* ======================================================
+   RESPONSIVE
+   ====================================================== */
+@media (max-width: 768px) {
+  .section { padding: 4rem 1.25rem; }
+  .hero { padding: 2rem 1.25rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .pathway-grid { grid-template-columns: 1fr; }
+  .strain-header-row { grid-template-columns: 1fr; }
+  .strain-meta { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+  .strain-body { grid-template-columns: 1fr; }
+  .strain-specs { grid-template-columns: 1fr 1fr; }
+  .spec-item:nth-child(even) { border-right: none; }
+  .terp-name { width: 90px; font-size: 0.62rem; }
 }
 </style>
 </head>
 <body>
 
-<!-- ==================== HERO ==================== -->
+<!-- ============================================================
+     HERO
+     ============================================================ -->
 <section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-badge">Terpene-Guided Selection &bull; European Breeders &bull; Feminized Only</div>
-    <h1>10 Strains for <span class="accent-gold">Calm</span>, <span class="accent">Clear&#8209;Headed</span> Productivity</h1>
-    <p class="hero-sub">Curated for β-Caryophyllene &amp; Limonene dominance with Myrcene, Linalool &amp; α-Pinene secondary support. Anxiety relief without sedation — optimized for an 80×80cm ScrOG tent in Austria.</p>
-    <div class="terp-legend">
-      <span class="terp-tag"><span class="terp-dot" style="background:var(--caryophyllene)"></span>β-Caryophyllene</span>
-      <span class="terp-tag"><span class="terp-dot" style="background:var(--limonene)"></span>Limonene</span>
-      <span class="terp-tag"><span class="terp-dot" style="background:var(--myrcene)"></span>Myrcene</span>
-      <span class="terp-tag"><span class="terp-dot" style="background:var(--linalool)"></span>Linalool</span>
-      <span class="terp-tag"><span class="terp-dot" style="background:var(--pinene)"></span>α-Pinene</span>
-      <span class="terp-tag"><span class="terp-dot" style="background:var(--humulene)"></span>Humulene</span>
-    </div>
+  <div class="hero-subtitle">Terpene Selection · 10 Cultivars · Calm &amp; Clear-Headed</div>
+  <h1>10 Strains for <span>Calm</span>, Clear-Headed Productivity</h1>
+  <p class="hero-desc">Curated for &beta;-Caryophyllene &amp; Limonene dominance with Myrcene, Linalool &amp; &alpha;-Pinene secondary support. Anxiety relief without sedation &mdash; optimised for an 80&times;80&nbsp;cm ScrOG tent in Austria.</p>
+  <div class="hero-terp-legend">
+    <span class="terp-pill"><span class="terp-dot" style="background:var(--terp-caryophyllene)"></span>&beta;-Caryophyllene</span>
+    <span class="terp-pill"><span class="terp-dot" style="background:var(--terp-limonene)"></span>Limonene</span>
+    <span class="terp-pill"><span class="terp-dot" style="background:var(--terp-myrcene)"></span>Myrcene</span>
+    <span class="terp-pill"><span class="terp-dot" style="background:var(--terp-linalool)"></span>Linalool</span>
+    <span class="terp-pill"><span class="terp-dot" style="background:var(--terp-pinene)"></span>&alpha;-Pinene</span>
+    <span class="terp-pill"><span class="terp-dot" style="background:var(--terp-humulene)"></span>Humulene</span>
   </div>
 </section>
 
-<!-- ==================== SCIENCE ==================== -->
-<section class="science-section">
-  <div class="science-inner reveal">
-    <div class="science-text">
-      <h2>Why These Terpenes?</h2>
-      <p>Your target profile — <span class="highlight">β-Caryophyllene + Limonene</span> primary, Myrcene/Linalool/α-Pinene secondary — stacks three independent anti-anxiety pathways without triggering sedation.</p>
-      <p>A 2024 Johns Hopkins study confirmed that vaporized D-Limonene reduced THC-induced anxiety ratings by more than half in a controlled trial. β-Caryophyllene is the only terpene that directly activates CB2 cannabinoid receptors — producing anxiolysis through the endocannabinoid system without psychoactive CB1 effects.</p>
-      <p style="margin-top:1.2rem;color:var(--accent-amber);font-size:0.85rem;font-weight:500;">⚠ Critical for functional use: high Myrcene is the primary driver of couch-lock. Prioritize strains where Caryophyllene + Limonene rank above Myrcene.</p>
+<div class="divider"></div>
+
+<!-- ============================================================
+     SECTION 1 · SELECTION CRITERIA
+     ============================================================ -->
+<section class="section" id="criteria">
+  <div class="section-header reveal">
+    <div class="section-label">Section 01</div>
+    <h2>Selection <span>Criteria</span></h2>
+    <p class="section-intro">Your target profile &mdash; <strong>&beta;-Caryophyllene + Limonene</strong> primary, Myrcene / Linalool / &alpha;-Pinene secondary &mdash; stacks three independent anti-anxiety pathways without triggering sedation.</p>
+  </div>
+
+  <div class="stats-grid reveal">
+    <div class="stat orange">
+      <div class="stat-label">Primary Target</div>
+      <div class="stat-value orange">&beta;-Caryophyllene</div>
+      <div class="stat-sub">CB2 agonist. Anxiolytic without CB1 psychoactive activation.</div>
     </div>
-    <div>
-      <div class="pathway-card">
-        <h4><span class="terp-dot" style="background:var(--caryophyllene);display:inline-block"></span> β-Caryophyllene → CB2 Receptor</h4>
-        <p>Direct CB2 agonist. Anti-inflammatory, anxiolytic. No psychoactive CB1 activation. Acts like an endocannabinoid without the high — reduces anxiety at the receptor level.</p>
-      </div>
-      <div class="pathway-card">
-        <h4><span class="terp-dot" style="background:var(--limonene);display:inline-block"></span> Limonene → 5-HT₁ₐ / Dopamine</h4>
-        <p>Serotonin & dopamine modulation. Mood elevation, stress reduction. Counteracts THC anxiety (Johns Hopkins 2024). The "clarity" terpene.</p>
-      </div>
-      <div class="pathway-card">
-        <h4><span class="terp-dot" style="background:var(--linalool);display:inline-block"></span> Linalool → GABA / 5-HT</h4>
-        <p>GABAergic anxiolytic — same pathway as benzodiazepines but without dependence. Enhances serotonin activity at SSRI-target receptors.</p>
-      </div>
-      <div class="pathway-card">
-        <h4><span class="terp-dot" style="background:var(--pinene);display:inline-block"></span> α-Pinene → Acetylcholine</h4>
-        <p>AChE inhibitor — protects the neurotransmitter responsible for memory & focus. Counteracts THC-induced short-term memory impairment. The "focus" terpene.</p>
-      </div>
+    <div class="stat yellow">
+      <div class="stat-label">Primary Target</div>
+      <div class="stat-value yellow">Limonene</div>
+      <div class="stat-sub">5-HT1a / dopamine. Counteracts THC anxiety (JHU 2024).</div>
     </div>
+    <div class="stat green">
+      <div class="stat-label">Secondary — Keep Low</div>
+      <div class="stat-value green">Myrcene</div>
+      <div class="stat-sub">Primary couch-lock driver. Must rank below Caryophyllene.</div>
+    </div>
+    <div class="stat purple">
+      <div class="stat-label">Secondary Target</div>
+      <div class="stat-value purple">Linalool</div>
+      <div class="stat-sub">GABAergic anxiolytic. Same pathway as benzodiazepines.</div>
+    </div>
+    <div class="stat teal">
+      <div class="stat-label">Secondary Target</div>
+      <div class="stat-value teal">&alpha;-Pinene</div>
+      <div class="stat-sub">AChE inhibitor. Protects memory, supports focus.</div>
+    </div>
+    <div class="stat gold">
+      <div class="stat-label">Grow Filter</div>
+      <div class="stat-value">ScrOG Ready</div>
+      <div class="stat-sub">80&times;80&nbsp;cm tent, Sanlight STIXX 50, Austrian sourcing.</div>
+    </div>
+  </div>
+
+  <div class="pathway-grid reveal">
+    <div class="pathway-card">
+      <div class="pathway-label" style="color:var(--terp-caryophyllene)">
+        <span class="terp-dot" style="background:var(--terp-caryophyllene)"></span>
+        &beta;-Caryophyllene &rarr; CB2 Receptor
+      </div>
+      <div class="pathway-body">Direct CB2 agonist. Anti-inflammatory, anxiolytic. No psychoactive CB1 activation. Acts like an endocannabinoid without the high &mdash; reduces anxiety at the receptor level.</div>
+    </div>
+    <div class="pathway-card">
+      <div class="pathway-label" style="color:var(--terp-limonene)">
+        <span class="terp-dot" style="background:var(--terp-limonene)"></span>
+        Limonene &rarr; 5-HT&#x2081;a / Dopamine
+      </div>
+      <div class="pathway-body">Serotonin &amp; dopamine modulation. Mood elevation, stress reduction. Counteracts THC anxiety (Johns Hopkins 2024). The &ldquo;clarity&rdquo; terpene.</div>
+    </div>
+    <div class="pathway-card">
+      <div class="pathway-label" style="color:#a88ad4">
+        <span class="terp-dot" style="background:var(--terp-linalool)"></span>
+        Linalool &rarr; GABA / 5-HT
+      </div>
+      <div class="pathway-body">GABAergic anxiolytic &mdash; same pathway as benzodiazepines but without dependence. Enhances serotonin activity at SSRI-target receptors.</div>
+    </div>
+    <div class="pathway-card">
+      <div class="pathway-label" style="color:var(--accent-teal)">
+        <span class="terp-dot" style="background:var(--terp-pinene)"></span>
+        &alpha;-Pinene &rarr; Acetylcholine
+      </div>
+      <div class="pathway-body">AChE inhibitor &mdash; protects the neurotransmitter responsible for memory &amp; focus. Counteracts THC-induced short-term memory impairment. The &ldquo;focus&rdquo; terpene.</div>
+    </div>
+  </div>
+
+  <div class="callout-orange callout reveal" style="margin-top:2rem">
+    <div class="callout-label">Critical for functional use</div>
+    <p>High Myrcene is the primary driver of couch-lock. Prioritise strains where Caryophyllene + Limonene rank <strong>above</strong> Myrcene in the terpene profile. When selecting phenotypes, choose peppery-lemon over earthy-musky.</p>
   </div>
 </section>
 
-<!-- ==================== STRAIN CARDS ==================== -->
-<section class="strains-section" id="strains">
-  <h2 class="reveal">The Selection</h2>
-  <p class="subtitle reveal">Ranked by terpene-profile match, grow compatibility, and terpene data quality. Each strain evaluated against your HS80 tent, Sanlight STIXX 50 LEDs, and ScrOG training protocol.</p>
+<div class="divider"></div>
 
-  <!-- ===== STRAIN 1 ===== -->
-  <div class="strain-card reveal">
-    <div class="strain-header">
-      <div class="strain-visual" style="background: linear-gradient(135deg, #1a2e1a 0%, #0d1a0d 50%, #2a1a0d 100%);">
-        <svg class="leaf-illustration" viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="leaf1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#4ade80" stop-opacity="0.8"/>
-              <stop offset="100%" stop-color="#166534" stop-opacity="0.9"/>
-            </linearGradient>
-          </defs>
-          <!-- Stylized cannabis leaf -->
-          <g transform="translate(70,90)">
-            <ellipse cx="0" cy="50" rx="3" ry="40" fill="#2d5a2d" opacity="0.6"/>
-            <!-- Main leaflets -->
-            <path d="M0,-70 Q-8,-50 -4,-30 Q0,-25 0,-20 Q0,-25 4,-30 Q8,-50 0,-70Z" fill="url(#leaf1)" opacity="0.9"/>
-            <path d="M0,-15 Q-30,-55 -22,-75 Q-18,-65 -12,-50 Q-6,-30 0,-15Z" fill="url(#leaf1)" opacity="0.8" transform="rotate(-20)"/>
-            <path d="M0,-15 Q30,-55 22,-75 Q18,-65 12,-50 Q6,-30 0,-15Z" fill="url(#leaf1)" opacity="0.8" transform="rotate(20)"/>
-            <path d="M0,-10 Q-38,-35 -32,-55 Q-25,-42 -15,-30 Q-5,-18 0,-10Z" fill="url(#leaf1)" opacity="0.7" transform="rotate(-10)"/>
-            <path d="M0,-10 Q38,-35 32,-55 Q25,-42 15,-30 Q5,-18 0,-10Z" fill="url(#leaf1)" opacity="0.7" transform="rotate(10)"/>
-            <!-- Trichome dots -->
-            <circle cx="-5" cy="-45" r="1.5" fill="#fbbf24" opacity="0.6"/>
-            <circle cx="3" cy="-55" r="1" fill="#fbbf24" opacity="0.5"/>
-            <circle cx="-15" cy="-35" r="1.2" fill="#fbbf24" opacity="0.4"/>
-            <circle cx="12" cy="-40" r="1" fill="#fbbf24" opacity="0.5"/>
-          </g>
-          <!-- Award ribbon -->
-          <g transform="translate(110,25)">
-            <circle cx="0" cy="0" r="14" fill="rgba(251,191,36,0.15)" stroke="#fbbf24" stroke-width="1.5"/>
-            <text x="0" y="1" text-anchor="middle" dominant-baseline="middle" font-size="7" font-family="'JetBrains Mono'" fill="#fbbf24" font-weight="700">🏆</text>
-          </g>
-        </svg>
-      </div>
-      <div class="strain-info">
-        <div class="strain-rank">#01 — Top Overall Pick</div>
+<!-- ============================================================
+     SECTION 2 · STRAIN 01 — WEDDING GELATO
+     ============================================================ -->
+<section class="section" id="strain-01">
+  <div class="strain-section reveal">
+    <div class="strain-rank-number">01 / 10</div>
+    <div class="strain-header-row">
+      <div>
         <div class="strain-name">Wedding Gelato</div>
-        <div class="strain-breeder">Royal Queen Seeds — Netherlands</div>
-        <div class="strain-genetics">Wedding Cake (Triangle Kush × Animal Mints) × Gelato 33 · 60% Indica / 40% Sativa</div>
-        <div class="strain-badges">
-          <span class="badge badge-green">ScrOG ✓</span>
-          <span class="badge badge-amber">THC 20–25%</span>
-          <span class="badge badge-teal">Compact 60–100cm</span>
-          <span class="badge badge-violet">Low sedation</span>
-        </div>
+        <div class="strain-breeder">Royal Queen Seeds &middot; Netherlands</div>
+        <div class="strain-genetics">Wedding Cake (Triangle Kush &times; Animal Mints) &times; Gelato 33 &middot; 60% Indica / 40% Sativa</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-indica">60% Indica</span>
+        <span class="strain-badge badge-sativa">40% Sativa</span>
+        <span class="badge badge-gold">Top Overall Pick</span>
       </div>
     </div>
+    <div class="strain-badges-row">
+      <span class="badge badge-green">ScrOG Excellent</span>
+      <span class="badge badge-gold">THC 20&ndash;25%</span>
+      <span class="badge badge-blue">Compact 60&ndash;100&nbsp;cm</span>
+      <span class="badge badge-purple">Low Sedation</span>
+    </div>
+
+    <p class="strain-story">Wedding Gelato represents the premium intersection of genetic pedigree and terpene design. Its <strong>Wedding Cake</strong> mother is one of the most documented Caryophyllene-dominant cultivars globally &mdash; Triangle Kush roots anchor the profile in dense resin and pepper-spice aromatics, while Animal Mints contributes the complex sweetness. The <strong>Gelato 33</strong> cross introduces the creamy vanilla character and lifts the Limonene content into high territory. The 60/40 indica lean keeps it functional rather than sedating, and phenotype expression is notably consistent across independent grow diaries. For an 80&times;80&nbsp;cm ScrOG tent with 100W LED, this is the single safest bet &mdash; compact architecture, proven training response, and the most grower-documented entry on this list.</p>
+
     <div class="strain-body">
       <div class="strain-col">
-        <h4>Terpene Profile · Data Quality ⭐⭐⭐⭐</h4>
-        <div class="terp-bars">
-          <div class="terp-bar-row"><span class="terp-bar-label">Caryophyllene</span><div class="terp-bar-track"><div class="terp-bar-fill" style="width:90%;background:var(--caryophyllene)"></div></div><span class="terp-bar-value">dom.</span></div>
-          <div class="terp-bar-row"><span class="terp-bar-label">Limonene</span><div class="terp-bar-track"><div class="terp-bar-fill" style="width:75%;background:var(--limonene)"></div></div><span class="terp-bar-value">high</span></div>
-          <div class="terp-bar-row"><span class="terp-bar-label">Humulene</span><div class="terp-bar-track"><div class="terp-bar-fill" style="width:45%;background:var(--humulene)"></div></div><span class="terp-bar-value">med</span></div>
-          <div class="terp-bar-row"><span class="terp-bar-label">Linalool</span><div class="terp-bar-track"><div class="terp-bar-fill" style="width:35%;background:var(--linalool)"></div></div><span class="terp-bar-value">sec.</span></div>
-          <div class="terp-bar-row"><span class="terp-bar-label">Myrcene</span><div class="terp-bar-track"><div class="terp-bar-fill" style="width:30%;background:var(--myrcene)"></div></div><span class="terp-bar-value">low</span></div>
+        <h4>Terpene Profile &middot; Data Quality &#9733;&#9733;&#9733;&#9733;</h4>
+        <div class="terp-profile">
+          <div class="terp-bar-row">
+            <span class="terp-name">Caryophyllene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-caryophyllene" style="width:90%"></div></div>
+            <span class="terp-pct">dom.</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Limonene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-limonene" style="width:75%"></div></div>
+            <span class="terp-pct">high</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Humulene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-humulene" style="width:45%"></div></div>
+            <span class="terp-pct">med</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Linalool</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-linalool" style="width:35%"></div></div>
+            <span class="terp-pct">sec.</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Myrcene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-myrcene" style="width:30%"></div></div>
+            <span class="terp-pct">low</span>
+          </div>
         </div>
-        <p style="margin-top:0.8rem;font-size:0.78rem;color:var(--text-muted)">RQS breeder data corroborated by hundreds of independent COAs on both parent strains. Wedding Cake is one of the most documented Caryophyllene-dominant cultivars globally.</p>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">RQS breeder data corroborated by hundreds of independent COAs on both parent strains. Wedding Cake is one of the most documented Caryophyllene-dominant cultivars globally.</p>
       </div>
       <div class="strain-col">
         <h4>Effects &amp; Grow Notes</h4>
-        <p>Sweet vanilla-pepper flavor with euphoric onset transitioning to calm body relaxation. Users report clear-headed creativity — the 60/40 hybrid lean keeps it functional rather than sedating. Responds excellently to ScrOG and LST. One of the most compact options on this list, ideal for 80×80 tent. Consistent phenotype expression across grow diaries.</p>
-        <p style="margin-top:0.6rem;font-size:0.82rem;color:var(--accent-green)">Select for the peppery-lemon phenotype over earthy-musky to maximize Caryophyllene/Limonene expression.</p>
+        <p>Sweet vanilla-pepper flavour with euphoric onset transitioning to calm body relaxation. Users consistently report <strong>clear-headed creativity</strong> &mdash; the 60/40 hybrid lean keeps it functional rather than sedating. Responds excellently to ScrOG and LST. One of the most compact options on this list, ideal for the 80&times;80 tent.</p>
+        <div class="callout-green callout" style="margin:0">
+          <div class="callout-label">Phenotype Selection</div>
+          <p>Select for the peppery-lemon phenotype over earthy-musky to maximise Caryophyllene/Limonene expression.</p>
+        </div>
       </div>
     </div>
-    <div class="strain-footer">
-      <div class="spec-item"><span class="spec-label">Height</span><span class="spec-value">60–100 cm</span></div>
-      <div class="spec-item"><span class="spec-label">Flower</span><span class="spec-value">8–9 weeks</span></div>
-      <div class="spec-item"><span class="spec-label">Yield</span><span class="spec-value">450–500 g/m²</span></div>
-      <div class="spec-item"><span class="spec-label">ScrOG</span><span class="spec-value" style="color:var(--accent-green)">Excellent</span></div>
-      <div class="spec-item"><span class="spec-label">Source</span><span class="spec-value">RQS, Zamnesia</span></div>
+
+    <div class="strain-specs">
+      <div class="spec-item">
+        <span class="spec-label">Height</span>
+        <span class="spec-value">60&ndash;100&nbsp;cm</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">Flower</span>
+        <span class="spec-value">8&ndash;9 weeks</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">Yield</span>
+        <span class="spec-value">450&ndash;500&nbsp;g/m&sup2;</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">ScrOG</span>
+        <span class="spec-value good">Excellent</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">Source</span>
+        <span class="spec-value">RQS, Zamnesia</span>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- ===== STRAIN 2 ===== -->
-  <div class="strain-card reveal">
-    <div class="strain-header">
-      <div class="strain-visual" style="background: linear-gradient(135deg, #1a1a2e 0%, #0d0d1a 50%, #2e1a1a 100%);">
-        <svg class="leaf-illustration" viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
-          <defs><linearGradient id="leaf2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#86efac" stop-opacity="0.8"/><stop offset="100%" stop-color="#15803d" stop-opacity="0.9"/></linearGradient></defs>
-          <g transform="translate(70,90)">
-            <ellipse cx="0" cy="50" rx="2.5" ry="38" fill="#2d5a2d" opacity="0.5"/>
-            <path d="M0,-75 Q-6,-55 -3,-30 Q0,-22 0,-18 Q0,-22 3,-30 Q6,-55 0,-75Z" fill="url(#leaf2)" opacity="0.85"/>
-            <path d="M0,-12 Q-25,-48 -18,-70 Q-14,-58 -9,-44 Q-4,-26 0,-12Z" fill="url(#leaf2)" opacity="0.75" transform="rotate(-18)"/>
-            <path d="M0,-12 Q25,-48 18,-70 Q14,-58 9,-44 Q4,-26 0,-12Z" fill="url(#leaf2)" opacity="0.75" transform="rotate(18)"/>
-            <path d="M0,-8 Q-35,-30 -28,-50 Q-22,-38 -13,-26 Q-4,-15 0,-8Z" fill="url(#leaf2)" opacity="0.65" transform="rotate(-8)"/>
-            <path d="M0,-8 Q35,-30 28,-50 Q22,-38 13,-26 Q4,-15 0,-8Z" fill="url(#leaf2)" opacity="0.65" transform="rotate(8)"/>
-          </g>
-          <g transform="translate(110,25)">
-            <circle cx="0" cy="0" r="14" fill="rgba(34,211,238,0.15)" stroke="#22d3ee" stroke-width="1.5"/>
-            <text x="0" y="1" text-anchor="middle" dominant-baseline="middle" font-size="7" font-family="'JetBrains Mono'" fill="#22d3ee" font-weight="700">🔬</text>
-          </g>
-        </svg>
-      </div>
-      <div class="strain-info">
-        <div class="strain-rank">#02 — Best Independently Verified Data</div>
+<div class="divider"></div>
+
+<!-- ============================================================
+     SECTION 3 · STRAIN 02 — AK-47
+     ============================================================ -->
+<section class="section" id="strain-02">
+  <div class="strain-section reveal">
+    <div class="strain-rank-number">02 / 10</div>
+    <div class="strain-header-row">
+      <div>
         <div class="strain-name">AK-47</div>
-        <div class="strain-breeder">Serious Seeds — Netherlands</div>
-        <div class="strain-genetics">Colombian × Mexican × Thai × Afghani · 65% Sativa / 35% Indica</div>
-        <div class="strain-badges">
-          <span class="badge badge-green">ScrOG ✓</span>
-          <span class="badge badge-amber">THC 14–22%</span>
-          <span class="badge badge-cyan">All 5 terps ✓</span>
-          <span class="badge badge-violet">16+ cups</span>
-        </div>
+        <div class="strain-breeder">Serious Seeds &middot; Netherlands</div>
+        <div class="strain-genetics">Colombian &times; Mexican &times; Thai &times; Afghani &middot; 65% Sativa / 35% Indica</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-sativa">65% Sativa</span>
+        <span class="strain-badge badge-indica">35% Indica</span>
+        <span class="badge badge-blue">Best Verified Data</span>
       </div>
     </div>
+    <div class="strain-badges-row">
+      <span class="badge badge-green">ScrOG Excellent</span>
+      <span class="badge badge-gold">THC 14&ndash;22%</span>
+      <span class="badge badge-blue">All 5 Target Terps</span>
+      <span class="badge badge-gold">16+ Cups</span>
+    </div>
+
+    <p class="strain-story">AK-47 holds a distinction no other strain on this list can claim: <strong>all five target terpenes confirmed in documented, quantified amounts from multiple independent third-party labs</strong>. The four-way landrace cross &mdash; Colombian, Mexican, Thai, Afghani &mdash; built from some of the most genetically stable regional populations. Bred by Simon of Serious Seeds in Amsterdam, it has been continuously available since 1992 and has won over 16 international cannabis cups. The result is a cultivar with one of the most comprehensively verified terpene profiles in the industry. For a grower who needs data certainty rather than breeder claims, AK-47 is the gold standard.</p>
+
     <div class="strain-body">
       <div class="strain-col">
-        <h4>Terpene Profile · Data Quality ⭐⭐⭐⭐⭐</h4>
-        <div class="terp-bars">
-          <div class="terp-bar-row"><span class="terp-bar-label">Caryophyllene</span><div class="terp-bar-track"><div class="terp-bar-fill" style="width:65%;background:var(--caryophyllene)"></div></div><span class="terp-bar-value">0.2–0.5%</span></div>
-          <div class="terp-bar-row"><span class="terp-bar-label">Myrcene</span><div class="terp-bar-track"><div class="terp-bar-fill" style="width:80%;background:var(--myrcene)"></div></div><span class="terp-bar-value">0.4–0.8%</span></div>
-          <div class="terp-bar-row"><span class="terp-bar-label">Limonene</span><div class="terp-bar-track"><div class="terp-bar-fill" style="width:50%;background:var(--limonene)"></div></div><span class="terp-bar-value">0.2–0.4%</span></div>
-          <div class="terp-bar-row"><span class="terp-bar-label">Linalool</span><div class="terp-bar-track"><div class="terp-bar-fill" style="width:30%;background:var(--linalool)"></div></div><span class="terp-bar-value">present</span></div>
-          <div class="terp-bar-row"><span class="terp-bar-label">α-Pinene</span><div class="terp-bar-track"><div class="terp-bar-fill" style="width:25%;background:var(--pinene)"></div></div><span class="terp-bar-value">0.1–0.2%</span></div>
+        <h4>Terpene Profile &middot; Data Quality &#9733;&#9733;&#9733;&#9733;&#9733;</h4>
+        <div class="terp-profile">
+          <div class="terp-bar-row">
+            <span class="terp-name">Caryophyllene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-caryophyllene" style="width:65%"></div></div>
+            <span class="terp-pct">0.2&ndash;0.5%</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Myrcene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-myrcene" style="width:80%"></div></div>
+            <span class="terp-pct">0.4&ndash;0.8%</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Limonene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-limonene" style="width:50%"></div></div>
+            <span class="terp-pct">0.2&ndash;0.4%</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Linalool</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-linalool" style="width:30%"></div></div>
+            <span class="terp-pct">present</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">&alpha;-Pinene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-pinene" style="width:25%"></div></div>
+            <span class="terp-pct">0.1&ndash;0.2%</span>
+          </div>
         </div>
-        <p style="margin-top:0.8rem;font-size:0.78rem;color:var(--text-muted)">Best independently verified data of any candidate. Multiple third-party lab confirmations from Canadian LPs. Only strain on the list hitting all 5 target terpenes in documented amounts.</p>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">Best independently verified data of any candidate. Multiple third-party lab confirmations from Canadian LPs. Only strain on the list hitting all 5 target terpenes in documented amounts.</p>
       </div>
       <div class="strain-col">
         <h4>Effects &amp; Grow Notes</h4>
-        <p>Clean, euphoric headspace with balanced body ease. The sativa dominance keeps things cerebral and functional — consistently described as creative and social. 65–85 cm with compact Christmas-tree structure. ScrOG specifically recommended by the breeder. Very forgiving of mistakes — ideal for a first run.</p>
-        <p style="margin-top:0.6rem;font-size:0.82rem;color:var(--accent-amber)">⚠ Myrcene can be primary in some phenotypes. Select for peppery-citrus over earthy-musky.</p>
+        <p>Clean, euphoric headspace with balanced body ease. The sativa dominance keeps things cerebral and functional &mdash; consistently described as <strong>creative and social</strong>. 65&ndash;85&nbsp;cm with compact Christmas-tree structure. ScrOG specifically recommended by the breeder. Very forgiving of mistakes &mdash; ideal for a first run.</p>
+        <div class="callout-orange callout" style="margin:0">
+          <div class="callout-label">Phenotype Watch</div>
+          <p>Myrcene can be primary in some phenotypes. Select for peppery-citrus over earthy-musky to keep the Caryophyllene-Limonene profile dominant.</p>
+        </div>
       </div>
     </div>
-    <div class="strain-footer">
-      <div class="spec-item"><span class="spec-label">Height</span><span class="spec-value">65–85 cm</span></div>
-      <div class="spec-item"><span class="spec-label">Flower</span><span class="spec-value">7–9 weeks</span></div>
-      <div class="spec-item"><span class="spec-label">Yield</span><span class="spec-value">~103g/plant</span></div>
-      <div class="spec-item"><span class="spec-label">ScrOG</span><span class="spec-value" style="color:var(--accent-green)">Excellent</span></div>
+
+    <div class="strain-specs">
+      <div class="spec-item"><span class="spec-label">Height</span><span class="spec-value">65&ndash;85&nbsp;cm</span></div>
+      <div class="spec-item"><span class="spec-label">Flower</span><span class="spec-value">7&ndash;9 weeks</span></div>
+      <div class="spec-item"><span class="spec-label">Yield</span><span class="spec-value">~103&nbsp;g/plant</span></div>
+      <div class="spec-item"><span class="spec-label">ScrOG</span><span class="spec-value good">Excellent</span></div>
       <div class="spec-item"><span class="spec-label">Source</span><span class="spec-value">Serious Seeds</span></div>
     </div>
   </div>
-
-  <!-- ===== STRAINS 3-10: Compact card format ===== -->
-  <div id="remaining-strains"></div>
 </section>
 
-<!-- ==================== COMPARISON TABLE ==================== -->
-<section class="comparison-section">
-  <div class="comparison-inner reveal">
-    <h2>Quick-Reference Matrix</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th><th>Strain</th><th>Breeder</th><th>Height</th><th>Flower</th><th>ScrOG</th><th>Terp Data</th><th>Sedation</th><th>Best For</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td><span class="strain-link">Wedding Gelato</span></td><td>RQS</td><td>60–100cm</td><td>8–9 wk</td><td style="color:var(--accent-green)">★★★</td><td>⭐⭐⭐⭐</td><td style="color:var(--accent-green)">Low</td><td>All-rounder</td></tr>
-          <tr><td>2</td><td><span class="strain-link">AK-47</span></td><td>Serious Seeds</td><td>65–85cm</td><td>7–9 wk</td><td style="color:var(--accent-green)">★★★</td><td>⭐⭐⭐⭐⭐</td><td style="color:var(--accent-green)">Low</td><td>Verified terps</td></tr>
-          <tr><td>3</td><td><span class="strain-link">Blue Gem</span></td><td>Paradise Seeds</td><td>&lt;80cm</td><td>8–9 wk</td><td style="color:var(--accent-green)">★★★</td><td>⭐⭐⭐</td><td style="color:var(--accent-green)">Low</td><td>Small tent</td></tr>
-          <tr><td>4</td><td><span class="strain-link">Mokum's Tulip</span></td><td>Dutch Passion</td><td>Med</td><td>8–9 wk</td><td style="color:var(--accent-amber)">★☆☆</td><td>⭐⭐⭐⭐</td><td style="color:var(--accent-amber)">Med</td><td>Anxiety (linalool)</td></tr>
-          <tr><td>5</td><td><span class="strain-link">Tangerine Dream</span></td><td>Barney's Farm</td><td>90–100cm</td><td>8–10 wk</td><td style="color:var(--accent-green)">★★★</td><td>⭐⭐</td><td style="color:var(--accent-green)">Low</td><td>Fast ScrOG</td></tr>
-          <tr><td>6</td><td><span class="strain-link">Royal Cookies</span></td><td>RQS</td><td>80–110cm</td><td>8–9 wk</td><td style="color:var(--accent-green)">★★☆</td><td>⭐⭐⭐⭐</td><td style="color:var(--accent-amber)">Med</td><td>Classic GSC</td></tr>
-          <tr><td>7</td><td><span class="strain-link">Blue Gelato 41</span></td><td>Barney's Farm</td><td>110–150cm</td><td>9–10 wk</td><td style="color:var(--accent-amber)">★★☆</td><td>⭐⭐⭐</td><td style="color:var(--accent-green)">Low</td><td>Pinene clarity</td></tr>
-          <tr><td>8</td><td><span class="strain-link">Cream Caramel</span></td><td>Sweet Seeds</td><td>Compact</td><td>8–9 wk</td><td style="color:var(--accent-green)">★★☆</td><td>⭐⭐⭐</td><td style="color:var(--accent-rose)">High</td><td>Consistency</td></tr>
-          <tr><td>9</td><td><span class="strain-link">Super Lemon Haze</span></td><td>Green House</td><td>Tall</td><td>10 wk</td><td style="color:var(--accent-rose)">★☆☆</td><td>⭐⭐⭐⭐⭐</td><td style="color:var(--accent-green)">V.Low</td><td>Best lab data</td></tr>
-          <tr><td>10</td><td><span class="strain-link">Sour Diesel</span></td><td>RQS</td><td>100–130cm</td><td>10–11 wk</td><td style="color:var(--accent-green)">★★☆</td><td>⭐⭐⭐⭐</td><td style="color:var(--accent-green)">V.Low</td><td>Coding sessions</td></tr>
-        </tbody>
-      </table>
+<div class="divider"></div>
+
+<!-- ============================================================
+     SECTION 4 · STRAIN 03 — BLUE GEM
+     ============================================================ -->
+<section class="section" id="strain-03">
+  <div class="strain-section reveal">
+    <div class="strain-rank-number">03 / 10</div>
+    <div class="strain-header-row">
+      <div>
+        <div class="strain-name">Blue Gem</div>
+        <div class="strain-breeder">Paradise Seeds &middot; Netherlands</div>
+        <div class="strain-genetics">Blueberry &times; Gelato #33 &middot; 50% Indica / 50% Sativa</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-hybrid">50 / 50 Hybrid</span>
+        <span class="badge badge-green">Best Fit 80&times;80 Tent</span>
+      </div>
+    </div>
+    <div class="strain-badges-row">
+      <span class="badge badge-green">ScrOG Excellent</span>
+      <span class="badge badge-gold">THC 24%</span>
+      <span class="badge badge-blue">&lt;80&nbsp;cm Compact</span>
+      <span class="badge badge-green">CBG 1%</span>
+    </div>
+
+    <p class="strain-story">Blue Gem is the most spatially efficient strain on this list. The <strong>Blueberry &times; Gelato #33</strong> cross combines the famously compact Blueberry architecture with the terpene-rich resin output of Gelato. Staying reliably under 80&nbsp;cm, it is purpose-built for constrained growing environments. Paradise Seeds recommends apical pruning at the 4th internode as the ScrOG launchpad, producing an even canopy with minimal training effort. The perfectly balanced 50/50 genetics contribute equally to head and body &mdash; cheerful well-being without sedation. The 1% CBG content adds an additional anti-anxiety dimension beyond the terpene profile alone.</p>
+
+    <div class="strain-body">
+      <div class="strain-col">
+        <h4>Terpene Profile &middot; Data Quality &#9733;&#9733;&#9733;</h4>
+        <div class="terp-profile">
+          <div class="terp-bar-row">
+            <span class="terp-name">Caryophyllene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-caryophyllene" style="width:80%"></div></div>
+            <span class="terp-pct">dom.</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Limonene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-limonene" style="width:65%"></div></div>
+            <span class="terp-pct">high</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Myrcene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-myrcene" style="width:50%"></div></div>
+            <span class="terp-pct">med</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Humulene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-humulene" style="width:35%"></div></div>
+            <span class="terp-pct">sec.</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Guaiol</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-pinene" style="width:20%"></div></div>
+            <span class="terp-pct">low</span>
+          </div>
+        </div>
+      </div>
+      <div class="strain-col">
+        <h4>Effects &amp; Grow Notes</h4>
+        <p>Stimulates the mind and activates the body &mdash; the overall feeling is <strong>cheerful well-being</strong>. The perfectly balanced 50/50 genetics produce a functional, uplifting experience without sedation. Paradise Seeds recommends apical pruning at the 4th internode &mdash; perfect ScrOG launchpad. Stays under 80&nbsp;cm, the most compact option on this list.</p>
+        <div class="callout-green callout" style="margin:0">
+          <div class="callout-label">Added Benefit</div>
+          <p>CBG 1% adds additional anti-anxiety properties without sedation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="strain-specs">
+      <div class="spec-item"><span class="spec-label">Height</span><span class="spec-value">&lt;80&nbsp;cm</span></div>
+      <div class="spec-item"><span class="spec-label">Flower</span><span class="spec-value">8&ndash;9 weeks</span></div>
+      <div class="spec-item"><span class="spec-label">Yield</span><span class="spec-value">500&nbsp;g/m&sup2;</span></div>
+      <div class="spec-item"><span class="spec-label">ScrOG</span><span class="spec-value good">Excellent</span></div>
+      <div class="spec-item"><span class="spec-label">Source</span><span class="spec-value">Paradise Seeds</span></div>
     </div>
   </div>
 </section>
 
-<!-- ==================== RECOMMENDATION TIERS ==================== -->
-<section class="tiers-section">
-  <h2 class="reveal">Recommendation Tiers</h2>
-  
-  <div class="tier-card reveal" style="border-left:3px solid var(--accent-green)">
-    <div class="tier-label" style="color:var(--accent-green)">Tier 1 — Start Here</div>
+<div class="divider"></div>
+
+<!-- ============================================================
+     SECTION 5 · STRAIN 04 — MOKUM'S TULIP
+     ============================================================ -->
+<section class="section" id="strain-04">
+  <div class="strain-section reveal">
+    <div class="strain-rank-number">04 / 10</div>
+    <div class="strain-header-row">
+      <div>
+        <div class="strain-name">Mokum&rsquo;s Tulip</div>
+        <div class="strain-breeder">Dutch Passion &middot; Netherlands</div>
+        <div class="strain-genetics">Gelato (special phenotype) &times; Sherbet &middot; Indica-leaning Hybrid</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-indica">Indica-Leaning</span>
+        <span class="badge badge-purple">Lab-Tested Anxiolytic</span>
+      </div>
+    </div>
+    <div class="strain-badges-row">
+      <span class="badge badge-red">ScrOG Caution</span>
+      <span class="badge badge-gold">THC &gt;25%</span>
+      <span class="badge badge-purple">Linalool Dominant</span>
+      <span class="badge badge-blue">30%+ Cannabinoids</span>
+    </div>
+
+    <p class="strain-story">Mokum&rsquo;s Tulip delivers the only <strong>three-pathway anxiolytic profile</strong> of any strain here: Linalool (GABA/5-HT), Caryophyllene (CB2), and Limonene (dopamine) all operating at meaningful levels simultaneously. Dutch Passion has published quantified lab data confirming all three terpenes, making this one of only two strains with rigorous independent verification. The Linalool dominance is pharmacologically unique &mdash; it operates on serotonin receptors at the same sites targeted by SSRIs, producing pronounced anxiolysis. The caveat is architectural: <strong>Dutch Passion explicitly warns that branches are extremely thick and rigid</strong>, resisting the bending required for ScrOG. Consider SOG instead for this cultivar.</p>
+
+    <div class="strain-body">
+      <div class="strain-col">
+        <h4>Terpene Profile &middot; Data Quality &#9733;&#9733;&#9733;&#9733;</h4>
+        <div class="terp-profile">
+          <div class="terp-bar-row">
+            <span class="terp-name">Linalool</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-linalool" style="width:85%"></div></div>
+            <span class="terp-pct">dom.</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Limonene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-limonene" style="width:70%"></div></div>
+            <span class="terp-pct">high</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Caryophyllene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-caryophyllene" style="width:65%"></div></div>
+            <span class="terp-pct">high</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Humulene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-humulene" style="width:30%"></div></div>
+            <span class="terp-pct">sec.</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Myrcene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-myrcene" style="width:25%"></div></div>
+            <span class="terp-pct">low</span>
+          </div>
+        </div>
+      </div>
+      <div class="strain-col">
+        <h4>Effects &amp; Grow Notes</h4>
+        <p>Three-pathway anxiolytic profile: Linalool (GABA/5-HT), Caryophyllene (CB2), Limonene (dopamine). Relaxing, euphoric, long-lasting. Dutch Passion warns against LST/HST &mdash; branches are extremely thick and rigid.</p>
+        <div class="callout-orange callout" style="margin:0">
+          <div class="callout-label">Training Note</div>
+          <p>Thick branches resist bending &mdash; not ideal for ScrOG training. Consider SOG instead of ScrOG for this cultivar.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="strain-specs">
+      <div class="spec-item"><span class="spec-label">Height</span><span class="spec-value">Medium</span></div>
+      <div class="spec-item"><span class="spec-label">Flower</span><span class="spec-value">8&ndash;9 weeks</span></div>
+      <div class="spec-item"><span class="spec-label">Yield</span><span class="spec-value">High</span></div>
+      <div class="spec-item"><span class="spec-label">ScrOG</span><span class="spec-value warning">Poor</span></div>
+      <div class="spec-item"><span class="spec-label">Source</span><span class="spec-value">Dutch Passion</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     SECTION 6 · STRAIN 05 — TANGERINE DREAM
+     ============================================================ -->
+<section class="section" id="strain-05">
+  <div class="strain-section reveal">
+    <div class="strain-rank-number">05 / 10</div>
+    <div class="strain-header-row">
+      <div>
+        <div class="strain-name">Tangerine Dream</div>
+        <div class="strain-breeder">Barney&rsquo;s Farm &middot; Netherlands</div>
+        <div class="strain-genetics">G13 &times; Afghan &times; Neville&rsquo;s A5 Haze &middot; 60% Sativa / 40% Indica</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-sativa">60% Sativa</span>
+        <span class="strain-badge badge-indica">40% Indica</span>
+        <span class="badge badge-green">Best ScrOG Performer</span>
+      </div>
+    </div>
+    <div class="strain-badges-row">
+      <span class="badge badge-green">ScrOG &#9733;&#9733;&#9733;</span>
+      <span class="badge badge-gold">THC 23&ndash;25%</span>
+      <span class="badge badge-blue">CBD 1.8%</span>
+      <span class="badge badge-gold">Cup Winner</span>
+    </div>
+
+    <p class="strain-story">Tangerine Dream is the standout ScrOG performer of this selection and carries the <strong>fastest flowering time</strong> of any strain here at 60&ndash;70 days. The G13 lineage contributes explosive branching and resin density; the Afghan component grounds the structure; Neville&rsquo;s A5 Haze delivers the soaring cerebral onset that defines its effects. La Huerta confirms: &ldquo;a very branchy plant that responds very well to SCROG and LST.&rdquo; The Limonene dominance makes it the most citrus-forward profile on the list, and the 60/40 sativa lean ensures the energetic onset doesn&rsquo;t collapse into sedation. At 600&nbsp;g/m&sup2; potential yield, it also offers the best output-per-watt of the compact options.</p>
+
+    <div class="strain-body">
+      <div class="strain-col">
+        <h4>Terpene Profile &middot; Data Quality &#9733;&#9733;</h4>
+        <div class="terp-profile">
+          <div class="terp-bar-row">
+            <span class="terp-name">Limonene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-limonene" style="width:90%"></div></div>
+            <span class="terp-pct">dom.</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Myrcene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-myrcene" style="width:55%"></div></div>
+            <span class="terp-pct">med</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Caryophyllene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-caryophyllene" style="width:50%"></div></div>
+            <span class="terp-pct">med</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">&alpha;-Pinene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-pinene" style="width:25%"></div></div>
+            <span class="terp-pct">low</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Linalool</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-linalool" style="width:15%"></div></div>
+            <span class="terp-pct">trace</span>
+          </div>
+        </div>
+      </div>
+      <div class="strain-col">
+        <h4>Effects &amp; Grow Notes</h4>
+        <p>Intense, clean, cerebral &mdash; starts very lively, finishes with pleasant relaxation. The sativa dominance keeps onset energetic and creative. La Huerta states this is &ldquo;a very branchy plant that responds very well to SCROG and LST.&rdquo; Your best ScrOG candidate with up to 600&nbsp;g/m&sup2; yield.</p>
+        <div class="callout-green callout" style="margin:0">
+          <div class="callout-label">Phenotype Selection</div>
+          <p>Select for bright tangerine aroma phenotype over strawberry scent to maximise Limonene expression.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="strain-specs">
+      <div class="spec-item"><span class="spec-label">Height</span><span class="spec-value">90&ndash;100&nbsp;cm</span></div>
+      <div class="spec-item"><span class="spec-label">Flower</span><span class="spec-value">60&ndash;70 days</span></div>
+      <div class="spec-item"><span class="spec-label">Yield</span><span class="spec-value">600&nbsp;g/m&sup2;</span></div>
+      <div class="spec-item"><span class="spec-label">ScrOG</span><span class="spec-value good">Best</span></div>
+      <div class="spec-item"><span class="spec-label">Source</span><span class="spec-value">Barney&rsquo;s Farm</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     SECTION 7 · STRAIN 06 — ROYAL COOKIES
+     ============================================================ -->
+<section class="section" id="strain-06">
+  <div class="strain-section reveal">
+    <div class="strain-rank-number">06 / 10</div>
+    <div class="strain-header-row">
+      <div>
+        <div class="strain-name">Royal Cookies</div>
+        <div class="strain-breeder">Royal Queen Seeds &middot; Netherlands</div>
+        <div class="strain-genetics">Forum Cookies S1 &times; Forum Cookies S1 &middot; 80% Indica / 20% Sativa</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-indica">80% Indica</span>
+        <span class="strain-badge badge-sativa">20% Sativa</span>
+        <span class="badge badge-orange">Foundational GSC</span>
+      </div>
+    </div>
+    <div class="strain-badges-row">
+      <span class="badge badge-green">ScrOG Good</span>
+      <span class="badge badge-gold">THC 23%</span>
+      <span class="badge badge-purple">Highlife Cup 2018</span>
+      <span class="badge badge-red">Dose-Sensitive</span>
+    </div>
+
+    <p class="strain-story">Royal Cookies is the archetypal GSC terpene profile &mdash; the genetic foundation of the entire Cookies and Dessert strain family. The Forum Cookies S1 self-cross has locked in exceptional phenotypic consistency, making it one of the most predictable cultivars from seed on this list. The Caryophyllene-dominant profile delivers the signature sweet-pepper character that has made this lineage globally dominant. The tradeoff is the 80% indica lean: this is the most physically relaxing option here, best suited for <strong>end-of-day coding sessions</strong> rather than active daytime work. For functional daytime use, micro-dosing discipline is essential.</p>
+
+    <div class="strain-body">
+      <div class="strain-col">
+        <h4>Terpene Profile &middot; Data Quality &#9733;&#9733;&#9733;&#9733;</h4>
+        <div class="terp-profile">
+          <div class="terp-bar-row">
+            <span class="terp-name">Caryophyllene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-caryophyllene" style="width:85%"></div></div>
+            <span class="terp-pct">dom.</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Myrcene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-myrcene" style="width:60%"></div></div>
+            <span class="terp-pct">med</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Limonene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-limonene" style="width:55%"></div></div>
+            <span class="terp-pct">med</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Humulene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-humulene" style="width:30%"></div></div>
+            <span class="terp-pct">sec.</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Linalool</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-linalool" style="width:20%"></div></div>
+            <span class="terp-pct">low</span>
+          </div>
+        </div>
+      </div>
+      <div class="strain-col">
+        <h4>Effects &amp; Grow Notes</h4>
+        <p>Archetypal GSC terpene profile &mdash; the genetic foundation of the entire Cookies/Dessert family. Euphoric head high with body relaxation. The 80% indica lean makes it the most physically relaxing option. Best for <strong>end-of-day coding sessions</strong>.</p>
+        <div class="callout-orange callout" style="margin:0">
+          <div class="callout-label">Dosing Warning</div>
+          <p>80% indica &mdash; micro-dose for daytime functionality. Not recommended as a primary daytime strain.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="strain-specs">
+      <div class="spec-item"><span class="spec-label">Height</span><span class="spec-value">80&ndash;110&nbsp;cm</span></div>
+      <div class="spec-item"><span class="spec-label">Flower</span><span class="spec-value">8&ndash;9 weeks</span></div>
+      <div class="spec-item"><span class="spec-label">Yield</span><span class="spec-value">450&ndash;525&nbsp;g/m&sup2;</span></div>
+      <div class="spec-item"><span class="spec-label">ScrOG</span><span class="spec-value good">Good</span></div>
+      <div class="spec-item"><span class="spec-label">Source</span><span class="spec-value">RQS</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     SECTION 8 · STRAIN 07 — BLUE GELATO 41
+     ============================================================ -->
+<section class="section" id="strain-07">
+  <div class="strain-section reveal">
+    <div class="strain-rank-number">07 / 10</div>
+    <div class="strain-header-row">
+      <div>
+        <div class="strain-name">Blue Gelato 41</div>
+        <div class="strain-breeder">Barney&rsquo;s Farm &middot; Netherlands</div>
+        <div class="strain-genetics">Blueberry &times; Thin Mint GSC &times; Sunset Sherbet &middot; 60% Indica / 40% Sativa</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-indica">60% Indica</span>
+        <span class="strain-badge badge-sativa">40% Sativa</span>
+        <span class="badge badge-blue">Best &alpha;-Pinene Clarity</span>
+      </div>
+    </div>
+    <div class="strain-badges-row">
+      <span class="badge badge-orange">ScrOG Needs Work</span>
+      <span class="badge badge-gold">THC 25%</span>
+      <span class="badge badge-blue">Pinene-Forward</span>
+      <span class="badge badge-red">Needs Early Training</span>
+    </div>
+
+    <p class="strain-story">Blue Gelato 41 holds a unique position in this selection: it is the only strain where <strong>&alpha;-Pinene ranks as the primary terpene</strong>, making it the most directly relevant option for memory retention and focus. &alpha;-Pinene is an acetylcholinesterase inhibitor &mdash; it protects acetylcholine, the neurotransmitter responsible for memory and concentration, and directly counteracts the short-term memory impairment associated with THC. The Blueberry heritage contributes the fruity complexity; Thin Mint GSC injects Caryophyllene-heavy resin; Sunset Sherbet rounds the profile. The challenge is architectural: at 110&ndash;150&nbsp;cm, this is the tallest option on the list and will require early topping plus aggressive ScrOG management to fit the 80&times;80 tent.</p>
+
+    <div class="strain-body">
+      <div class="strain-col">
+        <h4>Terpene Profile &middot; Data Quality &#9733;&#9733;&#9733;</h4>
+        <div class="terp-profile">
+          <div class="terp-bar-row">
+            <span class="terp-name">&alpha;-Pinene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-pinene" style="width:75%"></div></div>
+            <span class="terp-pct">high</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Caryophyllene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-caryophyllene" style="width:70%"></div></div>
+            <span class="terp-pct">high</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Limonene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-limonene" style="width:60%"></div></div>
+            <span class="terp-pct">med</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Myrcene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-myrcene" style="width:50%"></div></div>
+            <span class="terp-pct">med</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Linalool</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-linalool" style="width:20%"></div></div>
+            <span class="terp-pct">low</span>
+          </div>
+        </div>
+      </div>
+      <div class="strain-col">
+        <h4>Effects &amp; Grow Notes</h4>
+        <p>The elevated Pinene content is uniquely valuable &mdash; &alpha;-Pinene promotes alertness, memory retention, and focus, counteracting THC-induced memory impairment. Balanced euphoria with <strong>creative engagement</strong>. 110&ndash;150&nbsp;cm height is the tallest option &mdash; needs aggressive training.</p>
+        <div class="callout callout-red" style="margin:0">
+          <div class="callout-label">Height Warning</div>
+          <p>110&ndash;150&nbsp;cm &mdash; needs early topping + aggressive ScrOG in HS80. Flip to 12/12 early to control stretch.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="strain-specs">
+      <div class="spec-item"><span class="spec-label">Height</span><span class="spec-value">110&ndash;150&nbsp;cm</span></div>
+      <div class="spec-item"><span class="spec-label">Flower</span><span class="spec-value">9&ndash;10 weeks</span></div>
+      <div class="spec-item"><span class="spec-label">Yield</span><span class="spec-value">600&ndash;700&nbsp;g/m&sup2;</span></div>
+      <div class="spec-item"><span class="spec-label">ScrOG</span><span class="spec-value caution">Needs Work</span></div>
+      <div class="spec-item"><span class="spec-label">Source</span><span class="spec-value">Barney&rsquo;s</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     SECTION 9 · STRAIN 08 — CREAM CARAMEL
+     ============================================================ -->
+<section class="section" id="strain-08">
+  <div class="strain-section reveal">
+    <div class="strain-rank-number">08 / 10</div>
+    <div class="strain-header-row">
+      <div>
+        <div class="strain-name">Cream Caramel</div>
+        <div class="strain-breeder">Sweet Seeds &middot; Spain</div>
+        <div class="strain-genetics">Blue Black &times; Maple Leaf Indica &times; White Rhino &middot; 90% Indica / 10% Sativa</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-indica">90% Indica</span>
+        <span class="badge badge-purple">Most Consistent Pheno</span>
+      </div>
+    </div>
+    <div class="strain-badges-row">
+      <span class="badge badge-green">ScrOG Good</span>
+      <span class="badge badge-gold">THC 15&ndash;20%</span>
+      <span class="badge badge-blue">CBD 1.6%</span>
+      <span class="badge badge-gold">20+ Cups</span>
+    </div>
+
+    <p class="strain-story">Cream Caramel has been <strong>phenotypically stable since its 2007 release</strong>, making it the most genetically consistent option on this list. For a grower who cannot afford a phenotype lottery, it is the lowest-risk seed-to-seed proposition. The 1.6% CBD content provides genuine therapeutic depth alongside the Caryophyllene, and the moderate THC at 15&ndash;20% leaves more room for dosing precision. The significant caveat is the 90% indica lean with elevated Myrcene &mdash; this carries real couch-lock risk at anything beyond micro-doses. Its position on this list reflects the value of consistency and the CBD contribution, not a claim that it excels for daytime functionality. Best positioned as a <strong>low-dose evening therapeutic</strong>.</p>
+
+    <div class="strain-body">
+      <div class="strain-col">
+        <h4>Terpene Profile &middot; Data Quality &#9733;&#9733;&#9733;</h4>
+        <div class="terp-profile">
+          <div class="terp-bar-row">
+            <span class="terp-name">Caryophyllene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-caryophyllene" style="width:80%"></div></div>
+            <span class="terp-pct">dom.</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Myrcene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-myrcene" style="width:65%"></div></div>
+            <span class="terp-pct">high</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Limonene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-limonene" style="width:45%"></div></div>
+            <span class="terp-pct">med</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">&alpha;-Pinene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-pinene" style="width:25%"></div></div>
+            <span class="terp-pct">low</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Camphene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-humulene" style="width:15%"></div></div>
+            <span class="terp-pct">trace</span>
+          </div>
+        </div>
+      </div>
+      <div class="strain-col">
+        <h4>Effects &amp; Grow Notes</h4>
+        <p>90% indica with significant Myrcene &mdash; carries real couch-lock risk at higher doses. However, Caryophyllene dominance and moderate THC with 1.6% CBD make it <strong>genuinely therapeutic</strong>. Best as a low-dose evening strain. Stabilised since 2007, the most phenotypically consistent option here.</p>
+        <div class="callout callout-red" style="margin:0">
+          <div class="callout-label">Sedation Warning</div>
+          <p>High sedation risk &mdash; micro-dose only for functional use. Not suitable as a primary daytime productivity strain.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="strain-specs">
+      <div class="spec-item"><span class="spec-label">Height</span><span class="spec-value">Compact</span></div>
+      <div class="spec-item"><span class="spec-label">Flower</span><span class="spec-value">8&ndash;9 weeks</span></div>
+      <div class="spec-item"><span class="spec-label">Yield</span><span class="spec-value">400&ndash;550&nbsp;g/m&sup2;</span></div>
+      <div class="spec-item"><span class="spec-label">ScrOG</span><span class="spec-value good">Good</span></div>
+      <div class="spec-item"><span class="spec-label">Source</span><span class="spec-value">Sweet Seeds</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     SECTION 10 · STRAIN 09 — SUPER LEMON HAZE
+     ============================================================ -->
+<section class="section" id="strain-09">
+  <div class="strain-section reveal">
+    <div class="strain-rank-number">09 / 10</div>
+    <div class="strain-header-row">
+      <div>
+        <div class="strain-name">Super Lemon Haze</div>
+        <div class="strain-breeder">Green House Seeds &middot; Netherlands</div>
+        <div class="strain-genetics">Lemon Skunk &times; Super Silver Haze &middot; 70% Sativa / 30% Indica</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-sativa">70% Sativa</span>
+        <span class="strain-badge badge-indica">30% Indica</span>
+        <span class="badge badge-blue">Most Rigorous Lab Data</span>
+      </div>
+    </div>
+    <div class="strain-badges-row">
+      <span class="badge badge-red">ScrOG Mandatory</span>
+      <span class="badge badge-gold">THC 22%</span>
+      <span class="badge badge-blue">GC-Analysed</span>
+      <span class="badge badge-gold">2&times; Cup Winner</span>
+    </div>
+
+    <p class="strain-story">Super Lemon Haze shares the top data-quality position with AK-47: Green House Seeds published <strong>full gas chromatography analysis</strong> of the terpene profile, making this one of the most analytically documented strains in commercial cannabis. The Caryophyllene and Terpinolene pairing is unusual &mdash; Terpinolene has its own mild anxiolytic and sedative properties while contributing the bright, lemon-piney character. The sativa-dominant genetics deliver long-lasting, energetic, social effects with a clear head. The challenge is vigorous growth: this cultivar wants to be tall, and 100W may be marginal. Positioned near the bottom of the list solely because of the management complexity, not the terpene profile.</p>
+
+    <div class="strain-body">
+      <div class="strain-col">
+        <h4>Terpene Profile &middot; Data Quality &#9733;&#9733;&#9733;&#9733;&#9733;</h4>
+        <div class="terp-profile">
+          <div class="terp-bar-row">
+            <span class="terp-name">Caryophyllene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-caryophyllene" style="width:75%"></div></div>
+            <span class="terp-pct">high</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Terpinolene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-terpinolene" style="width:70%"></div></div>
+            <span class="terp-pct">high</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Limonene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-limonene" style="width:55%"></div></div>
+            <span class="terp-pct">med</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Myrcene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-myrcene" style="width:45%"></div></div>
+            <span class="terp-pct">med</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">&alpha;-Pinene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-pinene" style="width:30%"></div></div>
+            <span class="terp-pct">low</span>
+          </div>
+        </div>
+      </div>
+      <div class="strain-col">
+        <h4>Effects &amp; Grow Notes</h4>
+        <p>GC-analysed terpene data from Green House Seeds &mdash; the most rigorous analytical documentation of any strain here. <strong>Strong body high with clear head for creativity</strong>. Long-lasting, energetic, social. The sativa dominance makes it highly functional. The challenge: vigorous growth needs aggressive management in your tent.</p>
+        <div class="callout callout-red" style="margin:0">
+          <div class="callout-label">Advanced Growers Only</div>
+          <p>Vigorous sativa &mdash; 100W may be insufficient at full canopy. Requires committed ScrOG management. Advanced growers only.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="strain-specs">
+      <div class="spec-item"><span class="spec-label">Height</span><span class="spec-value">Tall</span></div>
+      <div class="spec-item"><span class="spec-label">Flower</span><span class="spec-value">~70 days</span></div>
+      <div class="spec-item"><span class="spec-label">Yield</span><span class="spec-value">High</span></div>
+      <div class="spec-item"><span class="spec-label">ScrOG</span><span class="spec-value caution">Mandatory</span></div>
+      <div class="spec-item"><span class="spec-label">Source</span><span class="spec-value">GH Seeds</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     SECTION 11 · STRAIN 10 — SOUR DIESEL
+     ============================================================ -->
+<section class="section" id="strain-10">
+  <div class="strain-section reveal">
+    <div class="strain-rank-number">10 / 10</div>
+    <div class="strain-header-row">
+      <div>
+        <div class="strain-name">Sour Diesel</div>
+        <div class="strain-breeder">Royal Queen Seeds &middot; Netherlands</div>
+        <div class="strain-genetics">Original Diesel &times; (Northern Light &times; Shiva &times; Hawaiian) &middot; 70% Sativa / 30% Indica</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-sativa">70% Sativa</span>
+        <span class="strain-badge badge-indica">30% Indica</span>
+        <span class="badge badge-blue">Most Functional for Coding</span>
+      </div>
+    </div>
+    <div class="strain-badges-row">
+      <span class="badge badge-green">ScrOG Good</span>
+      <span class="badge badge-gold">THC 19&ndash;27%</span>
+      <span class="badge badge-blue">Quantified Ratios</span>
+      <span class="badge badge-green">Coding Strain</span>
+    </div>
+
+    <p class="strain-story">Sour Diesel has the most explicit productivity reputation of any strain on this list. The Leafly community recommends it specifically for <strong>complex projects, marathon writing sessions, and analytical work</strong>. Eybna Technologies published quantified terpene data: &beta;-Caryophyllene 23.16%, Limonene 19.99%, Myrcene 19.96% &mdash; the near-equal distribution of the top three terpenes is unusual and means the profile sits at a precise tension point between the anxiolytic-clarity of Caryophyllene/Limonene and the sedation threshold of Myrcene. The RQS version manages the height to a workable 100&ndash;130&nbsp;cm. At 10&ndash;11 weeks, the longest flowering time on this list is the main operational tradeoff.</p>
+
+    <div class="strain-body">
+      <div class="strain-col">
+        <h4>Terpene Profile &middot; Data Quality &#9733;&#9733;&#9733;&#9733;</h4>
+        <div class="terp-profile">
+          <div class="terp-bar-row">
+            <span class="terp-name">Caryophyllene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-caryophyllene" style="width:80%"></div></div>
+            <span class="terp-pct">23.16%</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Limonene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-limonene" style="width:70%"></div></div>
+            <span class="terp-pct">19.99%</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Myrcene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-myrcene" style="width:70%"></div></div>
+            <span class="terp-pct">19.96%</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">Humulene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-humulene" style="width:30%"></div></div>
+            <span class="terp-pct">sec.</span>
+          </div>
+          <div class="terp-bar-row">
+            <span class="terp-name">&alpha;-Pinene</span>
+            <div class="terp-bar-bg"><div class="terp-bar-fill fill-pinene" style="width:20%"></div></div>
+            <span class="terp-pct">low</span>
+          </div>
+        </div>
+      </div>
+      <div class="strain-col">
+        <h4>Effects &amp; Grow Notes</h4>
+        <p>The &ldquo;coding strain.&rdquo; Leafly community recommends it for complex projects, marathon writing sessions, and analytical work. Invigorating cerebral buzz that enhances focus without physical sedation. Caryophyllene provides anxiety relief while Limonene maintains mood and alertness. 10&ndash;11 week flower is the longest here.</p>
+        <div class="callout-blue callout" style="margin:0">
+          <div class="callout-label">Lab Data — Eybna Technologies</div>
+          <p>&beta;-Caryophyllene 23%, Limonene 20%, Myrcene 20% &mdash; quantified terpene ratio data from independent analysis.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="strain-specs">
+      <div class="spec-item"><span class="spec-label">Height</span><span class="spec-value">100&ndash;130&nbsp;cm</span></div>
+      <div class="spec-item"><span class="spec-label">Flower</span><span class="spec-value">10&ndash;11 weeks</span></div>
+      <div class="spec-item"><span class="spec-label">Yield</span><span class="spec-value">450&ndash;525&nbsp;g/m&sup2;</span></div>
+      <div class="spec-item"><span class="spec-label">ScrOG</span><span class="spec-value good">Good</span></div>
+      <div class="spec-item"><span class="spec-label">Source</span><span class="spec-value">RQS</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     COMPARISON MATRIX
+     ============================================================ -->
+<section class="section" id="matrix">
+  <div class="section-header reveal">
+    <div class="section-label">Reference</div>
+    <h2>Quick-Reference <span>Matrix</span></h2>
+    <p class="section-intro">All 10 cultivars ranked side-by-side. Terp data quality, ScrOG fit, and sedation risk at a glance.</p>
+  </div>
+
+  <div class="table-wrap reveal">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Strain</th>
+          <th>Breeder</th>
+          <th>Height</th>
+          <th>Flower</th>
+          <th>ScrOG</th>
+          <th>Terp Data</th>
+          <th>Sedation</th>
+          <th>Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="font-family:var(--font-mono);color:var(--accent-gold)">01</td><td><strong>Wedding Gelato</strong></td><td>RQS</td><td>60&ndash;100cm</td><td>8&ndash;9 wk</td><td style="color:var(--accent-green-bright)">&#9733;&#9733;&#9733;</td><td style="font-family:var(--font-mono);color:var(--text-muted)">&#9733;&#9733;&#9733;&#9733;</td><td style="color:var(--accent-green-bright)">Low</td><td>All-rounder</td></tr>
+        <tr><td style="font-family:var(--font-mono);color:var(--accent-gold)">02</td><td><strong>AK-47</strong></td><td>Serious Seeds</td><td>65&ndash;85cm</td><td>7&ndash;9 wk</td><td style="color:var(--accent-green-bright)">&#9733;&#9733;&#9733;</td><td style="font-family:var(--font-mono);color:var(--text-muted)">&#9733;&#9733;&#9733;&#9733;&#9733;</td><td style="color:var(--accent-green-bright)">Low</td><td>Verified terps</td></tr>
+        <tr><td style="font-family:var(--font-mono);color:var(--accent-gold)">03</td><td><strong>Blue Gem</strong></td><td>Paradise Seeds</td><td>&lt;80cm</td><td>8&ndash;9 wk</td><td style="color:var(--accent-green-bright)">&#9733;&#9733;&#9733;</td><td style="font-family:var(--font-mono);color:var(--text-muted)">&#9733;&#9733;&#9733;</td><td style="color:var(--accent-green-bright)">Low</td><td>Small tent</td></tr>
+        <tr><td style="font-family:var(--font-mono);color:var(--accent-gold)">04</td><td><strong>Mokum&rsquo;s Tulip</strong></td><td>Dutch Passion</td><td>Medium</td><td>8&ndash;9 wk</td><td style="color:var(--accent-orange)">&#9733;&#9734;&#9734;</td><td style="font-family:var(--font-mono);color:var(--text-muted)">&#9733;&#9733;&#9733;&#9733;</td><td style="color:var(--accent-orange)">Med</td><td>Anxiety (linalool)</td></tr>
+        <tr><td style="font-family:var(--font-mono);color:var(--accent-gold)">05</td><td><strong>Tangerine Dream</strong></td><td>Barney&rsquo;s Farm</td><td>90&ndash;100cm</td><td>60&ndash;70 d</td><td style="color:var(--accent-green-bright)">&#9733;&#9733;&#9733;</td><td style="font-family:var(--font-mono);color:var(--text-muted)">&#9733;&#9733;</td><td style="color:var(--accent-green-bright)">Low</td><td>Fast ScrOG</td></tr>
+        <tr><td style="font-family:var(--font-mono);color:var(--accent-gold)">06</td><td><strong>Royal Cookies</strong></td><td>RQS</td><td>80&ndash;110cm</td><td>8&ndash;9 wk</td><td style="color:var(--accent-green-bright)">&#9733;&#9733;&#9734;</td><td style="font-family:var(--font-mono);color:var(--text-muted)">&#9733;&#9733;&#9733;&#9733;</td><td style="color:var(--accent-orange)">Med</td><td>Evening/GSC</td></tr>
+        <tr><td style="font-family:var(--font-mono);color:var(--accent-gold)">07</td><td><strong>Blue Gelato 41</strong></td><td>Barney&rsquo;s Farm</td><td>110&ndash;150cm</td><td>9&ndash;10 wk</td><td style="color:var(--accent-orange)">&#9733;&#9733;&#9734;</td><td style="font-family:var(--font-mono);color:var(--text-muted)">&#9733;&#9733;&#9733;</td><td style="color:var(--accent-green-bright)">Low</td><td>Pinene clarity</td></tr>
+        <tr><td style="font-family:var(--font-mono);color:var(--accent-gold)">08</td><td><strong>Cream Caramel</strong></td><td>Sweet Seeds</td><td>Compact</td><td>8&ndash;9 wk</td><td style="color:var(--accent-green-bright)">&#9733;&#9733;&#9734;</td><td style="font-family:var(--font-mono);color:var(--text-muted)">&#9733;&#9733;&#9733;</td><td style="color:var(--accent-red)">High</td><td>Consistency</td></tr>
+        <tr><td style="font-family:var(--font-mono);color:var(--accent-gold)">09</td><td><strong>Super Lemon Haze</strong></td><td>Green House</td><td>Tall</td><td>~70 days</td><td style="color:var(--accent-red)">&#9733;&#9734;&#9734;</td><td style="font-family:var(--font-mono);color:var(--text-muted)">&#9733;&#9733;&#9733;&#9733;&#9733;</td><td style="color:var(--accent-green-bright)">V. Low</td><td>Best lab data</td></tr>
+        <tr><td style="font-family:var(--font-mono);color:var(--accent-gold)">10</td><td><strong>Sour Diesel</strong></td><td>RQS</td><td>100&ndash;130cm</td><td>10&ndash;11 wk</td><td style="color:var(--accent-green-bright)">&#9733;&#9733;&#9734;</td><td style="font-family:var(--font-mono);color:var(--text-muted)">&#9733;&#9733;&#9733;&#9733;</td><td style="color:var(--accent-green-bright)">V. Low</td><td>Coding sessions</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================
+     RECOMMENDATION TIERS
+     ============================================================ -->
+<section class="section" id="tiers">
+  <div class="section-header reveal">
+    <div class="section-label">Section 12</div>
+    <h2>Recommendation <span>Tiers</span></h2>
+    <p class="section-intro">How to choose based on your priorities: grow management ability, terpene certainty, or anxiolytic intensity.</p>
+  </div>
+
+  <div class="tier-card reveal" style="border-left: 3px solid var(--accent-green-bright)">
+    <div class="tier-label" style="color:var(--accent-green-bright)">Tier 1 &mdash; Start Here</div>
     <h3>Easiest Wins for Your Setup</h3>
-    <p>Wedding Gelato, Blue Gem, and AK-47 combine the best terpene profiles with the most manageable growth in an 80×80cm space under 100W. All three stay compact, respond well to ScrOG, and deliver the Caryophyllene-Limonene anxiolytic combo without sedation risk. If you run only one strain, Wedding Gelato gives you the best intersection of genetic pedigree, verified terpenes, compact growth, and functional effects.</p>
+    <p>Wedding Gelato, Blue Gem, and AK-47 combine the best terpene profiles with the most manageable growth in an 80&times;80&nbsp;cm space under 100W. All three stay compact, respond well to ScrOG, and deliver the Caryophyllene-Limonene anxiolytic combo without sedation risk. If you run only one strain, Wedding Gelato gives you the best intersection of genetic pedigree, verified terpenes, compact growth, and functional effects.</p>
     <div class="tier-strains">
       <span class="badge badge-green">Wedding Gelato</span>
       <span class="badge badge-green">Blue Gem</span>
@@ -964,215 +1647,61 @@ footer {
     </div>
   </div>
 
-  <div class="tier-card reveal" style="border-left:3px solid var(--accent-amber)">
-    <div class="tier-label" style="color:var(--accent-amber)">Tier 2 — Experienced Growers</div>
+  <div class="tier-card reveal" style="border-left: 3px solid var(--accent-gold)">
+    <div class="tier-label" style="color:var(--accent-gold)">Tier 2 &mdash; Experienced Growers</div>
     <h3>Willing to Manage Height &amp; Training</h3>
-    <p>Tangerine Dream is the best ScrOG performer with the fastest flowering time. Sour Diesel delivers the most explicitly "productive" effects — but needs attentive training. Blue Gelato 41 rewards aggressive canopy management with exceptional yields and a Pinene-forward profile that supports mental clarity during work.</p>
+    <p>Tangerine Dream is the best ScrOG performer with the fastest flowering time. Sour Diesel delivers the most explicitly &ldquo;productive&rdquo; effects &mdash; but needs attentive training. Blue Gelato 41 rewards aggressive canopy management with exceptional yields and a Pinene-forward profile that supports mental clarity during work.</p>
     <div class="tier-strains">
-      <span class="badge badge-amber">Tangerine Dream</span>
-      <span class="badge badge-amber">Sour Diesel</span>
-      <span class="badge badge-amber">Blue Gelato 41</span>
+      <span class="badge badge-gold">Tangerine Dream</span>
+      <span class="badge badge-gold">Sour Diesel</span>
+      <span class="badge badge-gold">Blue Gelato 41</span>
     </div>
   </div>
 
-  <div class="tier-card reveal" style="border-left:3px solid var(--linalool)">
-    <div class="tier-label" style="color:var(--linalool)">Tier 3 — Anxiety Relief Priority</div>
+  <div class="tier-card reveal" style="border-left: 3px solid var(--accent-purple)">
+    <div class="tier-label" style="color:#a88ad4">Tier 3 &mdash; Anxiety Relief Priority</div>
     <h3>When Calm Matters More Than Peak Output</h3>
-    <p>Mokum's Tulip's Linalool dominance makes it pharmacologically the strongest anxiolytic on this list (Linalool acts on serotonin receptors at the same sites as SSRIs). Cream Caramel's extreme phenotype stability eliminates lottery risk. Both carry more sedation risk — micro-dosing is key for functional use.</p>
+    <p>Mokum&rsquo;s Tulip&rsquo;s Linalool dominance makes it pharmacologically the strongest anxiolytic on this list (Linalool acts on serotonin receptors at the same sites as SSRIs). Cream Caramel&rsquo;s extreme phenotype stability eliminates lottery risk. Both carry more sedation risk &mdash; micro-dosing is key for functional use.</p>
     <div class="tier-strains">
-      <span class="badge badge-violet">Mokum's Tulip</span>
-      <span class="badge badge-violet">Cream Caramel</span>
-      <span class="badge badge-violet">Royal Cookies</span>
-      <span class="badge badge-violet">Super Lemon Haze</span>
+      <span class="badge badge-purple">Mokum&rsquo;s Tulip</span>
+      <span class="badge badge-purple">Cream Caramel</span>
+      <span class="badge badge-purple">Royal Cookies</span>
+      <span class="badge badge-purple">Super Lemon Haze</span>
     </div>
   </div>
 
-  <div class="devils-advocate reveal">
-    <h4>⚔ Devil's Advocate — Terpene Data Honesty</h4>
-    <p>Only AK-47 and Super Lemon Haze have truly independent, quantified terpene data from third-party labs. The rest rely on breeder claims or aggregated community reports. Terpene expression varies significantly by phenotype, growing conditions, harvest timing, and cure — the same genetics can produce different ratios from seed to seed. Treat these profiles as probable ranges, not guarantees. Your best insurance is growing multiple seeds and selecting for the aroma profile you want (peppery + citrus = Caryophyllene + Limonene; earthy + musky = Myrcene dominant).</p>
+  <div class="callout-purple callout reveal">
+    <div class="callout-label">Devil&rsquo;s Advocate &mdash; Terpene Data Honesty</div>
+    <p>Only AK-47 and Super Lemon Haze have truly independent, quantified terpene data from third-party labs. The rest rely on breeder claims or aggregated community reports. <strong>Terpene expression varies significantly</strong> by phenotype, growing conditions, harvest timing, and cure &mdash; the same genetics can produce different ratios from seed to seed. Treat these profiles as probable ranges, not guarantees. Your best insurance is growing multiple seeds and selecting for the aroma profile you want: <strong>peppery + citrus = Caryophyllene + Limonene dominant</strong>; earthy + musky = Myrcene dominant.</p>
   </div>
 </section>
 
-<!-- ==================== AVAILABILITY ==================== -->
-<section class="avail-section">
-  <div class="avail-inner reveal">
-    <h2>Sourcing in Austria</h2>
+<div class="divider"></div>
+
+<!-- ============================================================
+     SOURCING
+     ============================================================ -->
+<section class="section" id="sourcing">
+  <div class="section-header reveal">
+    <div class="section-label">Section 13</div>
+    <h2>Sourcing in <span>Austria</span></h2>
+  </div>
+
+  <div class="reveal">
     <p><strong>Austrian-based:</strong> Seeds66 (seeds66.com) stocks RQS and other brands. Mr. Hanf (mr-hanf.de) ships from Germany/Austria with fast delivery.</p>
-    <p><strong>Netherlands-based:</strong> Zamnesia (zamnesia.com) carries all 10 strains, ships to Austria in 3–5 business days with discreet packaging. Amsterdam Seed Center offers 1,500+ strains from 50+ breeders as a single-source option.</p>
-    <p><strong>All breeders listed ship direct to Austria.</strong> All major European seedbanks treat Austria as a standard EU shipping destination. Cash purchases at local Linz grow shops remain the most discreet option for equipment — seeds are typically better priced online.</p>
+    <p><strong>Netherlands-based:</strong> Zamnesia (zamnesia.com) carries all 10 strains, ships to Austria in 3&ndash;5 business days with discreet packaging. Amsterdam Seed Center offers 1,500+ strains from 50+ breeders as a single-source option.</p>
+    <p><strong>All breeders listed ship direct to Austria.</strong> All major European seedbanks treat Austria as a standard EU shipping destination. Cash purchases at local Linz grow shops remain the most discreet option for equipment &mdash; seeds are typically better priced online.</p>
   </div>
 </section>
 
-<!-- ==================== FOOTER ==================== -->
-<footer>
-  <p>Terpene-Guided Strain Selection · Curated for quality-first indoor cultivation · All data sourced from breeder publications, independent lab COAs, and peer-reviewed research · April 2026</p>
+<footer class="footer">
+  <p>Terpene-Guided Strain Selection &middot; Curated for quality-first indoor cultivation &middot; All data sourced from breeder publications, independent lab COAs, and peer-reviewed research &middot; April 2026</p>
 </footer>
 
 <script>
-// ====== REMAINING STRAIN CARDS (3-10) ======
-const strains = [
-  {
-    num: '03', label: 'Best Fit for 80×80 Tent', name: 'Blue Gem', breeder: 'Paradise Seeds — Netherlands',
-    genetics: 'Blueberry × Gelato #33 · 50% Indica / 50% Sativa',
-    badges: [['badge-green','ScrOG ✓'],['badge-amber','THC 24%'],['badge-teal','<80cm compact'],['badge-cyan','CBG 1%']],
-    terps: [['Caryophyllene',80,'dom.'],['Limonene',65,'high'],['Myrcene',50,'med'],['Humulene',35,'sec.'],['Guaiol',20,'low']],
-    terpColors: ['caryophyllene','limonene','myrcene','humulene','pinene'],
-    dataQuality: '⭐⭐⭐', effects: 'Stimulates the mind and activates the body — the overall feeling is cheerful well-being. The perfectly balanced 50/50 genetics produce a functional, uplifting experience without sedation. Paradise Seeds recommends apical pruning at the 4th internode — perfect ScrOG launchpad. Stays under 80 cm, the most compact option on this list.',
-    effectNote: 'CBG adds additional anti-anxiety properties without sedation.',
-    effectNoteColor: 'accent-green',
-    specs: [['Height','<80 cm'],['Flower','8–9 wk'],['Yield','500 g/m²'],['ScrOG','Excellent'],['Source','Paradise Seeds']],
-    gradient: 'linear-gradient(135deg, #0d1a2e 0%, #0d0d1a 50%, #1a0d2e 100%)'
-  },
-  {
-    num: '04', label: 'Lab-Tested Anxiolytic Trio', name: "Mokum's Tulip", breeder: 'Dutch Passion — Netherlands',
-    genetics: 'Gelato (special phenotype) × Sherbet · Indica-leaning hybrid',
-    badges: [['badge-rose','ScrOG ⚠'],['badge-amber','THC >25%'],['badge-violet','Linalool dominant'],['badge-cyan','30%+ cannabinoids']],
-    terps: [['Linalool',85,'dom.'],['Limonene',70,'high'],['Caryophyllene',65,'high'],['Humulene',30,'sec.'],['Myrcene',25,'low']],
-    terpColors: ['linalool','limonene','caryophyllene','humulene','myrcene'],
-    dataQuality: '⭐⭐⭐⭐', effects: 'Three-pathway anxiolytic profile: Linalool (GABA/5-HT), Caryophyllene (CB2), Limonene (dopamine). Relaxing, euphoric, long-lasting. Dutch Passion warns against LST/HST — branches are extremely thick and rigid. Consider SOG instead of ScrOG for this one.',
-    effectNote: '⚠ Thick branches resist bending — not ideal for ScrOG training.',
-    effectNoteColor: 'accent-amber',
-    specs: [['Height','Medium'],['Flower','8–9 wk'],['Yield','High'],['ScrOG','Poor'],['Source','Dutch Passion']],
-    gradient: 'linear-gradient(135deg, #2e1a2e 0%, #1a0d1a 50%, #0d1a2e 100%)'
-  },
-  {
-    num: '05', label: 'Fastest Flowering · Best ScrOG', name: 'Tangerine Dream', breeder: "Barney's Farm — Netherlands",
-    genetics: 'G13 × Afghan × Neville\'s A5 Haze · 60% Sativa / 40% Indica',
-    badges: [['badge-green','ScrOG ★★★'],['badge-amber','THC 23–25%'],['badge-cyan','CBD 1.8%'],['badge-teal','Cup winner']],
-    terps: [['Limonene',90,'dom.'],['Myrcene',55,'med'],['Caryophyllene',50,'med'],['Pinene',25,'low'],['Linalool',15,'trace']],
-    terpColors: ['limonene','myrcene','caryophyllene','pinene','linalool'],
-    dataQuality: '⭐⭐', effects: 'Intense, clean, cerebral — starts very lively, finishes with pleasant relaxation. The sativa dominance keeps onset energetic and creative. La Huerta states this is "a very branchy plant that responds very well to SCROG and LST." Your best ScrOG candidate with up to 600 g/m² yield.',
-    effectNote: 'Select for bright tangerine aroma phenotype over strawberry scent.',
-    effectNoteColor: 'accent-green',
-    specs: [['Height','90–100 cm'],['Flower','60–70 days'],['Yield','600 g/m²'],['ScrOG','Best'],['Source',"Barney's Farm"]],
-    gradient: 'linear-gradient(135deg, #2e2a0d 0%, #1a170d 50%, #2e1a0d 100%)'
-  },
-  {
-    num: '06', label: 'Foundational GSC Genetics', name: 'Royal Cookies', breeder: 'Royal Queen Seeds — Netherlands',
-    genetics: 'Forum Cookies S1 × Forum Cookies S1 · 80% Indica / 20% Sativa',
-    badges: [['badge-green','ScrOG ✓'],['badge-amber','THC 23%'],['badge-violet','Highlife Cup 2018'],['badge-rose','Dose-sensitive']],
-    terps: [['Caryophyllene',85,'dom.'],['Myrcene',60,'med'],['Limonene',55,'med'],['Humulene',30,'sec.'],['Linalool',20,'low']],
-    terpColors: ['caryophyllene','myrcene','limonene','humulene','linalool'],
-    dataQuality: '⭐⭐⭐⭐', effects: 'Archetypal GSC terpene profile — the genetic foundation of the entire Cookies/Dessert family. Euphoric head high with body relaxation. The 80% indica lean makes it the most physically relaxing option. Best for end-of-day coding sessions. Dose carefully for functional use.',
-    effectNote: '⚠ 80% indica — micro-dose for daytime functionality.',
-    effectNoteColor: 'accent-amber',
-    specs: [['Height','80–110 cm'],['Flower','8–9 wk'],['Yield','450–525 g/m²'],['ScrOG','Good'],['Source','RQS']],
-    gradient: 'linear-gradient(135deg, #2e200d 0%, #1a150d 50%, #1a0d0d 100%)'
-  },
-  {
-    num: '07', label: 'Best α-Pinene for Mental Clarity', name: 'Blue Gelato 41', breeder: "Barney's Farm — Netherlands",
-    genetics: 'Blueberry × Thin Mint GSC × Sunset Sherbet · 60% Indica / 40% Sativa',
-    badges: [['badge-amber','ScrOG ⚠'],['badge-amber','THC 25%'],['badge-teal','Pinene-forward'],['badge-rose','Needs training']],
-    terps: [['α-Pinene',75,'high'],['Caryophyllene',70,'high'],['Limonene',60,'med'],['Myrcene',50,'med'],['Linalool',20,'low']],
-    terpColors: ['pinene','caryophyllene','limonene','myrcene','linalool'],
-    dataQuality: '⭐⭐⭐', effects: 'The elevated Pinene content is uniquely valuable — α-Pinene promotes alertness, memory retention, and focus, counteracting THC-induced memory impairment. Balanced euphoria with creative engagement. 110–150 cm height is the tallest option — will need aggressive training. Flip to 12/12 early.',
-    effectNote: '⚠ 110–150 cm — needs early topping + aggressive ScrOG in HS80.',
-    effectNoteColor: 'accent-rose',
-    specs: [['Height','110–150 cm'],['Flower','9–10 wk'],['Yield','600–700 g/m²'],['ScrOG','Needs work'],['Source',"Barney's"]],
-    gradient: 'linear-gradient(135deg, #0d1a2e 0%, #0d1a1a 50%, #1a2e1a 100%)'
-  },
-  {
-    num: '08', label: 'Most Consistent Phenotype', name: 'Cream Caramel', breeder: 'Sweet Seeds — Spain',
-    genetics: 'Blue Black × Maple Leaf Indica × White Rhino · 90% Indica / 10% Sativa',
-    badges: [['badge-green','ScrOG ✓'],['badge-amber','THC 15–20%'],['badge-cyan','CBD 1.6%'],['badge-violet','20+ cups']],
-    terps: [['Caryophyllene',80,'dom.'],['Myrcene',65,'high'],['Limonene',45,'med'],['Pinene',25,'low'],['Camphene',15,'trace']],
-    terpColors: ['caryophyllene','myrcene','limonene','pinene','pinene'],
-    dataQuality: '⭐⭐⭐', effects: '90% indica with significant Myrcene — carries real couch-lock risk at higher doses. However, Caryophyllene dominance and moderate THC with 1.6% CBD make it genuinely therapeutic. Best as a low-dose evening strain. Stabilized since 2007, the most phenotypically consistent option here.',
-    effectNote: '⚠ High sedation risk — micro-dose only for functional use.',
-    effectNoteColor: 'accent-rose',
-    specs: [['Height','Compact'],['Flower','8–9 wk'],['Yield','400–550 g/m²'],['ScrOG','Good'],['Source','Sweet Seeds']],
-    gradient: 'linear-gradient(135deg, #2e1a0d 0%, #1a100d 50%, #2e0d1a 100%)'
-  },
-  {
-    num: '09', label: 'Most Rigorous Lab Analysis', name: 'Super Lemon Haze', breeder: 'Green House Seeds — Netherlands',
-    genetics: 'Lemon Skunk × Super Silver Haze · 70% Sativa / 30% Indica',
-    badges: [['badge-rose','ScrOG mandatory'],['badge-amber','THC 22%'],['badge-cyan','GC-analyzed'],['badge-teal','2× Cup winner']],
-    terps: [['Caryophyllene',75,'high'],['Terpinolene',70,'high'],['Limonene',55,'med'],['Myrcene',45,'med'],['Pinene',30,'low']],
-    terpColors: ['caryophyllene','terpinolene','limonene','myrcene','pinene'],
-    dataQuality: '⭐⭐⭐⭐⭐', effects: 'GC-analyzed terpene data from Green House Seeds — the most rigorous analytical documentation of any strain here. Strong body high with clear head for creativity. Long-lasting, energetic, social. The sativa dominance makes it highly functional. The challenge: vigorous growth needs aggressive management in your tent.',
-    effectNote: '⚠ Vigorous sativa — 100W may be insufficient. Advanced growers only.',
-    effectNoteColor: 'accent-rose',
-    specs: [['Height','Tall'],['Flower','~70 days'],['Yield','High'],['ScrOG','Mandatory'],['Source','GH Seeds']],
-    gradient: 'linear-gradient(135deg, #1a2e0d 0%, #0d1a0d 50%, #2e2e0d 100%)'
-  },
-  {
-    num: '10', label: 'Most Functional for Coding', name: 'Sour Diesel', breeder: 'Royal Queen Seeds — Netherlands',
-    genetics: 'Original Diesel × (Northern Light × Shiva × Hawaiian) · 70% Sativa / 30% Indica',
-    badges: [['badge-green','ScrOG ✓'],['badge-amber','THC 19–27%'],['badge-cyan','Quantified ratios'],['badge-teal','Coding strain']],
-    terps: [['Caryophyllene',80,'23.16%'],['Limonene',70,'19.99%'],['Myrcene',70,'19.96%'],['Humulene',30,'sec.'],['Pinene',20,'low']],
-    terpColors: ['caryophyllene','limonene','myrcene','humulene','pinene'],
-    dataQuality: '⭐⭐⭐⭐', effects: 'The "coding strain." Leafly community recommends it for complex projects, marathon writing sessions, and analytical work. Invigorating cerebral buzz that enhances focus without physical sedation. Caryophyllene provides anxiety relief while Limonene maintains mood and alertness. 10–11 week flower is the longest here.',
-    effectNote: 'Eybna Technologies data: β-Caryophyllene 23%, Limonene 20%, Myrcene 20%.',
-    effectNoteColor: 'accent-cyan',
-    specs: [['Height','100–130 cm'],['Flower','10–11 wk'],['Yield','450–525 g/m²'],['ScrOG','Good'],['Source','RQS']],
-    gradient: 'linear-gradient(135deg, #1a1a0d 0%, #1a0d1a 50%, #0d1a1a 100%)'
-  }
-];
-
-const container = document.getElementById('remaining-strains');
-
-strains.forEach(s => {
-  const badgesHtml = s.badges.map(b => `<span class="badge ${b[0]}">${b[1]}</span>`).join('');
-  const terpsHtml = s.terps.map((t,i) => {
-    const color = s.terpColors[i] || 'caryophyllene';
-    return `<div class="terp-bar-row"><span class="terp-bar-label">${t[0]}</span><div class="terp-bar-track"><div class="terp-bar-fill" style="width:${t[1]}%;background:var(--${color})"></div></div><span class="terp-bar-value">${t[2]}</span></div>`;
-  }).join('');
-  const specsHtml = s.specs.map(sp => {
-    let style = '';
-    if(sp[1] === 'Excellent' || sp[1] === 'Best' || sp[1] === 'Good') style = 'color:var(--accent-green)';
-    else if(sp[1] === 'Poor' || sp[1] === 'Mandatory' || sp[1] === 'Needs work') style = 'color:var(--accent-amber)';
-    return `<div class="spec-item"><span class="spec-label">${sp[0]}</span><span class="spec-value" style="${style}">${sp[1]}</span></div>`;
-  }).join('');
-
-  container.innerHTML += `
-  <div class="strain-card reveal">
-    <div class="strain-header">
-      <div class="strain-visual" style="background:${s.gradient};">
-        <svg class="leaf-illustration" viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
-          <defs><linearGradient id="lf${s.num}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#86efac" stop-opacity="0.7"/><stop offset="100%" stop-color="#15803d" stop-opacity="0.85"/></linearGradient></defs>
-          <g transform="translate(70,90)">
-            <ellipse cx="0" cy="48" rx="2.5" ry="36" fill="#2d5a2d" opacity="0.5"/>
-            <path d="M0,-68 Q-7,-48 -3,-28 Q0,-22 0,-18 Q0,-22 3,-28 Q7,-48 0,-68Z" fill="url(#lf${s.num})" opacity="0.85"/>
-            <path d="M0,-14 Q-22,-45 -16,-65 Q-12,-52 -8,-40 Q-3,-24 0,-14Z" fill="url(#lf${s.num})" opacity="0.7" transform="rotate(-16)"/>
-            <path d="M0,-14 Q22,-45 16,-65 Q12,-52 8,-40 Q3,-24 0,-14Z" fill="url(#lf${s.num})" opacity="0.7" transform="rotate(16)"/>
-            <path d="M0,-8 Q-30,-28 -24,-46 Q-18,-34 -10,-24 Q-3,-14 0,-8Z" fill="url(#lf${s.num})" opacity="0.6" transform="rotate(-8)"/>
-            <path d="M0,-8 Q30,-28 24,-46 Q18,-34 10,-24 Q3,-14 0,-8Z" fill="url(#lf${s.num})" opacity="0.6" transform="rotate(8)"/>
-          </g>
-          <text x="110" y="30" text-anchor="middle" font-size="22" font-family="'JetBrains Mono'" fill="rgba(255,255,255,0.1)" font-weight="900">${s.num}</text>
-        </svg>
-      </div>
-      <div class="strain-info">
-        <div class="strain-rank">#${s.num} — ${s.label}</div>
-        <div class="strain-name">${s.name}</div>
-        <div class="strain-breeder">${s.breeder}</div>
-        <div class="strain-genetics">${s.genetics}</div>
-        <div class="strain-badges">${badgesHtml}</div>
-      </div>
-    </div>
-    <div class="strain-body">
-      <div class="strain-col">
-        <h4>Terpene Profile · Data Quality ${s.dataQuality}</h4>
-        <div class="terp-bars">${terpsHtml}</div>
-      </div>
-      <div class="strain-col">
-        <h4>Effects &amp; Grow Notes</h4>
-        <p>${s.effects}</p>
-        <p style="margin-top:0.6rem;font-size:0.82rem;color:var(--${s.effectNoteColor})">${s.effectNote}</p>
-      </div>
-    </div>
-    <div class="strain-footer">${specsHtml}</div>
-  </div>`;
-});
-
-// ====== SCROLL REVEAL ======
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
