@@ -9,6 +9,15 @@
     "file": "citron-givre-guide.html"
   },
   {
+    "id": "citron-givre-14-day",
+    "title": "Citron Givré — 14-Day Playbook",
+    "subtitle": "Day-by-day care protocol for the Birthday Cut clone",
+    "icon": "📅",
+    "status": "IN REVIEW",
+    "category": "botanical",
+    "file": "citron-givre-14-day-guide.html"
+  },
+  {
     "id": "equipment",
     "title": "Equipment Tracker",
     "subtitle": "Inventory, Budget & Gear Status — Citron Givré Run",
