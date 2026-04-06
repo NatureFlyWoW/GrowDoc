@@ -7,6 +7,13 @@ const STATUS_CONFIG = {
 };
 const ALL_STATUSES = Object.keys(STATUS_CONFIG);
 
+const PRIORITY_GROUPS = [
+  { priority: 1, label: 'Urgent Care', desc: 'Next days & weeks' },
+  { priority: 2, label: 'Setup & Supplies', desc: 'Refining the grow' },
+  { priority: 3, label: 'Future Runs', desc: 'Pheno hunting & yield goals' },
+  { priority: 4, label: 'Reference', desc: 'Glossary & general knowledge' }
+];
+
 let docs = [];
 let activeId = null;
 let activeFilters = new Set(ALL_STATUSES);
@@ -44,19 +51,32 @@ function render() {
     return `<button class="filter-chip ${on ? 'on' : 'off'}" style="--chip:${cfg.color}" onclick="toggleFilter('${s}')">${cfg.label} <span class="count">${count}</span></button>`;
   }).join('');
 
-  // Sidebar
-  document.getElementById('nav-list').innerHTML = visibleDocs.map(d => `
-    <div class="nav-item cat-${d.category || 'none'} ${d.id === activeId ? 'active' : ''}" onclick="select('${d.id}')">
-      <div class="nav-line">
-        <span class="icon">${d.icon}</span>
-        <span class="nav-title">${d.title}</span>
+  // Sidebar — grouped by priority
+  let sidebarHTML = '';
+  for (const group of PRIORITY_GROUPS) {
+    const groupDocs = visibleDocs.filter(d => (d.priority || 4) === group.priority);
+    if (groupDocs.length === 0) continue;
+    sidebarHTML += `<div class="priority-group prio-${group.priority}">`;
+    sidebarHTML += `<div class="priority-header">`;
+    sidebarHTML += `<span class="priority-label">${group.label}</span>`;
+    sidebarHTML += `<span class="priority-desc">${group.desc}</span>`;
+    sidebarHTML += `</div>`;
+    sidebarHTML += groupDocs.map(d => `
+      <div class="nav-item cat-${d.category || 'none'} ${d.id === activeId ? 'active' : ''}" onclick="select('${d.id}')">
+        <div class="nav-line">
+          <span class="icon">${d.icon}</span>
+          <span class="nav-title">${d.title}</span>
+        </div>
+        ${statusBadge(d.status || 'OPEN')}
       </div>
-      ${statusBadge(d.status || 'OPEN')}
-    </div>
-  `).join('') || '<div class="nav-empty">No docs match the current filter.</div>';
+    `).join('');
+    sidebarHTML += `</div>`;
+  }
+  document.getElementById('nav-list').innerHTML = sidebarHTML || '<div class="nav-empty">No docs match the current filter.</div>';
 
-  // Mobile nav
-  document.getElementById('mobile-nav').innerHTML = visibleDocs.map(d => `
+  // Mobile nav — flat but sorted by priority
+  const sortedDocs = [...visibleDocs].sort((a, b) => (a.priority || 4) - (b.priority || 4));
+  document.getElementById('mobile-nav').innerHTML = sortedDocs.map(d => `
     <div class="mobile-nav-item cat-${d.category || 'none'} ${d.id === activeId ? 'active' : ''}" onclick="select('${d.id}')">
       ${d.icon} ${d.title}
     </div>

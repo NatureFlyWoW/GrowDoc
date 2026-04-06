@@ -134,6 +134,50 @@ html, body {
   opacity: 0.85;
 }
 
+/* ── Priority groups ── */
+.priority-group {
+  margin-bottom: 16px;
+}
+
+.priority-group:last-child {
+  margin-bottom: 0;
+}
+
+.priority-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 12px 6px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.priority-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.priority-desc {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.prio-1 .priority-label { color: #b44c30; }
+.prio-1 .priority-header { border-bottom-color: rgba(180, 76, 48, 0.3); }
+
+.prio-2 .priority-label { color: #185FA5; }
+.prio-2 .priority-header { border-bottom-color: rgba(24, 95, 165, 0.3); }
+
+.prio-3 .priority-label { color: var(--green-mid); }
+.prio-3 .priority-header { border-bottom-color: rgba(74, 124, 35, 0.3); }
+
+.prio-4 .priority-label { color: var(--text-muted); }
+.prio-4 .priority-header { border-bottom-color: var(--border); }
+
 /* ── Nav items ── */
 .nav-item {
   display: block;
