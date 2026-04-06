@@ -11,7 +11,7 @@
   --green-dark: #2d5016;
   --green-mid: #4a7c23;
   --text-dark: #4a3728;
-  --text-muted: #8b7355;
+  --text-muted: #6b5540;
   --white: #fff;
   --sidebar-width: 300px;
 }
@@ -343,9 +343,20 @@ html, body {
     -webkit-overflow-scrolling: touch;
   }
 
+  .mobile-nav {
+    scrollbar-width: none;
+  }
+
+  .mobile-nav::-webkit-scrollbar {
+    display: none;
+  }
+
   .mobile-nav-item {
     flex-shrink: 0;
     padding: 8px 14px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
     border-radius: 20px;
     font-size: 0.78rem;
     cursor: pointer;
