@@ -27,6 +27,14 @@
     "section-03-scoring-engine": {
       "status": "complete",
       "commit_hash": "177a3f3"
+    },
+    "section-04-notes-input": {
+      "status": "complete",
+      "commit_hash": "5f0cbfb"
+    },
+    "section-05-multi-dx-mode": {
+      "status": "complete",
+      "commit_hash": "abd6abb"
     }
   },
   "pre_commit": {

@@ -1009,23 +1009,36 @@ function processCheckIn() {
 
 ## Checklist
 
-1. Add all journal CSS styles (dashboard, entries, status badges, check-in, treatment selection, score changes)
-2. Implement `generateId()`, `createJournalEntry()`, `evictJournalEntry()`, `createTreatments()`, `createCheckInRecord()`
-3. Implement `loadStateV2()` with v1-to-v2 migration and backup
-4. Implement `saveJournalState()` for persistence
-5. Implement `saveToJournal()` for all three modes
-6. Implement `renderJournalDashboard()` with display condition
-7. Implement `renderTreatmentSelect()` for post-save treatment picking
-8. Implement check-in flow: `renderCheckInStep1()`, `renderCheckInStep2()`, `renderCheckInResult()`
-9. Implement `renderCheckIn()` dispatch function
-10. Implement `processCheckIn()` with re-scoring and changelog
-11. Implement `getJournalEntry()` lookup helper
-12. Implement `bindJournalEvents()` for all journal interactions
-13. Integrate journal dashboard into `render()` above mode content
-14. Update `init()` to call `loadStateV2()` and initialize `journalData`
-15. Add Section 06 tests to `runTests()`
-16. Test v1 migration: create v1 localStorage entry, reload, verify migration
-17. Test journal cap: add 21 entries, verify eviction
-18. Test full flow: diagnose in wizard, save to journal, check in, verify changelog
-19. Test full flow: diagnose in multi-dx, save, select treatments, check in
-20. Verify journal dashboard appears only at starting state
+1. [x] Add all journal CSS styles (dashboard, entries, status badges, check-in, treatment selection, score changes)
+2. [x] Implement `generateId()`, `createJournalEntry()`, `evictJournalEntry()`, `createTreatments()`, `createCheckInRecord()`
+3. [x] Implement `loadStateV2()` with v1-to-v2 migration and backup
+4. [x] Implement `saveJournalState()` for persistence
+5. [x] Implement `saveToJournal()` for all three modes
+6. [x] Implement `renderJournalDashboard()` with display condition
+7. [x] Implement `renderTreatmentSelect()` for post-save treatment picking
+8. [x] Implement check-in flow: `renderCheckInStep1()`, `renderCheckInStep2()`, `renderCheckInResult()`
+9. [x] Implement `renderCheckIn()` dispatch function
+10. [x] Implement `processCheckIn()` with re-scoring and changelog
+11. [x] Implement `getJournalEntry()` lookup helper
+12. [x] Implement `bindJournalEvents()` for all journal interactions
+13. [x] Integrate journal dashboard into `render()` above mode content
+14. [x] Update `init()` to call `loadStateV2()` and initialize `journalData`
+15. [x] Add Section 06 tests to `runTests()`
+16. [ ] Test v1 migration: create v1 localStorage entry, reload, verify migration (manual)
+17. [ ] Test journal cap: add 21 entries, verify eviction (manual)
+18. [ ] Test full flow: diagnose in wizard, save to journal, check in, verify changelog (manual)
+19. [ ] Test full flow: diagnose in multi-dx, save, select treatments, check in (manual)
+20. [ ] Verify journal dashboard appears only at starting state (manual)
+
+---
+
+## Implementation Notes (Post-Review)
+
+**Deviations from plan:**
+- `processCheckIn()` auto-resolve condition was fixed: plan had `resolvedSymptoms.length === entry.symptoms.length + resolvedSymptoms.length` which is mathematically impossible after symptom mutation. Changed to `resolvedSymptoms.length >= originalSymptomCount && originalSymptomCount > 0` with `originalSymptomCount` captured before mutation.
+- Added `daysSinceFix` capture to check-in records (the input was rendered but never read).
+- Added corruption recovery persistence in `loadStateV2()` — corrupted v2 data is now saved back.
+- Added treatment checkbox toggle styling (`.checked` class on parent label).
+
+**Files modified:** `docs/tool-plant-doctor.html` (all changes in single file)
+**Tests added:** 12 tests in `runTests()` covering migration, CRUD, eviction, status transitions, and corruption recovery.
