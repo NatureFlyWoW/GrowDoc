@@ -155,3 +155,15 @@ Debounced 1000ms auto-save. Schema versioned. CompletedSummaries capped at 10. N
 ## Design System
 
 Canonical `:root` from glossary.html. Alert boxes (.tip/.warn/.crit), cards, buttons, inputs with focus glow. Pulse animation for current day dot. Fade-in for phase transitions. Responsive at 640px.
+
+## Actual Implementation Notes
+
+**File created:** `docs/tool-cure-tracker.html` (~740 lines, single file with embedded CSS/JS)
+**Deviations from plan:**
+- Added `escapeHtml()` utility to prevent XSS via innerHTML injection (code review fix)
+- Added `safeFloat()` helper replacing broken `parseFloat() ?? 0` pattern (code review fix)
+- Added `addDays()` helper for DST-safe date arithmetic instead of `86400000` ms multiplication (code review fix)
+- Added Space key handler on timeline day items for keyboard accessibility (code review fix)
+- `getCureWeek()` calculates based on first log date rather than a stored curingStartDate (plan doesn't include curingStartDate)
+- Missing `day` field in curing log entries (minor plan model omission)
+**Code review:** 4 auto-fixes applied. No user-decision items.
