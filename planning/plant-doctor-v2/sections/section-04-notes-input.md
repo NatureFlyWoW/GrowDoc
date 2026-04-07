@@ -446,3 +446,14 @@ This ensures notes toggle/input handlers are re-bound after every render cycle.
 14. Verify notes are cleared on Start Over / Reset
 15. Verify notes appear in result card under "Your Notes"
 16. Test XSS: type `<script>alert(1)</script>` in notes, verify it renders as escaped text
+
+---
+
+## Implementation Status
+
+**Status:** Complete
+**Implemented by:** Claude (deep-implement)
+**Files modified:** `docs/tool-plant-doctor.html`
+**Deviations from plan:** None — implementation matches plan exactly. Also added "Save & Start Tracking" button to result cards per Section 05 plan.
+**Tests added:** 7 tests covering renderNotesExpander, XSS, persistence, pre-fill
+**Code review:** PASS — no issues found

@@ -15,7 +15,20 @@
     "section-06-treatment-journal",
     "section-07-integration-tests"
   ],
-  "sections_state": {},
+  "sections_state": {
+    "section-01-knowledge-base": {
+      "status": "complete",
+      "commit_hash": "0611201"
+    },
+    "section-02-state-and-mode-selector": {
+      "status": "complete",
+      "commit_hash": "75586ca"
+    },
+    "section-03-scoring-engine": {
+      "status": "complete",
+      "commit_hash": "177a3f3"
+    }
+  },
   "pre_commit": {
     "present": false,
     "type": "none",
@@ -24,5 +37,5 @@
     "may_modify_files": false,
     "detected_formatters": []
   },
-  "created_at": "2026-04-07T11:59:01.895979+00:00"
+  "created_at": "2026-04-07T12:06:16.048933+00:00"
 }
