@@ -17,6 +17,10 @@
     "section-01-sidebar-integration": {
       "status": "complete",
       "commit_hash": "b2eab7a"
+    },
+    "section-02-env-dashboard": {
+      "status": "complete",
+      "commit_hash": "651f6e1"
     }
   },
   "pre_commit": {

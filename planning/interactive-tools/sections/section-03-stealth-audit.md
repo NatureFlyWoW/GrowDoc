@@ -251,3 +251,13 @@ function init()
 - localStorage unavailable: `.warn` banner, tool works without persistence
 - Corrupted data: warning + export raw JSON + reset
 - Radio buttons: constrained by HTML, no extra validation needed
+
+## Actual Implementation Notes
+
+**File created:** `docs/tool-stealth-audit.html` (~910 lines, single file with embedded CSS/JS)
+**Deviations from plan:**
+- Removed `persistState()` from `resetAudit()` to match plan's "no save" spec (code review fix)
+- `saveAudit()` writes to localStorage immediately instead of debounced (code review fix for tab-close data loss)
+- Tests save/restore state to avoid polluting real data (code review fix)
+- Corrupted data export simplified to inline warning message (no separate export button)
+**Code review:** 3 auto-fixes applied. No user-decision items.
