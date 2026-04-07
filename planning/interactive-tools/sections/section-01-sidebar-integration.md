@@ -177,7 +177,14 @@ These styles apply to the parent page (light cream theme `--sidebar-bg: #e8dcc8`
 
 ## Edge Cases
 
-- Tool HTML files don't exist yet — iframe shows 404 until Sections 02–05 are built. Optionally create placeholder pages.
+- ~~Tool HTML files don't exist yet~~ — Placeholder HTML pages created for all 4 tools showing "Coming soon" messages. Will be replaced by Sections 02–05.
 - Tools appended at end of docs.json — initial page load selects first doc, not a tool.
 - Tool items show "DONE" status badge — intentional, tools are always available.
 - `select()` function works without modification for tool IDs.
+
+## Actual Implementation Notes
+
+**Files modified:** `docs/docs.json`, `app.js`, `style.css`
+**Files created:** `docs/tool-plant-doctor.html`, `docs/tool-env-dashboard.html`, `docs/tool-cure-tracker.html`, `docs/tool-stealth-audit.html` (placeholders)
+**Deviations from plan:** Added placeholder HTML files (plan listed as optional). No other deviations.
+**Code review:** No blocking issues found. All auto-fixes applied (placeholders only).
