@@ -170,3 +170,14 @@ Corrupted: warning + export raw JSON option.
 2. Cache busting: don't parse `location.search`.
 3. Keep file compact — generate 65 cells in JS, not hardcoded HTML. Target well under 100KB.
 4. Language: English (`<html lang="en">`).
+
+## Actual Implementation Notes
+
+**File created:** `docs/tool-env-dashboard.html` (~850 lines, single file with embedded CSS/JS)
+**Deviations from plan:**
+- Used `??` instead of `||` for numeric defaults (code review fix for falsy-zero bug)
+- DLI canopy management advice threshold corrected to <30 (was <25)
+- Focus styles use outline instead of box-shadow (High Contrast Mode compatibility)
+- Added null guard in loadState() for missing lastInputs property
+- Corrupted localStorage export option simplified to inline raw JSON display (no separate export button)
+**Code review:** 5 auto-fixes applied. No user-decision items.

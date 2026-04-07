@@ -13,7 +13,12 @@
     "section-04-cure-tracker",
     "section-05-plant-doctor"
   ],
-  "sections_state": {},
+  "sections_state": {
+    "section-01-sidebar-integration": {
+      "status": "complete",
+      "commit_hash": "b2eab7a"
+    }
+  },
   "pre_commit": {
     "present": false,
     "type": "none",
