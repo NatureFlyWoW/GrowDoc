@@ -685,21 +685,6 @@ function isResult(node) {
   return node && typeof node.diagnosis === 'string';
 }
 
-function getDepth(historyArr) {
-  return historyArr.length;
-}
-
-function getMaxDepthForPath(nodeId, depth) {
-  var node = TREE[nodeId];
-  if (!node || isResult(node)) return depth;
-  var max = depth;
-  for (var i = 0; i < node.options.length; i++) {
-    var d = getMaxDepthForPath(node.options[i].next, depth + 1);
-    if (d > max) max = d;
-  }
-  return max;
-}
-
 /* ── Rendering: Progress Dots ── */
 function renderProgress() {
   var el = document.getElementById('progress');
@@ -752,6 +737,7 @@ function renderResultCard(node) {
   var sevClass = 'sev-' + node.severity;
   var pct = Math.round(node.confidence * 100);
   var html = '<div class="result-card ' + sevClass + ' fade-in" tabindex="-1" id="result-card">';
+  html += '<span class="sr-only">Diagnosis result: ' + escapeHtml(node.diagnosis) + ', severity ' + escapeHtml(node.severity) + ', confidence ' + pct + ' percent</span>';
   html += '<div class="result-dx">' + escapeHtml(node.diagnosis) + '</div>';
   html += '<span class="result-sev ' + sevClass + '">' + escapeHtml(node.severity) + '</span>';
   html += '<div class="conf-wrap"><div class="conf-label">Confidence</div>';
@@ -848,10 +834,12 @@ function render() {
     app.innerHTML = renderExpert();
     bindExpertEvents();
     var expertResult = getExpertResult();
-    if (expertResult) {
+    if (expertResult && (!lastDiagnosis || lastDiagnosis.result.id !== expertResult.id)) {
       saveLastDiagnosis(expertResult);
       lastDiagnosis = { date: new Date().toISOString(), result: { id: expertResult.id, diagnosis: expertResult.diagnosis, severity: expertResult.severity, confidence: expertResult.confidence }, path: [] };
       renderLastDx();
+    }
+    if (expertResult) {
       setTimeout(function() { var rc = document.getElementById('result-card'); if (rc) rc.focus(); }, 50);
     }
   } else {
@@ -870,11 +858,20 @@ function render() {
     }
     bindWizardEvents();
   }
-  renderProgress();
+  var progressEl = document.getElementById('progress');
+  if (state.expertMode) {
+    progressEl.style.display = 'none';
+  } else {
+    progressEl.style.display = '';
+    renderProgress();
+  }
 }
 
 /* ── Transitions (Wizard) ── */
+var transitioning = false;
 function transitionToNode(nextId) {
+  if (transitioning) return;
+  transitioning = true;
   var app = document.getElementById('app');
   app.style.opacity = '0';
   app.style.transition = 'opacity 0.15s';
@@ -885,6 +882,7 @@ function transitionToNode(nextId) {
     app.style.transition = 'opacity 0.3s';
     var first = app.querySelector('.opt-btn');
     if (first) first.focus();
+    transitioning = false;
   }, 150);
 }
 
@@ -939,7 +937,6 @@ function expertSelect(nodeId, optionIdx, depth) {
   state.expertSelections[nodeId] = optionIdx;
   var currentId = ROOT;
   var newSelections = {};
-  var d = 0;
   while (currentId) {
     var node = TREE[currentId];
     if (!node || isResult(node)) break;
@@ -947,7 +944,6 @@ function expertSelect(nodeId, optionIdx, depth) {
     if (sel !== undefined && sel !== null) {
       newSelections[currentId] = sel;
       currentId = node.options[sel].next;
-      d++;
     } else {
       break;
     }
