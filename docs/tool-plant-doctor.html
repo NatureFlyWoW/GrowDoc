@@ -3267,9 +3267,9 @@ function runTests() {
   assert(clipped.length === 200, 'Notes clipped to 200 chars');
 
   // Test: notes content passes through escapeHtml before rendering (XSS check)
-  var xssNote = '<script>alert("xss")</script>';
+  var xssNote = '<scr' + 'ipt>alert("xss")<\/scr' + 'ipt>';
   var escaped = escapeHtml(xssNote);
-  assert(escaped.indexOf('<script>') === -1, 'escapeHtml strips script tags from notes');
+  assert(escaped.indexOf('<scr' + 'ipt>') === -1, 'escapeHtml strips script tags from notes');
   assert(escaped.indexOf('&lt;script&gt;') !== -1, 'escapeHtml converts < to &lt; in notes');
 
   // Test: notes survive within a diagnosis session (not lost on render cycle)
