@@ -35,6 +35,14 @@
     "section-05-multi-dx-mode": {
       "status": "complete",
       "commit_hash": "abd6abb"
+    },
+    "section-06-treatment-journal": {
+      "status": "complete",
+      "commit_hash": "1a99923"
+    },
+    "section-07-integration-tests": {
+      "status": "complete",
+      "commit_hash": "22d27a8"
     }
   },
   "pre_commit": {
