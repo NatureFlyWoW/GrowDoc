@@ -740,6 +740,7 @@ var TREE = {
 
 /* ── Scoring Engine ── */
 function scoreDiagnoses(selectedSymptoms, stage, treatedDiagnoses) {
+  if (!selectedSymptoms || !Array.isArray(selectedSymptoms)) return [];
   var results = [];
   var selectedMap = {};
   for (var i = 0; i < selectedSymptoms.length; i++) {
@@ -768,7 +769,7 @@ function scoreDiagnoses(selectedSymptoms, stage, treatedDiagnoses) {
 
     // Stage modifier
     var stageAdjust = 0;
-    if (entry.stage_modifier && entry.stage_modifier[stage]) {
+    if (entry.stage_modifier && entry.stage_modifier[stage] !== undefined) {
       stageAdjust = entry.stage_modifier[stage];
     }
 
@@ -828,7 +829,7 @@ function applyRefineAnswer(scores, ruleId, optionIndex) {
   for (var i = 0; i < REFINE_RULES.length; i++) {
     if (REFINE_RULES[i].id === ruleId) { rule = REFINE_RULES[i]; break; }
   }
-  if (!rule || !rule.options[optionIndex]) return scores;
+  if (!rule || !rule.options[optionIndex]) return scores.slice();
 
   var adjust = rule.options[optionIndex].adjust;
 
@@ -1333,6 +1334,7 @@ function render() {
     } else if (multiDxState.phase === 'results') {
       app.innerHTML = typeof renderMultiDxResults === 'function' ? renderMultiDxResults() : '';
     }
+    bindNotesEvents();
     progressEl.style.display = 'none';
   }
 }
@@ -1631,7 +1633,7 @@ function runTests() {
     else { failed++; console.error('FAIL:', msg); }
   }
 
-  var savedState = { currentNode: state.currentNode, history: state.history.slice(), mode: state.mode, expertSelections: JSON.parse(JSON.stringify(state.expertSelections)) };
+  var savedState = { currentNode: state.currentNode, history: state.history.slice(), mode: state.mode, expertSelections: JSON.parse(JSON.stringify(state.expertSelections)), wizardNotes: JSON.parse(JSON.stringify(state.wizardNotes)) };
   var savedDx = lastDiagnosis;
 
   // Test: tree traversal reaches result node for every valid path combination
@@ -2121,7 +2123,8 @@ function runTests() {
   state.wizardNotes['q-stage'] = 'My stage note';
   state.wizardNotes['q-symptom'] = 'Symptom context';
   var resultHtml = renderResultCard(TREE['r-n-def']);
-  assert(Object.keys(state.wizardNotes).length > 0, 'wizardNotes preserved for result card rendering');
+  assert(resultHtml.indexOf('result-notes') !== -1, 'renderResultCard includes notes section when wizardNotes has content');
+  assert(resultHtml.indexOf('My stage note') !== -1, 'renderResultCard renders note content');
   state.wizardNotes = {};
 
   // Test: renderNotesExpander with existing content pre-fills textarea
@@ -2133,6 +2136,7 @@ function runTests() {
   state.history = savedState.history;
   state.mode = savedState.mode;
   state.expertSelections = savedState.expertSelections;
+  state.wizardNotes = savedState.wizardNotes;
   lastDiagnosis = savedDx;
   render();
 
