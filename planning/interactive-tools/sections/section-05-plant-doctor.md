@@ -182,3 +182,50 @@ CSS patterns: `.tip`, `.warn`, `.crit` alert boxes, `.sr-only`, `.fade-in` anima
 4. Don't parse `location.search` (parent adds cache-bust timestamp)
 5. Target under 100KB total file size
 6. English language (`<html lang="en">`)
+
+---
+
+## Implementation Status: COMPLETE
+
+**File created:** `docs/tool-plant-doctor.html` (~70KB)
+
+### Decision Tree
+- 27 question nodes, 44 result nodes (72 total)
+- All paths terminate at result nodes (verified by tree traversal test)
+- Coverage: N, P, K, Ca, Mg, Fe, S deficiencies; N toxicity, mild/severe nutrient burn; heat stress, light burn, overwatering, underwatering, wind burn, low humidity; PM, root rot, spider mites, fungal spots; pH lockout/drift/flux; seedling-specific (stretching, damping off, overwatering, cotyledon normal, nutrient sensitivity, insufficient light); benign results (trichomes, natural fade, normal veg, normal transpiration, transplant shock, cold purple, mineral deposits)
+- Tree JSON well under 15KB minified target
+
+### Wizard Mode
+- Step-by-step question cards with fade transitions (0.15s out, 0.3s in)
+- Progress dots (filled/pulsing active)
+- Back button (pops history stack)
+- Start Over button (resets to root)
+- Result card with severity border, confidence bar, checkFirst, fixes, alsoConsider
+- Focus management: first option receives focus on transition, result card focused on display
+- aria-live="polite" on app container
+
+### Expert Mode
+- Same tree rendered as cascading dropdowns
+- Parent change clears all dependent children
+- Back button steps back one selection (not full reset)
+- Diagnose result shows inline below form
+- localStorage saving works for expert mode results too
+
+### Tests (9 tests via runTests())
+1. Tree traversal — all paths reach results
+2. goBack() — pops history correctly (using sync transition override)
+3. reset() — clears history, returns to root
+4. Expert mode toggle — preserves/restores wizard state
+5. Dependent dropdowns — cascade clears on parent unset
+6. Result node fields — all have diagnosis, confidence, severity, fixes, checkFirst
+7. Confidence values — all 0.0-1.0
+8. localStorage round-trip
+9. Corrupted localStorage — warning, no crash
+
+### Code Review Fixes Applied
+- Fixed goBack/reset/toggle tests (were broken: override, no-op, tautological)
+- Expert mode Back button now steps back one selection
+- Expert mode saves diagnosis to localStorage
+- Removed unused variable (node2)
+- Toggle thumb moved to static HTML
+- pH check kept off benign results (user decision)

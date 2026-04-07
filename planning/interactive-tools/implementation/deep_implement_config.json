@@ -25,6 +25,10 @@
     "section-03-stealth-audit": {
       "status": "complete",
       "commit_hash": "8897759"
+    },
+    "section-04-cure-tracker": {
+      "status": "complete",
+      "commit_hash": "aac44f3"
     }
   },
   "pre_commit": {
