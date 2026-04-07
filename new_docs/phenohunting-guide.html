@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Definitive Guide to Phenohunting</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0d0a;--bg2:#111611;--bg3:#161b16;--text:#e8e4d9;--text2:#9ca38e;--text3:#5e6556;--accent:#4a7c3f;--accent2:#6db35f;--gold:#c9a84c;--gold2:#8a7234;--red:#c45c4a;--blue:#5a9eb8;--purple:#8a7abf;--border:#1e2e1e;--border2:#2a4a2a;--serif:'DM Serif Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'IBM Plex Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.78;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:60px 32px 80px}
+h1{font-family:var(--serif);font-size:2.4em;font-weight:400;color:var(--accent2);margin-bottom:8px}
+.subtitle{font-size:1em;color:var(--text2);margin-bottom:40px;line-height:1.7;font-weight:300}
+h2{font-family:var(--serif);font-size:1.4em;font-weight:400;color:var(--accent2);margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+h3{font-family:var(--body);font-size:1em;font-weight:600;margin:1.5rem 0 .5rem;color:var(--gold)}
+p{margin:0 0 .85rem;font-weight:300}
+strong{font-weight:600;color:var(--text)}
+em{font-style:italic;color:var(--text2)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.2rem 0}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:1.2rem 0}
+.cd{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.cd .lb{font-family:var(--mono);font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
+.cd .vl{font-size:.92em;font-weight:600;margin-top:4px;color:var(--text)}
+.ill{margin:2rem 0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.ill svg{display:block;width:100%}
+.ill-cap{padding:12px 18px;font-family:var(--mono);font-size:.72rem;color:var(--text3);background:var(--bg);border-top:1px solid var(--border);line-height:1.6}
+.tip{background:rgba(74,124,63,.1);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.tip b{color:var(--accent2);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.warn{background:rgba(201,168,76,.08);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.warn b{color:var(--gold);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.da{background:rgba(138,122,191,.08);border-left:3px solid var(--purple);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.da b{color:var(--purple);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.84rem}
+th{background:var(--bg2);text-align:left;padding:10px 14px;font-weight:600;border-bottom:1px solid var(--border2);font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text2)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;font-weight:300}
+.sn{display:inline-block;font-family:var(--mono);font-size:.7rem;color:var(--accent);background:rgba(74,124,63,.15);padding:2px 8px;border-radius:4px;margin-right:8px}
+@media(max-width:640px){.g2,.g3{grid-template-columns:1fr}.container{padding:28px 16px 60px}h1{font-size:2em}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>The Definitive Guide to Phenohunting</h1>
+<p class="subtitle">From population genetics to practical plant selection — everything you need to understand why every seed is different, how to identify keepers at each growth stage, what to measure and when, and how to preserve and stabilize the genetics you find. Based on peer-reviewed plant breeding science, community-sourced grow data from ICMag, Rollitup, and Overgrow, and decades of breeder experience.</p>
+
+<h2><span class="sn">01</span> The Central Equation — Why Every Seed Is Different</h2>
+
+<p><strong>Phenotype = Genotype × Environment.</strong> Two seeds from the same pack carry the same potential gene pool but express different combinations. Think of it like siblings — same parents, different faces. The genotype sets the range of possibility; the environment determines where within that range the plant lands.</p>
+
+<p>This means your pheno-hunt is actually two hunts: finding the best <em>genotype</em> (inherent genetic potential), and then providing the best <em>environment</em> to express it. A genetically superior plant in a bad environment will be outperformed by a mediocre genotype in a perfect environment. Both matter.</p>
+
+<h2><span class="sn">02</span> Genetics Primer — Alleles, Dominance &amp; Generations</h2>
+
+<p>Cannabis traits are controlled by alleles — versions of genes inherited from each parent. For any trait, a plant carries two alleles: one from the mother, one from the father. If the alleles are the same (homozygous), the trait expresses consistently. If different (heterozygous), one may dominate or they may blend.</p>
+
+<div class="g3">
+  <div class="cd"><div class="lb">F1 Hybrid</div><div class="vl">First cross — uniform</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Most "designer strains" are F1 hybrids. Relatively uniform because heterosis (hybrid vigor) masks recessive traits. Less phenotype variation.</div></div>
+  <div class="cd"><div class="lb">F2 Population</div><div class="vl">F1 × F1 — maximum variation</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">The segregation generation. Recessive traits emerge. Maximum phenotypic variation. THIS is where pheno-hunting is most productive. Need 50+ plants for meaningful selection.</div></div>
+  <div class="cd"><div class="lb">IBL / Stabilized</div><div class="vl">Many generations — uniform</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Inbred line after 6+ generations of selection. Minimal variation. "True breeding." Fem Super Skunk is here — explaining why sativa phenos are rare.</div></div>
+</div>
+
+<h2><span class="sn">03</span> Seed Types and Their Impact</h2>
+
+<table>
+<tr><th>Seed Type</th><th>Phenotype Variation</th><th>Sexing Required?</th><th>Best For</th></tr>
+<tr><td><strong>Regular (natural)</strong></td><td>Full genetic range. Best for finding rare phenos.</td><td>Yes — cull males at preflower</td><td>Serious pheno-hunting, breeding</td></tr>
+<tr><td><strong>Feminized</strong></td><td>Reduced variation (selection pressure + STS/CS treatment favors uniformity)</td><td>No — all female</td><td>Simplified grows, uniform production</td></tr>
+<tr><td><strong>Autoflower</strong></td><td>Includes ruderalis genetics (flower by age, not photoperiod)</td><td>Usually feminized</td><td>Speed grows, not ideal for pheno-hunting</td></tr>
+</table>
+
+<h2><span class="sn">04</span> How Many Seeds? — The Statistics</h2>
+
+<p>The probability of finding a specific rare phenotype follows basic combinatorics. If a trait has a 5% chance per seed (like sativa expression in feminized Super Skunk), the probability of finding <em>at least one</em> from N seeds is:</p>
+
+<p style="font-family:var(--mono);font-size:.85rem;color:var(--accent2);padding:12px;background:var(--bg2);border-radius:8px;margin:1rem 0">P(≥1) = 1 − (0.95)^N → 5 seeds: 23% · 10 seeds: 40% · 15 seeds: 54% · 25 seeds: 72% · 50 seeds: 92%</p>
+
+<p>At 15 feminized seeds, you have roughly a coin-flip chance of finding one sativa pheno. With regular seeds (30–50% sativa chance), 15 seeds gives you near-certainty of finding several.</p>
+
+<h2><span class="sn">05</span> The Staged Elimination Pipeline</h2>
+
+<div class="ill">
+<svg viewBox="0 0 800 180" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="180" fill="#111611"/>
+  <text font-family="DM Serif Display,serif" font-size="13" fill="#6db35f" x="400" y="24" text-anchor="middle">Pheno-Hunt Pipeline — From Seeds to Keeper</text>
+
+  <!-- Stage 1 -->
+  <rect x="30" y="50" width="140" height="100" rx="8" fill="rgba(74,124,63,.06)" stroke="#4a7c3f" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#6db35f" x="100" y="68" text-anchor="middle">GERMINATE</text>
+  <text font-family="DM Serif Display,serif" font-size="22" fill="#6db35f" x="100" y="100" text-anchor="middle">15</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="100" y="118" text-anchor="middle">seeds</text>
+  <text font-family="IBM Plex Mono,mono" font-size="7" fill="#5e6556" x="100" y="140" text-anchor="middle">Wk 0–1</text>
+
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#4a7c3f" x="182" y="100">→</text>
+
+  <!-- Stage 2 -->
+  <rect x="200" y="50" width="140" height="100" rx="8" fill="rgba(74,124,63,.06)" stroke="#4a7c3f" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#c9a84c" x="270" y="68" text-anchor="middle">VIGOR SCREEN</text>
+  <text font-family="DM Serif Display,serif" font-size="22" fill="#c9a84c" x="270" y="100" text-anchor="middle">10–12</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="270" y="118" text-anchor="middle">remove weak/stunted</text>
+  <text font-family="IBM Plex Mono,mono" font-size="7" fill="#5e6556" x="270" y="140" text-anchor="middle">Wk 2–3</text>
+
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#4a7c3f" x="352" y="100">→</text>
+
+  <!-- Stage 3 -->
+  <rect x="370" y="50" width="140" height="100" rx="8" fill="rgba(74,124,63,.06)" stroke="#4a7c3f" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#5a9eb8" x="440" y="68" text-anchor="middle">TRAIT SELECTION</text>
+  <text font-family="DM Serif Display,serif" font-size="22" fill="#5a9eb8" x="440" y="100" text-anchor="middle">6–8</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="440" y="118" text-anchor="middle">clone + compare markers</text>
+  <text font-family="IBM Plex Mono,mono" font-size="7" fill="#5e6556" x="440" y="140" text-anchor="middle">Wk 3–4</text>
+
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#4a7c3f" x="522" y="100">→</text>
+
+  <!-- Stage 4 -->
+  <rect x="540" y="50" width="140" height="100" rx="8" fill="rgba(109,179,95,.1)" stroke="#6db35f" stroke-width="1.5"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#6db35f" x="610" y="68" text-anchor="middle">★ KEEPERS</text>
+  <text font-family="DM Serif Display,serif" font-size="22" fill="#6db35f" x="610" y="100" text-anchor="middle">4</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="610" y="118" text-anchor="middle">transplant → 11L → ScrOG</text>
+  <text font-family="IBM Plex Mono,mono" font-size="7" fill="#5e6556" x="610" y="140" text-anchor="middle">Wk 4–5</text>
+
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#4a7c3f" x="692" y="100">→</text>
+
+  <!-- Final assessment -->
+  <rect x="710" y="60" width="70" height="80" rx="8" fill="rgba(201,168,76,.08)" stroke="#8a7234" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="7" font-weight="500" fill="#c9a84c" x="745" y="78" text-anchor="middle">FLOWER</text>
+  <text font-family="IBM Plex Mono,mono" font-size="7" font-weight="500" fill="#c9a84c" x="745" y="90" text-anchor="middle">TEST</text>
+  <text font-family="DM Serif Display,serif" font-size="16" fill="#c9a84c" x="745" y="115" text-anchor="middle">1</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#9ca38e" x="745" y="130" text-anchor="middle">true</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#9ca38e" x="745" y="140" text-anchor="middle">keeper</text>
+</svg>
+<div class="ill-cap">The pheno-hunt pipeline. 15 seeds → 10–12 after vigor screen → 6–8 cloned candidates → 4 keepers for the grow tent → 1 true keeper identified during/after flower. The "keeper" is revealed by terpene profile, potency, bud structure, and smoke quality — traits you can't fully assess until harvest.</div>
+</div>
+
+<h2><span class="sn">06</span> Morphological Markers — What to Read in Veg</h2>
+
+<p>The six markers described in the Pheno-Hunting Sativa Super Skunk guide (internode spacing, leaf blade width, stem rub terpenes, growth rate, leaf color, stem thickness) work for identifying sativa vs indica expression. But pheno-hunting is broader than just "sativa or indica" — you're selecting for the best overall plant.</p>
+
+<h3>What veteran growers actually look at by week 3–4:</h3>
+
+<div class="g2">
+  <div class="cd"><div class="lb">Structure</div><div class="vl">Branching symmetry + vigor</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Well-branched, symmetrical plants with strong secondary growth typically produce the best ScrOG canopies and highest yields. Asymmetric or single-dominant-branch plants are harder to train.</div></div>
+  <div class="cd"><div class="lb">Root Zone</div><div class="vl">White root tips at fabric pot edges</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Aggressive root growth = healthy plant = stronger flower production. Brown or absent root tips = possible root issues that will limit flower-stage performance.</div></div>
+  <div class="cd"><div class="lb">Stem Rub</div><div class="vl">Early terpene preview</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Rub the stem between your fingers and smell. The terpene profile at veg stage roughly correlates with flower aroma. Strains with strong, complex stem rub terpenes tend to produce the most aromatic flower.</div></div>
+  <div class="cd"><div class="lb">Stress Tolerance</div><div class="vl">How the plant handles training</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Plants that recover quickly from topping and LST tend to handle flower-stage defoliation and ScrOG management better. Slow recovery = stress-sensitive genetics.</div></div>
+</div>
+
+<h2><span class="sn">07</span> Trichome Science — Separating Good from Great</h2>
+
+<p>During flower, trichome development becomes the primary selection criterion. Not all trichomes are equal — there are three types, and only one matters for potency.</p>
+
+<div class="ill">
+<svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="trichHead" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8d44c" stop-opacity=".6"/>
+      <stop offset="100%" stop-color="#c9a84c" stop-opacity=".3"/>
+    </linearGradient>
+    <linearGradient id="trichStalk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9ca38e"/>
+      <stop offset="100%" stop-color="#5e6556"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="240" fill="#111611"/>
+  <text font-family="DM Serif Display,serif" font-size="13" fill="#6db35f" x="400" y="24" text-anchor="middle">Three Trichome Types — Only Capitate-Stalked Matters</text>
+
+  <!-- Type 1: Bulbous (tiny, minimal THC) -->
+  <rect x="40" y="45" width="210" height="170" rx="8" fill="rgba(94,101,86,.06)" stroke="#2a4a2a" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="9" fill="#5e6556" x="145" y="65" text-anchor="middle">BULBOUS</text>
+  <!-- Tiny dot trichomes -->
+  <circle cx="120" cy="140" r="2" fill="#9ca38e" opacity=".4"/>
+  <circle cx="135" cy="138" r="2" fill="#9ca38e" opacity=".3"/>
+  <circle cx="150" cy="142" r="1.5" fill="#9ca38e" opacity=".4"/>
+  <circle cx="165" cy="139" r="2" fill="#9ca38e" opacity=".3"/>
+  <!-- Leaf surface -->
+  <line x1="80" y1="155" x2="210" y2="155" stroke="#4a7c3f" stroke-width="1" opacity=".3"/>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#5e6556" x="145" y="175" text-anchor="middle">15–30 µm. No stalk. Minimal</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#5e6556" x="145" y="190" text-anchor="middle">cannabinoid content. Ignore.</text>
+
+  <!-- Type 2: Capitate-Sessile (small head, no stalk) -->
+  <rect x="295" y="45" width="210" height="170" rx="8" fill="rgba(94,101,86,.06)" stroke="#2a4a2a" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="9" fill="#9ca38e" x="400" y="65" text-anchor="middle">CAPITATE-SESSILE</text>
+  <!-- Small headed trichomes sitting on surface -->
+  <circle cx="370" cy="135" r="5" fill="url(#trichHead)"/>
+  <circle cx="390" cy="137" r="4" fill="url(#trichHead)"/>
+  <circle cx="410" cy="134" r="5" fill="url(#trichHead)"/>
+  <circle cx="430" cy="136" r="4.5" fill="url(#trichHead)"/>
+  <line x1="340" y1="143" x2="460" y2="143" stroke="#4a7c3f" stroke-width="1" opacity=".3"/>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="400" y="165" text-anchor="middle">25–100 µm. Visible head but</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="400" y="180" text-anchor="middle">no stalk. Some cannabinoids.</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#9ca38e" x="400" y="195" text-anchor="middle">On sugar leaves mostly.</text>
+
+  <!-- Type 3: Capitate-Stalked (THE one that matters) -->
+  <rect x="550" y="45" width="210" height="170" rx="8" fill="rgba(109,179,95,.06)" stroke="#6db35f" stroke-width="1.5"/>
+  <text font-family="IBM Plex Mono,mono" font-size="9" font-weight="500" fill="#6db35f" x="655" y="65" text-anchor="middle">★ CAPITATE-STALKED</text>
+  <!-- Realistic stalked trichomes -->
+  <g transform="translate(610,140)">
+    <line x1="0" y1="0" x2="0" y2="-25" stroke="url(#trichStalk)" stroke-width="1.5"/>
+    <circle cx="0" cy="-28" r="7" fill="url(#trichHead)" stroke="#c9a84c" stroke-width=".5" opacity=".8"/>
+  </g>
+  <g transform="translate(635,138)">
+    <line x1="0" y1="0" x2="0" y2="-30" stroke="url(#trichStalk)" stroke-width="1.5"/>
+    <circle cx="0" cy="-33" r="8" fill="url(#trichHead)" stroke="#c9a84c" stroke-width=".5" opacity=".8"/>
+  </g>
+  <g transform="translate(660,142)">
+    <line x1="0" y1="0" x2="0" y2="-22" stroke="url(#trichStalk)" stroke-width="1.5"/>
+    <circle cx="0" cy="-25" r="6" fill="url(#trichHead)" stroke="#c9a84c" stroke-width=".5" opacity=".7"/>
+  </g>
+  <g transform="translate(685,139)">
+    <line x1="0" y1="0" x2="0" y2="-28" stroke="url(#trichStalk)" stroke-width="1.5"/>
+    <circle cx="0" cy="-31" r="7.5" fill="url(#trichHead)" stroke="#c9a84c" stroke-width=".5" opacity=".8"/>
+  </g>
+  <line x1="590" y1="148" x2="720" y2="148" stroke="#4a7c3f" stroke-width="1" opacity=".3"/>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#6db35f" x="655" y="170" text-anchor="middle">50–500 µm. Visible stalk +</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#6db35f" x="655" y="185" text-anchor="middle">bulbous head. Contains 80%+</text>
+  <text font-family="Source Serif 4,serif" font-size="9" fill="#6db35f" x="655" y="200" text-anchor="middle">of THC, CBD, and terpenes.</text>
+</svg>
+<div class="ill-cap">Capitate-stalked trichomes with realistic gradient heads on visible stalks. These are what you're selecting for. Under a 60× loupe, look for dense coverage of tall, fat-headed trichomes on the calyxes. Sugar leaf trichomes mature faster and mislead — always check calyxes.</div>
+</div>
+
+<h2><span class="sn">08</span> The Ten Mistakes That Waste Months</h2>
+
+<div class="g2">
+  <div class="cd" style="border-color:var(--red)">
+    <div class="lb" style="color:var(--red)">Don't</div>
+    <div style="font-size:.85rem;margin-top:8px;line-height:1.8;color:var(--text2)">
+      1. Cull slow starters at week 3 (Cookie lineage is slow)<br>
+      2. Judge by a single trait (need 3+ markers converging)<br>
+      3. Select by bag appeal alone (dense ≠ potent)<br>
+      4. Forget to clone before culling<br>
+      5. Run too few seeds (&lt;10 is a lottery, not a hunt)
+    </div>
+  </div>
+  <div class="cd" style="border-color:var(--red)">
+    <div class="lb" style="color:var(--red)">Also Don't</div>
+    <div style="font-size:.85rem;margin-top:8px;line-height:1.8;color:var(--text2)">
+      6. Skip the smoke test (final selection only after smoking)<br>
+      7. Overvalue yield over quality<br>
+      8. Select in bad environment (you're selecting FOR environment)<br>
+      9. Keep too many keepers (4 max for your tent)<br>
+      10. Assume feminized = identical (they're not)
+    </div>
+  </div>
+</div>
+
+<div class="da"><b>Devil's Advocate — The Meta-Mistake</b> — The biggest pheno-hunting mistake isn't in the selection process — it's running feminized seeds when your stated goal is finding rare phenotypes. Stabilized feminized lines like Super Skunk are specifically bred to MINIMIZE variation. If you're serious about the sativa hunt, the single highest-impact decision is buying regular seeds. Everything else — markers, scoring, cloning — is optimization on top of that fundamental choice.</div>
+
+<div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--text3);line-height:2">
+  <p>The Definitive Guide to Phenohunting v3.0 · April 2026</p>
+  <p style="color:#1e2e1e">From population genetics to practical selection · Devil's advocate reviewed</p>
+  <p style="color:#1e2e1e">Sources: ICMag, SeedFinder, Rollitup, Overgrow, published plant breeding research</p>
+</div>
+
+</div>
+</body>
+</html>

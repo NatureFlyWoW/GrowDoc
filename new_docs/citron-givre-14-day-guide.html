@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citron Givré — 14-Day Survival Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0f0a;--bg2:#141a10;--bg3:#1a2214;--bg4:#222d1c;--text:#d4cdb7;--text2:#a39e8a;--text3:#6b6756;--accent:#8fb856;--accent2:#6a9e3a;--accent3:#4a7a25;--gold:#c9a84c;--gold2:#a8872e;--lemon:#e8d44c;--red:#c45c4a;--red2:#a33d2d;--blue:#5a9eb8;--blue2:#3a7a9e;--purple:#8a7abf;--warm:#d4a574;--border:#2a3320;--border2:#3a4530;--serif:'DM Serif Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'IBM Plex Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.78;font-size:15px;-webkit-font-smoothing:antialiased}
+.container{max-width:880px;margin:0 auto;padding:60px 32px 80px}
+h1{font-family:var(--serif);font-size:2.6em;font-weight:400;color:var(--accent);margin-bottom:8px;line-height:1.1}
+.subtitle{font-size:1em;color:var(--text2);margin-bottom:40px;line-height:1.7;font-weight:300}
+h2{font-family:var(--serif);font-size:1.5em;font-weight:400;color:var(--accent);margin:3rem 0 1rem;padding-top:2rem;border-top:1px solid var(--border)}
+h3{font-family:var(--body);font-size:1.05em;font-weight:600;margin:1.8rem 0 .6rem;color:var(--gold)}
+p{margin:0 0 .85rem;font-weight:300}
+strong{font-weight:600;color:var(--text)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.2rem 0}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:1.2rem 0}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin:1.2rem 0}
+.cd{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.cd .lb{font-family:var(--mono);font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
+.cd .vl{font-size:.92em;font-weight:600;margin-top:4px;color:var(--text)}
+.ill{margin:2rem 0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.ill svg{display:block;width:100%}
+.ill-cap{padding:12px 18px;font-family:var(--mono);font-size:.72rem;color:var(--text3);background:var(--bg);border-top:1px solid var(--border);line-height:1.6}
+.tip{background:rgba(106,158,58,.1);border-left:3px solid var(--accent2);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.tip b{color:var(--accent);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.warn{background:rgba(201,168,76,.08);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.warn b{color:var(--gold);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.crit{background:rgba(196,92,74,.1);border-left:3px solid var(--red);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.crit b{color:var(--red);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.da{background:rgba(138,122,191,.08);border-left:3px solid var(--purple);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.da b{color:var(--purple);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+
+/* Timeline */
+.tl{margin:2rem 0;position:relative;padding-left:36px}
+.tl::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:1px;background:var(--border2)}
+.tl-item{margin-bottom:28px;position:relative}
+.tl-item::before{content:'';position:absolute;left:-28px;top:6px;width:10px;height:10px;border-radius:50%;border:2px solid var(--accent3);background:var(--bg)}
+.tl-item.active::before{background:var(--accent);border-color:var(--accent)}
+.tl-item.critical::before{background:var(--red);border-color:var(--red)}
+.tl-item.warn::before{background:var(--gold);border-color:var(--gold)}
+.tl-day{font-family:var(--mono);font-size:.72rem;color:var(--accent2);margin-bottom:4px;letter-spacing:.05em}
+.tl-title{font-family:var(--serif);font-size:1.1em;color:var(--text);margin-bottom:6px;font-weight:400}
+.tl-body{font-size:.9rem;color:var(--text2);line-height:1.7}
+.tl-body strong{color:var(--text);font-weight:600}
+
+table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.84rem}
+th{background:var(--bg2);text-align:left;padding:10px 14px;font-weight:600;border-bottom:1px solid var(--border2);font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text2)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;font-weight:300}
+.sn{display:inline-block;font-family:var(--mono);font-size:.7rem;color:var(--accent3);background:rgba(74,122,37,.15);padding:2px 8px;border-radius:4px;margin-right:8px}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}.container{padding:28px 16px 60px}h1{font-size:2em}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>14-Day Survival Playbook</h1>
+<p class="subtitle">The first two weeks with your Citron Givré clone — from unboxing to active vegetative growth. Every action prioritized by urgency. This is not a reference guide — it's a sequence of decisions, in order, with the reasoning behind each one. Follow the timeline, trust the process, protect the genetics.</p>
+
+<div class="g4">
+  <div class="cd"><div class="lb">Plant</div><div class="vl">Citron Givré clone</div></div>
+  <div class="cd"><div class="lb">Current Light</div><div class="vl">1× STIXX 50 (54W)</div></div>
+  <div class="cd"><div class="lb">2nd Bar</div><div class="vl">Arriving next week</div></div>
+  <div class="cd"><div class="lb">Status</div><div class="vl">Recovery phase</div></div>
+</div>
+
+<div class="crit"><b>Priority #1</b> — This clone is an irreplaceable Birthday Cut. Every decision in the next 14 days serves one goal: get this plant healthy, growing, and producing enough vegetative mass to take backup clones before anything else happens. Speed is secondary to survival.</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- REALISTIC CLONE ANATOMY ILLUSTRATION -->
+<!-- ═══════════════════════════════════════════ -->
+
+<div class="ill">
+<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Realistic leaf gradient -->
+    <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5a8a2e"/>
+      <stop offset="40%" stop-color="#4a7a25"/>
+      <stop offset="100%" stop-color="#3a6a1c"/>
+    </linearGradient>
+    <linearGradient id="leafLight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7ab840" stop-opacity=".4"/>
+      <stop offset="100%" stop-color="#4a7a25" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Stem gradient -->
+    <linearGradient id="stemGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3a5a1c"/>
+      <stop offset="30%" stop-color="#5a8a2e"/>
+      <stop offset="70%" stop-color="#4a7a25"/>
+      <stop offset="100%" stop-color="#2a4a12"/>
+    </linearGradient>
+    <!-- Soil gradient -->
+    <linearGradient id="soilGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a4a30"/>
+      <stop offset="50%" stop-color="#4a3a22"/>
+      <stop offset="100%" stop-color="#3a2a18"/>
+    </linearGradient>
+    <!-- Pot gradient -->
+    <linearGradient id="potGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6a5a3a"/>
+      <stop offset="50%" stop-color="#8a7a5a"/>
+      <stop offset="100%" stop-color="#5a4a2a"/>
+    </linearGradient>
+    <!-- Root gradient -->
+    <linearGradient id="rootGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c4a87a"/>
+      <stop offset="100%" stop-color="#8a7a5a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="#141a10"/>
+  <text font-family="DM Serif Display,serif" font-size="14" fill="#8fb856" x="260" y="26" text-anchor="middle">Recovering Clone — Anatomy &amp; Priority Zones</text>
+
+  <!-- === REALISTIC PLANT ILLUSTRATION === -->
+  <!-- Pot cross-section -->
+  <path d="M180,330 L185,260 L335,260 L340,330 Z" fill="url(#potGrad)" stroke="#5a4a2a" stroke-width="1.5"/>
+  <!-- Soil -->
+  <ellipse cx="260" cy="260" rx="77" ry="12" fill="url(#soilGrad)"/>
+  <!-- Soil surface detail -->
+  <ellipse cx="240" cy="258" rx="4" ry="1.5" fill="#6a5a40" opacity=".3"/>
+  <ellipse cx="275" cy="261" rx="3" ry="1" fill="#6a5a40" opacity=".4"/>
+  <ellipse cx="255" cy="257" rx="5" ry="1.5" fill="#7a6a4a" opacity=".2"/>
+  
+  <!-- Root system (visible through pot cross-section, faded) -->
+  <g opacity=".3">
+    <path d="M260,270 C250,290 230,305 225,320" stroke="url(#rootGrad)" stroke-width="1.5" fill="none"/>
+    <path d="M260,270 C265,285 275,300 280,318" stroke="url(#rootGrad)" stroke-width="1.5" fill="none"/>
+    <path d="M260,270 C255,280 245,290 240,310" stroke="url(#rootGrad)" stroke-width="1" fill="none"/>
+    <path d="M260,270 C270,280 280,288 290,305" stroke="url(#rootGrad)" stroke-width="1" fill="none"/>
+    <!-- Fine root hairs -->
+    <path d="M225,320 C218,322 220,328 215,330" stroke="#a8926a" stroke-width=".5" fill="none"/>
+    <path d="M240,310 C235,315 230,318 228,325" stroke="#a8926a" stroke-width=".5" fill="none"/>
+    <path d="M280,318 C285,322 288,326 292,328" stroke="#a8926a" stroke-width=".5" fill="none"/>
+    <path d="M290,305 C295,310 300,315 298,322" stroke="#a8926a" stroke-width=".5" fill="none"/>
+    <!-- Mycorrhizae zone -->
+    <circle cx="237" cy="312" r="3" fill="#c9a84c" opacity=".2"/>
+    <circle cx="278" cy="308" r="2.5" fill="#c9a84c" opacity=".2"/>
+    <circle cx="258" cy="280" r="2" fill="#c9a84c" opacity=".3"/>
+  </g>
+
+  <!-- Main stem -->
+  <path d="M258,258 L258,158 Q258,150 260,148" stroke="url(#stemGrad)" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <!-- Stem detail - slight curve and node bumps -->
+  <ellipse cx="258" cy="200" rx="4" ry="2.5" fill="#4a7a25" opacity=".4"/>
+  <ellipse cx="258" cy="178" rx="4" ry="2.5" fill="#4a7a25" opacity=".4"/>
+
+  <!-- Top point (topped) -->
+  <line x1="256" y1="146" x2="264" y2="150" stroke="#c45c4a" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Branch 1 (left, from topping) -->
+  <path d="M258,150 C248,145 235,135 220,118" stroke="url(#stemGrad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  
+  <!-- Branch 2 (right, from topping) -->
+  <path d="M258,150 C268,145 280,135 298,118" stroke="url(#stemGrad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+  <!-- REALISTIC LEAF 1 (left branch, top leaf) -->
+  <g transform="translate(210,108) rotate(-15)">
+    <!-- 5-blade cannabis leaf -->
+    <path d="M0,0 C-3,-12 -8,-25 -5,-38 C-3,-30 -1,-22 0,-15 C1,-22 3,-30 5,-38 C8,-25 3,-12 0,0" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".5"/>
+    <!-- Side blades -->
+    <path d="M0,-8 C-8,-18 -18,-25 -22,-32 C-16,-26 -10,-20 -4,-14" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3"/>
+    <path d="M0,-8 C8,-18 18,-25 22,-32 C16,-26 10,-20 4,-14" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3"/>
+    <path d="M0,-4 C-6,-10 -14,-14 -16,-20 C-12,-15 -7,-11 -3,-7" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3"/>
+    <path d="M0,-4 C6,-10 14,-14 16,-20 C12,-15 7,-11 3,-7" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3"/>
+    <!-- Central vein -->
+    <line x1="0" y1="0" x2="0" y2="-36" stroke="#3a6a1c" stroke-width=".5" opacity=".6"/>
+    <!-- Light reflection -->
+    <path d="M-1,-15 C-2,-22 -1,-28 0,-35" stroke="#7ab840" stroke-width=".8" opacity=".2" fill="none"/>
+  </g>
+
+  <!-- REALISTIC LEAF 2 (right branch, top leaf) -->
+  <g transform="translate(308,108) rotate(15)">
+    <path d="M0,0 C-3,-12 -8,-25 -5,-38 C-3,-30 -1,-22 0,-15 C1,-22 3,-30 5,-38 C8,-25 3,-12 0,0" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".5"/>
+    <path d="M0,-8 C-8,-18 -18,-25 -22,-32 C-16,-26 -10,-20 -4,-14" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3"/>
+    <path d="M0,-8 C8,-18 18,-25 22,-32 C16,-26 10,-20 4,-14" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3"/>
+    <path d="M0,-4 C-6,-10 -14,-14 -16,-20 C-12,-15 -7,-11 -3,-7" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3"/>
+    <path d="M0,-4 C6,-10 14,-14 16,-20 C12,-15 7,-11 3,-7" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3"/>
+    <line x1="0" y1="0" x2="0" y2="-36" stroke="#3a6a1c" stroke-width=".5" opacity=".6"/>
+    <path d="M-1,-15 C-2,-22 -1,-28 0,-35" stroke="#7ab840" stroke-width=".8" opacity=".2" fill="none"/>
+  </g>
+
+  <!-- Lower fan leaves (from node) -->
+  <g transform="translate(232,195) rotate(-35) scale(.7)">
+    <path d="M0,0 C-3,-12 -8,-25 -5,-38 C-3,-30 -1,-22 0,-15 C1,-22 3,-30 5,-38 C8,-25 3,-12 0,0" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".5" opacity=".6"/>
+    <path d="M0,-8 C-8,-18 -18,-25 -22,-32 C-16,-26 -10,-20 -4,-14" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3" opacity=".6"/>
+    <path d="M0,-8 C8,-18 18,-25 22,-32 C16,-26 10,-20 4,-14" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3" opacity=".6"/>
+  </g>
+  <g transform="translate(285,195) rotate(35) scale(.7)">
+    <path d="M0,0 C-3,-12 -8,-25 -5,-38 C-3,-30 -1,-22 0,-15 C1,-22 3,-30 5,-38 C8,-25 3,-12 0,0" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".5" opacity=".6"/>
+    <path d="M0,-8 C-8,-18 -18,-25 -22,-32 C-16,-26 -10,-20 -4,-14" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3" opacity=".6"/>
+    <path d="M0,-8 C8,-18 18,-25 22,-32 C16,-26 10,-20 4,-14" fill="url(#leafGrad)" stroke="#3a6a1c" stroke-width=".3" opacity=".6"/>
+  </g>
+
+  <!-- === ANNOTATION LINES === -->
+  <!-- Root zone -->
+  <line x1="340" y1="290" x2="420" y2="290" stroke="#c9a84c" stroke-width="1" stroke-dasharray="3"/>
+  <rect x="425" y="270" width="190" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#c9a84c" x="520" y="286" text-anchor="middle">ROOT ZONE — CRITICAL</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#a39e8a" x="520" y="300" text-anchor="middle">Mycorrhizae colonization happening</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#a39e8a" x="520" y="312" text-anchor="middle">Don't disturb. Water gently at edges.</text>
+
+  <!-- Stem health -->
+  <line x1="265" y1="200" x2="420" y2="200" stroke="#8fb856" stroke-width="1" stroke-dasharray="3"/>
+  <rect x="425" y="180" width="190" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#8fb856" x="520" y="196" text-anchor="middle">STEM HEALTH INDICATOR</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#a39e8a" x="520" y="210" text-anchor="middle">Green + firm = healthy</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#a39e8a" x="520" y="222" text-anchor="middle">Purple stems = P def or cold stress</text>
+
+  <!-- Topped site -->
+  <line x1="264" y1="148" x2="420" y2="120" stroke="#c45c4a" stroke-width="1" stroke-dasharray="3"/>
+  <rect x="425" y="100" width="190" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#c45c4a" x="520" y="116" text-anchor="middle">TOPPED SITE</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#a39e8a" x="520" y="130" text-anchor="middle">Two main branches growing out</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#a39e8a" x="520" y="142" text-anchor="middle">These become your ScrOG framework</text>
+
+  <!-- New growth -->
+  <line x1="210" y1="105" x2="100" y2="80" stroke="#e8d44c" stroke-width="1" stroke-dasharray="3"/>
+  <rect x="20" y="60" width="190" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#e8d44c" x="115" y="76" text-anchor="middle">NEW GROWTH TIPS</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#a39e8a" x="115" y="90" text-anchor="middle">Bright green = actively growing</text>
+  <text font-family="Source Serif 4,serif" font-size="8" fill="#a39e8a" x="115" y="102" text-anchor="middle">Pale/yellow = check pH + CalMag</text>
+
+  <!-- VPD zone -->
+  <rect x="20" y="150" width="150" height="75" rx="8" fill="rgba(90,158,184,.06)" stroke="#3a7a9e" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#5a9eb8" x="95" y="168" text-anchor="middle">TARGET VPD</text>
+  <text font-family="DM Serif Display,serif" font-size="22" fill="#5a9eb8" x="95" y="198" text-anchor="middle">0.4–0.8</text>
+  <text font-family="IBM Plex Mono,mono" font-size="8" fill="#3a7a9e" x="95" y="215" text-anchor="middle">kPa · clone settling phase</text>
+
+  <!-- Light distance -->
+  <rect x="20" y="340" width="150" height="60" rx="8" fill="rgba(232,212,76,.04)" stroke="#c4b030" stroke-width="1"/>
+  <text font-family="IBM Plex Mono,mono" font-size="8" font-weight="500" fill="#e8d44c" x="95" y="358" text-anchor="middle">STIXX DISTANCE</text>
+  <text font-family="DM Serif Display,serif" font-size="22" fill="#e8d44c" x="95" y="385" text-anchor="middle">55cm+</text>
+  <text font-family="IBM Plex Mono,mono" font-size="8" fill="#c4b030" x="95" y="398" text-anchor="middle">dimmed to 20–40%</text>
+</svg>
+<div class="ill-cap">Annotated cross-section of a recovering topped clone showing root zone, stem nodes, topped growth site, and new branch development. The realistic leaf venation shows the indica-dominant 5-blade pattern from the Cookie lineage. Priority zones color-coded by urgency.</div>
+</div>
+
+<h2>The First 48 Hours</h2>
+
+<p>The clone has just arrived after transport from a trusted contact. It has been topped once and is in a small pot (likely 1–3L). Your first job is <strong>not</strong> to optimize — it's to not kill it. Resist the urge to repot, feed, or blast it with light. The plant is stressed from transport and needs gentle introduction.</p>
+
+<div class="g3">
+  <div class="cd" style="border-color:var(--red2)"><div class="lb">Immediate</div><div class="vl">Place in tent, STIXX at 20%, water if soil is dry</div></div>
+  <div class="cd" style="border-color:var(--gold2)"><div class="lb">First 24h</div><div class="vl">Monitor for wilt, check VPD 0.4–0.8 kPa</div></div>
+  <div class="cd" style="border-color:var(--accent3)"><div class="lb">48h</div><div class="vl">If perking up → proceed to Week 1 timeline</div></div>
+</div>
+
+<h2>Week 1 — Stabilize &amp; Clone</h2>
+
+<div class="tl">
+  <div class="tl-item active">
+    <div class="tl-day">Days 1–3 · Gentle introduction</div>
+    <div class="tl-title">Light at 20%, water only if dry</div>
+    <div class="tl-body">Single STIXX 50 at 20% intensity, 55cm+ from canopy. VPD target: 0.4–0.8 kPa (24–25°C, 65–70% RH). If RH is too low, a cut PET bottle dome over the pot buys time. <strong>No nutrients, no transplanting, no training.</strong> Let the root system settle.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-day">Day 3 · First light increase</div>
+    <div class="tl-title">Raise dimmer to 40% if plant looks healthy</div>
+    <div class="tl-body">Healthy = leaves pointing slightly upward, new growth visible at the topped site, stem firm. If wilting or drooping: hold at 20% another 2 days. Don't chase a schedule — chase the plant's response.</div>
+  </div>
+  <div class="tl-item critical">
+    <div class="tl-day">Days 4–5 · MOST CRITICAL TASK</div>
+    <div class="tl-title">Take 2–3 backup clones</div>
+    <div class="tl-body">If the plant has enough lower branching, take 2–3 cuttings NOW. These are your genetic insurance. Cut 10–15cm at 45° below a node, scrape stem 2cm, dip in Clonex or honey, place in jiffy pellet with a humidity dome (cut PET bottle). Even if they don't root immediately, you've bought time. <strong>Don't wait until week 6–8 if material is available now.</strong></div>
+  </div>
+  <div class="tl-item warn">
+    <div class="tl-day">Days 6–7 · Second light arrives</div>
+    <div class="tl-title">Install 2nd STIXX 50</div>
+    <div class="tl-body">Mount the second bar parallel to the first, 20–25cm apart. Run both at 40% initially. The clone is still settling — don't ramp to full power yet. Two bars at 40% = ~43W actual draw, providing gentle even coverage across the 80×80 footprint.</div>
+  </div>
+</div>
+
+<h2>The Transplant — Day 7–10</h2>
+
+<p>If the clone was received in a small pot (1–3L), transplant to a 7–11L fabric pot with your prepared living soil mix. This is your one chance to apply mycorrhizae directly on the rootball.</p>
+
+<div class="warn"><b>Transplant Protocol</b> — Water the existing pot 1 hour before transplant (moist rootball holds together). Fill new pot halfway with mix. Add 5g granular mycorrhizae on top of the soil layer. Place rootball directly on the mycorrhizae. Fill around with remaining mix. Water gently until 10% runoff. Do NOT pack soil tightly — roots need air pockets.</div>
+
+<div class="warn"><b>Tomato Earth pH Check</b> — If your mix contains Austrian Tomatenerde, test runoff pH within 24 hours of transplant. If above 6.8, water with pH 6.0–6.3 water for the next two weeks to bring the root zone into range. Most "deficiency" symptoms in the first month are actually pH lockout from high-pH pre-fertilized soil.</div>
+
+<h2>Week 2 — Recover, Train, Ramp</h2>
+
+<div class="tl">
+  <div class="tl-item">
+    <div class="tl-day">Days 8–10 · Post-transplant recovery</div>
+    <div class="tl-title">Hold light at 40%, monitor for transplant shock</div>
+    <div class="tl-body">Transplant shock shows as drooping for 1–3 days. Normal. Don't water again until the pot feels light (lift test). The roots are exploring the new soil — let them seek moisture rather than drowning them. VPD: 0.6–0.8 kPa.</div>
+  </div>
+  <div class="tl-item warn">
+    <div class="tl-day">Day 10 · CalMag watch begins</div>
+    <div class="tl-title">Monitor for early deficiency signs</div>
+    <div class="tl-body">Under LED, calcium demand increases faster than in natural light. Watch for: random brown necrotic spots on lower/middle leaves (Ca deficiency), interveinal yellowing starting at leaf margins (Mg deficiency). If either appears, start CalMag at 0.5 ml/L immediately. Prevention is better: start CalMag at day 14 regardless.</div>
+  </div>
+  <div class="tl-item active">
+    <div class="tl-day">Days 10–12 · The fun begins</div>
+    <div class="tl-title">Begin LST training</div>
+    <div class="tl-body">The two branches from the topped site should now be 8–15cm long. Gently bend them outward and down to horizontal using soft ties or plant clips. <strong>Only bend green, flexible stems — never lignified (woody) ones.</strong> Goal: expose lower nodes to light, creating future bud sites. The 90° rule: bend the main branch to horizontal, and side shoots become new vertical growth points.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-day">Days 12–14 · Full veg intensity</div>
+    <div class="tl-title">Ramp both bars to 60–80%</div>
+    <div class="tl-body">By day 14, the plant should be actively growing with visible new leaf sets appearing every 1–2 days. Ramp STIXX to 60–80% (65–86W actual). Lower hanging height to 35–40cm. VPD target shifts to 0.8–1.0 kPa (25°C, 55–60% RH). Begin light organic feeding if you haven't already — compost tea or top-dress with worm castings.</div>
+  </div>
+</div>
+
+<h2>Day 14 Checkpoint</h2>
+
+<p>By the end of two weeks, your clone should meet these criteria. If any are red, address before moving to the full veg phase.</p>
+
+<div class="g3">
+  <div class="cd" style="border-color:var(--accent2)"><div class="lb">Growth</div><div class="vl">2–3 new node pairs visible</div><p style="font-size:.82rem;color:var(--text2);margin-top:4px">Active growth = healthy root system. If still stalled: check pH, watering, and root zone temp (18–22°C optimal).</p></div>
+  <div class="cd" style="border-color:var(--accent2)"><div class="lb">Genetics</div><div class="vl">Backup clones taken or scheduled</div><p style="font-size:.82rem;color:var(--text2);margin-top:4px">If not enough material yet, mark week 6–7 as the hard deadline for taking cuts before flip.</p></div>
+  <div class="cd" style="border-color:var(--accent2)"><div class="lb">Equipment</div><div class="vl">Both STIXX bars installed, fan + AKF running</div><p style="font-size:.82rem;color:var(--text2);margin-top:4px">Timers installed. Speed controller acquired. Full tent environment verified with 24hr test data.</p></div>
+</div>
+
+<div class="tip"><b>Next Step</b> — After day 14, transition to the full Citron Givré Complete Guide starting from the "Training — Single-Plant ScrOG" section (week 3+ of veg). The survival phase is over. Now you're growing.</div>
+
+<div class="da"><b>Devil's Advocate — Quick Review</b> — The biggest risk in the first 14 days isn't underfeeding or wrong light height — it's <strong>overwatering</strong>. A freshly transplanted clone in living soil has enough nutrients for 2–3 weeks. The lift test (pick up the pot: heavy = don't water, light = water) prevents 70% of early-stage problems. The second biggest risk is not taking backup clones when material is available. Everything else is recoverable.</div>
+
+<div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--text3);line-height:2">
+  <p>Citron Givré 14-Day Survival Playbook · v3.0 · April 2026</p>
+  <p style="color:var(--border2)">1× → 2× STIXX 50 · HS80 · CAN RK125 + CAN-Lite · Living soil</p>
+  <p style="color:var(--border2)">→ After day 14: resume Complete Guide from week 3 veg</p>
+</div>
+
+</div>
+</body>
+</html>

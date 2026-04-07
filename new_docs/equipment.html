@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equipment Tracker — Indoor Grow</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0c0b;--bg2:#111613;--bg3:#171d19;--text:#d4e0d8;--text2:#7a9485;--text3:#4a6455;--accent:#4caf6a;--accent2:#2e8b4e;--gold:#c9a84c;--red:#c45c4a;--blue:#5a9eb8;--border:#2a3530;--border2:#3d5a47;--serif:'DM Serif Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'IBM Plex Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.78;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:60px 32px 80px}
+h1{font-family:var(--serif);font-size:2.4em;font-weight:400;color:var(--accent);margin-bottom:8px}
+.subtitle{font-size:1em;color:var(--text2);margin-bottom:40px;line-height:1.7;font-weight:300}
+h2{font-family:var(--serif);font-size:1.4em;font-weight:400;color:var(--accent);margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+p{margin:0 0 .85rem;font-weight:300}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:1.5rem 0 2.5rem}
+.sum-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px;text-align:center}
+.sum-card .label{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin-bottom:6px}
+.sum-card .value{font-family:var(--mono);font-size:1.8rem;font-weight:600;color:var(--accent)}
+.sum-card .sub{font-size:.8rem;color:var(--text2);margin-top:4px}
+
+.eq-section{margin:1.5rem 0}
+.eq-item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin:10px 0;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
+.eq-item:hover{border-color:var(--border2)}
+.eq-name{font-family:var(--serif);font-size:1.05em;color:var(--text);margin-bottom:4px}
+.eq-model{font-family:var(--mono);font-size:.75rem;color:var(--text2);margin-bottom:8px}
+.eq-specs{font-size:.85rem;color:var(--text2);line-height:1.7}
+.eq-price{font-family:var(--mono);font-size:1.1rem;font-weight:600;color:var(--accent);text-align:right;white-space:nowrap}
+.eq-status{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;margin-top:6px;text-align:right}
+.status-active{color:var(--accent)}
+.status-pending{color:var(--gold)}
+.status-needed{color:var(--red)}
+
+.total-row{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:18px 22px;margin:16px 0;display:flex;justify-content:space-between;align-items:center}
+.total-row .label{font-family:var(--mono);font-size:.8rem;color:var(--text2);text-transform:uppercase;letter-spacing:.08em}
+.total-row .value{font-family:var(--mono);font-size:1.4rem;font-weight:600;color:var(--accent)}
+
+.tip{background:rgba(76,175,106,.08);border-left:3px solid var(--accent2);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.tip b{color:var(--accent);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.warn{background:rgba(201,168,76,.08);border-left:3px solid var(--gold);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.warn b{color:var(--gold);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+@media(max-width:640px){.container{padding:28px 16px 60px}h1{font-size:2em}.eq-item{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Equipment Tracker</h1>
+<p class="subtitle">Complete inventory of purchased, installed, and still-needed equipment for the Citron Givré indoor grow. All core equipment purchased cash at Viva Sativa (Linz). Status tracked in real-time.</p>
+
+<div class="summary">
+  <div class="sum-card"><div class="label">Total Invested</div><div class="value">€545</div><div class="sub">All cash · Viva Sativa</div></div>
+  <div class="sum-card"><div class="label">Total Wattage</div><div class="value">155W</div><div class="sub">108W LED + 47W ventilation</div></div>
+  <div class="sum-card"><div class="label">Monthly kWh</div><div class="value">~75</div><div class="sub">Veg 18/6 · electrically invisible</div></div>
+  <div class="sum-card"><div class="label">Items</div><div class="value">8/11</div><div class="sub">3 items still needed</div></div>
+</div>
+
+<h2>Lighting</h2>
+
+<div class="eq-item">
+  <div>
+    <div class="eq-name">Sanlight STIXX 50</div>
+    <div class="eq-model">54W actual · Samsung LM301B diodes · ~2.5 µmol/J</div>
+    <div class="eq-specs">Primary LED bar. Currently installed solo while second unit ships. Dimmable 0–100%. At full power: ~135 µmol/s PPF. Mounted via GHP ProHanger ratchets on tent crossbar.</div>
+  </div>
+  <div><div class="eq-price">€125</div><div class="eq-status status-active">● installed</div></div>
+</div>
+
+<div class="eq-item">
+  <div>
+    <div class="eq-name">Sanlight STIXX 50 (2nd unit)</div>
+    <div class="eq-model">54W actual · identical to first bar</div>
+    <div class="eq-specs">Arriving next week. Hard requirement before flipping to flower — single bar is insufficient for 80×80cm flower coverage. Both bars parallel, 20–25cm apart, centered in tent. Combined: 108W, ~270 µmol/s, 350–420 µmol/m²/s PPFD at 25cm.</div>
+  </div>
+  <div><div class="eq-price">€125</div><div class="eq-status status-pending">○ arriving</div></div>
+</div>
+
+<h2>Ventilation</h2>
+
+<div class="eq-item">
+  <div>
+    <div class="eq-name">CAN Fan RK125</div>
+    <div class="eq-model">Ufo Ventilator · 310 m³/h · 125mm · 47W</div>
+    <div class="eq-specs">Inline fan for exhaust. Connects to CAN-Lite carbon filter inside tent. Runs 24/7 — never on a timer. At full speed: too loud for apartment stealth. Speed controller is critical (not yet purchased).</div>
+  </div>
+  <div><div class="eq-price">€75</div><div class="eq-status status-pending">○ pending install</div></div>
+</div>
+
+<div class="eq-item">
+  <div>
+    <div class="eq-name">CAN-Lite AKF 300</div>
+    <div class="eq-model">300 m³/h · ohne Flansch (125mm flange separate)</div>
+    <div class="eq-specs">Activated carbon filter for odor control. Hangs inside tent from crossbar via ProHanger ratchets. Air path: tent → filter → fan → duct out. Replace carbon every 12–18 months or when smell breaks through.</div>
+  </div>
+  <div><div class="eq-price">€42</div><div class="eq-status status-pending">○ pending install</div></div>
+</div>
+
+<div class="eq-item">
+  <div>
+    <div class="eq-name">CAN 125mm Anschlussflansch</div>
+    <div class="eq-model">Connects CAN-Lite to 125mm ducting</div>
+    <div class="eq-specs">Required adapter to mate the filter with standard 125mm ducting/fan connection.</div>
+  </div>
+  <div><div class="eq-price">€4</div><div class="eq-status status-active">● have</div></div>
+</div>
+
+<div class="eq-item">
+  <div>
+    <div class="eq-name">Monkey Fan SJ M F120 (2-pack)</div>
+    <div class="eq-model">Secret Jardin · 24V · for 16–19mm Stangen</div>
+    <div class="eq-specs">Clip-on circulation fans. Mount on tent vertical poles at canopy height. Provide gentle air movement across the canopy — prevents dead zones, strengthens stems, reduces mold risk.</div>
+  </div>
+  <div><div class="eq-price">€42</div><div class="eq-status status-active">● installed</div></div>
+</div>
+
+<h2>Tent &amp; Hardware</h2>
+
+<div class="eq-item">
+  <div>
+    <div class="eq-name">Secret Jardin Hydro Shoot HS 80 R2</div>
+    <div class="eq-model">80×80×178cm · reflective Mylar interior</div>
+    <div class="eq-specs">Grow tent. Right-pushed against AR wall, leaving 40cm service corridor on the left. Tile floor in AR protects against water damage. Built-in Mylar floor tray.</div>
+  </div>
+  <div><div class="eq-price">€120</div><div class="eq-status status-active">● installed</div></div>
+</div>
+
+<div class="eq-item">
+  <div>
+    <div class="eq-name">GHP ProHanger 68kg Set (×2)</div>
+    <div class="eq-model">Ratchet rope hangers · kleiner Karabiner</div>
+    <div class="eq-specs">Adjustable hangers for STIXX bars and carbon filter. 68kg capacity each — far more than needed. Ratchet mechanism allows precise height adjustment.</div>
+  </div>
+  <div><div class="eq-price">€9</div><div class="eq-status status-active">● installed</div></div>
+</div>
+
+<div class="eq-item">
+  <div>
+    <div class="eq-name">IEC Netzkabel</div>
+    <div class="eq-model">Schuko → IEC connector · 1.5mm² · 2m</div>
+    <div class="eq-specs">Power cable for connecting STIXX 50 to power strip. Standard IEC connector used by both bars.</div>
+  </div>
+  <div><div class="eq-price">€3</div><div class="eq-status status-active">● have</div></div>
+</div>
+
+<div class="total-row">
+  <div class="label">Total Equipment Investment</div>
+  <div class="value">€545</div>
+</div>
+
+<h2>Still Needed</h2>
+
+<div class="eq-item" style="border-color:var(--red);border-style:dashed">
+  <div>
+    <div class="eq-name" style="color:var(--red)">Speed Controller for CAN RK125</div>
+    <div class="eq-model">Varispeed / voltage regulator · ~€20–30</div>
+    <div class="eq-specs">CRITICAL — without this, the RK125 at full speed is too loud for apartment stealth. Allows running at 40–60% for adequate airflow with minimal noise. Day-1 installation requirement alongside fan.</div>
+  </div>
+  <div><div class="eq-price" style="color:var(--red)">~€25</div><div class="eq-status status-needed">⊘ needed</div></div>
+</div>
+
+<div class="eq-item" style="border-color:var(--gold);border-style:dashed">
+  <div>
+    <div class="eq-name" style="color:var(--gold)">Clock Timers (Zeitschaltuhr)</div>
+    <div class="eq-model">Mechanical or digital · ×2</div>
+    <div class="eq-specs">For light schedule automation (18/6 veg → 12/12 flower). Digital timers are silent; mechanical ones click audibly. Currently running lights manually — arriving in ~2 days.</div>
+  </div>
+  <div><div class="eq-price" style="color:var(--gold)">~€10</div><div class="eq-status status-pending">○ arriving</div></div>
+</div>
+
+<div class="eq-item" style="border-color:var(--gold);border-style:dashed">
+  <div>
+    <div class="eq-name" style="color:var(--gold)">Door Weatherstrip + Sweep</div>
+    <div class="eq-model">Foam strip + brush sweep · for AR door</div>
+    <div class="eq-specs">Stealth sealing for the pantry door. Blocks smell, light, and reduces fan noise by ~50% from outside. Install before first plant goes in. Self-adhesive foam on frame + brush sweep at bottom.</div>
+  </div>
+  <div><div class="eq-price" style="color:var(--gold)">~€13</div><div class="eq-status status-needed">⊘ needed</div></div>
+</div>
+
+<div class="tip"><b>Consumables Still Needed</b> — Nutrients (BioBizz or equivalent from La Ganja Loca / Viva Sativa), CalMag, mycorrhizal inoculant (DYNOMYCO or Great White), fabric pot 7–11L, worm castings, Boveda 62% packs for cure, 60× jeweler's loupe, hygrometer with min/max memory, yellow sticky traps.</div>
+
+<div class="warn"><b>Light Schedule Note</b> — Currently running manual on/off with no timer. Lights-on at ~7:48 AM (18/6). When timers arrive, consider shifting to lights-on during cheapest electricity hours (Austrian day/night tariff: nighttime window 20:00–14:00 may be worth exploring). This also aligns dark period with the coolest apartment hours = natural temperature DIF.</div>
+
+<div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--text3);line-height:2">
+  <p>Equipment Tracker v3.0 · April 2026 · Real-time status</p>
+  <p style="color:#2a3530">All cash purchases · Viva Sativa, Dinghoferstrasse 69, Linz</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cannabis Genealogy &amp; Phenotype Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0d0a;--bg2:#111611;--bg3:#161b16;--text:#e8e4d9;--text2:#9ca38e;--text3:#5e6556;--accent:#c9a84c;--accent2:#8a7234;--green:#4a7c3f;--green2:#6db35f;--red:#c45c4a;--blue:#5a9eb8;--purple:#8a7abf;--border:#1e2e1e;--border2:#2a4a2a;--serif:'DM Serif Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'IBM Plex Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.78;font-size:15px}
+.container{max-width:920px;margin:0 auto;padding:60px 32px 80px}
+h1{font-family:var(--serif);font-size:2.4em;font-weight:400;color:var(--accent);margin-bottom:8px}
+.subtitle{font-size:1em;color:var(--text2);margin-bottom:40px;line-height:1.7;font-weight:300}
+h2{font-family:var(--serif);font-size:1.4em;font-weight:400;color:var(--accent);margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+h3{font-family:var(--body);font-size:1em;font-weight:600;margin:1.5rem 0 .5rem;color:var(--green2)}
+p{margin:0 0 .85rem;font-weight:300}
+strong{font-weight:600;color:var(--text)}
+
+.strain-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;margin:16px 0}
+.strain-card:hover{border-color:var(--border2)}
+.strain-name{font-family:var(--serif);font-size:1.3em;color:var(--accent);margin-bottom:4px}
+.strain-lineage{font-family:var(--mono);font-size:.72rem;color:var(--accent2);margin-bottom:12px}
+.strain-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.strain-attr{border-left:2px solid var(--border2);padding-left:10px}
+.strain-attr .label{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3)}
+.strain-attr .value{font-size:.9rem;color:var(--text);margin-top:2px}
+.strain-notes{font-size:.88rem;color:var(--text2);line-height:1.7;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.terp-bar{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.terp{font-family:var(--mono);font-size:.65rem;padding:3px 8px;border-radius:4px;background:rgba(74,124,63,.12);color:var(--green2)}
+.terp.dominant{background:rgba(201,168,76,.15);color:var(--accent)}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.2rem 0}
+.cd{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.cd .lb{font-family:var(--mono);font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
+.cd .vl{font-size:.92em;font-weight:600;margin-top:4px;color:var(--text)}
+.tip{background:rgba(74,124,63,.08);border-left:3px solid var(--green);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.tip b{color:var(--green2);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.da{background:rgba(138,122,191,.08);border-left:3px solid var(--purple);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.da b{color:var(--purple);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+@media(max-width:640px){.strain-grid{grid-template-columns:1fr}.g2{grid-template-columns:1fr}.container{padding:28px 16px 60px}h1{font-size:2em}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Cannabis Genealogy &amp; Phenotype Guide</h1>
+<p class="subtitle">Deep-dive strain profiles for the five cultivars in your research pipeline: Jack Herer, Glookies, Super Skunk, OG Kush, and Cannalope Haze. Genetics, terpene signatures, growing characteristics, phenotype variation, and how each relates to your target effect profile. Based on SeedFinder data, ICMag breeder reports, and community grow journals.</p>
+
+<h2>Your Target Profile</h2>
+
+<p>Based on your stated preferences, the ideal strain produces: <strong>euphoric, cerebral, uplifting effects</strong> with moderate body relaxation. Terpene preferences center on <strong>citrus-forward, sweet, and spicy</strong> profiles — which maps to high limonene + β-caryophyllene + moderate linalool. The common thread across your preferred strains is <strong>β-Caryophyllene</strong> — the only terpene that functions as a CB2 receptor agonist, contributing to body relaxation and anti-inflammatory effects without sedation.</p>
+
+<div class="strain-card">
+  <div class="strain-name">Jack Herer</div>
+  <div class="strain-lineage">Haze × (Northern Lights #5 × Shiva Skunk) · Sensi Seeds · 1994</div>
+  <div class="strain-grid">
+    <div class="strain-attr"><div class="label">Type</div><div class="value">Sativa-dominant hybrid (65/35)</div></div>
+    <div class="strain-attr"><div class="label">Flower Time</div><div class="value">60–70 days (some phenos 80+)</div></div>
+    <div class="strain-attr"><div class="label">THC</div><div class="value">18–24%</div></div>
+    <div class="strain-attr"><div class="label">Effect</div><div class="value">Euphoric, creative, clear-headed, energetic</div></div>
+  </div>
+  <div class="terp-bar">
+    <span class="terp dominant">Terpinolene</span>
+    <span class="terp dominant">β-Caryophyllene</span>
+    <span class="terp">Ocimene</span>
+    <span class="terp">Pinene</span>
+    <span class="terp">Myrcene (low)</span>
+  </div>
+  <div class="strain-notes"><strong>Why it's interesting:</strong> Terpinolene-dominant strains are rare (~10% of cannabis) and produce a distinctly uplifting, almost psychedelic clarity that myrcene-dominant strains can't match. Jack Herer's Haze genetics make it stretch 2–3× in flower — challenging in HS80's 78cm usable zone. Needs aggressive training and early flip. Phenos range from indica-leaning (NL5 dominant) to pure sativa (Haze dominant). The Haze phenos are the ones you want — but they flower for 70–80+ days.</div>
+</div>
+
+<div class="strain-card">
+  <div class="strain-name">Super Skunk</div>
+  <div class="strain-lineage">Skunk #1 × Afghani hashplant · Sensi Seeds · 1990</div>
+  <div class="strain-grid">
+    <div class="strain-attr"><div class="label">Type</div><div class="value">Indica-dominant (80/20)</div></div>
+    <div class="strain-attr"><div class="label">Flower Time</div><div class="value">45–65 days (pheno-dependent)</div></div>
+    <div class="strain-attr"><div class="label">THC</div><div class="value">18–22%</div></div>
+    <div class="strain-attr"><div class="label">Effect</div><div class="value">Heavy body stone, relaxing, euphoric onset</div></div>
+  </div>
+  <div class="terp-bar">
+    <span class="terp dominant">Myrcene</span>
+    <span class="terp dominant">β-Caryophyllene</span>
+    <span class="terp">Limonene</span>
+    <span class="terp">Humulene</span>
+  </div>
+  <div class="strain-notes"><strong>Why it's your chosen grow:</strong> Super Skunk is a forgiving, high-yielding indica that's been cultivated indoors for 35 years. The Afghani hashplant parent contributes compact structure, dense resin, and fast flowering — ideal for a first indoor grow in an 80×80cm tent. The sativa-leaning phenos (~5% in fem seeds, 30–50% in regulars) express the Skunk #1's Durban Poison heritage: taller, fruitier, more cerebral. That's your treasure hunt.</div>
+</div>
+
+<div class="strain-card">
+  <div class="strain-name">OG Kush</div>
+  <div class="strain-lineage">Chemdawg × Lemon Thai × Pakistani Kush (disputed) · ~1995</div>
+  <div class="strain-grid">
+    <div class="strain-attr"><div class="label">Type</div><div class="value">Hybrid (55/45 sativa-leaning)</div></div>
+    <div class="strain-attr"><div class="label">Flower Time</div><div class="value">56–65 days</div></div>
+    <div class="strain-attr"><div class="label">THC</div><div class="value">20–27%</div></div>
+    <div class="strain-attr"><div class="label">Effect</div><div class="value">Euphoric, heavy, stress-crushing</div></div>
+  </div>
+  <div class="terp-bar">
+    <span class="terp dominant">β-Caryophyllene</span>
+    <span class="terp dominant">Limonene</span>
+    <span class="terp dominant">Myrcene</span>
+    <span class="terp">Linalool</span>
+    <span class="terp">Humulene</span>
+  </div>
+  <div class="strain-notes"><strong>Relevance to your grow:</strong> OG Kush is a grandparent of your Citron Givré (via GSC). The dominant β-caryophyllene + limonene profile is the terpene signature you're inheriting. OG is notoriously finicky to grow — pH-sensitive, calcium-hungry, stretch-prone. These traits may surface in your Citron Givré. The good news: OG's quality ceiling is extremely high when dialed in.</div>
+</div>
+
+<div class="strain-card">
+  <div class="strain-name">Glookies</div>
+  <div class="strain-lineage">Gorilla Glue #4 × Thin Mint GSC · Barney's Farm</div>
+  <div class="strain-grid">
+    <div class="strain-attr"><div class="label">Type</div><div class="value">Indica-dominant hybrid (70/30)</div></div>
+    <div class="strain-attr"><div class="label">Flower Time</div><div class="value">56–63 days</div></div>
+    <div class="strain-attr"><div class="label">THC</div><div class="value">22–28%</div></div>
+    <div class="strain-attr"><div class="label">Effect</div><div class="value">Potent, euphoric, full-body relaxation</div></div>
+  </div>
+  <div class="terp-bar">
+    <span class="terp dominant">β-Caryophyllene</span>
+    <span class="terp dominant">Limonene</span>
+    <span class="terp">Myrcene</span>
+    <span class="terp">Linalool</span>
+  </div>
+  <div class="strain-notes"><strong>The Cookie connection:</strong> Glookies and your Citron Givré share Thin Mint GSC genetics — making them terpene cousins. Both express the β-caryophyllene + limonene dominance that defines the Cookie family's signature "dough + citrus + gas" aroma. Glookies adds GG4's extreme resin production. Expect similar training and feeding demands as your Citron Givré.</div>
+</div>
+
+<div class="strain-card">
+  <div class="strain-name">Cannalope Haze</div>
+  <div class="strain-lineage">Haze Brothers × Mexican landrace · DNA Genetics</div>
+  <div class="strain-grid">
+    <div class="strain-attr"><div class="label">Type</div><div class="value">Sativa-dominant (80/20)</div></div>
+    <div class="strain-attr"><div class="label">Flower Time</div><div class="value">56–63 days (fast for a Haze)</div></div>
+    <div class="strain-attr"><div class="label">THC</div><div class="value">18–22%</div></div>
+    <div class="strain-attr"><div class="label">Effect</div><div class="value">Uplifting, energetic, clear, functional</div></div>
+  </div>
+  <div class="terp-bar">
+    <span class="terp dominant">Myrcene</span>
+    <span class="terp">Limonene</span>
+    <span class="terp">β-Caryophyllene</span>
+    <span class="terp">Terpinolene</span>
+  </div>
+  <div class="strain-notes"><strong>The sativa dream:</strong> One of the fastest-finishing Hazes available — 56–63 days vs the typical 80–100 of pure Haze lines. The melon/cantaloupe aroma is distinctive and divisive — people love it or find it strange. Manageable stretch for a Haze but still significantly more than Super Skunk. Would need aggressive ScrOG and possibly supercropping in the HS80.</div>
+</div>
+
+<h2>The β-Caryophyllene Thread</h2>
+
+<p>Every strain in your preferred lineup shares <strong>β-Caryophyllene</strong> as a dominant or major terpene. This isn't coincidental — BCP is the only terpene that acts as a direct CB2 receptor agonist, producing anti-inflammatory, anxiolytic, and muscle-relaxant effects <em>without</em> the sedation associated with myrcene. It's the terpene that gives these strains their "relaxing but not drowsy" quality. When pheno-hunting Super Skunk, BCP-forward stem rub terpenes (spicy, peppery, clove-like) are a positive selection marker.</p>
+
+<div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--text3);line-height:2">
+  <p>Cannabis Genealogy &amp; Phenotype Guide v3.0 · April 2026</p>
+  <p style="color:#1e2e1e">Jack Herer · Super Skunk · OG Kush · Glookies · Cannalope Haze</p>
+  <p style="color:#1e2e1e">Sources: SeedFinder, ICMag, Leafly terpene data, published chemotype studies</p>
+</div>
+
+</div>
+</body>
+</html>
