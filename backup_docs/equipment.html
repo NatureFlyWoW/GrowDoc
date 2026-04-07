@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equipment Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0b;
+    --surface: #111613;
+    --surface-2: #171d19;
+    --surface-3: #1e2621;
+    --border: #2a3530;
+    --border-accent: #3d5a47;
+    --text: #d4e0d8;
+    --text-muted: #7a9485;
+    --text-dim: #4a6455;
+    --accent: #4caf6a;
+    --accent-glow: #4caf6a33;
+    --accent-bright: #6fdb8e;
+    --warn: #e8a838;
+    --warn-dim: #e8a83822;
+    --pending: #3a8fd4;
+    --pending-dim: #3a8fd422;
+    --price: #8bc49a;
+    --red: #cf5555;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .header h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .header h1 span {
+    color: var(--accent);
+  }
+
+  .status-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.35rem 0.8rem;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .status-badge.active {
+    background: var(--accent-glow);
+    color: var(--accent-bright);
+    border: 1px solid var(--accent);
+  }
+
+  .status-badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-bright);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .header-meta dt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin-bottom: 0.15rem;
+  }
+
+  .header-meta dd {
+    font-weight: 500;
+  }
+
+  /* Summary Cards */
+  .summary-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+    transition: border-color 0.3s;
+  }
+
+  .summary-card:hover {
+    border-color: var(--border-accent);
+  }
+
+  .summary-card .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  .summary-card .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--price);
+  }
+
+  .summary-card .sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .section-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .section-icon.tent { background: #1a3325; }
+  .section-icon.light { background: #332e1a; }
+  .section-icon.air { background: #1a2633; }
+  .section-icon.grow { background: #2d1a33; }
+  .section-icon.acc { background: #33291a; }
+
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  .section-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    margin-left: auto;
+  }
+
+  /* Equipment Cards */
+  .eq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .eq-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.4rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem 1.5rem;
+    align-items: start;
+    transition: all 0.25s;
+    position: relative;
+  }
+
+  .eq-card:hover {
+    border-color: var(--border-accent);
+    background: var(--surface-2);
+  }
+
+  .eq-card.pending {
+    border-left: 3px solid var(--pending);
+  }
+
+  .eq-card.owned {
+    border-left: 3px solid var(--accent);
+  }
+
+  .eq-card.consumable {
+    border-left: 3px solid var(--warn);
+  }
+
+  .eq-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .eq-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--price);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .eq-details {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.2rem;
+  }
+
+  .eq-details .spec {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .eq-details .spec::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    flex-shrink: 0;
+  }
+
+  .eq-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    display: inline-block;
+    margin-top: 0.3rem;
+  }
+
+  .eq-tag.owned-tag {
+    background: var(--accent-glow);
+    color: var(--accent-bright);
+  }
+
+  .eq-tag.pending-tag {
+    background: var(--pending-dim);
+    color: var(--pending);
+  }
+
+  .eq-tag.consumable-tag {
+    background: var(--warn-dim);
+    color: var(--warn);
+  }
+
+  .eq-tag.needed-tag {
+    background: #cf555522;
+    color: var(--red);
+  }
+
+  .eq-note {
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--text-dim);
+    grid-column: 1 / -1;
+    padding-top: 0.3rem;
+    border-top: 1px dashed var(--border);
+    margin-top: 0.2rem;
+  }
+
+  /* Room specs */
+  .room-specs {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .room-spec dt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 0.2rem;
+  }
+
+  .room-spec dd {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    padding: 1rem 1.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.75rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+  }
+
+  .legend-swatch {
+    width: 12px;
+    height: 3px;
+    border-radius: 2px;
+  }
+
+  .legend-swatch.s-owned { background: var(--accent); }
+  .legend-swatch.s-pending { background: var(--pending); }
+  .legend-swatch.s-consumable { background: var(--warn); }
+  .legend-swatch.s-needed { background: var(--red); }
+
+  /* Discount note */
+  .discount-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    padding: 0.8rem 1.2rem;
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 1.2rem 1rem 3rem; }
+    .header h1 { font-size: 1.4rem; }
+    .summary-row { grid-template-columns: 1fr 1fr; }
+    .eq-card { grid-template-columns: 1fr; }
+    .eq-price { text-align: left; }
+    .header-meta { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-top">
+      <h1><span>//</span> Equipment Tracker</h1>
+      <div class="status-badge active"><span class="dot"></span> Citron Givré Run</div>
+    </div>
+    <dl class="header-meta">
+      <div>
+        <dt>Standort</dt>
+        <dd>Abstellraum · Linz, AT</dd>
+      </div>
+      <div>
+        <dt>Zelt</dt>
+        <dd>HS80 · 80×80×178 cm</dd>
+      </div>
+      <div>
+        <dt>Phase</dt>
+        <dd>Veg — Citron Givré Clone</dd>
+      </div>
+      <div>
+        <dt>Nächstes Projekt</dt>
+        <dd>Super Skunk (fem.)</dd>
+      </div>
+    </dl>
+  </header>
+
+  <!-- Room Specs -->
+  <div class="room-specs">
+    <div class="room-spec">
+      <dt>Raum (AR)</dt>
+      <dd>1,32 m² Fliesen</dd>
+    </div>
+    <div class="room-spec">
+      <dt>Tür</dt>
+      <dd>80 × 200 cm</dd>
+    </div>
+    <div class="room-spec">
+      <dt>Deckenhöhe</dt>
+      <dd>~250 cm (geschätzt)</dd>
+    </div>
+    <div class="room-spec">
+      <dt>Strom</dt>
+      <dd>Deckenlampe (E27)</dd>
+    </div>
+    <div class="room-spec">
+      <dt>Belüftung</dt>
+      <dd>Keine natürliche</dd>
+    </div>
+    <div class="room-spec">
+      <dt>Boden</dt>
+      <dd>Betonoptik-Fliesen</dd>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary-row">
+    <div class="summary-card">
+      <div class="label">Investiert (Bar)</div>
+      <div class="value">€420</div>
+      <div class="sub">Growshop Linz · Rechnung</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Hardware</div>
+      <div class="value">8</div>
+      <div class="sub">Artikel auf Rechnung</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Watt gesamt</div>
+      <div class="value">108W</div>
+      <div class="sub">2× STIXX 50 (54W each)</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Abluft</div>
+      <div class="value">310 m³/h</div>
+      <div class="sub">CAN RK125 · Installation ausstehend</div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><span class="legend-swatch s-owned"></span> Im Besitz</div>
+    <div class="legend-item"><span class="legend-swatch s-pending"></span> Ausstehend / Unterwegs</div>
+    <div class="legend-item"><span class="legend-swatch s-consumable"></span> Verbrauchsmaterial</div>
+    <div class="legend-item"><span class="legend-swatch s-needed"></span> Noch benötigt</div>
+  </div>
+
+  <!-- SECTION: Zelt & Struktur -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon tent">🏕</div>
+      <div class="section-title">Zelt & Struktur</div>
+      <div class="section-count">2 Artikel</div>
+    </div>
+    <div class="eq-list">
+      <div class="eq-card owned">
+        <div class="eq-name">Secret Jardin Hydro Shoot HS 80 R2</div>
+        <div class="eq-price">€120,00</div>
+        <div class="eq-details">
+          <span class="spec">80 × 80 × 178 cm</span>
+          <span class="spec">Reflektives Mylar-Innenmaterial</span>
+          <span class="spec">Stahlrahmen</span>
+        </div>
+        <span class="eq-tag owned-tag">✓ Im Besitz</span>
+        <div class="eq-note">Nachlass: 4% (−€5,00). Passt exakt in den 1,32 m² AR mit ~0 cm Spiel an den Seiten.</div>
+      </div>
+
+      <div class="eq-card owned">
+        <div class="eq-name">GHP ProHanger 68kg — Set 2 Stück</div>
+        <div class="eq-price">€9,00</div>
+        <div class="eq-details">
+          <span class="spec">Tragkraft: 68 kg pro Paar</span>
+          <span class="spec">Kleiner Karabiner</span>
+          <span class="spec">Ratschenmechanismus</span>
+        </div>
+        <span class="eq-tag owned-tag">✓ Im Besitz</span>
+        <div class="eq-note">Nachlass: 17,43% (−€1,90). Für LED-Aufhängung + evtl. AKF-Aufhängung.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: Beleuchtung -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon light">💡</div>
+      <div class="section-title">Beleuchtung</div>
+      <div class="section-count">2 Einheiten</div>
+    </div>
+    <div class="eq-list">
+      <div class="eq-card owned">
+        <div class="eq-name">Sanlight STIXX 50 — LED Bar #1</div>
+        <div class="eq-price">€125,00</div>
+        <div class="eq-details">
+          <span class="spec">54W tatsächliche Leistung</span>
+          <span class="spec">Passiv gekühlt</span>
+          <span class="spec">Vollspektrum</span>
+          <span class="spec">Dimmbar</span>
+        </div>
+        <span class="eq-tag owned-tag">✓ Im Besitz</span>
+      </div>
+
+      <div class="eq-card pending">
+        <div class="eq-name">Sanlight STIXX 50 — LED Bar #2</div>
+        <div class="eq-price">~€125,00</div>
+        <div class="eq-details">
+          <span class="spec">54W tatsächliche Leistung</span>
+          <span class="spec">Lieferung nächste Woche</span>
+          <span class="spec">Zusammen: 108W / 0,64 m²</span>
+        </div>
+        <span class="eq-tag pending-tag">⏳ Unterwegs</span>
+        <div class="eq-note">Zweite Bar ermöglicht gleichmäßigere Ausleuchtung über 80×80 cm. Geschätzte PPFD mit beiden: ~450–550 µmol/m²/s.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: Belüftung & Geruchskontrolle -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon air">💨</div>
+      <div class="section-title">Belüftung & Geruchskontrolle</div>
+      <div class="section-count">5 Artikel</div>
+    </div>
+    <div class="eq-list">
+      <div class="eq-card owned">
+        <div class="eq-name">CAN RK125 — Rohrventilator (UFO)</div>
+        <div class="eq-price">€75,00</div>
+        <div class="eq-details">
+          <span class="spec">310 m³/h max.</span>
+          <span class="spec">Ø 125 mm</span>
+          <span class="spec">EC-Motor</span>
+        </div>
+        <span class="eq-tag owned-tag">✓ Im Besitz</span>
+        <div class="eq-note">Nachlass: 11,66% (−€9,90). Installation gemeinsam mit Freunden geplant.</div>
+      </div>
+
+      <div class="eq-card owned">
+        <div class="eq-name">CAN-Lite AKF 300 — Aktivkohlefilter</div>
+        <div class="eq-price">€42,00</div>
+        <div class="eq-details">
+          <span class="spec">300 m³/h Kapazität</span>
+          <span class="spec">Ohne Flansch bestellt</span>
+          <span class="spec">Flansch separat (125 mm)</span>
+        </div>
+        <span class="eq-tag owned-tag">✓ Im Besitz</span>
+        <div class="eq-note">Geruchskontrolle ist essenziell für Stealth. Muss vor Blütestart installiert sein.</div>
+      </div>
+
+      <div class="eq-card owned">
+        <div class="eq-name">CAN 125mm Anschlussflansch</div>
+        <div class="eq-price">€4,00</div>
+        <div class="eq-details">
+          <span class="spec">Verbindet AKF mit RK125</span>
+          <span class="spec">Ø 125 mm</span>
+        </div>
+        <span class="eq-tag owned-tag">✓ Im Besitz</span>
+        <div class="eq-note">Nachlass: 18,37% (−€0,90).</div>
+      </div>
+
+      <div class="eq-card owned">
+        <div class="eq-name">Monkey Fan — Secret Jardin M F120 (2er Set)</div>
+        <div class="eq-price">€42,00</div>
+        <div class="eq-details">
+          <span class="spec">24V</span>
+          <span class="spec">Für 16–19 mm Stangen</span>
+          <span class="spec">Clip-Montage</span>
+          <span class="spec">Umluft</span>
+        </div>
+        <span class="eq-tag owned-tag">✓ Im Besitz</span>
+        <div class="eq-note">Nachlass: 6,67% (−€3,00). 2 Stück für Umluft im Zelt — wichtig für Stammstärkung und Schimmelprävention.</div>
+      </div>
+
+      <div class="eq-card owned">
+        <div class="eq-name">Netzkabel — IEC-Connector</div>
+        <div class="eq-price">€3,00</div>
+        <div class="eq-details">
+          <span class="spec">IEC weiblich → Schuko</span>
+          <span class="spec">1,5 mm Querschnitt</span>
+          <span class="spec">2 m Länge</span>
+        </div>
+        <span class="eq-tag owned-tag">✓ Im Besitz</span>
+        <div class="eq-note">Nachlass: 49,15% (−€2,90). Stromversorgung für CAN RK125.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: Anbau & Medium -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon grow">🌱</div>
+      <div class="section-title">Anbau & Medium</div>
+      <div class="section-count">6 Artikel</div>
+    </div>
+    <div class="eq-list">
+      <div class="eq-card owned">
+        <div class="eq-name">Citron Givré — Steckling (Birthday Cut)</div>
+        <div class="eq-price">Geschenk</div>
+        <div class="eq-details">
+          <span class="spec">T.H. Seeds Birthday Cake Kush Pheno</span>
+          <span class="spec">1× getoppt</span>
+          <span class="spec">Irreplaceable clone</span>
+        </div>
+        <span class="eq-tag owned-tag">✓ Aktive Pflanze</span>
+        <div class="eq-note">Birthday-Geschenk von langjährigem Kontakt. Klonmanagement hat höchste Priorität — Backup-Stecklinge vor Blüte nehmen!</div>
+      </div>
+
+      <div class="eq-card owned">
+        <div class="eq-name">Kunststofftopf — 7 Liter</div>
+        <div class="eq-price">—</div>
+        <div class="eq-details">
+          <span class="spec">Plastik (kein Stoff)</span>
+          <span class="spec">Für Citron Givré</span>
+        </div>
+        <span class="eq-tag owned-tag">✓ Im Einsatz</span>
+      </div>
+
+      <div class="eq-card consumable">
+        <div class="eq-name">Erdmischung — Custom Living Soil</div>
+        <div class="eq-price">—</div>
+        <div class="eq-details">
+          <span class="spec">Tomatenerde (~30–40% max.)</span>
+          <span class="spec">Eigene Living Soil</span>
+          <span class="spec">Dünger</span>
+        </div>
+        <span class="eq-tag consumable-tag">⚠ Verbrauchsmaterial</span>
+        <div class="eq-note">⚠ Tomatenerde enthält vorgeladene Mineralsalze — Verbrennung bei Stecklingen möglich. pH-Test der österreichischen Tomatenerde erforderlich.</div>
+      </div>
+
+      <div class="eq-card consumable">
+        <div class="eq-name">Mykorrhiza-Inokulum</div>
+        <div class="eq-price">~€15</div>
+        <div class="eq-details">
+          <span class="spec">Granular / Pulver</span>
+          <span class="spec">Direkt an Wurzelballen</span>
+          <span class="spec">Nicht ins Substrat mischen</span>
+        </div>
+        <span class="eq-tag consumable-tag">⚠ Verbrauchsmaterial</span>
+        <div class="eq-note">Realistische Ertragsverbesserung: 5–15% (nicht die 10–45% der Herstellerangaben). Beste ROI aller Zusätze.</div>
+      </div>
+
+      <div class="eq-card consumable">
+        <div class="eq-name">Mikroorganismen</div>
+        <div class="eq-price">—</div>
+        <div class="eq-details">
+          <span class="spec">Bodenleben-Aufbau</span>
+          <span class="spec">Organic-kompatibel</span>
+        </div>
+        <span class="eq-tag consumable-tag">⚠ Verbrauchsmaterial</span>
+      </div>
+
+      <div class="eq-card pending">
+        <div class="eq-name">Super Skunk — Feminisierte Seeds</div>
+        <div class="eq-price">—</div>
+        <div class="eq-details">
+          <span class="spec">Sensi Seeds Genetik</span>
+          <span class="spec">Pheno-Hunting geplant</span>
+          <span class="spec">Sativa-Pheno: ~5% Chance (fem.)</span>
+        </div>
+        <span class="eq-tag pending-tag">⏳ Nächstes Projekt</span>
+        <div class="eq-note">Solo-Cup Screening geplant. Für höhere Sativa-Wahrscheinlichkeit (~30–50%) wären reguläre Seeds nötig.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: Noch benötigt / Geplant -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon acc">📋</div>
+      <div class="section-title">Noch benötigt / Geplant</div>
+      <div class="section-count">5+ Artikel</div>
+    </div>
+    <div class="eq-list">
+      <div class="eq-card" style="border-left: 3px solid var(--red);">
+        <div class="eq-name">CalMag-Supplement</div>
+        <div class="eq-price">~€10–15</div>
+        <div class="eq-details">
+          <span class="spec">Nicht verhandelbar unter LED</span>
+          <span class="spec">1 ml/L ab Woche 2</span>
+        </div>
+        <span class="eq-tag needed-tag">✗ Fehlt noch</span>
+        <div class="eq-note">LEDs treiben schnellere Photosynthese bei weniger Strahlungswärme → reduzierte passive Calcium-Aufnahme. Ohne CalMag droht verdeckte Ca-Blockade, die Ertrag 10–30% senkt.</div>
+      </div>
+
+      <div class="eq-card" style="border-left: 3px solid var(--red);">
+        <div class="eq-name">Digitales Hygrometer</div>
+        <div class="eq-price">~€10–20</div>
+        <div class="eq-details">
+          <span class="spec">Min/Max Speicher</span>
+          <span class="spec">Auf Canopy-Höhe platzieren</span>
+        </div>
+        <span class="eq-tag needed-tag">✗ Fehlt noch</span>
+        <div class="eq-note">VPD-Kontrolle ohne Messung ist Blindflug. Min/Max-Funktion zeigt Schwankungen über Nacht.</div>
+      </div>
+
+      <div class="eq-card" style="border-left: 3px solid var(--red);">
+        <div class="eq-name">60× Trichom-Lupe</div>
+        <div class="eq-price">~€5–10</div>
+        <div class="eq-details">
+          <span class="spec">Für Erntezeitpunkt-Bestimmung</span>
+          <span class="spec">Ab Blütewoche 6</span>
+        </div>
+        <span class="eq-tag needed-tag">✗ Fehlt noch</span>
+      </div>
+
+      <div class="eq-card" style="border-left: 3px solid var(--red);">
+        <div class="eq-name">pH-Messgerät / Teststreifen</div>
+        <div class="eq-price">~€8–15</div>
+        <div class="eq-details">
+          <span class="spec">Für Gießwasser + Erdmischung</span>
+          <span class="spec">Tomatenerde-pH muss geprüft werden</span>
+        </div>
+        <span class="eq-tag needed-tag">✗ Fehlt noch</span>
+      </div>
+
+      <div class="eq-card" style="border-left: 3px solid var(--red);">
+        <div class="eq-name">Nährstoff-Set (Bio)</div>
+        <div class="eq-price">~€25–40</div>
+        <div class="eq-details">
+          <span class="spec">Grow + Bloom + Top-Max o.ä.</span>
+          <span class="spec">Organic für Mykorrhiza-Kompatibilität</span>
+        </div>
+        <span class="eq-tag needed-tag">✗ Zu kaufen</span>
+        <div class="eq-note">Synthetische Dünger unterdrücken Mykorrhiza-Besiedelung — organische Nährstoffe verwenden.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Discount Note -->
+  <div class="discount-note">
+    💰 Rechnung vom Growshop Linz — Bar bezahlt (€420,00 brutto / €350,00 netto). Alle Artikel mit Nachlass erhalten. Gesamtersparnis auf Rechnung: ~€23,60.
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span>Stand: April 2026 · Citron Givré Veg Phase</span>
+    <span>Qualität zuerst · Ertrag zweitens · Stealth immer</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

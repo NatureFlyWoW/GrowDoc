@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cannabis Genealogy &amp; Phenotype Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0d0a;
+  --bg-card: #111611;
+  --bg-card-hover: #161b16;
+  --bg-section: #0d100d;
+  --text-primary: #e8e4d9;
+  --text-secondary: #9ca38e;
+  --text-muted: #5e6556;
+  --accent-gold: #c9a84c;
+  --accent-gold-dim: #8a7234;
+  --accent-green: #4a7c3f;
+  --accent-green-bright: #6db35f;
+  --accent-green-dim: #2d4a26;
+  --accent-purple: #7c5a9e;
+  --accent-red: #b54c4c;
+  --accent-orange: #c97a2e;
+  --accent-blue: #4a7c9e;
+  --accent-teal: #3a8a7a;
+  --border: #1e241e;
+  --border-light: #2a322a;
+  --sativa: #e8c84c;
+  --indica: #5a3e8a;
+  --hybrid: #4a7c3f;
+  --landrace: #c97a2e;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+/* --- HERO --- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 30% 40%, rgba(74,124,63,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 70% 60%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 300px at 50% 80%, rgba(124,90,158,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  max-width: 900px;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+
+.hero h1 span { color: var(--accent-gold); }
+
+.hero-desc {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+
+.hero-strains {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+}
+
+.hero-strain-pill {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-light);
+  border-radius: 2rem;
+  color: var(--text-secondary);
+  transition: all 0.3s;
+  cursor: pointer;
+  text-decoration: none;
+}
+.hero-strain-pill:hover {
+  border-color: var(--accent-gold-dim);
+  color: var(--accent-gold);
+  background: rgba(201,168,76,0.05);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- NAV --- */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(10,13,10,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+}
+.nav.visible { transform: translateY(0); }
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+.nav-links { display: flex; gap: 1.5rem; }
+.nav-links a {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent-gold); }
+
+/* --- SECTIONS --- */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+
+.section-header {
+  margin-bottom: 3rem;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent-gold-dim);
+  margin-bottom: 0.75rem;
+}
+
+.section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.section h2 span { color: var(--accent-gold); }
+
+.section-intro {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 720px;
+  line-height: 1.8;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+  margin: 0 auto;
+  max-width: 1100px;
+}
+
+/* --- LANDRACE GRID --- */
+.landrace-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.landrace-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.landrace-card:hover {
+  border-color: var(--border-light);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+.landrace-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.landrace-card[data-type="indica"]::before { background: var(--indica); }
+.landrace-card[data-type="sativa"]::before { background: var(--sativa); }
+.landrace-card[data-type="hybrid"]::before { background: var(--hybrid); }
+
+.landrace-origin {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.landrace-name {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.landrace-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.landrace-strains {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.landrace-strain-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  background: rgba(74,124,63,0.15);
+  color: var(--accent-green-bright);
+  letter-spacing: 0.05em;
+}
+
+/* --- STRAIN DEEP DIVES --- */
+.strain-section {
+  padding: 5rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.strain-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 2.5rem;
+}
+
+.strain-name {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.strain-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.strain-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+.badge-sativa { background: rgba(232,200,76,0.12); color: var(--sativa); border: 1px solid rgba(232,200,76,0.2); }
+.badge-indica { background: rgba(90,62,138,0.12); color: #a88ad4; border: 1px solid rgba(90,62,138,0.2); }
+.badge-hybrid { background: rgba(74,124,63,0.12); color: var(--accent-green-bright); border: 1px solid rgba(74,124,63,0.2); }
+
+.strain-breeder {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.strain-story {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.85;
+  max-width: 760px;
+  margin-bottom: 2rem;
+}
+
+.strain-story strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* --- SVG GENEALOGY TREES --- */
+.tree-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+
+.tree-title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold-dim);
+  margin-bottom: 1rem;
+}
+
+.tree-container svg {
+  width: 100%;
+  height: auto;
+  min-width: 600px;
+}
+
+/* --- PHENOTYPE CARDS --- */
+.pheno-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin: 2rem 0;
+}
+
+.pheno-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+.pheno-card:hover {
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+}
+
+.pheno-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.pheno-name {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.pheno-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.pheno-stats {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.pheno-stat {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+.pheno-stat strong {
+  color: var(--text-secondary);
+  display: block;
+  font-size: 0.9rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+/* --- TERPENE BAR CHARTS --- */
+.terp-profile {
+  margin: 2rem 0;
+}
+
+.terp-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.terp-name {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  width: 120px;
+  text-align: right;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.terp-bar-bg {
+  flex: 1;
+  height: 22px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.terp-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  position: relative;
+}
+
+.terp-bar-fill::after {
+  content: attr(data-pct);
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: rgba(0,0,0,0.7);
+  font-weight: 500;
+}
+
+.terp-pct {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  width: 40px;
+  flex-shrink: 0;
+}
+
+/* --- TERPENE COLORS --- */
+.terp-myrcene { background: linear-gradient(90deg, #6b8e4e, #8ab06a); }
+.terp-caryophyllene { background: linear-gradient(90deg, #c97a2e, #e09940); }
+.terp-limonene { background: linear-gradient(90deg, #d4a72c, #e8c84c); }
+.terp-terpinolene { background: linear-gradient(90deg, #7c5a9e, #9e7cc0); }
+.terp-pinene { background: linear-gradient(90deg, #3a8a5a, #5ab87a); }
+.terp-linalool { background: linear-gradient(90deg, #8a5a9e, #b07cc0); }
+.terp-ocimene { background: linear-gradient(90deg, #4a7c9e, #6a9cbe); }
+.terp-humulene { background: linear-gradient(90deg, #8a7234, #b09550); }
+
+/* --- CONNECTION MAP --- */
+.connection-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.connection-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.75rem;
+}
+
+.connection-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.connection-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* --- PHENO HUNT PROTOCOL --- */
+.protocol-timeline {
+  position: relative;
+  margin: 3rem 0;
+  padding-left: 2rem;
+}
+
+.protocol-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-gold), var(--accent-green), var(--accent-purple));
+}
+
+.protocol-phase {
+  position: relative;
+  margin-bottom: 2.5rem;
+  padding-left: 2rem;
+}
+
+.protocol-phase::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 0.3rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-gold);
+  background: var(--bg-primary);
+  transform: translateX(-5px);
+}
+
+.protocol-week {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold-dim);
+  margin-bottom: 0.3rem;
+}
+
+.protocol-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.protocol-body {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.protocol-body strong {
+  color: var(--text-primary);
+}
+
+/* --- CALLOUT BOXES --- */
+.callout {
+  border-left: 3px solid var(--accent-gold);
+  background: rgba(201,168,76,0.04);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.callout-red {
+  border-left-color: var(--accent-red);
+  background: rgba(181,76,76,0.04);
+}
+
+.callout-green {
+  border-left-color: var(--accent-green-bright);
+  background: rgba(109,179,95,0.04);
+}
+
+.callout-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.callout p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* --- FOOTER --- */
+.footer {
+  text-align: center;
+  padding: 4rem 2rem;
+  border-top: 1px solid var(--border);
+}
+.footer p {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .strain-header { grid-template-columns: 1fr; }
+  .strain-meta { align-items: flex-start; flex-direction: row; }
+  .nav-links { display: none; }
+  .section { padding: 4rem 1.25rem; }
+  .terp-name { width: 80px; font-size: 0.6rem; }
+  .protocol-timeline { padding-left: 1.5rem; }
+  .protocol-phase { padding-left: 1.5rem; }
+}
+
+/* --- SMOOTH REVEAL --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">Strain Genealogy</div>
+  <div class="nav-links">
+    <a href="#landraces">Landraces</a>
+    <a href="#jack-herer">Jack Herer</a>
+    <a href="#glookies">Glookies</a>
+    <a href="#super-skunk">Super Skunk</a>
+    <a href="#og-kush">OG Kush</a>
+    <a href="#cannalope">Cannalope Haze</a>
+    <a href="#terpenes">Terpenes</a>
+    <a href="#pheno-hunt">Pheno Hunt</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-subtitle">Genealogy · Phenotypes · Pheno-Hunting Protocol</div>
+  <h1>From <span>Landrace</span> to Your Favourite Five</h1>
+  <p class="hero-desc">A complete genetic mapping, phenotype identification system, and practical pheno-hunting protocol — tracing five beloved strains back to their landrace origins and uncovering the terpene thread that connects them all.</p>
+  <div class="hero-strains">
+    <a href="#jack-herer" class="hero-strain-pill">Jack Herer</a>
+    <a href="#glookies" class="hero-strain-pill">Glookies</a>
+    <a href="#super-skunk" class="hero-strain-pill">Super Skunk</a>
+    <a href="#og-kush" class="hero-strain-pill">OG Kush</a>
+    <a href="#cannalope" class="hero-strain-pill">Cannalope Haze</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: LANDRACE ROOTS -->
+<!-- ============================================================ -->
+<section class="section" id="landraces">
+  <div class="section-header reveal">
+    <div class="section-label">Chapter I</div>
+    <h2>The <span>Landrace</span> Roots</h2>
+    <p class="section-intro">Every strain in this collection traces back to fewer than ten landrace populations that evolved over centuries in geographic isolation. These seven origins seeded an entire culture.</p>
+  </div>
+
+  <div class="landrace-grid">
+    <div class="landrace-card reveal" data-type="indica">
+      <div class="landrace-origin">Afghanistan – Pakistan Border · 1,500–3,000m</div>
+      <div class="landrace-name">Afghan / Hindu Kush</div>
+      <div class="landrace-desc">Short, bushy plants with broad leaves and extraordinary resin production evolved in harsh mountain conditions. Contributes dense bud structure, fast flowering, heavy body effects, and earthy/hash terpene base.</div>
+      <div class="landrace-strains">
+        <span class="landrace-strain-tag">Super Skunk (2×)</span>
+        <span class="landrace-strain-tag">OG Kush</span>
+        <span class="landrace-strain-tag">Glookies</span>
+        <span class="landrace-strain-tag">Jack Herer</span>
+      </div>
+    </div>
+
+    <div class="landrace-card reveal" data-type="sativa">
+      <div class="landrace-origin">Santa Marta Mountains, Colombia</div>
+      <div class="landrace-name">Colombian Gold</div>
+      <div class="landrace-desc">Tall, airy structure, long flowering, and cerebral euphoria. Together with Acapulco Gold and Afghan, forms Skunk #1 — the most influential hybrid in cannabis history.</div>
+      <div class="landrace-strains">
+        <span class="landrace-strain-tag">Super Skunk</span>
+        <span class="landrace-strain-tag">Jack Herer</span>
+        <span class="landrace-strain-tag">Glookies</span>
+      </div>
+    </div>
+
+    <div class="landrace-card reveal" data-type="sativa">
+      <div class="landrace-origin">Guerrero State, Mexico</div>
+      <div class="landrace-name">Acapulco Gold</div>
+      <div class="landrace-desc">Stability, shortened flowering, and earthy-sweet spice. The third pillar of Skunk #1 that converted a late-maturing Colombian × Afghan cross into something commercially viable.</div>
+      <div class="landrace-strains">
+        <span class="landrace-strain-tag">Super Skunk</span>
+        <span class="landrace-strain-tag">Jack Herer</span>
+      </div>
+    </div>
+
+    <div class="landrace-card reveal" data-type="sativa">
+      <div class="landrace-origin">Southeast Asia (Thailand)</div>
+      <div class="landrace-name">Thai Landrace</div>
+      <div class="landrace-desc">The most frequently recurring sativa ancestor in this collection. Racy cerebral stimulation, citrus and spice terpenes, and extreme resin production. Appears through Haze and Chemdawg lineages.</div>
+      <div class="landrace-strains">
+        <span class="landrace-strain-tag">Jack Herer</span>
+        <span class="landrace-strain-tag">Cannalope Haze</span>
+        <span class="landrace-strain-tag">OG Kush</span>
+        <span class="landrace-strain-tag">Glookies</span>
+      </div>
+    </div>
+
+    <div class="landrace-card reveal" data-type="sativa">
+      <div class="landrace-origin">Kerala, Southern India</div>
+      <div class="landrace-name">South Indian</div>
+      <div class="landrace-desc">Exotic spice notes and extended cerebral duration. Enters through Original Haze, contributing complexity to Jack Herer's and Cannalope Haze's profiles.</div>
+      <div class="landrace-strains">
+        <span class="landrace-strain-tag">Jack Herer</span>
+        <span class="landrace-strain-tag">Cannalope Haze</span>
+      </div>
+    </div>
+
+    <div class="landrace-card reveal" data-type="sativa">
+      <div class="landrace-origin">Michoacán, Western Mexico</div>
+      <div class="landrace-name">Mexican Landrace</div>
+      <div class="landrace-desc">Sweet melon character and shorter flowering adaptation. Direct parent of Cannalope Haze and within Haze and Skunk #1. Faster flowering without indica dilution.</div>
+      <div class="landrace-strains">
+        <span class="landrace-strain-tag">Cannalope Haze (direct)</span>
+        <span class="landrace-strain-tag">Super Skunk</span>
+        <span class="landrace-strain-tag">Jack Herer</span>
+      </div>
+    </div>
+
+    <div class="landrace-card reveal" data-type="sativa">
+      <div class="landrace-origin">KwaZulu-Natal, South Africa</div>
+      <div class="landrace-name">Durban Poison</div>
+      <div class="landrace-desc">Energizing sativa uplift and anise-like sweetness. Enters exclusively through Thin Mint GSC into Glookies. Pure African sativa genetics adding unique terpene diversity.</div>
+      <div class="landrace-strains">
+        <span class="landrace-strain-tag">Glookies</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: JACK HERER -->
+<!-- ============================================================ -->
+<section class="section" id="jack-herer">
+  <div class="strain-section reveal">
+    <div class="strain-header">
+      <div>
+        <div class="strain-name">Jack Herer</div>
+        <div class="strain-breeder">Sensi Seeds · Amsterdam · 1994</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-sativa">~55% Sativa</span>
+        <span class="strain-badge badge-indica">~45% Indica</span>
+      </div>
+    </div>
+
+    <p class="strain-story">Jack Herer's true lineage is more nuanced than the commonly cited "Haze × Northern Lights #5 × Shiva Skunk." The original mother was bred by <strong>Nevil Schoenmakers</strong> before his 1991 arrest: <strong>(Skunk #1 × Haze C) × (Northern Lights #5 × Haze C)</strong>. This means it incorporates two separate Haze lines through the Haze C male — a dark, earthy, Chocolate Thai-dominant phenotype. The genetic ratio: approximately <strong>50% Haze, 37.5% NL#5, 12.5% Skunk #1</strong>. Named after the cannabis activist and author of <em>The Emperor Wears No Clothes</em>, it won the High Times Cannabis Cup in 1994 and has since earned 9+ major awards.</p>
+
+    <!-- GENEALOGY TREE -->
+    <div class="tree-container">
+      <div class="tree-title">Genealogy Tree — Jack Herer</div>
+      <svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg">
+        <!-- Landrace level -->
+        <rect x="20" y="10" width="95" height="36" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="67" y="33" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="8">Colombian</text>
+
+        <rect x="130" y="10" width="95" height="36" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="177" y="33" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="8">Acapulco Gold</text>
+
+        <rect x="240" y="10" width="75" height="36" rx="4" fill="#1a0d2d" stroke="#7c5a9e" stroke-width="1"/>
+        <text x="277" y="33" text-anchor="middle" fill="#a88ad4" font-family="JetBrains Mono, monospace" font-size="8">Afghan</text>
+
+        <rect x="380" y="10" width="80" height="36" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="420" y="33" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="8">Colombian</text>
+
+        <rect x="475" y="10" width="60" height="36" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="505" y="33" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="8">Mexican</text>
+
+        <rect x="550" y="10" width="55" height="36" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="577" y="33" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="8">Thai</text>
+
+        <rect x="620" y="10" width="70" height="36" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="655" y="33" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="8">S. Indian</text>
+
+        <rect x="710" y="10" width="75" height="36" rx="4" fill="#1a0d2d" stroke="#7c5a9e" stroke-width="1"/>
+        <text x="747" y="33" text-anchor="middle" fill="#a88ad4" font-family="JetBrains Mono, monospace" font-size="8">Afghan/Thai</text>
+
+        <!-- Lines to F1 level -->
+        <line x1="67" y1="46" x2="170" y2="100" stroke="#5e6556" stroke-width="1"/>
+        <line x1="177" y1="46" x2="170" y2="100" stroke="#5e6556" stroke-width="1"/>
+        <line x1="277" y1="46" x2="170" y2="100" stroke="#5e6556" stroke-width="1"/>
+
+        <line x1="420" y1="46" x2="520" y2="100" stroke="#5e6556" stroke-width="1"/>
+        <line x1="505" y1="46" x2="520" y2="100" stroke="#5e6556" stroke-width="1"/>
+        <line x1="577" y1="46" x2="520" y2="100" stroke="#5e6556" stroke-width="1"/>
+        <line x1="655" y1="46" x2="520" y2="100" stroke="#5e6556" stroke-width="1"/>
+
+        <line x1="747" y1="46" x2="700" y2="100" stroke="#5e6556" stroke-width="1"/>
+
+        <!-- F1 level -->
+        <rect x="115" y="100" width="110" height="42" rx="5" fill="#142614" stroke="#4a7c3f" stroke-width="1.5"/>
+        <text x="170" y="118" text-anchor="middle" fill="#6db35f" font-family="DM Sans, sans-serif" font-weight="600" font-size="10">Skunk #1</text>
+        <text x="170" y="133" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">COL × ACAP × AFG</text>
+
+        <rect x="465" y="100" width="110" height="42" rx="5" fill="#142614" stroke="#4a7c3f" stroke-width="1.5"/>
+        <text x="520" y="118" text-anchor="middle" fill="#6db35f" font-family="DM Sans, sans-serif" font-weight="600" font-size="10">Original Haze</text>
+        <text x="520" y="133" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">4 LANDRACES</text>
+
+        <rect x="645" y="100" width="110" height="42" rx="5" fill="#1a0d2d" stroke="#7c5a9e" stroke-width="1.5"/>
+        <text x="700" y="118" text-anchor="middle" fill="#a88ad4" font-family="DM Sans, sans-serif" font-weight="600" font-size="10">Northern Lights</text>
+        <text x="700" y="133" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">#5 SELECTION</text>
+
+        <!-- Lines to F2 level -->
+        <line x1="170" y1="142" x2="240" y2="200" stroke="#5e6556" stroke-width="1"/>
+        <line x1="520" y1="142" x2="240" y2="200" stroke="#5e6556" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="340" y="170" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">Haze C ♂</text>
+
+        <line x1="520" y1="142" x2="600" y2="200" stroke="#5e6556" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="700" y1="142" x2="600" y2="200" stroke="#5e6556" stroke-width="1"/>
+
+        <!-- F2 level -->
+        <rect x="170" y="200" width="140" height="42" rx="5" fill="#142614" stroke="#4a7c3f" stroke-width="1.5"/>
+        <text x="240" y="218" text-anchor="middle" fill="#6db35f" font-family="DM Sans, sans-serif" font-weight="600" font-size="10">Skunk #1 × Haze C</text>
+        <text x="240" y="233" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">MOTHER</text>
+
+        <rect x="530" y="200" width="140" height="42" rx="5" fill="#142614" stroke="#4a7c3f" stroke-width="1.5"/>
+        <text x="600" y="218" text-anchor="middle" fill="#6db35f" font-family="DM Sans, sans-serif" font-weight="600" font-size="10">NL#5 × Haze C</text>
+        <text x="600" y="233" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">FATHER</text>
+
+        <!-- Lines to final -->
+        <line x1="240" y1="242" x2="400" y2="320" stroke="#c9a84c" stroke-width="2"/>
+        <line x1="600" y1="242" x2="400" y2="320" stroke="#c9a84c" stroke-width="2"/>
+
+        <!-- RESULT -->
+        <rect x="310" y="316" width="180" height="55" rx="8" fill="#1f1a0a" stroke="#c9a84c" stroke-width="2"/>
+        <text x="400" y="340" text-anchor="middle" fill="#c9a84c" font-family="Cormorant Garamond, serif" font-weight="700" font-size="18">Jack Herer</text>
+        <text x="400" y="360" text-anchor="middle" fill="#8a7234" font-family="JetBrains Mono, monospace" font-size="8">SENSI SEEDS · 1994</text>
+
+        <!-- Genetic ratio annotation -->
+        <rect x="310" y="385" width="55" height="22" rx="3" fill="rgba(232,200,76,0.1)" stroke="rgba(232,200,76,0.2)" stroke-width="1"/>
+        <text x="337" y="400" text-anchor="middle" fill="#e8c84c" font-family="JetBrains Mono, monospace" font-size="7">50% Haze</text>
+
+        <rect x="375" y="385" width="55" height="22" rx="3" fill="rgba(90,62,138,0.1)" stroke="rgba(90,62,138,0.2)" stroke-width="1"/>
+        <text x="402" y="400" text-anchor="middle" fill="#a88ad4" font-family="JetBrains Mono, monospace" font-size="7">37.5% NL5</text>
+
+        <rect x="440" y="385" width="58" height="22" rx="3" fill="rgba(74,124,63,0.1)" stroke="rgba(74,124,63,0.2)" stroke-width="1"/>
+        <text x="469" y="400" text-anchor="middle" fill="#6db35f" font-family="JetBrains Mono, monospace" font-size="7">12.5% SK1</text>
+      </svg>
+    </div>
+
+    <!-- TERPENE PROFILE -->
+    <div class="tree-title" style="margin-top:2rem">Terpene Profile</div>
+    <div class="terp-profile">
+      <div class="terp-bar-row">
+        <span class="terp-name">Terpinolene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-terpinolene" style="width:86%" data-pct="34–39%"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">β-Caryophyllene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-caryophyllene" style="width:40%" data-pct="~15%"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">Ocimene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-ocimene" style="width:26%" data-pct="~10%"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">Myrcene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-myrcene" style="width:18%" data-pct="~7%"></div></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label" style="color:var(--accent-gold)">Why it feels like "everything is alright"</div>
+      <p>Jack Herer's <strong>terpinolene dominance</strong> (found in only ~10% of strains) is the key. Low myrcene prevents couch-lock while terpinolene drives clear-headed, creative euphoria. The secondary β-caryophyllene provides CB2-mediated anxiolysis without sedation.</p>
+    </div>
+
+    <!-- PHENOTYPES -->
+    <div class="tree-title" style="margin-top:2.5rem">Known Phenotypes</div>
+    <div class="pheno-grid">
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--sativa)">Pheno A · Sativa-dominant</div>
+        <div class="pheno-name">The Braided Cola</div>
+        <div class="pheno-desc">Swollen, oversized calyxes forming braided colas. Spectacular resin. The "classic" Jack Herer expression most people envision.</div>
+        <div class="pheno-stats">
+          <div class="pheno-stat"><strong>10–12 wk</strong>Flowering</div>
+          <div class="pheno-stat"><strong>2–3×</strong>Stretch</div>
+          <div class="pheno-stat"><strong>High</strong>Resin</div>
+        </div>
+      </div>
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--indica)">Pheno B · Indica-leaning (~1 in 4)</div>
+        <div class="pheno-name">The Fast Finisher</div>
+        <div class="pheno-desc">Rare compact expression finishing under 60 days. Dense NL#5 bud structure with less stretch. Good yield, less cerebral.</div>
+        <div class="pheno-stats">
+          <div class="pheno-stat"><strong>&lt;60 days</strong>Flowering</div>
+          <div class="pheno-stat"><strong>75–150%</strong>Stretch</div>
+          <div class="pheno-stat"><strong>Dense</strong>Buds</div>
+        </div>
+      </div>
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--sativa)">Pheno C · Most Energetic</div>
+        <div class="pheno-name">The Fuzzy Spiker</div>
+        <div class="pheno-desc">Spiky, fuzzy buds with the most uplifting effect and spicy-sweet aroma. The most cerebral and social phenotype.</div>
+        <div class="pheno-stats">
+          <div class="pheno-stat"><strong>9–11 wk</strong>Flowering</div>
+          <div class="pheno-stat"><strong>Spicy</strong>Aroma</div>
+          <div class="pheno-stat"><strong>Electric</strong>Effect</div>
+        </div>
+      </div>
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--hybrid)">Pheno D · Resin King</div>
+        <div class="pheno-name">The Hash Maker</div>
+        <div class="pheno-desc">Highest resin production. Dense indica buds on sativa-stretched frames. Excellent for extracts. Balanced effects.</div>
+        <div class="pheno-stats">
+          <div class="pheno-stat"><strong>9–10 wk</strong>Flowering</div>
+          <div class="pheno-stat"><strong>Extreme</strong>Trichomes</div>
+          <div class="pheno-stat"><strong>18–24%</strong>THC</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: GLOOKIES -->
+<!-- ============================================================ -->
+<section class="section" id="glookies">
+  <div class="strain-section reveal">
+    <div class="strain-header">
+      <div>
+        <div class="strain-name">Glookies</div>
+        <div class="strain-breeder">Barney's Farm · Amsterdam</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-indica">~70% Indica</span>
+        <span class="strain-badge badge-hybrid">Polyhybrid</span>
+      </div>
+    </div>
+
+    <p class="strain-story"><strong>Gorilla Glue #4 × Thin Mint Girl Scout Cookies</strong> — Barney's Farm confirms the Thin Mint phenotype specifically. What makes this strain genetically remarkable is that <strong>Chemdawg genetics appear through at least four independent pathways</strong>: Chem's Sister (direct GG4 parent), Sour Diesel in both Sour Dubb and Chocolate Diesel (other GG4 parents), and OG Kush (parent of Thin Mint GSC). GG4 itself was an accident — in 2009, breeder Joesy Whales' plants hermied during a move, and pollen crossed his Chocolate Diesel. From ~5–6 recovered seeds, GG4 emerged.</p>
+
+    <div class="tree-container">
+      <div class="tree-title">Genealogy Tree — Glookies (Chemdawg convergence highlighted)</div>
+      <svg viewBox="0 0 800 380" xmlns="http://www.w3.org/2000/svg">
+        <!-- Top level - key ancestors -->
+        <rect x="20" y="10" width="90" height="32" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="65" y="30" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="7">Chemdawg</text>
+
+        <rect x="350" y="10" width="100" height="32" rx="4" fill="#142614" stroke="#4a7c3f" stroke-width="1"/>
+        <text x="400" y="30" text-anchor="middle" fill="#6db35f" font-family="JetBrains Mono, monospace" font-size="7">OG Kush</text>
+
+        <rect x="500" y="10" width="100" height="32" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="550" y="30" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="7">Durban Poison</text>
+
+        <!-- GG4 parents -->
+        <rect x="10" y="90" width="100" height="36" rx="4" fill="#1a1a0d" stroke="#8a7234" stroke-width="1"/>
+        <text x="60" y="108" text-anchor="middle" fill="#c9a84c" font-family="DM Sans" font-size="9" font-weight="600">Chem's Sister</text>
+        <text x="60" y="120" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="6">← CHEMDAWG</text>
+
+        <rect x="130" y="90" width="100" height="36" rx="4" fill="#1a1a0d" stroke="#8a7234" stroke-width="1"/>
+        <text x="180" y="108" text-anchor="middle" fill="#c9a84c" font-family="DM Sans" font-size="9" font-weight="600">Sour Dubb</text>
+        <text x="180" y="120" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="6">← SOUR D ← CHEM</text>
+
+        <rect x="250" y="90" width="110" height="36" rx="4" fill="#1a1a0d" stroke="#8a7234" stroke-width="1"/>
+        <text x="305" y="108" text-anchor="middle" fill="#c9a84c" font-family="DM Sans" font-size="9" font-weight="600">Chocolate Diesel</text>
+        <text x="305" y="120" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="6">← SOUR D ← CHEM</text>
+
+        <!-- Lines from Chemdawg -->
+        <line x1="65" y1="42" x2="60" y2="90" stroke="#c97a2e" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <line x1="65" y1="42" x2="180" y2="90" stroke="#c97a2e" stroke-width="1" opacity="0.5"/>
+        <line x1="65" y1="42" x2="305" y2="90" stroke="#c97a2e" stroke-width="1" opacity="0.5"/>
+
+        <!-- GG4 -->
+        <line x1="60" y1="126" x2="180" y2="190" stroke="#5e6556" stroke-width="1"/>
+        <line x1="180" y1="126" x2="180" y2="190" stroke="#5e6556" stroke-width="1"/>
+        <line x1="305" y1="126" x2="180" y2="190" stroke="#5e6556" stroke-width="1"/>
+
+        <rect x="115" y="186" width="130" height="44" rx="6" fill="#142614" stroke="#4a7c3f" stroke-width="1.5"/>
+        <text x="180" y="206" text-anchor="middle" fill="#6db35f" font-family="DM Sans" font-size="11" font-weight="700">Gorilla Glue #4</text>
+        <text x="180" y="220" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">ACCIDENTAL · 2009</text>
+
+        <!-- GSC side -->
+        <line x1="400" y1="42" x2="530" y2="190" stroke="#5e6556" stroke-width="1"/>
+        <line x1="550" y1="42" x2="530" y2="190" stroke="#5e6556" stroke-width="1"/>
+
+        <rect x="465" y="186" width="130" height="44" rx="6" fill="#1a0d2d" stroke="#7c5a9e" stroke-width="1.5"/>
+        <text x="530" y="206" text-anchor="middle" fill="#a88ad4" font-family="DM Sans" font-size="10" font-weight="700">Thin Mint GSC</text>
+        <text x="530" y="220" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">OGK × DURBAN F1</text>
+
+        <!-- Chemdawg line to OG Kush too -->
+        <line x1="65" y1="42" x2="400" y2="10" stroke="#c97a2e" stroke-width="1" stroke-dasharray="3,2" opacity="0.4"/>
+        <text x="230" y="5" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="6" opacity="0.6">CHEMDAWG → OG KUSH (4th pathway)</text>
+
+        <!-- Final cross -->
+        <line x1="180" y1="230" x2="360" y2="300" stroke="#c9a84c" stroke-width="2"/>
+        <line x1="530" y1="230" x2="360" y2="300" stroke="#c9a84c" stroke-width="2"/>
+
+        <rect x="280" y="296" width="160" height="55" rx="8" fill="#1f1a0a" stroke="#c9a84c" stroke-width="2"/>
+        <text x="360" y="320" text-anchor="middle" fill="#c9a84c" font-family="Cormorant Garamond, serif" font-weight="700" font-size="18">Glookies</text>
+        <text x="360" y="340" text-anchor="middle" fill="#8a7234" font-family="JetBrains Mono, monospace" font-size="8">BARNEY'S FARM</text>
+
+        <!-- Convergence annotation -->
+        <rect x="550" y="280" width="220" height="50" rx="6" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
+        <text x="660" y="300" text-anchor="middle" fill="#c9a84c" font-family="JetBrains Mono, monospace" font-size="7" font-weight="500">CHEMDAWG CONVERGENCE</text>
+        <text x="660" y="315" text-anchor="middle" fill="#8a7234" font-family="JetBrains Mono, monospace" font-size="7">4+ independent pathways into</text>
+        <text x="660" y="325" text-anchor="middle" fill="#8a7234" font-family="JetBrains Mono, monospace" font-size="7">a single strain</text>
+      </svg>
+    </div>
+
+    <div class="tree-title">Terpene Profile</div>
+    <div class="terp-profile">
+      <div class="terp-bar-row">
+        <span class="terp-name">β-Caryophyllene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-caryophyllene" style="width:78%" data-pct="dominant"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">Limonene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-limonene" style="width:52%" data-pct="high"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">Linalool</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-linalool" style="width:38%" data-pct="notable"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">Myrcene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-myrcene" style="width:30%" data-pct="moderate"></div></div>
+      </div>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label" style="color:var(--accent-green-bright)">Glookies vs. GG4 for anxiolytic effects</div>
+      <p>Glookies may offer advantages over pure GG4 because the GSC genetics contribute additional <strong>linalool</strong> (GABA-A allosteric modulator) and <strong>limonene</strong> (serotonergic mood elevation), while Durban Poison's sativa influence prevents the brutal couch-lock that can interfere with daily functioning.</p>
+    </div>
+
+    <div class="tree-title" style="margin-top:2rem">Phenotype Spectrum</div>
+    <div class="pheno-grid">
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--accent-green-bright)">GG4-Leaning</div>
+        <div class="pheno-name">The Diesel Hammer</div>
+        <div class="pheno-desc">Louder diesel aroma, more stretch, heavier couchlock, open bud structure. Maximum THC expression, less nuanced.</div>
+        <div class="pheno-stats">
+          <div class="pheno-stat"><strong>Diesel</strong>Aroma</div>
+          <div class="pheno-stat"><strong>Heavy</strong>Sedation</div>
+          <div class="pheno-stat"><strong>25–28%</strong>THC</div>
+        </div>
+      </div>
+      <div class="pheno-card" style="border-color:var(--accent-gold-dim)">
+        <div class="pheno-label" style="color:var(--accent-gold)">Balanced · The Keeper</div>
+        <div class="pheno-name">The Cookie Glue</div>
+        <div class="pheno-desc">Mint-chocolate-cookie nose with Glue-level punch. Balanced head-to-body effects. The most sought-after expression.</div>
+        <div class="pheno-stats">
+          <div class="pheno-stat"><strong>Mint+Gas</strong>Aroma</div>
+          <div class="pheno-stat"><strong>Balanced</strong>Effect</div>
+          <div class="pheno-stat"><strong>22–26%</strong>THC</div>
+        </div>
+      </div>
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--accent-purple)">Thin Mint-Leaning</div>
+        <div class="pheno-name">The Purple Cookie</div>
+        <div class="pheno-desc">Sweeter minty-cookie aroma, tighter buds, purple coloration, more cerebral onset. Most linalool-dominant expression.</div>
+        <div class="pheno-stats">
+          <div class="pheno-stat"><strong>Cookie</strong>Aroma</div>
+          <div class="pheno-stat"><strong>Cerebral</strong>Onset</div>
+          <div class="pheno-stat"><strong>Purple</strong>Color</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: SUPER SKUNK -->
+<!-- ============================================================ -->
+<section class="section" id="super-skunk">
+  <div class="strain-section reveal">
+    <div class="strain-header">
+      <div>
+        <div class="strain-name">Super Skunk</div>
+        <div class="strain-breeder">Sensi Seeds · Amsterdam · 1990</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-indica">~80% Indica</span>
+        <span class="strain-badge badge-hybrid">Your Pheno-Hunt Target</span>
+      </div>
+    </div>
+
+    <p class="strain-story"><strong>Skunk #1 × Afghani hash plant</strong> — released 1990. Skunk #1's crossing sequence was confirmed by Sam the Skunkman: <strong>(Afghan × Colombian Gold) × Acapulco Gold</strong>, where the first cross produced a late-maturing hybrid and the Acapulco Gold shortened flowering. Super Skunk's additional Afghani cross doubled the indica input, shifting Skunk #1's original ~75% sativa genetics to an 80% indica expression. Your experience — <strong>relaxed but not couch-locked, euphoric, giggly</strong> — aligns with the sativa-leaning phenotype where Colombian and Mexican heritage breaks through.</p>
+
+    <div class="tree-container">
+      <div class="tree-title">Genealogy Tree — Super Skunk</div>
+      <svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg">
+        <!-- Landraces -->
+        <rect x="40" y="10" width="90" height="32" rx="4" fill="#1a0d2d" stroke="#7c5a9e" stroke-width="1"/>
+        <text x="85" y="30" text-anchor="middle" fill="#a88ad4" font-family="JetBrains Mono, monospace" font-size="8">Afghan</text>
+
+        <rect x="160" y="10" width="110" height="32" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="215" y="30" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="8">Colombian Gold</text>
+
+        <rect x="340" y="10" width="110" height="32" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="395" y="30" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="8">Acapulco Gold</text>
+
+        <rect x="540" y="10" width="120" height="32" rx="4" fill="#1a0d2d" stroke="#7c5a9e" stroke-width="1"/>
+        <text x="600" y="30" text-anchor="middle" fill="#a88ad4" font-family="JetBrains Mono, monospace" font-size="8">Afghani Hash Plant</text>
+
+        <!-- Step 1 -->
+        <line x1="85" y1="42" x2="150" y2="100" stroke="#5e6556" stroke-width="1"/>
+        <line x1="215" y1="42" x2="150" y2="100" stroke="#5e6556" stroke-width="1"/>
+        <rect x="90" y="95" width="120" height="36" rx="5" fill="#142614" stroke="#4a7c3f" stroke-width="1"/>
+        <text x="150" y="113" text-anchor="middle" fill="#6db35f" font-family="DM Sans" font-size="9" font-weight="600">Afghan × Colombian</text>
+        <text x="150" y="125" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="6">STEP 1 · LATE MATURING</text>
+
+        <!-- Step 2: + Acapulco Gold = Skunk #1 -->
+        <line x1="150" y1="131" x2="270" y2="180" stroke="#5e6556" stroke-width="1"/>
+        <line x1="395" y1="42" x2="270" y2="180" stroke="#5e6556" stroke-width="1"/>
+        <rect x="200" y="175" width="140" height="42" rx="6" fill="#142614" stroke="#4a7c3f" stroke-width="2"/>
+        <text x="270" y="195" text-anchor="middle" fill="#6db35f" font-family="DM Sans" font-size="11" font-weight="700">Skunk #1</text>
+        <text x="270" y="208" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">STEP 2 · STABILIZED</text>
+
+        <!-- Final cross -->
+        <line x1="270" y1="217" x2="370" y2="275" stroke="#c9a84c" stroke-width="2"/>
+        <line x1="600" y1="42" x2="370" y2="275" stroke="#c9a84c" stroke-width="2"/>
+
+        <rect x="290" y="271" width="160" height="55" rx="8" fill="#1f1a0a" stroke="#c9a84c" stroke-width="2"/>
+        <text x="370" y="295" text-anchor="middle" fill="#c9a84c" font-family="Cormorant Garamond, serif" font-weight="700" font-size="18">Super Skunk</text>
+        <text x="370" y="315" text-anchor="middle" fill="#8a7234" font-family="JetBrains Mono, monospace" font-size="8">SENSI SEEDS · 1990</text>
+
+        <!-- Annotation: double Afghan -->
+        <rect x="490" y="270" width="180" height="40" rx="6" fill="rgba(124,90,158,0.06)" stroke="rgba(124,90,158,0.15)" stroke-width="1"/>
+        <text x="580" y="287" text-anchor="middle" fill="#a88ad4" font-family="JetBrains Mono, monospace" font-size="7" font-weight="500">DOUBLE AFGHANI INPUT</text>
+        <text x="580" y="300" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="6">shifts ~75% sativa → ~80% indica</text>
+      </svg>
+    </div>
+
+    <div class="tree-title">Terpene Profile (varies heavily by phenotype)</div>
+    <div class="terp-profile">
+      <div class="terp-bar-row">
+        <span class="terp-name">Myrcene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-myrcene" style="width:70%" data-pct="dominant"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">β-Caryophyllene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-caryophyllene" style="width:48%" data-pct="secondary"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">Limonene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-limonene" style="width:30%" data-pct="↑ sativa pheno"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">α-Pinene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-pinene" style="width:22%" data-pct="↑ sativa pheno"></div></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label" style="color:var(--accent-gold)">Pheno-hunt signal</div>
+      <p>Sativa-leaning Super Skunk phenos express <strong>higher limonene and pinene</strong> (citrus/sweet nose). Indica-dominant phenos express <strong>higher myrcene</strong> (earthy/ammonia/cat piss). The citrus-forward nose during flower is the single best predictor of the euphoric, non-sedating phenotype.</p>
+    </div>
+
+    <div class="tree-title" style="margin-top:2rem">Phenotype Clusters (SeedFinder data)</div>
+    <div class="pheno-grid">
+      <div class="pheno-card" style="border-color:var(--accent-gold-dim)">
+        <div class="pheno-label" style="color:var(--sativa)">Sativa-Leaning · YOUR TARGET</div>
+        <div class="pheno-name">The Giggler</div>
+        <div class="pheno-desc">Longer internodes, citrus/sweet nose, euphoric + giggly effects without couch-lock. The Colombian + Mexican heritage breaking through the double-Afghani overlay.</div>
+        <div class="pheno-stats">
+          <div class="pheno-stat"><strong>50–55 days</strong>Flowering</div>
+          <div class="pheno-stat"><strong>Citrus</strong>Aroma</div>
+          <div class="pheno-stat"><strong>~15–25%</strong>Frequency</div>
+        </div>
+      </div>
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--indica)">Indica-Dominant · Most Common</div>
+        <div class="pheno-name">The Stinker</div>
+        <div class="pheno-desc">Compact, fast, acrid skunky aroma with ammonia/cat piss undertones. Heavy body, strong sedation. Classic Super Skunk expression.</div>
+        <div class="pheno-stats">
+          <div class="pheno-stat"><strong>45–50 days</strong>Flowering</div>
+          <div class="pheno-stat"><strong>Skunk/Hash</strong>Aroma</div>
+          <div class="pheno-stat"><strong>~60–70%</strong>Frequency</div>
+        </div>
+      </div>
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--hybrid)">Balanced Hybrid</div>
+        <div class="pheno-name">The Sweet Spot</div>
+        <div class="pheno-desc">Medium structure, mixed sweet-skunk aroma. Relaxed but functional. Good yield with pleasant smoke quality.</div>
+        <div class="pheno-stats">
+          <div class="pheno-stat"><strong>48–52 days</strong>Flowering</div>
+          <div class="pheno-stat"><strong>Sweet/Skunk</strong>Aroma</div>
+          <div class="pheno-stat"><strong>~15–20%</strong>Frequency</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: OG KUSH -->
+<!-- ============================================================ -->
+<section class="section" id="og-kush">
+  <div class="strain-section reveal">
+    <div class="strain-header">
+      <div>
+        <div class="strain-name">OG Kush</div>
+        <div class="strain-breeder">Unknown / Josh D · LA · ~1996</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-hybrid">~55% Sativa / 45% Indica</span>
+        <span class="strain-badge badge-indica">Disputed Origin</span>
+      </div>
+    </div>
+
+    <p class="strain-story">OG Kush's origin is <strong>genuinely uncertain</strong> even to its principal figures. In the early '90s, exceptional flower called "Krippy" circulated in Florida. Around 1995, Matt "Bubba" Berger moved to LA, rooming with Josh Del Rosso ("Josh D"). In 1996, Berger returned to Florida for cuttings — of ~5 small plants, <strong>only one survived the trip</strong>. Josh D grew this surviving cut in a Silverlake crawl space, brought it to a Bay Area competition where it scored <strong>10/10 in all categories</strong>, and the legend was born. The genetics most likely involve Chemdawg-related genetics plus Hindu Kush/Pakistani indica. By 2001, wholesale hit <strong>$8,000/lb</strong>.</p>
+
+    <div class="tree-container">
+      <div class="tree-title">Genealogy Tree — OG Kush (most likely lineage)</div>
+      <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- Mystery / disputed -->
+        <rect x="20" y="10" width="120" height="36" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="80" y="28" text-anchor="middle" fill="#c97a2e" font-family="DM Sans" font-size="9" font-weight="600">Chemdawg</text>
+        <text x="80" y="40" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="6">ORIGIN UNKNOWN · '91 GD LOT</text>
+
+        <rect x="200" y="10" width="110" height="36" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="255" y="28" text-anchor="middle" fill="#c97a2e" font-family="DM Sans" font-size="9" font-weight="600">Lemon Thai?</text>
+        <text x="255" y="40" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="6">UNCONFIRMED</text>
+
+        <rect x="380" y="10" width="120" height="36" rx="4" fill="#1a0d2d" stroke="#7c5a9e" stroke-width="1"/>
+        <text x="440" y="28" text-anchor="middle" fill="#a88ad4" font-family="DM Sans" font-size="9" font-weight="600">Hindu Kush</text>
+        <text x="440" y="40" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="6">OR PAKISTANI KUSH</text>
+
+        <!-- Question mark zone -->
+        <rect x="120" y="90" width="200" height="40" rx="6" fill="rgba(201,168,76,0.04)" stroke="rgba(201,168,76,0.12)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="220" y="115" text-anchor="middle" fill="#8a7234" font-family="JetBrains Mono, monospace" font-size="8">FLORIDA "KRIPPY" BAGSEED · EARLY 1990s</text>
+
+        <line x1="80" y1="46" x2="220" y2="90" stroke="#5e6556" stroke-width="1"/>
+        <line x1="255" y1="46" x2="220" y2="90" stroke="#5e6556" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="440" y1="46" x2="220" y2="130" stroke="#5e6556" stroke-width="1"/>
+
+        <!-- The surviving cut -->
+        <line x1="220" y1="130" x2="280" y2="190" stroke="#c9a84c" stroke-width="2"/>
+
+        <rect x="190" y="185" width="180" height="55" rx="8" fill="#1f1a0a" stroke="#c9a84c" stroke-width="2"/>
+        <text x="280" y="210" text-anchor="middle" fill="#c9a84c" font-family="Cormorant Garamond, serif" font-weight="700" font-size="18">OG Kush</text>
+        <text x="280" y="228" text-anchor="middle" fill="#8a7234" font-family="JetBrains Mono, monospace" font-size="8">THE SURVIVING CUT · ~1996</text>
+
+        <!-- Annotation -->
+        <text x="420" y="200" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">5 plants sent from Florida</text>
+        <text x="420" y="212" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">Only 1 survived the trip to LA</text>
+        <text x="420" y="224" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">Scored 10/10 at Bay Area comp</text>
+        <text x="420" y="240" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="7" font-weight="500">$8,000/lb by 2001</text>
+      </svg>
+    </div>
+
+    <div class="tree-title">The Signature OG Terpene Profile</div>
+    <div class="terp-profile">
+      <div class="terp-bar-row">
+        <span class="terp-name">β-Caryophyllene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-caryophyllene" style="width:72%" data-pct="fuel/gas"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">Limonene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-limonene" style="width:55%" data-pct="lemon"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">Myrcene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-myrcene" style="width:42%" data-pct="earth"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">α-Pinene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-pinene" style="width:28%" data-pct="pine"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">Humulene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-humulene" style="width:18%" data-pct="wood"></div></div>
+      </div>
+    </div>
+
+    <div class="tree-title" style="margin-top:2rem">Famous OG Cuts</div>
+    <div class="pheno-grid">
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--sativa)">Brighter Expression</div>
+        <div class="pheno-name">SFV OG</div>
+        <div class="pheno-desc">San Fernando Valley selection. Brighter lemon-pine with pungent pepper kick and quicker onset. More energetic.</div>
+      </div>
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--indica)">Heavy Hitter</div>
+        <div class="pheno-name">Tahoe OG</div>
+        <div class="pheno-desc">Deeper earthy-gas tones, stronger sedation, pine-forward and fuel-dominant. Powerful body effects.</div>
+      </div>
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--hybrid)">The Classic</div>
+        <div class="pheno-name">Ghost OG</div>
+        <div class="pheno-desc">The most balanced classic OG expression. Fuel, lemon, pine, earth in perfect harmony. The benchmark.</div>
+      </div>
+      <div class="pheno-card">
+        <div class="pheno-label" style="color:var(--accent-red)">The Extreme</div>
+        <div class="pheno-name">Fire OG</div>
+        <div class="pheno-desc">Everything amplified. Extremely potent, heavier gas nose. "Not for beginners." Maximum intensity OG.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: CANNALOPE HAZE -->
+<!-- ============================================================ -->
+<section class="section" id="cannalope">
+  <div class="strain-section reveal">
+    <div class="strain-header">
+      <div>
+        <div class="strain-name">Cannalope Haze</div>
+        <div class="strain-breeder">DNA Genetics · Amsterdam/LA</div>
+      </div>
+      <div class="strain-meta">
+        <span class="strain-badge badge-sativa">95–100% Sativa</span>
+        <span class="strain-badge" style="background:rgba(201,120,46,0.12);color:#e09940;border:1px solid rgba(201,120,46,0.2)">Near-Landrace</span>
+      </div>
+    </div>
+
+    <p class="strain-story"><strong>Original Haze × Mexican landrace sativa</strong> (most likely Michoacán). Neither parent contains intentional indica genetics. Original Haze is a first-generation cross of four pure landrace sativas (Colombian, Mexican, Thai, South Indian), and the Mexican parent is undomesticated. This means <strong>100% of Cannalope Haze's genetics trace to landrace lines within 1–2 generations</strong> — closer to wild cannabis than any other strain in this collection. DNA Genetics marketed it as revolutionary: a near-pure sativa finishing in <strong>8–10 weeks</strong> instead of Haze's 16–24 weeks. The Mexican parent gets credit — Mexican landraces encode faster flowering without indica dilution. Sativa speed from sativa genes.</p>
+
+    <div class="tree-container">
+      <div class="tree-title">Genealogy Tree — Cannalope Haze (landrace proximity)</div>
+      <svg viewBox="0 0 700 310" xmlns="http://www.w3.org/2000/svg">
+        <!-- 4 Haze landraces -->
+        <rect x="30" y="10" width="85" height="32" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="72" y="30" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="7">Colombian</text>
+
+        <rect x="130" y="10" width="75" height="32" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="167" y="30" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="7">Mexican</text>
+
+        <rect x="220" y="10" width="60" height="32" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="250" y="30" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="7">Thai</text>
+
+        <rect x="295" y="10" width="80" height="32" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="1"/>
+        <text x="335" y="30" text-anchor="middle" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="7">S. Indian</text>
+
+        <!-- Mexican landrace -->
+        <rect x="480" y="10" width="140" height="38" rx="4" fill="#2d1f0a" stroke="#c97a2e" stroke-width="2"/>
+        <text x="550" y="28" text-anchor="middle" fill="#c97a2e" font-family="DM Sans" font-size="10" font-weight="600">Mexican Landrace</text>
+        <text x="550" y="42" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="6">MICHOACÁN · PURE SATIVA</text>
+
+        <!-- Original Haze -->
+        <line x1="72" y1="42" x2="200" y2="100" stroke="#5e6556" stroke-width="1"/>
+        <line x1="167" y1="42" x2="200" y2="100" stroke="#5e6556" stroke-width="1"/>
+        <line x1="250" y1="42" x2="200" y2="100" stroke="#5e6556" stroke-width="1"/>
+        <line x1="335" y1="42" x2="200" y2="100" stroke="#5e6556" stroke-width="1"/>
+
+        <rect x="130" y="95" width="140" height="44" rx="6" fill="#142614" stroke="#4a7c3f" stroke-width="1.5"/>
+        <text x="200" y="115" text-anchor="middle" fill="#6db35f" font-family="DM Sans" font-size="11" font-weight="700">Original Haze</text>
+        <text x="200" y="130" text-anchor="middle" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="7">4 LANDRACES · 1 GEN</text>
+
+        <!-- Cross lines -->
+        <line x1="200" y1="139" x2="350" y2="210" stroke="#c9a84c" stroke-width="2"/>
+        <line x1="550" y1="48" x2="350" y2="210" stroke="#c9a84c" stroke-width="2"/>
+
+        <!-- Proximity annotation -->
+        <text x="440" y="130" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="7" font-weight="500">DIRECT LANDRACE</text>
+        <text x="440" y="142" fill="#c97a2e" font-family="JetBrains Mono, monospace" font-size="7" font-weight="500">NO INDICA INPUT</text>
+        <text x="440" y="154" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="6">Mexican parent = 0 gen from wild</text>
+        <text x="440" y="164" fill="#5e6556" font-family="JetBrains Mono, monospace" font-size="6">Haze parent = 1 gen from wild</text>
+
+        <!-- Result -->
+        <rect x="265" y="205" width="170" height="55" rx="8" fill="#1f1a0a" stroke="#c9a84c" stroke-width="2"/>
+        <text x="350" y="230" text-anchor="middle" fill="#c9a84c" font-family="Cormorant Garamond, serif" font-weight="700" font-size="18">Cannalope Haze</text>
+        <text x="350" y="248" text-anchor="middle" fill="#8a7234" font-family="JetBrains Mono, monospace" font-size="8">DNA GENETICS · 100% SATIVA</text>
+
+        <!-- Flowering annotation -->
+        <rect x="200" y="275" width="300" height="28" rx="4" fill="rgba(201,168,76,0.04)" stroke="rgba(201,168,76,0.1)" stroke-width="1"/>
+        <text x="350" y="293" text-anchor="middle" fill="#8a7234" font-family="JetBrains Mono, monospace" font-size="7">8–10 wk flowering (vs. 16–24 wk pure Haze) — Mexican genes shorten without indica</text>
+      </svg>
+    </div>
+
+    <div class="tree-title">Terpene Profile</div>
+    <div class="terp-profile">
+      <div class="terp-bar-row">
+        <span class="terp-name">Terpinolene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-terpinolene" style="width:60%" data-pct="dominant"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">Ocimene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-ocimene" style="width:45%" data-pct="high"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">β-Caryophyllene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-caryophyllene" style="width:30%" data-pct="notable"></div></div>
+      </div>
+      <div class="terp-bar-row">
+        <span class="terp-name">Myrcene</span>
+        <div class="terp-bar-bg"><div class="terp-bar-fill terp-myrcene" style="width:20%" data-pct="low"></div></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label" style="color:var(--accent-gold)">Why it smells like melon</div>
+      <p>The cantaloupe aroma isn't produced by any single terpene — it's the <strong>synergy of terpinolene with ocimene and trace esters</strong>. This "matrix effect" creates the melon interpretation, a signature of Mexican sativa genetics reinforced by the Mexican component already present in Haze.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 7: TERPENE PHARMACOLOGY -->
+<!-- ============================================================ -->
+<section class="section" id="terpenes">
+  <div class="section-header reveal">
+    <div class="section-label">Chapter VII</div>
+    <h2>The <span>Caryophyllene</span> Thread</h2>
+    <p class="section-intro">All five strains share a significant β-caryophyllene presence — the only terpene functioning as a dietary CB2 cannabinoid receptor agonist, providing anxiolytic effects through a pathway entirely independent of the GABA system.</p>
+  </div>
+
+  <div class="tree-container reveal">
+    <div class="tree-title">β-Caryophyllene presence across all five strains</div>
+    <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
+      <!-- Bars -->
+      <text x="120" y="30" text-anchor="end" fill="#9ca38e" font-family="DM Sans" font-size="10">Glookies</text>
+      <rect x="130" y="16" width="400" height="22" rx="3" fill="#c97a2e" opacity="0.8"/>
+      <text x="540" y="32" fill="#c9a84c" font-family="JetBrains Mono, monospace" font-size="9">Dominant</text>
+
+      <text x="120" y="62" text-anchor="end" fill="#9ca38e" font-family="DM Sans" font-size="10">OG Kush</text>
+      <rect x="130" y="48" width="370" height="22" rx="3" fill="#c97a2e" opacity="0.7"/>
+      <text x="510" y="64" fill="#c9a84c" font-family="JetBrains Mono, monospace" font-size="9">Dominant</text>
+
+      <text x="120" y="94" text-anchor="end" fill="#9ca38e" font-family="DM Sans" font-size="10">Super Skunk</text>
+      <rect x="130" y="80" width="250" height="22" rx="3" fill="#c97a2e" opacity="0.55"/>
+      <text x="390" y="96" fill="#c9a84c" font-family="JetBrains Mono, monospace" font-size="9">Secondary</text>
+
+      <text x="120" y="126" text-anchor="end" fill="#9ca38e" font-family="DM Sans" font-size="10">Jack Herer</text>
+      <rect x="130" y="112" width="220" height="22" rx="3" fill="#c97a2e" opacity="0.5"/>
+      <text x="360" y="128" fill="#c9a84c" font-family="JetBrains Mono, monospace" font-size="9">~15%</text>
+
+      <text x="120" y="158" text-anchor="end" fill="#9ca38e" font-family="DM Sans" font-size="10">Cannalope Haze</text>
+      <rect x="130" y="144" width="170" height="22" rx="3" fill="#c97a2e" opacity="0.4"/>
+      <text x="310" y="160" fill="#c9a84c" font-family="JetBrains Mono, monospace" font-size="9">Notable</text>
+    </svg>
+  </div>
+
+  <div class="connection-grid reveal">
+    <div class="connection-card">
+      <div class="connection-name" style="color:var(--accent-orange)">Tier 1 — β-Caryophyllene &amp; Limonene</div>
+      <div class="connection-desc">Caryophyllene activates CB2 receptors — <strong>completely separate from GABA</strong>. Bahi et al. (2014) confirmed: a CB2 antagonist fully blocked the anti-anxiety effects, proving the mechanism. Zero risk of cross-tolerance or interference with GABA receptor recovery during benzo withdrawal. Limonene's anxiolytic effects also appear GABA-independent — a 2024 Johns Hopkins double-blind trial showed d-limonene <strong>dose-dependently reduced THC-induced anxiety</strong> in humans.</div>
+    </div>
+    <div class="connection-card">
+      <div class="connection-name" style="color:var(--accent-blue)">Tier 2 — Linalool &amp; α-Pinene</div>
+      <div class="connection-desc">Linalool modulates GABA-A receptors through an <strong>allosteric site different from the benzodiazepine binding site</strong> (Milanos et al., 2017). This distinction matters: it could theoretically provide gentle GABAergic support without competing for the same receptor site that benzos occupy. Pinene preserves acetylcholine, potentially counteracting cognitive fog during withdrawal.</div>
+    </div>
+    <div class="connection-card">
+      <div class="connection-name" style="color:var(--accent-red)">Tier 3 — Myrcene (use cautiously)</div>
+      <div class="connection-desc">Sedative and muscle-relaxing, but documented barbiturate potentiation flags possible interactions with sensitized GABA systems. Myrcene's indirect GABA modulation suggests caution during benzo withdrawal even though the mechanism differs from direct receptor binding. Present in all five strains but subdominant in the ones you prefer for cerebral effects.</div>
+    </div>
+  </div>
+
+  <div class="callout callout-red reveal">
+    <div class="callout-label" style="color:var(--accent-red)">Important safety note</div>
+    <p>This is pharmacological and botanical information, not medical advice. Benzodiazepine withdrawal can be medically dangerous, involving seizures and other serious complications, and should always be managed with professional guidance. No clinical studies have examined cannabis terpene profiles during active benzo withdrawal specifically. The theoretical advantages of caryophyllene-dominant strains are pharmacologically plausible but unconfirmed in human withdrawal contexts.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 8: PHENO-HUNT PROTOCOL -->
+<!-- ============================================================ -->
+<section class="section" id="pheno-hunt">
+  <div class="section-header reveal">
+    <div class="section-label">Chapter VIII</div>
+    <h2>Pheno-Hunting <span>Protocol</span></h2>
+    <p class="section-intro">Finding the sativa-leaning, anxiolytic, euphoric Super Skunk from feminized seeds. Estimated probability of finding a meaningfully sativa-leaning expression: 15–25%. With 10–15 seeds, expect 2–3 candidates.</p>
+  </div>
+
+  <div class="protocol-timeline reveal">
+    <div class="protocol-phase">
+      <div class="protocol-week">Weeks 1–3</div>
+      <div class="protocol-title">Phase 1 — Solo-Cup Screening</div>
+      <div class="protocol-body">Germinate all seeds (minimum 10–15) in 12–18oz cups with drainage holes. Record germination speed, stem thickness, and leaf shape for each numbered plant. <strong>Narrower leaf fingers signal sativa expression.</strong> Perform the stem rub test on each seedling — rub the stem between fingers and note aroma. Plants showing <strong>citrus or sweet notes</strong> rather than pungent earth may lean sativa. Cull obvious runts.</div>
+    </div>
+
+    <div class="protocol-phase">
+      <div class="protocol-week">Weeks 3–6</div>
+      <div class="protocol-title">Phase 2 — Vegetative Evaluation &amp; Cloning</div>
+      <div class="protocol-body">Transplant survivors to 1–3 gallon containers. Measure internodal spacing (<strong>longer = more sativa-leaning</strong>), count leaf fingers, observe branching patterns. Heavy lateral branching signals indica; more apical growth signals sativa. <strong>Take clones from ALL remaining candidates before flipping to flower.</strong> This is the single most critical step — without clones, any keeper phenotype dies at harvest.</div>
+    </div>
+
+    <div class="protocol-phase">
+      <div class="protocol-week">Weeks 6–14</div>
+      <div class="protocol-title">Phase 3 — Flowering Evaluation</div>
+      <div class="protocol-body">Under 12/12, record stretch ratio for each plant. Sativa phenos stretch more aggressively. Note days to first pistils — <strong>faster finishers (45 days) skew indica; slower (55+ days) express more sativa.</strong> Smell daily during weeks 4–7 using specific descriptors: citrus, sweet, cheese, earth, fuel, ammonia, fruit. The <strong>citrus/sweet-forward nose is the strongest predictor</strong> of the euphoric, non-sedating phenotype. Watch for hermaphrodite traits — a single "nanner" means immediate culling.</div>
+    </div>
+
+    <div class="protocol-phase">
+      <div class="protocol-week">Weeks 14–20</div>
+      <div class="protocol-title">Phase 4 — Post-Harvest Selection</div>
+      <div class="protocol-body">Dry slowly at ~15°C / 55–60% RH for 10–14 days. Cure in glass jars for minimum 2–4 weeks. <strong>Test each phenotype separately</strong> with a detailed journal: onset character (cerebral rush = desired vs. creeping body = indica-dominant), anxiety response, muscle relaxation quality, mental clarity, euphoria level, duration. Rate each specifically for anxiolytic effect. Promote keeper clones to <strong>mother plant status under 18+ hours vegetative light</strong>.</div>
+    </div>
+
+    <div class="protocol-phase">
+      <div class="protocol-week">Ongoing</div>
+      <div class="protocol-title">Mother Plant Maintenance</div>
+      <div class="protocol-body">Keep the keeper under perpetual veg (18–24h, blue-dominant 4000–6500K). Nitrogen-rich nutrients at lower EC than flowering. Regular pruning promotes lateral branching for clone sites. Take new clones every 4–6 weeks with 2 weeks recovery between sessions. <strong>Replace the mother annually</strong> with a fresh clone of itself to maintain vigor.</div>
+    </div>
+  </div>
+
+  <div class="callout callout-green reveal">
+    <div class="callout-label" style="color:var(--accent-green-bright)">Realistic expectations</div>
+    <p>From 10–15 feminized Super Skunk seeds: expect 8–12 healthy plants reaching harvest, <strong>1–3 showing notably sativa-leaning expression</strong>, and <strong>1 likely emerging as a clear keeper</strong> matching the relaxed-but-not-locked, euphoric, giggly profile. Total timeline: 4–6 months from seed to confirmed keeper.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>Cannabis Genealogy &amp; Phenotype Guide · Research compiled April 2026</p>
+  <p style="margin-top:0.5rem">β-Caryophyllene: the terpene that connects them all</p>
+</footer>
+
+<script>
+// Sticky nav appears after scrolling past hero
+const nav = document.getElementById('nav');
+const hero = document.querySelector('.hero');
+
+const navObserver = new IntersectionObserver(([entry]) => {
+  nav.classList.toggle('visible', !entry.isIntersecting);
+}, { threshold: 0 });
+navObserver.observe(hero);
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+reveals.forEach(el => revealObserver.observe(el));
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>

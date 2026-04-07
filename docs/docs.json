@@ -108,5 +108,41 @@
     "category": "botanical",
     "priority": 4,
     "file": "glossary.html"
+  },
+  {
+    "id": "plant-doctor",
+    "title": "Plant Doctor",
+    "subtitle": "Interactive symptom diagnosis",
+    "icon": "🩺",
+    "status": "DONE",
+    "category": "tool",
+    "file": "tool-plant-doctor.html"
+  },
+  {
+    "id": "env-dashboard",
+    "title": "Environment Dashboard",
+    "subtitle": "VPD + DLI calculator & chart",
+    "icon": "🌡️",
+    "status": "DONE",
+    "category": "tool",
+    "file": "tool-env-dashboard.html"
+  },
+  {
+    "id": "cure-tracker",
+    "title": "Drying & Cure Tracker",
+    "subtitle": "Harvest-to-jar protocol tracker",
+    "icon": "🫙",
+    "status": "DONE",
+    "category": "tool",
+    "file": "tool-cure-tracker.html"
+  },
+  {
+    "id": "stealth-audit",
+    "title": "Stealth Audit",
+    "subtitle": "Monthly OPSEC security checklist",
+    "icon": "🔒",
+    "status": "DONE",
+    "category": "tool",
+    "file": "tool-stealth-audit.html"
   }
 ]

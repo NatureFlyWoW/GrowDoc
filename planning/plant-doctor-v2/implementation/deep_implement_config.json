@@ -1,0 +1,57 @@
+{
+  "plugin_root": "C:\\Users\\Caus\\.claude\\plugins\\cache\\piercelamb-plugins\\deep-implement\\0.2.1",
+  "sections_dir": "C:\\GrowDoc\\planning\\plant-doctor-v2\\sections",
+  "target_dir": "C:\\GrowDoc",
+  "state_dir": "C:\\GrowDoc\\planning\\plant-doctor-v2\\implementation",
+  "git_root": "C:\\GrowDoc",
+  "commit_style": "simple",
+  "test_command": "uv run pytest",
+  "sections": [
+    "section-01-knowledge-base",
+    "section-02-state-and-mode-selector",
+    "section-03-scoring-engine",
+    "section-04-notes-input",
+    "section-05-multi-dx-mode",
+    "section-06-treatment-journal",
+    "section-07-integration-tests"
+  ],
+  "sections_state": {
+    "section-01-knowledge-base": {
+      "status": "complete",
+      "commit_hash": "0611201"
+    },
+    "section-02-state-and-mode-selector": {
+      "status": "complete",
+      "commit_hash": "75586ca"
+    },
+    "section-03-scoring-engine": {
+      "status": "complete",
+      "commit_hash": "177a3f3"
+    },
+    "section-04-notes-input": {
+      "status": "complete",
+      "commit_hash": "5f0cbfb"
+    },
+    "section-05-multi-dx-mode": {
+      "status": "complete",
+      "commit_hash": "abd6abb"
+    },
+    "section-06-treatment-journal": {
+      "status": "complete",
+      "commit_hash": "1a99923"
+    },
+    "section-07-integration-tests": {
+      "status": "complete",
+      "commit_hash": "22d27a8"
+    }
+  },
+  "pre_commit": {
+    "present": false,
+    "type": "none",
+    "config_file": null,
+    "native_hook": null,
+    "may_modify_files": false,
+    "detected_formatters": []
+  },
+  "created_at": "2026-04-07T12:06:16.048933+00:00"
+}

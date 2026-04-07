@@ -1,0 +1,47 @@
+{
+  "plugin_root": "C:\\Users\\Caus\\.claude\\plugins\\cache\\piercelamb-plugins\\deep-implement\\0.2.1",
+  "sections_dir": "C:\\GrowDoc\\planning\\interactive-tools\\sections",
+  "target_dir": "C:\\GrowDoc",
+  "state_dir": "C:\\GrowDoc\\planning\\interactive-tools\\implementation",
+  "git_root": "C:\\GrowDoc",
+  "commit_style": "simple",
+  "test_command": "uv run pytest",
+  "sections": [
+    "section-01-sidebar-integration",
+    "section-02-env-dashboard",
+    "section-03-stealth-audit",
+    "section-04-cure-tracker",
+    "section-05-plant-doctor"
+  ],
+  "sections_state": {
+    "section-01-sidebar-integration": {
+      "status": "complete",
+      "commit_hash": "b2eab7a"
+    },
+    "section-02-env-dashboard": {
+      "status": "complete",
+      "commit_hash": "651f6e1"
+    },
+    "section-03-stealth-audit": {
+      "status": "complete",
+      "commit_hash": "8897759"
+    },
+    "section-04-cure-tracker": {
+      "status": "complete",
+      "commit_hash": "aac44f3"
+    },
+    "section-05-plant-doctor": {
+      "status": "complete",
+      "commit_hash": "16d453d"
+    }
+  },
+  "pre_commit": {
+    "present": false,
+    "type": "none",
+    "config_file": null,
+    "native_hook": null,
+    "may_modify_files": false,
+    "detected_formatters": []
+  },
+  "created_at": "2026-04-07T08:17:52.078616+00:00"
+}

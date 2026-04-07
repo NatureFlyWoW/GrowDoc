@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terpene-Guided Strain Selection — 10 European Feminized Cultivars</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0f0a;--bg2:#111a11;--bg3:#162016;--text:#e8efe8;--text2:#9ab89a;--text3:#5e7a5e;--accent:#4ade80;--accent2:#22c55e;--accent3:#16a34a;--gold:#c9a84c;--gold2:#a8872e;--red:#c45c4a;--blue:#5a9eb8;--purple:#8a7abf;--lime:#a3e635;--border:#1e2e1e;--border2:#2a4a2a;--serif:'DM Serif Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'IBM Plex Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.78;font-size:15px}
+.container{max-width:920px;margin:0 auto;padding:60px 32px 80px}
+h1{font-family:var(--serif);font-size:2.4em;font-weight:400;color:var(--accent);margin-bottom:8px}
+.subtitle{font-size:1em;color:var(--text2);margin-bottom:40px;line-height:1.7;font-weight:300}
+h2{font-family:var(--serif);font-size:1.4em;font-weight:400;color:var(--accent);margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+h3{font-family:var(--body);font-size:1em;font-weight:600;margin:1.5rem 0 .5rem;color:var(--gold)}
+p{margin:0 0 .85rem;font-weight:300}
+strong{font-weight:600;color:var(--text)}
+
+.strain{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin:14px 0;transition:border-color .2s}
+.strain:hover{border-color:var(--border2)}
+.strain-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.strain .name{font-family:var(--serif);font-size:1.2em;color:var(--accent)}
+.strain .breeder{font-family:var(--mono);font-size:.72rem;color:var(--text3)}
+.strain .tier{font-family:var(--mono);font-size:.7rem;padding:3px 10px;border-radius:4px}
+.tier-1{background:rgba(74,222,128,.12);color:var(--accent)}
+.tier-2{background:rgba(201,168,76,.12);color:var(--gold)}
+.tier-3{background:rgba(90,158,184,.1);color:var(--blue)}
+.strain-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.meta-item{border-left:2px solid var(--border2);padding-left:8px}
+.meta-item .label{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3)}
+.meta-item .value{font-size:.85rem;color:var(--text);margin-top:2px}
+.terps{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0}
+.terp{font-family:var(--mono);font-size:.62rem;padding:3px 7px;border-radius:3px;background:rgba(74,222,128,.08);color:var(--accent2)}
+.terp.dom{background:rgba(163,230,53,.12);color:var(--lime);font-weight:500}
+.strain-why{font-size:.88rem;color:var(--text2);line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.2rem 0}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:1.2rem 0}
+.cd{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.cd .lb{font-family:var(--mono);font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
+.cd .vl{font-size:.92em;font-weight:600;margin-top:4px;color:var(--text)}
+.tip{background:rgba(34,197,94,.08);border-left:3px solid var(--accent3);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.tip b{color:var(--accent);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.da{background:rgba(138,122,191,.08);border-left:3px solid var(--purple);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
+.da b{color:var(--purple);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+
+table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.82rem}
+th{background:var(--bg2);text-align:left;padding:8px 12px;font-weight:600;border-bottom:1px solid var(--border2);font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text2)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top;font-weight:300;font-size:.82rem}
+@media(max-width:640px){.strain-meta{grid-template-columns:1fr 1fr}.g2,.g3{grid-template-columns:1fr}.container{padding:28px 16px 60px}h1{font-size:2em}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Terpene-Guided Strain Selection</h1>
+<p class="subtitle">10 feminized cultivars from European seedbanks, selected for your HS80 setup using terpene profile as the primary filter. Ranked by how well each strain matches your target effect profile (euphoric, uplifting, citrus-forward) while remaining growable in 80×80×178cm under 108W LED. All available from Austrian growshops or EU seedbanks.</p>
+
+<h2>Why These Terpenes?</h2>
+
+<p>Your preferred strains and reported effect preferences consistently point to a <strong>β-Caryophyllene + Limonene</strong> dominant profile — spicy/peppery warmth plus citrus brightness. β-Caryophyllene is the only terpene that acts as a direct CB2 receptor agonist (anti-inflammatory, anxiolytic, physically relaxing without sedation). Limonene adds mood elevation and anxiolytic effects. Together, they create the "relaxing but alert" experience you're after.</p>
+
+<div class="g3">
+  <div class="cd" style="border-color:var(--accent3)"><div class="lb">Primary Target</div><div class="vl">β-Caryophyllene</div><div style="font-size:.82rem;color:var(--text2);margin-top:4px">Spicy, peppery. CB2 agonist. Body relaxation without couch-lock.</div></div>
+  <div class="cd" style="border-color:var(--accent3)"><div class="lb">Secondary Target</div><div class="vl">Limonene</div><div style="font-size:.82rem;color:var(--text2);margin-top:4px">Citrus, bright. Mood elevation, anxiolytic. The "uplift" terpene.</div></div>
+  <div class="cd" style="border-color:var(--border2)"><div class="lb">Tertiary</div><div class="vl">Terpinolene / Linalool</div><div style="font-size:.82rem;color:var(--text2);margin-top:4px">Fresh/piney (terpinolene) or floral (linalool). Add complexity. Present in some selections.</div></div>
+</div>
+
+<h2>The Selection — Tier 1 (Best Match)</h2>
+
+<div class="strain">
+  <div class="strain-head">
+    <div><div class="name">Super Skunk</div><div class="breeder">Sensi Seeds · Netherlands</div></div>
+    <span class="tier tier-1">TIER 1 — CHOSEN</span>
+  </div>
+  <div class="strain-meta">
+    <div class="meta-item"><div class="label">Type</div><div class="value">Indica-dom (80/20)</div></div>
+    <div class="meta-item"><div class="label">Flower</div><div class="value">45–65 days</div></div>
+    <div class="meta-item"><div class="label">THC</div><div class="value">18–22%</div></div>
+    <div class="meta-item"><div class="label">Difficulty</div><div class="value">Easy — forgiving</div></div>
+  </div>
+  <div class="terps"><span class="terp dom">Myrcene</span><span class="terp dom">β-Caryophyllene</span><span class="terp">Limonene</span><span class="terp">Humulene</span></div>
+  <div class="strain-why"><strong>Why chosen:</strong> 35 years of indoor grow data. Compact indica structure perfect for HS80. High BCP content matches your target profile. Forgiving to environmental swings — ideal for a first grow. The sativa pheno-hunt adds an exciting dimension even if the odds are long with feminized seeds.</div>
+</div>
+
+<div class="strain">
+  <div class="strain-head">
+    <div><div class="name">Critical Kush</div><div class="breeder">Barney's Farm · Netherlands</div></div>
+    <span class="tier tier-1">TIER 1</span>
+  </div>
+  <div class="strain-meta">
+    <div class="meta-item"><div class="label">Type</div><div class="value">Indica-dom (75/25)</div></div>
+    <div class="meta-item"><div class="label">Flower</div><div class="value">50–60 days</div></div>
+    <div class="meta-item"><div class="label">THC</div><div class="value">20–25%</div></div>
+    <div class="meta-item"><div class="label">Difficulty</div><div class="value">Easy-Medium</div></div>
+  </div>
+  <div class="terps"><span class="terp dom">β-Caryophyllene</span><span class="terp dom">Limonene</span><span class="terp">Myrcene</span><span class="terp">Linalool</span></div>
+  <div class="strain-why">BCP + Limonene dominant — hits your target profile almost perfectly. Critical Mass parentage contributes massive yields for an 80×80 space. OG Kush side adds the citrus/fuel complexity you enjoy. Compact structure suits the HS80. Strong candidate for a future grow after Super Skunk.</div>
+</div>
+
+<div class="strain">
+  <div class="strain-head">
+    <div><div class="name">Gelato #33</div><div class="breeder">Royal Queen Seeds · Spain</div></div>
+    <span class="tier tier-1">TIER 1</span>
+  </div>
+  <div class="strain-meta">
+    <div class="meta-item"><div class="label">Type</div><div class="value">Hybrid (55/45)</div></div>
+    <div class="meta-item"><div class="label">Flower</div><div class="value">56–63 days</div></div>
+    <div class="meta-item"><div class="label">THC</div><div class="value">22–27%</div></div>
+    <div class="meta-item"><div class="label">Difficulty</div><div class="value">Medium</div></div>
+  </div>
+  <div class="terps"><span class="terp dom">β-Caryophyllene</span><span class="terp dom">Limonene</span><span class="terp">Linalool</span><span class="terp">Humulene</span></div>
+  <div class="strain-why">Cookie-family genetics (Sunset Sherbet × Thin Mint GSC) — a terpene cousin of your Citron Givré. Exceptionally high BCP + Limonene. Gorgeous purple coloring in late flower with temperature drops. More demanding than Super Skunk — wants precise VPD and consistent feeding.</div>
+</div>
+
+<h2>Tier 2 — Strong Candidates</h2>
+
+<div class="strain">
+  <div class="strain-head">
+    <div><div class="name">White Widow</div><div class="breeder">Green House Seeds · Netherlands</div></div>
+    <span class="tier tier-2">TIER 2</span>
+  </div>
+  <div class="strain-meta">
+    <div class="meta-item"><div class="label">Type</div><div class="value">Hybrid (60/40)</div></div>
+    <div class="meta-item"><div class="label">Flower</div><div class="value">56–63 days</div></div>
+    <div class="meta-item"><div class="label">THC</div><div class="value">18–25%</div></div>
+    <div class="meta-item"><div class="label">Difficulty</div><div class="value">Easy</div></div>
+  </div>
+  <div class="terps"><span class="terp dom">Myrcene</span><span class="terp">β-Caryophyllene</span><span class="terp">Limonene</span><span class="terp">Pinene</span></div>
+  <div class="strain-why">Classic Dutch hybrid. Extremely forgiving to beginner mistakes. Myrcene-dominant gives a more sedating profile than your target, but BCP is still present. Enormous resin production makes it an excellent first-grow choice — hard to mess up and still rewarding.</div>
+</div>
+
+<div class="strain">
+  <div class="strain-head">
+    <div><div class="name">Amnesia Haze</div><div class="breeder">Royal Queen Seeds · Spain</div></div>
+    <span class="tier tier-2">TIER 2</span>
+  </div>
+  <div class="strain-meta">
+    <div class="meta-item"><div class="label">Type</div><div class="value">Sativa-dom (70/30)</div></div>
+    <div class="meta-item"><div class="label">Flower</div><div class="value">70–84 days</div></div>
+    <div class="meta-item"><div class="label">THC</div><div class="value">20–22%</div></div>
+    <div class="meta-item"><div class="label">Difficulty</div><div class="value">Medium-Hard</div></div>
+  </div>
+  <div class="terps"><span class="terp dom">Terpinolene</span><span class="terp">Limonene</span><span class="terp">β-Caryophyllene</span><span class="terp">Myrcene</span></div>
+  <div class="strain-why">Terpinolene-dominant = rare uplifting/psychedelic clarity. Matches your "cerebral euphoria" target perfectly. BUT: 70–84 day flowering + aggressive stretch = challenging in HS80. Would need very early flip (25cm max) and aggressive ScrOG. Tier 2 due to difficulty, not quality.</div>
+</div>
+
+<div class="strain">
+  <div class="strain-head">
+    <div><div class="name">Northern Lights</div><div class="breeder">Sensi Seeds · Netherlands</div></div>
+    <span class="tier tier-2">TIER 2</span>
+  </div>
+  <div class="strain-meta">
+    <div class="meta-item"><div class="label">Type</div><div class="value">Indica (95/5)</div></div>
+    <div class="meta-item"><div class="label">Flower</div><div class="value">45–50 days</div></div>
+    <div class="meta-item"><div class="label">THC</div><div class="value">16–21%</div></div>
+    <div class="meta-item"><div class="label">Difficulty</div><div class="value">Very Easy</div></div>
+  </div>
+  <div class="terps"><span class="terp dom">Myrcene</span><span class="terp">β-Caryophyllene</span><span class="terp">Pinene</span><span class="terp">Limonene</span></div>
+  <div class="strain-why">The gold standard beginner strain. Extremely low odor (natural stealth advantage), fast flowering, compact. Myrcene-dominant = more sedating than your ideal. Tier 2 because the effect profile is heavily body-oriented, missing the "cerebral uplift" you prefer.</div>
+</div>
+
+<h2>Quick-Reference Matrix</h2>
+
+<table>
+<tr><th>Strain</th><th>Flower</th><th>Stretch</th><th>Smell</th><th>Difficulty</th><th>Match</th></tr>
+<tr><td><strong>Super Skunk</strong></td><td>45–65d</td><td>Low-Med</td><td>Strong skunk</td><td>Easy</td><td style="color:var(--accent)">★★★★★</td></tr>
+<tr><td><strong>Critical Kush</strong></td><td>50–60d</td><td>Low</td><td>Strong kush</td><td>Easy-Med</td><td style="color:var(--accent)">★★★★★</td></tr>
+<tr><td><strong>Gelato #33</strong></td><td>56–63d</td><td>Medium</td><td>Strong sweet</td><td>Medium</td><td style="color:var(--accent)">★★★★☆</td></tr>
+<tr><td>White Widow</td><td>56–63d</td><td>Medium</td><td>Medium</td><td>Easy</td><td style="color:var(--gold)">★★★★☆</td></tr>
+<tr><td>Amnesia Haze</td><td>70–84d</td><td>High</td><td>Strong haze</td><td>Med-Hard</td><td style="color:var(--gold)">★★★☆☆</td></tr>
+<tr><td>Northern Lights</td><td>45–50d</td><td>Very Low</td><td>Low (!)</td><td>Very Easy</td><td style="color:var(--gold)">★★★☆☆</td></tr>
+</table>
+
+<h2>Sourcing in Austria</h2>
+
+<div class="g2">
+  <div class="cd"><div class="lb">Linz Growshops</div><div class="vl">Viva Sativa · La Ganja Loca · Seeds24 · Green Habit · Growee</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">Cash purchases. Sensi Seeds, Barney's Farm, and Royal Queen Seeds are stocked at most shops. Ask for current availability — inventory varies.</div></div>
+  <div class="cd"><div class="lb">EU Online</div><div class="vl">Seedsman · MSNL · Herbies</div><div style="font-size:.82rem;color:var(--text2);margin-top:6px">If local shops don't have your selection. Ships to Austria. Note: online = digital trail. Local cash is preferable for OPSEC.</div></div>
+</div>
+
+<div class="da"><b>Devil's Advocate — The Real Selection Criterion</b> — At 108W in an 80×80cm tent on a first indoor grow, the most important strain characteristic is <strong>forgiveness</strong>, not terpene perfection. Super Skunk, White Widow, and Northern Lights can all survive suboptimal conditions and still produce decent flower. Gelato and Amnesia Haze punish mistakes much harder. Your terpene preferences point to Tier 1 strains, but your experience level suggests starting with the most forgiving option and getting one successful harvest under your belt before reaching for more demanding genetics.</div>
+
+<div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--text3);line-height:2">
+  <p>Terpene-Guided Strain Selection v3.0 · April 2026</p>
+  <p style="color:#1e2e1e">10 EU feminized cultivars · Terpene-first selection methodology</p>
+  <p style="color:#1e2e1e">Optimized for HS80 + 2× STIXX 50 (108W) · Austrian sourcing</p>
+</div>
+
+</div>
+</body>
+</html>

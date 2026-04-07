@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grow Glossar — Illustriertes Nachschlagewerk</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f6f1;
+    --bg-card: #ffffff;
+    --bg-dark: #1a1a1a;
+    --text: #2c2c2c;
+    --text-secondary: #5a5a5a;
+    --text-light: #8a8a8a;
+    --accent-green: #4a7c59;
+    --accent-green-light: #6ba37a;
+    --accent-green-pale: #e8f0eb;
+    --accent-amber: #c17f3e;
+    --accent-amber-light: #f5e6d0;
+    --accent-red: #b44;
+    --accent-red-light: #fde8e8;
+    --border: #e2ddd5;
+    --border-dark: #c5bfb5;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-header {
+    background: var(--bg-dark);
+    color: #f0ece4;
+    padding: 4rem 2rem 3.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 40px,
+      rgba(74,124,89,0.04) 40px,
+      rgba(74,124,89,0.04) 41px
+    );
+  }
+  .page-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+  .page-header .subtitle {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: #a09a8e;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .page-header .badge {
+    display: inline-block;
+    background: var(--accent-green);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* Setup Review Section */
+  .setup-review {
+    margin: 3rem auto;
+    max-width: 900px;
+    padding: 0 1.5rem;
+  }
+  .setup-review .review-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-md);
+  }
+  .setup-review h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+  .setup-review .review-intro {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+  }
+
+  .da-issue {
+    border-left: 4px solid var(--border);
+    padding: 1rem 1.5rem;
+    margin: 1.2rem 0;
+    background: var(--bg);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .da-issue.critical { border-left-color: var(--accent-red); background: var(--accent-red-light); }
+  .da-issue.warning { border-left-color: var(--accent-amber); background: var(--accent-amber-light); }
+  .da-issue.note { border-left-color: var(--accent-green); background: var(--accent-green-pale); }
+  .da-issue .da-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+  }
+  .da-issue.critical .da-label { color: var(--accent-red); }
+  .da-issue.warning .da-label { color: var(--accent-amber); }
+  .da-issue.note .da-label { color: var(--accent-green); }
+  .da-issue h4 { font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .da-issue p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; }
+  .da-issue .fix {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .da-issue .fix::before { content: '→ '; color: var(--accent-green); font-weight: 600; }
+
+  /* TOC */
+  .toc {
+    margin: 3rem auto;
+    max-width: 900px;
+    padding: 0 1.5rem;
+  }
+  .toc-inner {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem 2.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .toc h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.3rem 2rem;
+  }
+  .toc a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.88rem;
+    padding: 0.25rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--accent-green); }
+  .toc .importance-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .toc .importance-dot.critical { background: var(--accent-red); }
+  .toc .importance-dot.important { background: var(--accent-amber); }
+  .toc .importance-dot.useful { background: var(--accent-green-light); }
+
+  /* Category sections */
+  .category {
+    margin: 3rem auto;
+    max-width: 900px;
+    padding: 0 1.5rem;
+  }
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .category-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+  .category-header .tier {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+  }
+  .tier-critical { background: #fee; color: var(--accent-red); }
+  .tier-important { background: var(--accent-amber-light); color: var(--accent-amber); }
+  .tier-useful { background: var(--accent-green-pale); color: var(--accent-green); }
+
+  /* Glossary entries */
+  .entry {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.8rem;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.3s;
+  }
+  .entry:hover { box-shadow: var(--shadow-md); }
+
+  .entry-header {
+    padding: 1.5rem 2rem 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .entry-header h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+  }
+  .entry-header .aka {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-light);
+  }
+  .entry-header .tags {
+    margin-left: auto;
+    display: flex;
+    gap: 0.4rem;
+  }
+  .entry-header .tag {
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    background: var(--accent-green-pale);
+    color: var(--accent-green);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .entry-body {
+    padding: 1rem 2rem 1.5rem;
+  }
+  .entry-body p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: 0.8rem;
+  }
+  .entry-body p:last-child { margin-bottom: 0; }
+  .entry-body strong { color: var(--text); font-weight: 500; }
+
+  .entry-diagram {
+    padding: 1rem 2rem 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+  .entry-diagram svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .entry-values {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 0 2rem 1.5rem;
+  }
+  .val-box {
+    flex: 1;
+    min-width: 120px;
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 0.8rem 1rem;
+    text-align: center;
+  }
+  .val-box .val-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+    margin-bottom: 0.2rem;
+  }
+  .val-box .val-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent-green);
+  }
+  .val-box .val-unit {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .entry-tip {
+    margin: 0 2rem 1.5rem;
+    padding: 0.8rem 1rem;
+    background: var(--accent-green-pale);
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+    color: var(--accent-green);
+    line-height: 1.6;
+  }
+  .entry-tip::before {
+    content: '💡 ';
+  }
+
+  .entry-warning {
+    margin: 0 2rem 1.5rem;
+    padding: 0.8rem 1rem;
+    background: var(--accent-amber-light);
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+    color: #8a5a20;
+    line-height: 1.6;
+  }
+  .entry-warning::before {
+    content: '⚠ ';
+  }
+
+  /* Verdict */
+  .verdict-section {
+    margin: 3rem auto;
+    max-width: 900px;
+    padding: 0 1.5rem;
+  }
+  .verdict-card {
+    background: var(--accent-green);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 2rem 2.5rem;
+    box-shadow: var(--shadow-lg);
+  }
+  .verdict-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+  .verdict-card p {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    opacity: 0.92;
+  }
+
+  footer {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    font-size: 0.75rem;
+    color: var(--text-light);
+  }
+
+  @media (max-width: 600px) {
+    .entry-header { flex-direction: column; gap: 0.3rem; }
+    .entry-header .tags { margin-left: 0; }
+    .entry-body, .entry-diagram, .entry-values, .entry-tip, .entry-warning { padding-left: 1.2rem; padding-right: 1.2rem; }
+    .entry-header { padding: 1.2rem 1.2rem 0; }
+    .setup-review .review-card { padding: 1.5rem; }
+    .toc-inner { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================== -->
+<!-- HEADER -->
+<!-- ============================================== -->
+<header class="page-header">
+  <div class="badge">HS80 · Citron Givré · Linz</div>
+  <h1>Grow Glossar</h1>
+  <p class="subtitle">Illustriertes Nachschlagewerk — alle Begriffe, die du für deinen Indoor-Grow wirklich brauchst. Sortiert nach Wichtigkeit, erklärt mit Grafiken.</p>
+</header>
+
+<!-- ============================================== -->
+<!-- DEVIL'S ADVOCATE SETUP REVIEW -->
+<!-- ============================================== -->
+<section class="setup-review">
+  <div class="review-card">
+    <h2>Devil's Advocate — Setup Review</h2>
+    <p class="review-intro">Dein AR (1,32 m², 80×~165 cm Grundfläche) mit dem HS80-Zelt, den Fotos und der Rechnung analysiert. Hier die Findings, bevor wir zum Glossar kommen.</p>
+
+    <div class="da-issue warning">
+      <div class="da-label">Warning</div>
+      <h4>Einzelne STIXX 50 → nur ~130–180 µmol/m²/s auf Canopy-Höhe</h4>
+      <p>Mit einer einzigen Sanlight STIXX 50 (54W) im HS80 bekommt die Citron Givré gerade genug Licht für vegetatives Wachstum, aber der DLI liegt bei nur ~9–11 mol/d (18h Veg). Das ist Seedling-Level. Bis die zweite Bar kommt, sollte der Abstand auf 25–30 cm reduziert und die Pflanze kompakt gehalten werden, um jeden Photon mitzunehmen.</p>
+      <p class="fix">Zweite STIXX 50 hat hohe Priorität. Bis dahin: Bar zentriert über der Pflanze positionieren, Abstand minimieren (25 cm), reflektierende Seitenwände des Zelts nutzen.</p>
+    </div>
+
+    <div class="da-issue warning">
+      <div class="da-label">Warning</div>
+      <h4>CAN RK125 (310 m³/h) ohne Drehzahlregler = massive Negative Pressure</h4>
+      <p>Auf der Rechnung fehlt ein Varispeed/Drehzahlregler. Der RK125 mit 310 m³/h tauscht das gesamte Zeltvolumen (~1,14 m³) über 270× pro Stunde aus. Ohne Regler kollapst das Zelt nach innen, die Zeltwände liegen an der Pflanze an, und der Lärm ist erheblich. Das ist stealth-kritisch.</p>
+      <p class="fix">AC Infinity Controller oder einfachen Varispeed-Regler besorgen (€15–25 im Growshop). Alternativ tut's ein stufenloser Dimmer. Fan auf ~30–40% in Veg, ~50–60% in Flower ist realistisch.</p>
+    </div>
+
+    <div class="da-issue note">
+      <div class="da-label">Note</div>
+      <h4>Deckenlampe im AR könnte Schlauchführung behindern</h4>
+      <p>Die Fotos zeigen eine nackte Glühbirne an der Decke. Wenn die Abluft über den Filter nach oben geführt wird, könnte die Lampe im Weg sein. Außerdem: Lichtleck-Risiko — die AR-Lampe sollte im Betrieb ausgeschaltet bleiben, um keine Lichtzyklen zu stören.</p>
+      <p class="fix">Prüfe, ob der Filter + Schlauch an der Lampe vorbeipasst. Ggf. Leuchtmittel rausschrauben und mit Stirnlampe (grün) arbeiten, wenn du im AR was machen musst in der Dunkelphase.</p>
+    </div>
+
+    <div class="da-issue note">
+      <div class="da-label">Note</div>
+      <h4>Lüftungsgitter an der Wand (linke Seite) = potenzieller Geruchsweg</h4>
+      <p>In deinen Fotos sieht man ein Lüftungsgitter auf der linken Wand des AR. Das ist vermutlich eine passive Entlüftung zum Flur. Solange der Aktivkohlefilter im Zelt läuft und die Abluft im Raum auf Unterdruck hält, sollte kein Geruch raus. Aber: ohne laufenden Filter (z.B. Stromausfall, vergessenes Einschalten) zieht der Geruch direkt in den Flur.</p>
+      <p class="fix">Gitter von innen mit Tape oder einem magnetischen Cover abdichten. Luft soll nur über den AKF nach draußen.</p>
+    </div>
+
+    <div class="da-issue note">
+      <div class="da-label">Note</div>
+      <h4>HS80 im 80 cm breiten AR — kein Arbeitsraum</h4>
+      <p>Die Grundfläche des Zelts (80×80) füllt die gesamte Breite des AR. Zum Arbeiten musst du das Zelt komplett öffnen und von vorne rein. Das geht, macht aber Pflanzenpflege (Unterkronenpflege, Gießen, Training) umständlich, besonders in der Blüte wenn das ScrOG-Netz oben ist.</p>
+      <p class="fix">Kein Fix nötig — das war bei der Planung klar. Einfach beachten: Werkzeug und Wasser vorher bereitstellen, nicht erst suchen wenn das Zelt offen ist.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- TOC -->
+<!-- ============================================== -->
+<nav class="toc">
+  <div class="toc-inner">
+    <h2>Inhalt</h2>
+    <p style="font-size:0.82rem; color:var(--text-light); margin-bottom:1rem;">
+      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-red);vertical-align:middle;"></span> Must-Know &nbsp;
+      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-amber);vertical-align:middle;"></span> Wichtig &nbsp;
+      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-green-light);vertical-align:middle;"></span> Gut zu wissen
+    </p>
+    <div class="toc-grid">
+      <a href="#vpd"><span class="importance-dot critical"></span>VPD (Vapor Pressure Deficit)</a>
+      <a href="#ppfd"><span class="importance-dot critical"></span>PPFD / DLI / PAR</a>
+      <a href="#scrog"><span class="importance-dot critical"></span>ScrOG (Screen of Green)</a>
+      <a href="#topping"><span class="importance-dot critical"></span>Topping & LST</a>
+      <a href="#calmag"><span class="importance-dot critical"></span>CalMag</a>
+      <a href="#trichomes"><span class="importance-dot critical"></span>Trichome</a>
+      <a href="#photoperiod"><span class="importance-dot critical"></span>Photoperiode / Flip</a>
+      <a href="#ph"><span class="importance-dot critical"></span>pH & EC</a>
+      <a href="#mycorrhizae"><span class="importance-dot important"></span>Mykorrhiza</a>
+      <a href="#lollipopping"><span class="importance-dot important"></span>Lollipopping</a>
+      <a href="#defoliation"><span class="importance-dot important"></span>Defoliation</a>
+      <a href="#abluft"><span class="importance-dot important"></span>Abluft / Umluft / AKF</a>
+      <a href="#steckling"><span class="importance-dot important"></span>Steckling (Klon)</a>
+      <a href="#curing"><span class="importance-dot important"></span>Curing & Burping</a>
+      <a href="#stretch"><span class="importance-dot important"></span>Stretch</a>
+      <a href="#livingsoil"><span class="importance-dot useful"></span>Living Soil</a>
+      <a href="#phenotype"><span class="importance-dot useful"></span>Phänotyp / Genotyp</a>
+      <a href="#dif"><span class="importance-dot useful"></span>DIF (Temp-Differenz)</a>
+      <a href="#runoff"><span class="importance-dot useful"></span>Runoff & Lift Test</a>
+      <a href="#botrytis"><span class="importance-dot useful"></span>Botrytis (Blütenfäule)</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================== -->
+<!-- TIER 1: MUST-KNOW -->
+<!-- ============================================== -->
+<section class="category">
+  <div class="category-header">
+    <h2>Must-Know Begriffe</h2>
+    <span class="tier tier-critical">Kritisch</span>
+  </div>
+
+  <!-- VPD -->
+  <article class="entry" id="vpd">
+    <div class="entry-header">
+      <h3>VPD</h3>
+      <span class="aka">Vapor Pressure Deficit · Dampfdruckdefizit</span>
+      <div class="tags"><span class="tag">Klima</span></div>
+    </div>
+    <div class="entry-body">
+      <p>Das VPD beschreibt den Druckunterschied zwischen dem Wasserdampf, den die Luft <strong>aktuell enthält</strong>, und dem, den sie bei Sättigung <strong>maximal enthalten könnte</strong>. Stell dir die Luft als Schwamm vor: Ein trockener Schwamm (hohes VPD) saugt gierig Wasser auf — die Pflanze transpiriert stark, Nährstoffe werden schnell nach oben gezogen. Ein nasser Schwamm (niedriges VPD) nimmt kaum noch Wasser auf — die Stomata schließen, Wachstum stockt, Schimmelrisiko steigt.</p>
+      <p>Die Pflanze reguliert ihre Stomata (Blattöffnungen) basierend auf dem VPD. Im optimalen Bereich sind die Stomata weit offen: CO₂ strömt rein (Photosynthese), H₂O strömt raus (Transpiration), und mit dem Wasserfluss wandern Calcium und andere immobile Nährstoffe von der Wurzel ins Blatt. Zu hohes VPD = Stress, Welken, Calcium-Lockout. Zu niedriges VPD = Stagnation, Pilzbefall.</p>
+    </div>
+    <div class="entry-diagram">
+      <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" style="max-width:680px;">
+        <!-- Background -->
+        <rect x="0" y="0" width="700" height="280" fill="#fafaf7" rx="8"/>
+        <!-- Three zones -->
+        <rect x="30" y="40" width="200" height="190" rx="6" fill="#e3f0ff" stroke="#90b8e0" stroke-width="1"/>
+        <rect x="250" y="40" width="200" height="190" rx="6" fill="#e8f5e9" stroke="#81c784" stroke-width="1.5"/>
+        <rect x="470" y="40" width="200" height="190" rx="6" fill="#fff3e0" stroke="#e0a050" stroke-width="1"/>
+        <!-- Zone labels -->
+        <text x="130" y="70" text-anchor="middle" font-family="'DM Serif Display',serif" font-size="15" fill="#4a78a0">Zu niedrig</text>
+        <text x="130" y="90" text-anchor="middle" font-family="'IBM Plex Sans',sans-serif" font-size="11" fill="#6a98b8">&lt; 0.8 kPa</text>
+        <text x="350" y="70" text-anchor="middle" font-family="'DM Serif Display',serif" font-size="15" fill="#4a7c59">Optimal</text>
+        <text x="350" y="90" text-anchor="middle" font-family="'IBM Plex Sans',sans-serif" font-size="11" fill="#6ba37a">0.8 – 1.4 kPa</text>
+        <text x="570" y="70" text-anchor="middle" font-family="'DM Serif Display',serif" font-size="15" fill="#b07830">Zu hoch</text>
+        <text x="570" y="90" text-anchor="middle" font-family="'IBM Plex Sans',sans-serif" font-size="11" fill="#c09050">&gt; 1.6 kPa</text>
+        <!-- Stomata illustrations -->
+        <!-- Closed stomata (low VPD) -->
+        <ellipse cx="130" cy="145" rx="22" ry="30" fill="none" stroke="#5a9a4a" stroke-width="2"/>
+        <ellipse cx="130" cy="145" rx="3" ry="15" fill="#c8e0c0" stroke="#5a9a4a" stroke-width="1"/>
+        <text x="130" y="195" text-anchor="middle" font-size="10" fill="#4a78a0" font-family="'IBM Plex Sans',sans-serif">Stomata geschlossen</text>
+        <text x="130" y="210" text-anchor="middle" font-size="10" fill="#4a78a0" font-family="'IBM Plex Sans',sans-serif">→ Pilzgefahr</text>
+        <text x="130" y="225" text-anchor="middle" font-size="10" fill="#4a78a0" font-family="'IBM Plex Sans',sans-serif">→ Kein Gasaustausch</text>
+        <!-- Open stomata (optimal) -->
+        <ellipse cx="350" cy="145" rx="22" ry="30" fill="none" stroke="#4a7c59" stroke-width="2.5"/>
+        <ellipse cx="350" cy="145" rx="12" ry="22" fill="#d4edda" stroke="#4a7c59" stroke-width="1.5"/>
+        <text x="350" y="195" text-anchor="middle" font-size="10" fill="#3a6a49" font-family="'IBM Plex Sans',sans-serif" font-weight="500">Stomata weit offen</text>
+        <text x="350" y="210" text-anchor="middle" font-size="10" fill="#3a6a49" font-family="'IBM Plex Sans',sans-serif">→ CO₂ rein, H₂O raus</text>
+        <text x="350" y="225" text-anchor="middle" font-size="10" fill="#3a6a49" font-family="'IBM Plex Sans',sans-serif">→ Max. Photosynthese</text>
+        <!-- Stressed stomata (high VPD) -->
+        <ellipse cx="570" cy="145" rx="22" ry="30" fill="none" stroke="#b07830" stroke-width="2" stroke-dasharray="4,3"/>
+        <ellipse cx="570" cy="145" rx="2" ry="10" fill="#f0d8b0" stroke="#b07830" stroke-width="1"/>
+        <text x="570" y="195" text-anchor="middle" font-size="10" fill="#906020" font-family="'IBM Plex Sans',sans-serif">Stomata Notschluss</text>
+        <text x="570" y="210" text-anchor="middle" font-size="10" fill="#906020" font-family="'IBM Plex Sans',sans-serif">→ Welke, Hitzestress</text>
+        <text x="570" y="225" text-anchor="middle" font-size="10" fill="#906020" font-family="'IBM Plex Sans',sans-serif">→ Ca-Mangel</text>
+        <!-- Arrows showing transpiration flow -->
+        <text x="350" y="260" text-anchor="middle" font-size="11" fill="#888" font-family="'IBM Plex Mono',monospace">VPD = Sättigungsdampfdruck(Blatt) − aktueller Dampfdruck(Luft)</text>
+      </svg>
+    </div>
+    <div class="entry-values">
+      <div class="val-box">
+        <div class="val-label">Seedling</div>
+        <div class="val-number">0.4–0.8</div>
+        <div class="val-unit">kPa · 25°C / 70% RH</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">Veg</div>
+        <div class="val-number">0.8–1.2</div>
+        <div class="val-unit">kPa · 25°C / 55% RH</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">Flower</div>
+        <div class="val-number">1.0–1.6</div>
+        <div class="val-unit">kPa · 22–25°C / 40–50% RH</div>
+      </div>
+    </div>
+    <div class="entry-tip">Dein einziges Werkzeug: Varispeed am CAN RK125 + Türspalt. Hygrometer auf Canopy-Höhe platzieren, nicht am Boden!</div>
+  </article>
+
+  <!-- PPFD / DLI / PAR -->
+  <article class="entry" id="ppfd">
+    <div class="entry-header">
+      <h3>PPFD / DLI / PAR</h3>
+      <span class="aka">Photosynthetically Active Radiation</span>
+      <div class="tags"><span class="tag">Licht</span></div>
+    </div>
+    <div class="entry-body">
+      <p><strong>PAR</strong> ist der Wellenlängenbereich (400–700 nm), den Pflanzen für die Photosynthese nutzen — im Grunde sichtbares Licht minus ein paar Ränder. Es ist kein Messwert, sondern eine Kategorie.</p>
+      <p><strong>PPFD</strong> (Photosynthetic Photon Flux Density, gemessen in µmol/m²/s) sagt dir, wie viele PAR-Photonen pro Sekunde auf einen Quadratmeter Blattfläche treffen. Stell es dir als Regenintensität vor: Wie viele Tropfen pro Sekunde auf einen Quadratmeter? Je mehr Photonen, desto schneller die Photosynthese — bis zu einem Sättigungspunkt.</p>
+      <p><strong>DLI</strong> (Daily Light Integral, mol/m²/Tag) ist die Gesamtmenge an Photonen über den ganzen Tag. Wenn PPFD der Regen pro Sekunde ist, dann ist DLI die Gesamtregenmenge am Tag. Formel: DLI = PPFD × Beleuchtungsstunden × 3600 / 1.000.000.</p>
+    </div>
+    <div class="entry-diagram">
+      <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" style="max-width:680px;">
+        <rect x="0" y="0" width="700" height="250" fill="#fafaf7" rx="8"/>
+        <!-- Light bar at top -->
+        <rect x="260" y="15" width="180" height="14" rx="4" fill="#f0c040" stroke="#c0a030" stroke-width="1"/>
+        <text x="350" y="25" text-anchor="middle" font-size="8" fill="#705000" font-family="'IBM Plex Mono',monospace">SANLIGHT STIXX 50 · 54W</text>
+        <!-- Photon rays -->
+        <g stroke="#f0c040" stroke-width="1" opacity="0.5">
+          <line x1="280" y1="29" x2="200" y2="110"/><line x1="310" y1="29" x2="260" y2="110"/>
+          <line x1="340" y1="29" x2="330" y2="110"/><line x1="370" y1="29" x2="370" y2="110"/>
+          <line x1="400" y1="29" x2="440" y2="110"/><line x1="420" y1="29" x2="500" y2="110"/>
+        </g>
+        <!-- Canopy rectangle -->
+        <rect x="160" y="110" width="380" height="30" rx="4" fill="#c8e8c0" stroke="#6a9a5a" stroke-width="1.5"/>
+        <text x="350" y="130" text-anchor="middle" font-size="11" fill="#3a6030" font-family="'IBM Plex Sans',sans-serif" font-weight="500">Canopy (80 × 80 cm)</text>
+        <!-- PPFD label -->
+        <line x1="555" y1="60" x2="555" y2="115" stroke="#c17f3e" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="580" y="80" font-size="11" fill="#c17f3e" font-family="'IBM Plex Mono',monospace" font-weight="500">PPFD</text>
+        <text x="580" y="95" font-size="9" fill="#a06830" font-family="'IBM Plex Sans',sans-serif">µmol/m²/s</text>
+        <!-- Values below -->
+        <rect x="50" y="160" width="180" height="70" rx="6" fill="#fff8e8" stroke="#e0c060" stroke-width="1"/>
+        <text x="140" y="182" text-anchor="middle" font-size="11" font-weight="500" fill="#906a20" font-family="'IBM Plex Sans',sans-serif">1× STIXX 50 (jetzt)</text>
+        <text x="140" y="200" text-anchor="middle" font-size="18" font-family="'DM Serif Display',serif" fill="#b07830">~150 µmol</text>
+        <text x="140" y="218" text-anchor="middle" font-size="10" fill="#a08030" font-family="'IBM Plex Sans',sans-serif">DLI ≈ 10 mol/d (18h)</text>
+
+        <rect x="260" y="160" width="180" height="70" rx="6" fill="#e8f5e9" stroke="#81c784" stroke-width="1.5"/>
+        <text x="350" y="182" text-anchor="middle" font-size="11" font-weight="500" fill="#3a6a49" font-family="'IBM Plex Sans',sans-serif">2× STIXX 50 (bald)</text>
+        <text x="350" y="200" text-anchor="middle" font-size="18" font-family="'DM Serif Display',serif" fill="#4a7c59">~300 µmol</text>
+        <text x="350" y="218" text-anchor="middle" font-size="10" fill="#5a8a60" font-family="'IBM Plex Sans',sans-serif">DLI ≈ 19 mol/d (18h)</text>
+
+        <rect x="470" y="160" width="180" height="70" rx="6" fill="#f5f5f5" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="560" y="182" text-anchor="middle" font-size="11" font-weight="500" fill="#888" font-family="'IBM Plex Sans',sans-serif">Optimum Cannabis</text>
+        <text x="560" y="200" text-anchor="middle" font-size="18" font-family="'DM Serif Display',serif" fill="#888">600–900</text>
+        <text x="560" y="218" text-anchor="middle" font-size="10" fill="#aaa" font-family="'IBM Plex Sans',sans-serif">DLI ≈ 40–45 mol/d</text>
+      </svg>
+    </div>
+    <div class="entry-warning">Mit 2× STIXX 50 (~108W) erreichst du etwa 50% des theoretischen Optimums. Dein Licht ist die harte Decke — ScrOG und Training sind umso wichtiger, um jeden Photon zu nutzen.</div>
+  </article>
+
+  <!-- ScrOG -->
+  <article class="entry" id="scrog">
+    <div class="entry-header">
+      <h3>ScrOG</h3>
+      <span class="aka">Screen of Green · Netz-Training</span>
+      <div class="tags"><span class="tag">Training</span></div>
+    </div>
+    <div class="entry-body">
+      <p>ScrOG ist eine Trainingstechnik, bei der ein horizontales Netz (5×5 cm Maschenweite) über den Pflanzen gespannt wird. Jeder neue Trieb wird unter dem Netz durchgefädelt und horizontal gezogen, bis die gesamte Netzfläche gleichmäßig mit Wachstumsspitzen bedeckt ist. Das Ergebnis ist ein flacher, ebenmäßiger "Teppich" aus Bud-Sites statt einer einzelnen großen Cola mit vielen beschatteten Nebentrieben.</p>
+      <p>Warum das so wichtig ist: Bei begrenztem Licht (wie deinen 108W) ist jeder Quadratzentimeter unbewachsene Netzfläche ein verschenkter Photon-Fänger. Ein flaches ScrOG-Canopy fängt 95%+ der Photonen ab, ein untrainierter Busch verschwendet 30–40% durch Selbstbeschattung. <strong>Das allein ist der Unterschied zwischen 60g und 150g bei gleichem Licht.</strong></p>
+    </div>
+    <div class="entry-diagram">
+      <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="max-width:680px;">
+        <rect x="0" y="0" width="700" height="300" fill="#fafaf7" rx="8"/>
+        <!-- Left: No ScrOG -->
+        <text x="175" y="25" text-anchor="middle" font-family="'DM Serif Display',serif" font-size="14" fill="#b44">Ohne ScrOG</text>
+        <!-- Pot -->
+        <rect x="130" y="240" width="90" height="30" rx="3" fill="#c4a882" stroke="#a08060" stroke-width="1"/>
+        <!-- Single tall cola -->
+        <line x1="175" y1="240" x2="175" y2="80" stroke="#6a8a50" stroke-width="3"/>
+        <!-- Main cola -->
+        <ellipse cx="175" cy="65" rx="12" ry="20" fill="#8ab870"/>
+        <!-- Small side branches -->
+        <line x1="175" y1="200" x2="145" y2="175" stroke="#6a8a50" stroke-width="2"/>
+        <ellipse cx="140" cy="168" rx="6" ry="10" fill="#a0c890" opacity="0.6"/>
+        <line x1="175" y1="180" x2="205" y2="155" stroke="#6a8a50" stroke-width="2"/>
+        <ellipse cx="210" cy="148" rx="6" ry="10" fill="#a0c890" opacity="0.6"/>
+        <line x1="175" y1="160" x2="150" y2="135" stroke="#6a8a50" stroke-width="2"/>
+        <ellipse cx="145" cy="128" rx="5" ry="8" fill="#a0c890" opacity="0.5"/>
+        <!-- Light cone (narrow) -->
+        <path d="M 155 40 L 175 60 L 195 40" fill="none" stroke="#f0c040" stroke-width="1" opacity="0.4"/>
+        <!-- Wasted area -->
+        <text x="175" y="290" text-anchor="middle" font-size="10" fill="#b44" font-family="'IBM Plex Sans',sans-serif">~60% Licht verschwendet</text>
+
+        <!-- Right: With ScrOG -->
+        <text x="525" y="25" text-anchor="middle" font-family="'DM Serif Display',serif" font-size="14" fill="#4a7c59">Mit ScrOG</text>
+        <!-- Pot -->
+        <rect x="480" y="240" width="90" height="30" rx="3" fill="#c4a882" stroke="#a08060" stroke-width="1"/>
+        <!-- Trunk -->
+        <line x1="525" y1="240" x2="525" y2="145" stroke="#6a8a50" stroke-width="3"/>
+        <!-- ScrOG net line -->
+        <line x1="400" y1="140" x2="650" y2="140" stroke="#888" stroke-width="1.5" stroke-dasharray="6,4"/>
+        <text x="660" y="143" font-size="8" fill="#888" font-family="'IBM Plex Mono',monospace">Netz</text>
+        <!-- Horizontal branches under net -->
+        <line x1="525" y1="155" x2="420" y2="145" stroke="#6a8a50" stroke-width="2"/>
+        <line x1="525" y1="155" x2="630" y2="145" stroke="#6a8a50" stroke-width="2"/>
+        <line x1="525" y1="165" x2="440" y2="148" stroke="#6a8a50" stroke-width="1.5"/>
+        <line x1="525" y1="165" x2="610" y2="148" stroke="#6a8a50" stroke-width="1.5"/>
+        <!-- Bud sites poking through -->
+        <ellipse cx="420" cy="120" rx="10" ry="16" fill="#8ab870"/>
+        <ellipse cx="455" cy="118" rx="9" ry="14" fill="#8ab870"/>
+        <ellipse cx="490" cy="115" rx="10" ry="16" fill="#8ab870"/>
+        <ellipse cx="525" cy="112" rx="11" ry="18" fill="#7aaa60"/>
+        <ellipse cx="560" cy="115" rx="10" ry="16" fill="#8ab870"/>
+        <ellipse cx="595" cy="118" rx="9" ry="14" fill="#8ab870"/>
+        <ellipse cx="630" cy="120" rx="10" ry="16" fill="#8ab870"/>
+        <!-- Light arrows (wide coverage) -->
+        <g stroke="#f0c040" stroke-width="1" opacity="0.35">
+          <line x1="420" y1="50" x2="420" y2="100"/>
+          <line x1="455" y1="50" x2="455" y2="100"/>
+          <line x1="490" y1="50" x2="490" y2="98"/>
+          <line x1="525" y1="50" x2="525" y2="95"/>
+          <line x1="560" y1="50" x2="560" y2="98"/>
+          <line x1="595" y1="50" x2="595" y2="100"/>
+          <line x1="630" y1="50" x2="630" y2="100"/>
+        </g>
+        <text x="525" y="290" text-anchor="middle" font-size="10" fill="#4a7c59" font-family="'IBM Plex Sans',sans-serif" font-weight="500">95%+ Lichtabsorption — alle Buds gleich beleuchtet</text>
+        <!-- Divider -->
+        <line x1="350" y1="15" x2="350" y2="280" stroke="#ddd" stroke-width="1" stroke-dasharray="3,3"/>
+      </svg>
+    </div>
+    <div class="entry-tip">Für deine Citron Givré (Single Plant, HS80): Netz bei ~25 cm über Topfrand spannen. Erst flippen (12/12) wenn 80–90% der Netzfläche bedeckt sind. Rechne mit 6–8 Wochen Veg, nicht 4–5.</div>
+  </article>
+
+  <!-- Topping & LST -->
+  <article class="entry" id="topping">
+    <div class="entry-header">
+      <h3>Topping & LST</h3>
+      <span class="aka">Low Stress Training · Beschnitt</span>
+      <div class="tags"><span class="tag">Training</span></div>
+    </div>
+    <div class="entry-body">
+      <p><strong>Topping</strong> bedeutet, die Haupttriebspitze (den apikalen Meristem) abzuschneiden. Die Pflanze reagiert, indem sie zwei neue Haupttriebe aus den darunterliegenden Nodien ausbildet — aus 1 Cola werden 2. Das bricht die "Apikaldominanz", das hormonelle Signal, das normalerweise den Haupttrieb bevorzugt und Seitentriebe unterdrückt.</p>
+      <p><strong>LST</strong> (Low Stress Training) ist sanfter: Du biegst Triebe horizontal und fixierst sie mit Draht oder Clips, ohne etwas abzuschneiden. Das verteilt das Licht gleichmäßig und regt Seitentriebe zum Wachstum an, ohne die Pflanze durch Schnitt zu stressen. Die Kombination von einmal Toppen + LST ist der Sweet Spot für Anfänger — einfach, effektiv, schneller als Mainlining.</p>
+    </div>
+    <div class="entry-diagram">
+      <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="max-width:680px;">
+        <rect x="0" y="0" width="700" height="200" fill="#fafaf7" rx="8"/>
+        <!-- Stage 1: Before topping -->
+        <text x="100" y="25" text-anchor="middle" font-size="11" font-weight="500" fill="#555" font-family="'IBM Plex Sans',sans-serif">1. Vor dem Topping</text>
+        <rect x="70" y="160" width="60" height="20" rx="2" fill="#c4a882"/>
+        <line x1="100" y1="160" x2="100" y2="60" stroke="#6a8a50" stroke-width="3"/>
+        <circle cx="100" cy="52" r="8" fill="#8ab870"/>
+        <text x="100" y="55" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">✦</text>
+        <!-- Node markers -->
+        <circle cx="100" cy="140" r="3" fill="#a0c080"/><circle cx="100" cy="120" r="3" fill="#a0c080"/>
+        <circle cx="100" cy="100" r="3" fill="#a0c080"/><circle cx="100" cy="80" r="3" fill="#a0c080"/>
+
+        <!-- Stage 2: Cut -->
+        <text x="270" y="25" text-anchor="middle" font-size="11" font-weight="500" fill="#555" font-family="'IBM Plex Sans',sans-serif">2. Schnitt über Node 3</text>
+        <rect x="240" y="160" width="60" height="20" rx="2" fill="#c4a882"/>
+        <line x1="270" y1="160" x2="270" y2="90" stroke="#6a8a50" stroke-width="3"/>
+        <line x1="255" y1="92" x2="285" y2="88" stroke="#b44" stroke-width="2"/>
+        <text x="292" y="85" font-size="9" fill="#b44" font-family="'IBM Plex Sans',sans-serif">✂ Cut</text>
+        <circle cx="270" cy="140" r="3" fill="#a0c080"/><circle cx="270" cy="120" r="3" fill="#a0c080"/>
+        <circle cx="270" cy="100" r="3" fill="#a0c080"/>
+
+        <!-- Stage 3: Two colas -->
+        <text x="440" y="25" text-anchor="middle" font-size="11" font-weight="500" fill="#555" font-family="'IBM Plex Sans',sans-serif">3. Zwei neue Colas</text>
+        <rect x="410" y="160" width="60" height="20" rx="2" fill="#c4a882"/>
+        <line x1="440" y1="160" x2="440" y2="100" stroke="#6a8a50" stroke-width="3"/>
+        <line x1="440" y1="100" x2="415" y2="55" stroke="#6a8a50" stroke-width="2.5"/>
+        <line x1="440" y1="100" x2="465" y2="55" stroke="#6a8a50" stroke-width="2.5"/>
+        <circle cx="415" cy="48" r="7" fill="#8ab870"/><circle cx="465" cy="48" r="7" fill="#8ab870"/>
+
+        <!-- Stage 4: LST spread -->
+        <text x="620" y="25" text-anchor="middle" font-size="11" font-weight="500" fill="#555" font-family="'IBM Plex Sans',sans-serif">4. LST → flach</text>
+        <rect x="590" y="160" width="60" height="20" rx="2" fill="#c4a882"/>
+        <line x1="620" y1="160" x2="620" y2="120" stroke="#6a8a50" stroke-width="3"/>
+        <!-- Bent branches -->
+        <path d="M 620 120 Q 600 100 570 95" fill="none" stroke="#6a8a50" stroke-width="2.5"/>
+        <path d="M 620 120 Q 640 100 670 95" fill="none" stroke="#6a8a50" stroke-width="2.5"/>
+        <circle cx="570" cy="88" r="7" fill="#8ab870"/><circle cx="670" cy="88" r="7" fill="#8ab870"/>
+        <!-- LST anchors -->
+        <line x1="570" y1="95" x2="570" y2="175" stroke="#c17f3e" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="670" y1="95" x2="670" y2="175" stroke="#c17f3e" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="560" y="190" font-size="8" fill="#c17f3e" font-family="'IBM Plex Mono',monospace">wire</text>
+        <text x="660" y="190" font-size="8" fill="#c17f3e" font-family="'IBM Plex Mono',monospace">wire</text>
+        <!-- Arrows between stages -->
+        <text x="185" y="115" font-size="18" fill="#ccc">→</text>
+        <text x="355" y="115" font-size="18" fill="#ccc">→</text>
+        <text x="530" y="115" font-size="18" fill="#ccc">→</text>
+      </svg>
+    </div>
+    <div class="entry-tip">Deine Citron Givré wurde bereits einmal getoppt — perfekt. Jetzt LST anwenden, die beiden (oder mehr) Haupttriebe horizontal ausbreiten und ins ScrOG-Netz einarbeiten.</div>
+  </article>
+
+  <!-- CalMag -->
+  <article class="entry" id="calmag">
+    <div class="entry-header">
+      <h3>CalMag</h3>
+      <span class="aka">Calcium-Magnesium Supplement</span>
+      <div class="tags"><span class="tag">Nährstoffe</span></div>
+    </div>
+    <div class="entry-body">
+      <p>CalMag ist ein Supplement aus Calcium (Ca) und Magnesium (Mg) — zwei Nährstoffe, die unter LED-Beleuchtung besonders kritisch werden. Der Grund: LEDs erzeugen weniger Infrarotstrahlung (Wärme) als HPS/NDL. Weniger Blattwärme = weniger passive Transpiration = weniger Calcium-Transport von der Wurzel zum Blatt. Calcium ist ein <strong>immobiler</strong> Nährstoff — die Pflanze kann ihn nicht von alten zu neuen Blättern umverteilen. Wenn der Transpirationsstrom stockt, verhungern die Wachstumsspitzen an Calcium, auch wenn im Boden genug vorhanden ist.</p>
+      <p>Magnesium ist das Zentralatom im Chlorophyll — ohne Mg keine Photosynthese. Ein Mg-Mangel zeigt sich als Intervenalchlorose (gelbe Blätter mit grünen Adern), typisch in der Blüte wenn der Bedarf explodiert.</p>
+    </div>
+    <div class="entry-values">
+      <div class="val-box">
+        <div class="val-label">Dosierung</div>
+        <div class="val-number">1 ml/L</div>
+        <div class="val-unit">ab Woche 2 bis Ernte</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">Ca-Mangel Zeichen</div>
+        <div class="val-number">Braune Flecken</div>
+        <div class="val-unit">an neuen Blättern oben</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">Mg-Mangel Zeichen</div>
+        <div class="val-number">Gelbe Adern</div>
+        <div class="val-unit">an älteren Blättern unten</div>
+      </div>
+    </div>
+    <div class="entry-warning">Unter LED ist CalMag nicht optional, sondern Pflicht. Ein versteckter Calcium-Lockout in der Blüte kann 10–30% Ertrag kosten, ohne dass die Pflanze dramatisch krank aussieht.</div>
+  </article>
+
+  <!-- Trichomes -->
+  <article class="entry" id="trichomes">
+    <div class="entry-header">
+      <h3>Trichome</h3>
+      <span class="aka">Harzdrüsen · Kristalle</span>
+      <div class="tags"><span class="tag">Ernte</span></div>
+    </div>
+    <div class="entry-body">
+      <p>Trichome sind die pilzförmigen Harzdrüsen auf Blüten und Blättern — die "Kristalle", die unter der Lupe wie winzige Pilze mit kugelförmigen Köpfen aussehen. In diesen Köpfen sitzen THC, CBD, Terpene und alle anderen Cannabinoide. Ihre Farbe unter 60× Vergrößerung ist der einzig zuverlässige Ernte-Indikator — vergiss Herstellerangaben zur Blütezeit.</p>
+    </div>
+    <div class="entry-diagram">
+      <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg" style="max-width:680px;">
+        <rect x="0" y="0" width="700" height="180" fill="#fafaf7" rx="8"/>
+        <!-- Stage 1: Clear -->
+        <g transform="translate(90,10)">
+          <text x="0" y="15" text-anchor="middle" font-size="10" font-weight="500" fill="#b44" font-family="'IBM Plex Sans',sans-serif">Zu früh</text>
+          <line x1="0" y1="130" x2="0" y2="55" stroke="#d0d0d0" stroke-width="2"/>
+          <circle cx="0" cy="45" r="14" fill="none" stroke="#d0d0d0" stroke-width="1.5"/>
+          <circle cx="0" cy="45" r="10" fill="rgba(220,220,220,0.2)"/>
+          <text x="0" y="155" text-anchor="middle" font-size="9" fill="#888" font-family="'IBM Plex Sans',sans-serif">Klar / glasig</text>
+          <text x="0" y="168" text-anchor="middle" font-size="8" fill="#aaa" font-family="'IBM Plex Sans',sans-serif">Wenig Cannabinoide</text>
+        </g>
+        <!-- Stage 2: Milky -->
+        <g transform="translate(280,10)">
+          <text x="0" y="15" text-anchor="middle" font-size="10" font-weight="500" fill="#c17f3e" font-family="'IBM Plex Sans',sans-serif">Peak THC</text>
+          <line x1="0" y1="130" x2="0" y2="55" stroke="#e8d8c0" stroke-width="2"/>
+          <circle cx="0" cy="45" r="14" fill="none" stroke="#e0d0b8" stroke-width="1.5"/>
+          <circle cx="0" cy="45" r="10" fill="rgba(240,230,210,0.7)"/>
+          <text x="0" y="155" text-anchor="middle" font-size="9" fill="#888" font-family="'IBM Plex Sans',sans-serif">Milchig / trüb</text>
+          <text x="0" y="168" text-anchor="middle" font-size="8" fill="#aaa" font-family="'IBM Plex Sans',sans-serif">Max. THC, cerebral</text>
+        </g>
+        <!-- Stage 3: Mixed (recommended) -->
+        <g transform="translate(460,10)">
+          <rect x="-60" y="-2" width="120" height="175" rx="6" fill="#e8f5e9" stroke="#81c784" stroke-width="1.5"/>
+          <text x="0" y="15" text-anchor="middle" font-size="10" font-weight="600" fill="#4a7c59" font-family="'IBM Plex Sans',sans-serif">★ Erntefenster</text>
+          <line x1="0" y1="130" x2="0" y2="55" stroke="#d8c8a0" stroke-width="2"/>
+          <circle cx="0" cy="45" r="14" fill="none" stroke="#d0b880" stroke-width="1.5"/>
+          <circle cx="0" cy="45" r="10" fill="rgba(210,190,140,0.6)"/>
+          <text x="0" y="155" text-anchor="middle" font-size="9" fill="#3a6a49" font-family="'IBM Plex Sans',sans-serif">70% milchig, 30% amber</text>
+          <text x="0" y="168" text-anchor="middle" font-size="8" fill="#5a8a60" font-family="'IBM Plex Sans',sans-serif">Balanced — Body + Head</text>
+        </g>
+        <!-- Stage 4: Amber -->
+        <g transform="translate(630,10)">
+          <text x="0" y="15" text-anchor="middle" font-size="10" font-weight="500" fill="#888" font-family="'IBM Plex Sans',sans-serif">Zu spät</text>
+          <line x1="0" y1="130" x2="0" y2="55" stroke="#c8a060" stroke-width="2"/>
+          <circle cx="0" cy="45" r="14" fill="none" stroke="#b89050" stroke-width="1.5"/>
+          <circle cx="0" cy="45" r="10" fill="rgba(180,140,60,0.5)"/>
+          <text x="0" y="155" text-anchor="middle" font-size="9" fill="#888" font-family="'IBM Plex Sans',sans-serif">50%+ amber</text>
+          <text x="0" y="168" text-anchor="middle" font-size="8" fill="#aaa" font-family="'IBM Plex Sans',sans-serif">THC→CBN, sedativ</text>
+        </g>
+        <!-- Arrows -->
+        <text x="185" y="95" font-size="16" fill="#ddd">→</text>
+        <text x="370" y="95" font-size="16" fill="#ddd">→</text>
+        <text x="555" y="95" font-size="16" fill="#ddd">→</text>
+      </svg>
+    </div>
+    <div class="entry-tip">Prüfe Trichome immer auf den Calyxen (Blütenkelchen), nicht auf den Zuckerblättern! Zuckerblätter reifen schneller und verfälschen das Bild. 60× Taschenlupe reicht, Handy-Clip-Lupe auch.</div>
+  </article>
+
+  <!-- Photoperiod -->
+  <article class="entry" id="photoperiod">
+    <div class="entry-header">
+      <h3>Photoperiode & Flip</h3>
+      <span class="aka">Lichtzyklen · 18/6 → 12/12</span>
+      <div class="tags"><span class="tag">Licht</span><span class="tag">Timing</span></div>
+    </div>
+    <div class="entry-body">
+      <p>Cannabis ist eine photoperiodische Pflanze: Sie erkennt die Jahreszeit anhand der Tageslänge. In der Natur blüht sie, wenn die Nächte lang genug werden (Spätsommer/Herbst). Indoor simulierst du das durch den Lichtzyklus. <strong>18/6</strong> (18h Licht, 6h Dunkelheit) signalisiert "Sommer" = vegetatives Wachstum. <strong>12/12</strong> signalisiert "Herbst" = Blüteeinleitung.</p>
+      <p>Der <strong>Flip</strong> ist der Tag, an dem du von 18/6 auf 12/12 umschaltest. Ab diesem Moment beginnt die "Flower Clock" — alle Blütezeitangaben (z.B. "8–9 Wochen Blüte") zählen ab dem Flip-Tag. In den ersten 1–2 Wochen nach dem Flip passiert der <strong>Stretch</strong> — die Pflanze wächst nochmal explosiv in die Höhe, bevor sie ihre Energie in die Blütenbildung steckt.</p>
+    </div>
+    <div class="entry-values">
+      <div class="val-box">
+        <div class="val-label">Veg-Zyklus</div>
+        <div class="val-number">18/6</div>
+        <div class="val-unit">18h Licht · 6h Dunkel</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">Flower-Zyklus</div>
+        <div class="val-number">12/12</div>
+        <div class="val-unit">12h Licht · 12h Dunkel</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">Flip-Kriterium</div>
+        <div class="val-number">80–90%</div>
+        <div class="val-unit">ScrOG-Netz bedeckt</div>
+      </div>
+    </div>
+    <div class="entry-warning">Während der 12h Dunkelphase darf KEIN Licht ins Zelt — auch nicht kurz die AR-Tür öffnen. Lichtlecks können Hermaphroditismus auslösen (männliche Blüten an weiblicher Pflanze = Samen statt Sinsemilla).</div>
+  </article>
+
+  <!-- pH & EC -->
+  <article class="entry" id="ph">
+    <div class="entry-header">
+      <h3>pH & EC</h3>
+      <span class="aka">Säuregrad · Electrical Conductivity</span>
+      <div class="tags"><span class="tag">Nährstoffe</span></div>
+    </div>
+    <div class="entry-body">
+      <p>Der <strong>pH-Wert</strong> bestimmt, welche Nährstoffe die Pflanze überhaupt aufnehmen kann — unabhängig davon, wie viel im Boden vorhanden ist. In Erde liegt der optimale Bereich bei <strong>6.0–6.8</strong>. Außerhalb dieses Fensters "lockt" die Pflanze bestimmte Nährstoffe aus: Bei pH 5.0 ist z.B. Calcium praktisch nicht verfügbar, bei pH 7.5 werden Eisen und Mangan blockiert. Das nennt man <strong>Nutrient Lockout</strong> — die Pflanze zeigt Mangelsymptome, obwohl alles im Boden ist.</p>
+      <p><strong>EC</strong> (Electrical Conductivity, gemessen in mS/cm) misst die Gesamtkonzentration gelöster Salze in deiner Nährlösung. Höherer EC = mehr gelöste Nährstoffe. In organischen Grows (BioBizz, Living Soil) ist der EC weniger aussagekräftig, weil viele Nährstoffe organisch gebunden und nicht leitfähig sind. Trotzdem nützlich als Grenzwert: EC über 2.5 im Runoff = zu viel, spülen.</p>
+    </div>
+    <div class="entry-values">
+      <div class="val-box">
+        <div class="val-label">pH Erde optimal</div>
+        <div class="val-number">6.0–6.8</div>
+        <div class="val-unit">Sweet Spot: 6.3–6.5</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">pH Gießwasser</div>
+        <div class="val-number">6.2–6.5</div>
+        <div class="val-unit">Linzer Leitungswasser testen!</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">EC Veg / Flower</div>
+        <div class="val-number">1.0 / 1.5</div>
+        <div class="val-unit">mS/cm — bei Organik ± variabel</div>
+      </div>
+    </div>
+    <div class="entry-warning">Deine Tomatenerde ist mineral-vorgedüngt. Das bedeutet: Der EC ist ab Tag 1 schon erhöht. Daher nur 30–40% im Mix und die ersten Wochen nur Wasser geben — die Erde hat genug an Bord.</div>
+  </article>
+</section>
+
+<!-- ============================================== -->
+<!-- TIER 2: IMPORTANT -->
+<!-- ============================================== -->
+<section class="category">
+  <div class="category-header">
+    <h2>Wichtige Begriffe</h2>
+    <span class="tier tier-important">Wichtig</span>
+  </div>
+
+  <!-- Mycorrhizae -->
+  <article class="entry" id="mycorrhizae">
+    <div class="entry-header">
+      <h3>Mykorrhiza</h3>
+      <span class="aka">Mycorrhizae · Pilz-Wurzel-Symbiose</span>
+      <div class="tags"><span class="tag">Boden</span></div>
+    </div>
+    <div class="entry-body">
+      <p>Mykorrhiza-Pilze gehen eine Symbiose mit Pflanzenwurzeln ein: Die feinen Pilzhyphen (Fäden) vergrößern das effektive Wurzelvolumen um das 10–100-fache und erschließen Phosphor und Wasser aus Bodenregionen, die die Wurzeln allein nie erreichen würden. Im Gegenzug liefert die Pflanze dem Pilz Zucker aus der Photosynthese.</p>
+      <p>Entscheidend: Das Inokulum muss <strong>direkt an den Wurzelballen</strong> bei der Transplantation appliziert werden — nicht ins Substrat einmischen, wo es die Wurzeln vielleicht nie erreicht. Synthetische Mineraldünger (hohe Salzkonzentrationen) unterdrücken die Besiedlung — organische Nährstoffe wie BioBizz sind ideale Partner.</p>
+    </div>
+    <div class="entry-values">
+      <div class="val-box">
+        <div class="val-label">Erwarteter Yield-Boost</div>
+        <div class="val-number">5–15%</div>
+        <div class="val-unit">Unabhängige Daten (nicht Marketing)</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">Anwendung</div>
+        <div class="val-number">5g</div>
+        <div class="val-unit">Granulat direkt auf Rootball</div>
+      </div>
+    </div>
+    <div class="entry-warning">Hersteller (DYNOMYCO, Great White) behaupten 10–45% Ertragssteigerung. Unabhängige Studien zeigen eher 5–15%. Trotzdem der beste ROI pro investierten Euro (~€15/Grow).</div>
+  </article>
+
+  <!-- Lollipopping -->
+  <article class="entry" id="lollipopping">
+    <div class="entry-header">
+      <h3>Lollipopping</h3>
+      <span class="aka">Unterkrone entfernen</span>
+      <div class="tags"><span class="tag">Training</span></div>
+    </div>
+    <div class="entry-body">
+      <p>Lollipopping bedeutet, alle Blätter, Triebe und Wachstumsspitzen unterhalb des ScrOG-Netzes zu entfernen — so dass die Pflanze wie ein Lolli aussieht: oben ein dichtes Canopy, unten nur kahle Stängel. Warum? Alles unterhalb des Netzes bekommt kaum Licht und produziert nur "Popcorn-Buds" (winzige, lockere Blüten). Diese kleinen Buds stehlen Energie von den oberen Colas, ohne nennenswert zum Ertrag beizutragen.</p>
+      <p>Timing: 2–3 Tage vor dem Flip oder in der ersten Woche nach dem Flip. Nicht beides gleichzeitig mit starker Defoliation — zu viel Stress auf einmal.</p>
+    </div>
+    <div class="entry-tip">Bei deiner Single-Plant Citron Givré im HS80 besonders wichtig: Die eine Pflanze muss die ganze Fläche abdecken, also lieber oben investieren und unten radikal aufräumen.</div>
+  </article>
+
+  <!-- Defoliation -->
+  <article class="entry" id="defoliation">
+    <div class="entry-header">
+      <h3>Defoliation</h3>
+      <span class="aka">Blattentfernung · Entlaubung</span>
+      <div class="tags"><span class="tag">Training</span></div>
+    </div>
+    <div class="entry-body">
+      <p>Gezieltes Entfernen von Fan Leaves (großen Fächerblättern), die Bud-Sites beschatten oder die Luftzirkulation im Canopy behindern. Nicht zu verwechseln mit Lollipopping (das ist die Unterkrone). Defoliation betrifft die Blätter im und über dem Canopy.</p>
+      <p>Zwei strategische Zeitpunkte: Erstens am <strong>Flip-Tag</strong> (15–20% der Fan Leaves entfernen, die Licht blockieren). Zweitens am <strong>Tag 21 der Blüte</strong> (nochmal max. 25% — "Schwazzing light"). Mehr als das bei 108W LED-Power wäre kontraproduktiv, weil die Pflanze bei niedrigem Licht jedes Blatt als Solarpanel braucht.</p>
+    </div>
+    <div class="entry-warning">Schwazzing (komplettes Entblättern) ist für 1000W + CO₂-Setups konzipiert. Bei 108W ist das ein sicherer Weg zu Ertragsverlusten. Weniger ist mehr.</div>
+  </article>
+
+  <!-- Abluft / Umluft / AKF -->
+  <article class="entry" id="abluft">
+    <div class="entry-header">
+      <h3>Abluft / Umluft / AKF</h3>
+      <span class="aka">Exhaust · Circulation · Aktivkohlefilter</span>
+      <div class="tags"><span class="tag">Klima</span><span class="tag">Stealth</span></div>
+    </div>
+    <div class="entry-body">
+      <p><strong>Abluft</strong> (Exhaust) ist der CAN RK125 — er saugt verbrauchte, warme, feuchte Luft aus dem Zelt und drückt sie durch den Aktivkohlefilter nach draußen. Das erzeugt <strong>Unterdruck</strong> im Zelt: Frischluft wird passiv durch die unteren Öffnungen nachgesaugt. Unterdruck ist gut für Stealth, weil Geruch nur über den Filter nach außen kann.</p>
+      <p><strong>Umluft</strong> (Circulation) ist der Monkey Fan — er bewegt die Luft innerhalb des Zelts, verhindert Wärmestau am Canopy, stärkt die Stängel durch sanfte Bewegung und reduziert Mikroklima-Taschen, wo sich Feuchtigkeit staut (→ Schimmelprävention).</p>
+      <p><strong>AKF</strong> (Aktivkohlefilter) = der CAN-Lite 300. Luft wird durch eine Schicht Aktivkohle gedrückt, die Geruchsmoleküle (Terpene, VOCs) adsorbiert. Lebensdauer ~12–18 Monate, abhängig von Luftfeuchtigkeit. Bei über 70% RH verliert Aktivkohle rapide an Wirksamkeit — ein weiterer Grund für kontrollierte Humidity.</p>
+    </div>
+    <div class="entry-diagram">
+      <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="max-width:680px;">
+        <rect x="0" y="0" width="700" height="240" fill="#fafaf7" rx="8"/>
+        <!-- Tent outline -->
+        <rect x="150" y="20" width="260" height="200" rx="4" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="8,4"/>
+        <text x="280" y="15" text-anchor="middle" font-size="10" fill="#888" font-family="'IBM Plex Mono',monospace">HS80 Zelt</text>
+        <!-- Carbon filter inside top -->
+        <rect x="195" y="35" width="100" height="30" rx="4" fill="#a0a0a0" stroke="#777" stroke-width="1.5"/>
+        <text x="245" y="55" text-anchor="middle" font-size="9" fill="#fff" font-family="'IBM Plex Mono',monospace" font-weight="500">CAN-Lite AKF</text>
+        <!-- Duct from filter to fan -->
+        <rect x="310" y="38" width="60" height="24" rx="3" fill="#888" stroke="#666" stroke-width="1"/>
+        <text x="340" y="54" text-anchor="middle" font-size="7" fill="#ddd" font-family="'IBM Plex Mono',monospace">Schlauch</text>
+        <!-- Fan outside tent -->
+        <circle cx="440" cy="50" r="22" fill="#555" stroke="#333" stroke-width="2"/>
+        <text x="440" y="54" text-anchor="middle" font-size="7" fill="#fff" font-family="'IBM Plex Mono',monospace">RK125</text>
+        <!-- Exhaust arrow out -->
+        <line x1="465" y1="50" x2="530" y2="50" stroke="#c17f3e" stroke-width="2" marker-end="url(#arrowOrange)"/>
+        <text x="540" y="48" font-size="9" fill="#c17f3e" font-family="'IBM Plex Sans',sans-serif">Abluft →</text>
+        <text x="540" y="60" font-size="8" fill="#a06830" font-family="'IBM Plex Sans',sans-serif">geruchsfrei!</text>
+        <!-- Defs for arrows -->
+        <defs>
+          <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6" fill="#c17f3e"/>
+          </marker>
+          <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6" fill="#5a8aaa"/>
+          </marker>
+          <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6" fill="#6a9a5a"/>
+          </marker>
+        </defs>
+        <!-- Fresh air intake arrows -->
+        <line x1="100" y1="195" x2="148" y2="195" stroke="#5a8aaa" stroke-width="2" marker-end="url(#arrowBlue)"/>
+        <text x="90" y="190" text-anchor="end" font-size="9" fill="#5a8aaa" font-family="'IBM Plex Sans',sans-serif">← Frischluft</text>
+        <text x="90" y="202" text-anchor="end" font-size="8" fill="#7aaaba" font-family="'IBM Plex Sans',sans-serif">(passiv, Unterdruck)</text>
+        <!-- Monkey fan inside -->
+        <circle cx="370" cy="140" r="16" fill="none" stroke="#6a9a5a" stroke-width="1.5"/>
+        <line x1="360" y1="130" x2="380" y2="150" stroke="#6a9a5a" stroke-width="1"/>
+        <line x1="380" y1="130" x2="360" y2="150" stroke="#6a9a5a" stroke-width="1"/>
+        <text x="370" y="168" text-anchor="middle" font-size="8" fill="#6a9a5a" font-family="'IBM Plex Mono',monospace">Monkey Fan</text>
+        <!-- Circulation arrows -->
+        <path d="M 340 135 Q 300 120 310 145" fill="none" stroke="#6a9a5a" stroke-width="1" marker-end="url(#arrowGreen)" opacity="0.5"/>
+        <text x="285" y="128" font-size="8" fill="#6a9a5a" font-family="'IBM Plex Sans',sans-serif">Umluft</text>
+        <!-- Negative pressure indicator -->
+        <text x="280" y="195" text-anchor="middle" font-size="9" fill="#888" font-family="'IBM Plex Sans',sans-serif" font-style="italic">⟵ Unterdruck ⟶</text>
+        <text x="280" y="210" text-anchor="middle" font-size="8" fill="#aaa" font-family="'IBM Plex Sans',sans-serif">Zeltwände ziehen leicht nach innen</text>
+      </svg>
+    </div>
+    <div class="entry-tip">Dein RK125 (310 m³/h) braucht unbedingt einen Drehzahlregler. Auf voller Stufe tauscht er die Zeltluft 270× pro Stunde — viel zu viel, zu laut, Zelt kollapst.</div>
+  </article>
+
+  <!-- Steckling -->
+  <article class="entry" id="steckling">
+    <div class="entry-header">
+      <h3>Steckling</h3>
+      <span class="aka">Klon · Clone · Cut</span>
+      <div class="tags"><span class="tag">Vermehrung</span></div>
+    </div>
+    <div class="entry-body">
+      <p>Ein Steckling ist ein abgeschnittener Trieb einer Mutterpflanze, der bewurzelt wird und zu einer genetisch identischen Kopie (Klon) heranwächst. Im Gegensatz zu Samen-Pflanzen gibt es keine genetische Variation — ein Steckling der Citron Givré ist genau dieselbe Pflanze wie die Mutter, mit identischem Terpenprofil, Wuchsform und Potenz.</p>
+      <p>Dein Birthday-Cut der Citron Givré ist <strong>unersetzlich</strong> — es gibt keine Möglichkeit, genau diese Genetik aus einem Samenshop nachzubestellen. Deshalb ist Clone-Management eine Critical-Priority-Aufgabe: Sobald die Pflanze groß genug ist, sollte mindestens ein Backup-Steckling genommen werden, bevor geflippt wird.</p>
+    </div>
+    <div class="entry-tip">Steckling nehmen, sobald die Citron Givré 6+ Nodes hat und gesund wächst. Immer mindestens 2 schneiden (einer kann scheitern). In ein Glas Wasser oder Steinwolle-Würfel, 18/6 Licht, hohe Humidity.</div>
+  </article>
+
+  <!-- Curing -->
+  <article class="entry" id="curing">
+    <div class="entry-header">
+      <h3>Curing & Burping</h3>
+      <span class="aka">Fermentation · Nachreifen</span>
+      <div class="tags"><span class="tag">Ernte</span></div>
+    </div>
+    <div class="entry-body">
+      <p><strong>Curing</strong> ist der kontrollierte Nachreifungsprozess in luftdichten Gläsern (Mason Jars) nach dem Trocknen. Dabei bauen Mikroorganismen Chlorophyll und Pflanzenstärke ab, und Terpene (Geschmacksstoffe) entwickeln sich weiter. Die Differenz zwischen frisch getrocknetem und 4–6 Wochen gecuretem Gras ist enorm — Rauch wird weich, Geschmack komplex, Kopfschmerzen und Hustenreiz verschwinden.</p>
+      <p><strong>Burping</strong> = Gläser öffnen, um frische Luft reinzulassen und Feuchtigkeit/CO₂ abzulassen. Erste Woche: 2–3× täglich 10–15 Minuten. Zweite Woche: 1× täglich. Ab Woche 3: 1× wöchentlich. Wenn beim Öffnen Ammoniak-Geruch → zu feucht, sofort offen lassen und prüfen ob Schimmel entsteht.</p>
+    </div>
+    <div class="entry-values">
+      <div class="val-box">
+        <div class="val-label">Trocknung</div>
+        <div class="val-number">10–14</div>
+        <div class="val-unit">Tage · 15–18°C · 55–60% RH</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">Cure Minimum</div>
+        <div class="val-number">4 Wo.</div>
+        <div class="val-unit">Ideal: 6–8 Wochen</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">Jar Humidity</div>
+        <div class="val-number">60–65%</div>
+        <div class="val-unit">Boveda 62% Packs helfen</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Stretch -->
+  <article class="entry" id="stretch">
+    <div class="entry-header">
+      <h3>Stretch</h3>
+      <span class="aka">Blüte-Stretch · Flowering Stretch</span>
+      <div class="tags"><span class="tag">Timing</span></div>
+    </div>
+    <div class="entry-body">
+      <p>In den ersten 1–3 Wochen nach dem Flip auf 12/12 wächst die Pflanze nochmal explosiv in die Höhe — typischerweise 50–100% bei Indica-dominanten Sorten (wie Super Skunk) und bis zu 200–300% bei Sativas. Das passiert, weil die Pflanze im "Frühblüte-Modus" versucht, ihre Blüten möglichst hoch über das umgebende Blattwerk zu positionieren, um Bestäubung zu maximieren.</p>
+      <p>Der Stretch ist der Grund, warum das <strong>Höhenbudget</strong> so kritisch ist: Wenn du erst bei 60 cm Höhe flippst und die Pflanze sich verdoppelt, hast du 120 cm — und bei 178 cm Zelthöhe minus LED und Abstand bleiben nur ~105 cm nutzbare Höhe. Light Burn ist eine reale Gefahr.</p>
+    </div>
+    <div class="entry-values">
+      <div class="val-box">
+        <div class="val-label">Indica-Stretch</div>
+        <div class="val-number">50–100%</div>
+        <div class="val-unit">der Höhe bei Flip</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">Sativa-Stretch</div>
+        <div class="val-number">100–300%</div>
+        <div class="val-unit">Citron Givré: unbekannt!</div>
+      </div>
+      <div class="val-box">
+        <div class="val-label">Flip-Höhe max.</div>
+        <div class="val-number">30–40 cm</div>
+        <div class="val-unit">über Topfrand, im HS80</div>
+      </div>
+    </div>
+    <div class="entry-warning">Citron Givré (Birthday Cake Kush Pheno) hat wenig Grower-Daten zum Stretch. Konservativ planen: Flip bei 30 cm, nicht 40 cm. Lieber zu früh als Light-Burn in Woche 2 der Blüte.</div>
+  </article>
+</section>
+
+<!-- ============================================== -->
+<!-- TIER 3: GOOD TO KNOW -->
+<!-- ============================================== -->
+<section class="category">
+  <div class="category-header">
+    <h2>Gut zu wissen</h2>
+    <span class="tier tier-useful">Ergänzend</span>
+  </div>
+
+  <!-- Living Soil -->
+  <article class="entry" id="livingsoil">
+    <div class="entry-header">
+      <h3>Living Soil</h3>
+      <span class="aka">Lebende Erde · Organic Soil</span>
+      <div class="tags"><span class="tag">Boden</span></div>
+    </div>
+    <div class="entry-body">
+      <p>Living Soil ist ein Ökosystem, nicht nur ein Wachstumsmedium. Es enthält Bakterien, Pilze, Protozoen und andere Mikroorganismen, die organisches Material (Kompost, Wurmhumus, Pflanzenmaterial) in pflanzenverfügbare Nährstoffe umwandeln. Im Gegensatz zu Mineraldüngern, wo du der Pflanze direkt Salze ins Wasser mischst, fütterst du hier den Boden — und der Boden füttert die Pflanze.</p>
+      <p>Die Vorteile: besseres Terpenprofil (Geschmack!), natürlicher pH-Puffer, weniger Lockout-Probleme, kein aggressives Flushing nötig. Der Nachteil: Langsamere Reaktionszeit — wenn ein Mangel auftritt, kannst du nicht "sofort" nachfüttern wie bei Mineral-Dünger. Living Soil ist ein Marathon-Ansatz, kein Sprint.</p>
+    </div>
+  </article>
+
+  <!-- Phenotype -->
+  <article class="entry" id="phenotype">
+    <div class="entry-header">
+      <h3>Phänotyp & Genotyp</h3>
+      <span class="aka">Pheno · Expression · Genetics</span>
+      <div class="tags"><span class="tag">Genetik</span></div>
+    </div>
+    <div class="entry-body">
+      <p>Der <strong>Genotyp</strong> ist der genetische Bauplan — was in der DNA steht. Der <strong>Phänotyp</strong> ist, was tatsächlich sichtbar wird: Wuchsform, Blütenstruktur, Terpenprofil, Potenz, Farbe. Der Phänotyp = Genotyp × Umwelt. Zwei Samen aus derselben Packung können verschiedene Phänotypen ausprägen, genau wie Geschwister unterschiedlich aussehen können.</p>
+      <p><strong>Pheno-Hunting</strong> bedeutet, mehrere Samen zu keimen und die Pflanze mit den gewünschten Eigenschaften (z.B. sativa-leaning bei Super Skunk) auszuwählen. Bei feminisierten Seeds ist die genetische Bandbreite schmaler als bei regulären — daher die realistische Einschätzung von ~5% Wahrscheinlichkeit für sativa-leaning Phenos bei fem. Super Skunk vs. ~30–50% bei Regulären.</p>
+    </div>
+  </article>
+
+  <!-- DIF -->
+  <article class="entry" id="dif">
+    <div class="entry-header">
+      <h3>DIF</h3>
+      <span class="aka">Temperature Differential · Tag-Nacht-Differenz</span>
+      <div class="tags"><span class="tag">Klima</span></div>
+    </div>
+    <div class="entry-body">
+      <p>DIF = Tagestemperatur minus Nachttemperatur. Ein <strong>positives DIF</strong> (z.B. 25°C Tag, 20°C Nacht = +5 DIF) ist normal und fördert gestrecktes Wachstum. Ein <strong>negatives DIF</strong> (Nacht wärmer als Tag) hält Pflanzen kompakt — nützlich, wenn du Stretch kontrollieren willst.</p>
+      <p>In der Spätblüte ist ein erhöhtes DIF (Nächte auf 17–19°C runter, Tage 21–23°C) ideal: Kühle Nächte bewahren flüchtige Terpene, die bei Wärme verdunsten, und können bei manchen Genetiken lila/violette Färbung auslösen. Praktischer Tipp: Lights-on während der wärmsten Tageszeit laufen lassen, Dunkelperiode in die kühle Nacht legen.</p>
+    </div>
+  </article>
+
+  <!-- Runoff -->
+  <article class="entry" id="runoff">
+    <div class="entry-header">
+      <h3>Runoff & Lift Test</h3>
+      <span class="aka">Ablaufwasser · Gießkontrolle</span>
+      <div class="tags"><span class="tag">Bewässerung</span></div>
+    </div>
+    <div class="entry-body">
+      <p><strong>Runoff</strong> ist das Wasser, das unten aus dem Topf rausläuft. Ziel: 10–15% Runoff bei jedem Gießen. Das spült angesammelte Salzrückstände aus der Wurzelzone und verhindert EC-Aufbau. Runoff-pH und -EC messen gibt dir einen Einblick in die Wurzelzone — weicht der Runoff-pH stark vom Gieß-pH ab, stimmt was im Boden nicht.</p>
+      <p>Der <strong>Lift Test</strong> ist der einfachste und zuverlässigste Weg zu bestimmen, wann gegossen werden muss: Topf hochheben. Leicht = gießen. Schwer = warten. Vergiss fixe Zeitpläne — Wasserverbrauch variiert mit Pflanzengröße, Temperatur, Humidity und Licht. In der Spätblüte kann der Verbrauch auf das Doppelte der Veg-Phase steigen.</p>
+    </div>
+    <div class="entry-tip">Im 7L Plastiktopf (dein aktueller) trocknet der Boden langsamer als in Fabric Pots. Vorsicht mit Übergießen — Plastik hat keine Luft-Pruning-Wirkung auf die Wurzeln.</div>
+  </article>
+
+  <!-- Botrytis -->
+  <article class="entry" id="botrytis">
+    <div class="entry-header">
+      <h3>Botrytis</h3>
+      <span class="aka">Blütenfäule · Bud Rot · Grauschimmel</span>
+      <div class="tags"><span class="tag">IPM</span></div>
+    </div>
+    <div class="entry-body">
+      <p>Botrytis cinerea ist der Alptraum jedes Indoor-Growers: Ein Pilz, der die dichtesten, schönsten Colas von innen heraus verfaulen lässt. Die Sporen sind überall in der Luft — du kannst sie nicht vermeiden, nur die Bedingungen kontrollieren. Botrytis braucht: über 60% RH in der Blüte, stagnierende Luft, und dichte Buds ohne Luftzirkulation im Inneren.</p>
+      <p>Erkennung: Blätter innerhalb der Bud werden plötzlich gelb/braun und lassen sich leicht rausziehen. Wenn du eine Cola aufbrichst und grauen, watteartigen Schimmel siehst, ist es zu spät für diese Bud. Sofort entfernen, Hände waschen, umliegende Buds inspizieren. Prävention: RH unter 50% in der Blüte, Monkey Fan auf die dichtesten Colas richten, gute Defoliation für Luftfluss.</p>
+    </div>
+    <div class="entry-warning">Bei deinem HS80 mit nur einem Monkey Fan: Achte in der Spätblüte darauf, dass die Luft wirklich durch das Canopy zirkuliert, nicht nur darüber. Dichte Indica-Buds (wie sie Citron Givré wahrscheinlich produziert) sind besonders anfällig.</div>
+  </article>
+</section>
+
+<!-- ============================================== -->
+<!-- VERDICT -->
+<!-- ============================================== -->
+<section class="verdict-section">
+  <div class="verdict-card">
+    <h3>Devil's Advocate — Verdict</h3>
+    <p>Dein Setup ist solide für einen ersten Run — die Equipment-Wahl (Sanlight, CAN, Secret Jardin) ist Qualität statt Billig-Kompromiss. Die zwei dringendsten Aktionen: Einen Drehzahlregler für den RK125 besorgen (sonst Lärm + Zelt-Kollaps = Stealth-Problem) und das Lüftungsgitter im AR von innen abdichten. Die zweite STIXX 50 hat hohe Priorität — mit einer Bar ist dein Licht aktuell auf Seedling-Niveau. Der Rest (Tomatenerde-pH testen, Steckling-Backup nehmen, Mycorrhiza bei nächster Transplantation) ist wichtig, aber nicht blockierend. Das Setup wird funktionieren — es muss nicht perfekt sein, um eine gute Citron Givré zu produzieren.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Grow Glossar · Stand April 2026 · HS80 Projekt Linz</p>
+  <p style="margin-top:0.3rem;">Alle Diagramme und Werte sind auf dein spezifisches Setup zugeschnitten. Nicht blind auf andere Grows übertragen.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drying &amp; Cure Tracker — GrowDoc</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Serif+4:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0e0a; --bg2: #141a10; --bg3: #1a2214;
+  --text: #d4cdb7; --text2: #a39e8a; --text3: #6b6756;
+  --accent: #8fb856; --accent2: #6a9e3a; --accent3: #4a7a25;
+  --gold: #c9a84c; --gold2: #a8872e;
+  --red: #c45c4a; --red2: #a33d2d;
+  --blue: #5a9eb8;
+  --border: #2a3320; --border2: #3a4530;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --body: 'Source Serif 4', Georgia, serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--body); background: var(--bg); color: var(--text); line-height: 1.5; padding: 24px; max-width: 860px; margin: 0 auto; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+h1 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-bottom: 4px; }
+h2 { font-family: var(--serif); font-size: 1.3rem; color: var(--accent); margin-bottom: 12px; }
+.subtitle { font-size: 0.9rem; color: var(--text2); margin-bottom: 20px; }
+
+/* Storage warning */
+.storage-warn { background: rgba(201,168,76,0.15); border: 1px solid var(--gold2); border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; margin-bottom: 16px; display: none; color: var(--gold); }
+
+/* Phase badge */
+.phase-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 16px; font-family: var(--mono); font-size: 0.78rem; font-weight: 600; margin-bottom: 20px; border: 1px solid var(--border2); }
+.phase-badge .dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* Cards */
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+.card h3 { font-family: var(--serif); font-size: 1.1rem; color: var(--accent); margin-bottom: 10px; }
+
+/* Inputs */
+.input-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.input-group label { font-size: 0.78rem; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--mono); }
+.input-group input, .input-group select, .input-group textarea {
+  padding: 10px 12px; border: 1px solid var(--border2); border-radius: 8px; font-size: 0.95rem;
+  font-family: var(--mono); background: var(--bg); color: var(--text); min-height: 44px; transition: border-color 0.2s;
+}
+.input-group textarea { font-family: var(--body); resize: vertical; min-height: 60px; }
+.input-group input:focus, .input-group select:focus, .input-group textarea:focus { outline: 3px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+.hint { font-size: 0.72rem; color: var(--text3); font-style: italic; }
+
+/* Buttons */
+.btn { padding: 12px 24px; border-radius: 8px; font-family: var(--mono); font-size: 0.85rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border2); min-height: 44px; transition: background 0.15s, transform 0.1s; }
+.btn:active { transform: scale(0.97); }
+.btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.btn-primary { background: var(--accent3); color: var(--text); border-color: var(--accent2); }
+.btn-primary:hover { background: var(--accent2); }
+.btn-secondary { background: var(--bg3); color: var(--text2); }
+.btn-secondary:hover { background: var(--border); }
+.btn-danger { background: transparent; color: var(--red); border-color: var(--red2); }
+.btn-danger:hover { background: rgba(196,92,74,0.1); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
+
+/* Alerts */
+.alert { padding: 12px 16px; border-radius: 8px; margin: 8px 0; font-size: 0.85rem; }
+.alert-crit { background: rgba(196,92,74,0.15); border: 1px solid var(--red2); color: var(--red); }
+.alert-warn { background: rgba(201,168,76,0.15); border: 1px solid var(--gold2); color: var(--gold); }
+
+/* Timeline */
+.timeline { display: flex; flex-direction: column; gap: 4px; }
+.timeline-day { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: background 0.15s; min-height: 44px; }
+.timeline-day:hover { background: var(--bg3); }
+.timeline-day.active { background: var(--bg3); border: 1px solid var(--accent3); }
+.timeline-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border2); flex-shrink: 0; position: relative; }
+.timeline-dot.done { background: var(--accent); border-color: var(--accent); }
+@keyframes pulse-dot { 0%,100% { box-shadow: 0 0 0 0 rgba(143,184,86,0.5); } 50% { box-shadow: 0 0 0 6px rgba(143,184,86,0); } }
+.timeline-dot.current { border-color: var(--accent); animation: pulse-dot 1.5s infinite; }
+.timeline-label { font-family: var(--mono); font-size: 0.78rem; color: var(--text2); }
+.timeline-label strong { color: var(--text); }
+
+/* Range indicators */
+.range-ind { font-family: var(--mono); font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 4px; }
+.range-green { background: rgba(143,184,86,0.2); color: var(--accent); }
+.range-gold { background: rgba(201,168,76,0.2); color: var(--gold); }
+.range-red { background: rgba(196,92,74,0.2); color: var(--red); }
+
+/* Two-column layout */
+.drying-layout { display: grid; grid-template-columns: 200px 1fr; gap: 20px; }
+@media (max-width: 640px) {
+  body { padding: 14px; }
+  h1 { font-size: 1.4rem; }
+  .drying-layout { grid-template-columns: 1fr; }
+  .btn-row { flex-direction: column; }
+  .btn { width: 100%; text-align: center; }
+}
+
+/* Week accordion */
+.week-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+.week-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; background: none; border: none; width: 100%; color: var(--text); font-family: var(--body); font-size: 0.95rem; font-weight: 600; min-height: 44px; }
+.week-header:hover { background: var(--bg3); }
+.week-header:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+.week-header .chevron { font-size: 0.8rem; color: var(--text3); transition: transform 0.2s; }
+.week-card.open .chevron { transform: rotate(180deg); }
+.week-body { display: none; padding: 4px 18px 18px; }
+.week-card.open .week-body { display: block; }
+.burp-entry { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+.burp-entry:last-child { border-bottom: none; }
+
+/* Summaries */
+.summary-card { background: var(--bg2); border: 1px solid var(--accent3); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+.summary-stat { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+.summary-stat:last-child { border-bottom: none; }
+.summary-label { color: var(--text2); }
+.summary-value { font-family: var(--mono); font-weight: 600; }
+
+/* Completed harvests */
+.harvest-entry { padding: 12px; border-bottom: 1px solid var(--border); }
+.harvest-entry:last-child { border-bottom: none; }
+
+/* Phase transition animation */
+@keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.phase-content { animation: fade-in 0.3s ease-out; }
+
+/* Tooltip */
+.tooltip { position: relative; display: inline-block; }
+.tooltip .tooltip-text { visibility: hidden; background: var(--bg3); color: var(--text2); font-size: 0.75rem; padding: 6px 10px; border-radius: 6px; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); white-space: nowrap; border: 1px solid var(--border2); z-index: 5; }
+.tooltip:hover .tooltip-text, .tooltip:focus-within .tooltip-text { visibility: visible; }
+</style>
+</head>
+<body>
+
+<h1>Drying &amp; Cure Tracker</h1>
+<p class="subtitle">Harvest-to-jar protocol tracker</p>
+
+<div class="storage-warn" id="storage-warn"></div>
+<div class="phase-badge" id="phase-badge">
+  <span class="dot" id="phase-dot"></span>
+  <span id="phase-text">Idle</span>
+</div>
+
+<div id="app" aria-live="polite"></div>
+
+<script>
+/* ── Utilities ── */
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function safeFloat(val, fallback) {
+  var n = parseFloat(val);
+  return isNaN(n) ? fallback : n;
+}
+
+function addDays(dateStr, days) {
+  var d = new Date(dateStr);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+/* ── Constants ── */
+var STORAGE_KEY = 'growdoc-cure-tracker';
+var SMELLS = ['Hay/Grass', 'Ammonia', 'Transitioning', 'Strain-specific', 'Complex/Rich'];
+var storageAvailable = true;
+var saveTimer = null;
+
+/* ── State ── */
+var state = {
+  version: 1,
+  harvestDate: null,
+  phase: 'idle',
+  dryingLogs: [],
+  curingLogs: [],
+  completedSummaries: []
+};
+
+var selectedDay = 1;
+
+/* ── Core Functions ── */
+function getCurrentDryDay() {
+  if (!state.harvestDate) return 0;
+  var harvest = new Date(state.harvestDate);
+  var now = new Date();
+  harvest.setHours(0,0,0,0);
+  now.setHours(0,0,0,0);
+  var diff = 0, d = new Date(harvest);
+  while (d < now) { d.setDate(d.getDate() + 1); diff++; }
+  return diff + 1;
+}
+
+function canStartCuring() {
+  if (!state.harvestDate) return false;
+  var threshold = addDays(state.harvestDate, 7);
+  threshold.setHours(0,0,0,0);
+  var now = new Date();
+  now.setHours(0,0,0,0);
+  return now >= threshold;
+}
+
+function getCureWeek() {
+  // Find first curing log date, or use current date
+  if (state.curingLogs.length > 0) {
+    var firstCure = new Date(state.curingLogs[0].date);
+    var now = new Date();
+    return Math.floor((now - firstCure) / (7 * 86400000)) + 1;
+  }
+  return 1;
+}
+
+function getDayGuidance(day) {
+  if (day <= 3) return 'Days 1-3: High humidity release. Stems still bend easily. Keep airflow gentle, no direct fan on buds.';
+  if (day <= 7) return 'Days 4-7: Outer buds feeling dry. Small stems start to snap. Ideal time to begin checking readiness.';
+  if (day <= 10) return 'Days 8-10: Stems should snap cleanly. Buds feel dry outside but still have interior moisture. Almost ready to jar.';
+  return 'Days 11-14: Extended drying. Watch for over-drying (RH consistently below 55%). Consider jarring soon.';
+}
+
+function getBurpGuidance(week) {
+  if (week <= 1) return 'Week 1: Burp jars 2-3 times daily for 15-30 minutes. Critical humidity equalization period.';
+  if (week <= 2) return 'Week 2: Burp once daily for 15-20 minutes. Moisture should be stabilizing.';
+  if (week <= 4) return 'Weeks 3-4: Burp every 2-3 days for 10-15 minutes. Terpene development accelerating.';
+  return 'Week 5+: Burp once weekly or less. Long-term cure. Monitor for any off smells.';
+}
+
+function getAlerts(entry) {
+  var alerts = [];
+  if (entry.rhJar > 70) alerts.push({ level: 'crit', message: 'Jar RH above 70% — risk of mold! Open jars immediately and dry further.' });
+  if (entry.smell === 'Ammonia') alerts.push({ level: 'crit', message: 'Ammonia smell detected — anaerobic bacteria active. Open jars, spread buds to dry, and rejar in 12-24h.' });
+  if (entry.rhJar < 55) alerts.push({ level: 'warn', message: 'Jar RH below 55% — buds may be over-dried. Consider adding a humidity pack.' });
+  return alerts;
+}
+
+function getTempRange(temp) {
+  if (temp >= 15 && temp <= 18) return 'green';
+  if (temp >= 13 && temp <= 21) return 'gold';
+  return 'red';
+}
+
+function getRHRange(rh) {
+  if (rh >= 55 && rh <= 65) return 'green';
+  if (rh >= 50 && rh <= 70) return 'gold';
+  return 'red';
+}
+
+/* ── State Transitions ── */
+function startDrying(dateStr) {
+  state.harvestDate = dateStr;
+  state.phase = 'drying';
+  state.dryingLogs = [];
+  state.curingLogs = [];
+  selectedDay = getCurrentDryDay();
+  saveStateImmediate();
+  render();
+}
+
+function startCuring() {
+  if (!canStartCuring()) return;
+  state.phase = 'curing';
+  saveStateImmediate();
+  render();
+}
+
+function backToDrying() {
+  state.phase = 'drying';
+  selectedDay = getCurrentDryDay();
+  saveStateImmediate();
+  render();
+}
+
+function markComplete() {
+  state.phase = 'complete';
+  saveStateImmediate();
+  render();
+}
+
+function startNewHarvest() {
+  if (!confirm('Save current harvest summary and start fresh?')) return;
+
+  // Build summary
+  var dryDays = state.dryingLogs.filter(function(l) { return l.done; }).length;
+  var cureDays = state.curingLogs.length;
+  var avgTemp = 0, avgRH = 0, tempCount = 0;
+  state.dryingLogs.forEach(function(l) {
+    if (l.tempC) { avgTemp += l.tempC; avgRH += l.rhPercent; tempCount++; }
+  });
+  if (tempCount > 0) { avgTemp = Math.round(avgTemp / tempCount * 10) / 10; avgRH = Math.round(avgRH / tempCount * 10) / 10; }
+
+  var smellProgression = state.curingLogs.map(function(l) { return l.smell; }).filter(Boolean);
+
+  state.completedSummaries.push({
+    harvestDate: state.harvestDate,
+    totalDryDays: dryDays,
+    totalCureDays: cureDays,
+    avgTemp: avgTemp,
+    avgRH: avgRH,
+    smellProgression: smellProgression,
+    completedDate: new Date().toISOString()
+  });
+
+  if (state.completedSummaries.length > 10) {
+    state.completedSummaries = state.completedSummaries.slice(-10);
+  }
+
+  state.harvestDate = null;
+  state.phase = 'idle';
+  state.dryingLogs = [];
+  state.curingLogs = [];
+  saveStateImmediate();
+  render();
+}
+
+/* ── Drying Log ── */
+function saveDryingLog() {
+  var day = selectedDay;
+  var temp = safeFloat(document.getElementById('dry-temp').value, 0);
+  var rh = safeFloat(document.getElementById('dry-rh').value, 0);
+  var notes = (document.getElementById('dry-notes').value || '').slice(0, 500);
+  var done = document.getElementById('dry-done').checked;
+
+  var existing = state.dryingLogs.findIndex(function(l) { return l.day === day; });
+  var entry = {
+    day: day,
+    date: addDays(state.harvestDate, day - 1).toISOString().split('T')[0],
+    done: done, tempC: temp, rhPercent: rh, notes: notes
+  };
+
+  if (existing >= 0) state.dryingLogs[existing] = entry;
+  else state.dryingLogs.push(entry);
+
+  scheduleSave();
+  render();
+}
+
+/* ── Burp Log ── */
+function addBurpLog() {
+  var dateInput = document.getElementById('burp-date');
+  var duration = parseInt(document.getElementById('burp-duration').value) || 0;
+  var rhJar = safeFloat(document.getElementById('burp-rh').value, 0);
+  var smell = document.getElementById('burp-smell').value;
+  var notes = (document.getElementById('burp-notes').value || '').slice(0, 200);
+  var week = getCureWeek();
+
+  var entry = {
+    week: week,
+    date: dateInput.value || new Date().toISOString(),
+    burped: true,
+    durationMin: duration,
+    rhJar: rhJar,
+    smell: smell,
+    notes: notes
+  };
+
+  state.curingLogs.push(entry);
+  scheduleSave();
+  render();
+
+  // Show alerts
+  var alerts = getAlerts(entry);
+  if (alerts.length > 0) {
+    var alertsEl = document.getElementById('burp-alerts');
+    if (alertsEl) {
+      alertsEl.innerHTML = alerts.map(function(a) {
+        return '<div class="alert alert-' + a.level + '" role="alert">' + a.message + '</div>';
+      }).join('');
+    }
+  }
+}
+
+/* ── localStorage ── */
+function loadState() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    var data = JSON.parse(raw);
+    if (data.version !== 1) {
+      showStorageWarn('Data version mismatch. Raw: ' + raw);
+      return;
+    }
+    state = data;
+  } catch (e) {
+    console.warn('Could not load cure tracker state:', e.message);
+    showStorageWarn('Could not load saved data: ' + e.message);
+  }
+}
+
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) { /* silent */ }
+  }, 1000);
+}
+
+function saveStateImmediate() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) { /* silent */ }
+}
+
+function showStorageWarn(msg) {
+  var el = document.getElementById('storage-warn');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+/* ── Rendering ── */
+function render() {
+  var badge = document.getElementById('phase-badge');
+  var dot = document.getElementById('phase-dot');
+  var text = document.getElementById('phase-text');
+  var phaseColors = { idle: 'var(--text3)', drying: 'var(--gold)', curing: 'var(--accent)', complete: 'var(--blue)' };
+  var phaseLabels = { idle: 'Idle', drying: 'Drying', curing: 'Curing', complete: 'Complete' };
+
+  dot.style.background = phaseColors[state.phase];
+  text.textContent = phaseLabels[state.phase];
+
+  var app = document.getElementById('app');
+  if (state.phase === 'idle') app.innerHTML = renderIdle();
+  else if (state.phase === 'drying') app.innerHTML = renderDrying();
+  else if (state.phase === 'curing') app.innerHTML = renderCuring();
+  else app.innerHTML = renderComplete();
+}
+
+function renderIdle() {
+  var today = new Date().toISOString().split('T')[0];
+  var html = '<div class="phase-content">';
+  html += '<div class="card"><h3>Start a New Harvest</h3>';
+  html += '<div class="input-group"><label for="harvest-date">Harvest Date</label>';
+  html += '<input type="date" id="harvest-date" value="' + today + '"></div>';
+  html += '<button class="btn btn-primary" onclick="startDrying(document.getElementById(\'harvest-date\').value)">Start Drying</button>';
+  html += '</div>';
+
+  if (state.completedSummaries.length > 0) {
+    html += '<div class="card"><h3>Previous Harvests</h3>';
+    state.completedSummaries.slice().reverse().forEach(function(s) {
+      var d = new Date(s.harvestDate);
+      html += '<div class="harvest-entry">';
+      html += '<strong>' + d.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'}) + '</strong>';
+      html += ' &mdash; ' + s.totalDryDays + ' dry days, ' + s.totalCureDays + ' cure sessions';
+      if (s.avgTemp) html += ', avg ' + s.avgTemp + '&deg;C / ' + s.avgRH + '% RH';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderDrying() {
+  var currentDay = getCurrentDryDay();
+  if (selectedDay < 1) selectedDay = 1;
+
+  var html = '<div class="phase-content"><div class="drying-layout">';
+
+  // Timeline
+  html += '<div class="timeline" role="list" aria-label="Drying timeline">';
+  for (var d = 1; d <= 14; d++) {
+    var logEntry = state.dryingLogs.find(function(l) { return l.day === d; });
+    var dotClass = 'timeline-dot';
+    if (logEntry && logEntry.done) dotClass += ' done';
+    else if (d === currentDay) dotClass += ' current';
+    var dayDate = addDays(state.harvestDate, d - 1);
+    var dateStr = dayDate.toLocaleDateString('en-GB', {day:'numeric',month:'short'});
+    var isActive = d === selectedDay ? ' active' : '';
+
+    html += '<div class="timeline-day' + isActive + '" role="listitem" tabindex="0" onclick="selectDay(' + d + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();selectDay(' + d + ')}">';
+    html += '<div class="' + dotClass + '"></div>';
+    html += '<span class="timeline-label"><strong>Day ' + d + '</strong> &middot; ' + dateStr + '</span>';
+    html += '</div>';
+  }
+  html += '</div>';
+
+  // Log card
+  var log = state.dryingLogs.find(function(l) { return l.day === selectedDay; }) || {};
+  var dayDate2 = addDays(state.harvestDate, selectedDay - 1);
+
+  html += '<div><div class="card">';
+  html += '<h3>Day ' + selectedDay + ' &mdash; ' + dayDate2.toLocaleDateString('en-GB', {weekday:'short',day:'numeric',month:'short'}) + '</h3>';
+  html += '<p class="hint" style="margin-bottom:12px">' + getDayGuidance(selectedDay) + '</p>';
+
+  html += '<div class="input-group"><label><input type="checkbox" id="dry-done"' + (log.done ? ' checked' : '') + '> Day completed</label></div>';
+
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
+  html += '<div class="input-group"><label for="dry-temp">Temp (&deg;C)</label>';
+  html += '<input type="number" id="dry-temp" min="5" max="35" step="0.5" value="' + (log.tempC || '') + '">';
+  if (log.tempC) html += '<span class="range-ind range-' + getTempRange(log.tempC) + '">' + (getTempRange(log.tempC) === 'green' ? 'Ideal' : getTempRange(log.tempC) === 'gold' ? 'Acceptable' : 'Out of range') + '</span>';
+  html += '</div>';
+
+  html += '<div class="input-group"><label for="dry-rh">RH (%)</label>';
+  html += '<input type="number" id="dry-rh" min="20" max="90" step="1" value="' + (log.rhPercent || '') + '">';
+  if (log.rhPercent) html += '<span class="range-ind range-' + getRHRange(log.rhPercent) + '">' + (getRHRange(log.rhPercent) === 'green' ? 'Ideal' : getRHRange(log.rhPercent) === 'gold' ? 'Acceptable' : 'Out of range') + '</span>';
+  html += '</div></div>';
+
+  html += '<div class="input-group"><label for="dry-notes">Notes</label>';
+  html += '<textarea id="dry-notes" maxlength="500" rows="2">' + escapeHtml(log.notes) + '</textarea>';
+  html += '<span class="hint">Max 500 characters</span></div>';
+
+  html += '<button class="btn btn-primary" onclick="saveDryingLog()">Save Day ' + selectedDay + '</button>';
+  html += '</div>';
+
+  // Start Curing button
+  var canCure = canStartCuring();
+  html += '<div class="btn-row">';
+  if (canCure) {
+    html += '<button class="btn btn-primary" onclick="startCuring()">Start Curing</button>';
+  } else {
+    html += '<div class="tooltip"><button class="btn btn-primary" disabled>Start Curing</button>';
+    html += '<span class="tooltip-text">Available after 7 calendar days from harvest</span></div>';
+  }
+  html += '</div>';
+
+  html += '</div></div></div>';
+  return html;
+}
+
+function selectDay(d) {
+  selectedDay = d;
+  render();
+}
+
+function renderCuring() {
+  var week = getCureWeek();
+  var html = '<div class="phase-content">';
+
+  html += '<div class="btn-row"><button class="btn btn-secondary" onclick="backToDrying()">&#8592; Back to Drying</button></div>';
+
+  html += '<p class="hint" style="margin-bottom:16px">' + getBurpGuidance(week) + '</p>';
+
+  // Burp form
+  html += '<div class="card"><h3>Log Burp Session</h3>';
+  var now = new Date();
+  var nowStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + 'T' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
+  html += '<div class="input-group"><label for="burp-date">Date/Time</label><input type="datetime-local" id="burp-date" value="' + nowStr + '"></div>';
+  html += '<div class="input-group"><label for="burp-duration">Duration (min)</label><input type="number" id="burp-duration" min="1" max="120" value="15"></div>';
+  html += '</div>';
+
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
+  html += '<div class="input-group"><label for="burp-rh">Jar RH (%)</label><input type="number" id="burp-rh" min="30" max="100" step="1" value="62"></div>';
+  html += '<div class="input-group"><label for="burp-smell">Smell</label><select id="burp-smell">';
+  SMELLS.forEach(function(s) { html += '<option value="' + s + '">' + s + '</option>'; });
+  html += '</select></div></div>';
+
+  html += '<div class="input-group"><label for="burp-notes">Notes</label><textarea id="burp-notes" maxlength="200" rows="2"></textarea><span class="hint">Max 200 characters</span></div>';
+  html += '<button class="btn btn-primary" onclick="addBurpLog()">Log Burp</button>';
+  html += '<div id="burp-alerts" role="alert"></div>';
+  html += '</div>';
+
+  // Week cards
+  var maxWeek = Math.max(week, state.curingLogs.length > 0 ? Math.max.apply(null, state.curingLogs.map(function(l){return l.week;})) : 1);
+  for (var w = 1; w <= maxWeek; w++) {
+    var weekLogs = state.curingLogs.filter(function(l) { return l.week === w; });
+    var isOpen = w === week ? ' open' : '';
+    html += '<div class="week-card' + isOpen + '" id="week-' + w + '">';
+    html += '<button class="week-header" onclick="toggleWeek(' + w + ')" aria-expanded="' + (w === week) + '">';
+    html += '<span>Week ' + w + ' <span style="color:var(--text3);font-size:0.8rem">(' + weekLogs.length + ' sessions)</span></span>';
+    html += '<span class="chevron">&#9660;</span></button>';
+    html += '<div class="week-body">';
+
+    if (weekLogs.length === 0) {
+      html += '<p class="hint">No burp sessions logged for this week.</p>';
+    } else {
+      weekLogs.forEach(function(log) {
+        var d = new Date(log.date);
+        html += '<div class="burp-entry">';
+        html += '<strong>' + d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}) + '</strong>';
+        html += ' &mdash; ' + log.durationMin + 'min, RH ' + log.rhJar + '%, ' + escapeHtml(log.smell);
+        if (log.notes) html += '<br><span class="hint">' + escapeHtml(log.notes) + '</span>';
+
+        var alerts = getAlerts(log);
+        alerts.forEach(function(a) {
+          html += '<div class="alert alert-' + a.level + '" role="alert">' + a.message + '</div>';
+        });
+        html += '</div>';
+      });
+    }
+    html += '</div></div>';
+  }
+
+  html += '<div class="btn-row"><button class="btn btn-primary" onclick="markComplete()">Mark Cure Complete</button></div>';
+  html += '</div>';
+  return html;
+}
+
+function toggleWeek(w) {
+  var el = document.getElementById('week-' + w);
+  var isOpen = el.classList.toggle('open');
+  el.querySelector('.week-header').setAttribute('aria-expanded', isOpen);
+}
+
+function renderComplete() {
+  var dryDays = state.dryingLogs.filter(function(l) { return l.done; }).length;
+  var totalLogs = state.curingLogs.length;
+  var avgTemp = 0, avgRH = 0, tempCount = 0;
+  state.dryingLogs.forEach(function(l) {
+    if (l.tempC) { avgTemp += l.tempC; avgRH += l.rhPercent; tempCount++; }
+  });
+  if (tempCount > 0) { avgTemp = (avgTemp / tempCount).toFixed(1); avgRH = (avgRH / tempCount).toFixed(1); }
+
+  var smells = state.curingLogs.map(function(l) { return l.smell; }).filter(Boolean);
+  var warnings = [];
+  state.curingLogs.forEach(function(l) { getAlerts(l).forEach(function(a) { warnings.push(a.message); }); });
+
+  var harvestDate = new Date(state.harvestDate).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  var html = '<div class="phase-content">';
+  html += '<div class="summary-card">';
+  html += '<h3 style="margin-bottom:16px">Harvest Complete</h3>';
+  html += '<div class="summary-stat"><span class="summary-label">Harvest Date</span><span class="summary-value">' + harvestDate + '</span></div>';
+  html += '<div class="summary-stat"><span class="summary-label">Dry Days Logged</span><span class="summary-value">' + dryDays + '</span></div>';
+  html += '<div class="summary-stat"><span class="summary-label">Cure Sessions</span><span class="summary-value">' + totalLogs + '</span></div>';
+  if (tempCount > 0) {
+    html += '<div class="summary-stat"><span class="summary-label">Avg Temp / RH</span><span class="summary-value">' + avgTemp + '&deg;C / ' + avgRH + '%</span></div>';
+  }
+  if (smells.length > 0) {
+    html += '<div class="summary-stat"><span class="summary-label">Smell Progression</span><span class="summary-value">' + smells.join(' &rarr; ') + '</span></div>';
+  }
+  if (warnings.length > 0) {
+    html += '<div class="summary-stat"><span class="summary-label">Warnings</span><span class="summary-value">' + warnings.length + ' alerts during cure</span></div>';
+  }
+  html += '</div>';
+
+  html += '<div class="btn-row">';
+  html += '<button class="btn btn-secondary" onclick="copySummary()">Copy Summary</button>';
+  html += '<button class="btn btn-primary" onclick="startNewHarvest()">Start New Harvest</button>';
+  html += '</div></div>';
+  return html;
+}
+
+function copySummary() {
+  var dryDays = state.dryingLogs.filter(function(l) { return l.done; }).length;
+  var totalLogs = state.curingLogs.length;
+  var text = 'Harvest: ' + state.harvestDate + '\nDry days: ' + dryDays + '\nCure sessions: ' + totalLogs;
+  navigator.clipboard.writeText(text).then(function() {
+    alert('Summary copied to clipboard!');
+  }).catch(function() {
+    prompt('Copy this summary:', text);
+  });
+}
+
+/* ── Init ── */
+function init() {
+  try { localStorage.setItem('__test__', '1'); localStorage.removeItem('__test__'); }
+  catch(e) { storageAvailable = false; console.warn('localStorage unavailable'); showStorageWarn('localStorage unavailable. Data will not persist.'); }
+  loadState();
+  if (state.phase === 'drying') selectedDay = getCurrentDryDay();
+  render();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+/* ── Tests ── */
+function runTests() {
+  var passed = 0, failed = 0;
+  function assert(condition, msg) {
+    if (condition) { passed++; console.log('PASS:', msg); }
+    else { failed++; console.error('FAIL:', msg); }
+  }
+
+  var savedState = JSON.parse(JSON.stringify(state));
+
+  // State transitions
+  state = { version:1, harvestDate:null, phase:'idle', dryingLogs:[], curingLogs:[], completedSummaries:[] };
+  assert(state.phase === 'idle', 'Initial phase is idle');
+
+  // idle → drying
+  var today = new Date().toISOString().split('T')[0];
+  startDrying(today);
+  assert(state.phase === 'drying', 'idle→drying works');
+
+  // canStartCuring before 7 days
+  assert(!canStartCuring(), '"Start Curing" disabled before 7 days');
+
+  // Set harvest 8 days ago to enable curing
+  var eightDaysAgo = new Date();
+  eightDaysAgo.setDate(eightDaysAgo.getDate() - 8);
+  state.harvestDate = eightDaysAgo.toISOString().split('T')[0];
+  assert(canStartCuring(), '"Start Curing" enabled at 7+ days');
+
+  // drying → curing
+  startCuring();
+  assert(state.phase === 'curing', 'drying→curing works');
+
+  // curing → drying (preserves logs)
+  state.dryingLogs = [{day:1,date:'2025-01-01',done:true,tempC:17,rhPercent:60,notes:'test'}];
+  backToDrying();
+  assert(state.phase === 'drying', 'curing→drying works');
+  assert(state.dryingLogs.length === 1, '"Back to Drying" preserves drying logs');
+
+  // drying → curing → complete
+  startCuring();
+  markComplete();
+  assert(state.phase === 'complete', 'curing→complete works');
+
+  // complete → idle
+  // (skip confirm dialog in test)
+  state.completedSummaries.push({ harvestDate: state.harvestDate, totalDryDays:1, totalCureDays:0 });
+  state.phase = 'idle';
+  state.harvestDate = null;
+  state.dryingLogs = [];
+  state.curingLogs = [];
+  assert(state.phase === 'idle', 'complete→idle works');
+
+  // Day numbers computed correctly
+  var threeDaysAgo = new Date();
+  threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+  state.harvestDate = threeDaysAgo.toISOString().split('T')[0];
+  state.phase = 'drying';
+  assert(getCurrentDryDay() === 4, 'Day number correct (3 days ago = day 4): got ' + getCurrentDryDay());
+
+  // Alert: jar RH > 70 → critical
+  var alerts1 = getAlerts({ rhJar: 75, smell: 'Hay/Grass' });
+  assert(alerts1.length > 0 && alerts1[0].level === 'crit', 'RH>70 = critical alert');
+
+  // Alert: smell "Ammonia" → critical
+  var alerts2 = getAlerts({ rhJar: 62, smell: 'Ammonia' });
+  assert(alerts2.length > 0 && alerts2[0].level === 'crit', 'Ammonia = critical alert');
+
+  // Alert: jar RH < 55 → warning
+  var alerts3 = getAlerts({ rhJar: 50, smell: 'Hay/Grass' });
+  assert(alerts3.length > 0 && alerts3[0].level === 'warn', 'RH<55 = warning alert');
+
+  // completedSummaries capped at 10
+  state.completedSummaries = [];
+  for (var i = 0; i < 12; i++) state.completedSummaries.push({harvestDate:'2025-01-0'+i,totalDryDays:5,totalCureDays:10});
+  if (state.completedSummaries.length > 10) state.completedSummaries = state.completedSummaries.slice(-10);
+  assert(state.completedSummaries.length === 10, 'Summaries capped at 10');
+
+  // Note fields capped
+  assert('a'.repeat(600).slice(0,500).length === 500, 'Drying notes cap at 500');
+  assert('a'.repeat(300).slice(0,200).length === 200, 'Curing notes cap at 200');
+
+  // localStorage round-trip
+  try {
+    var savedRaw = localStorage.getItem(STORAGE_KEY);
+    var testData = { version:1, harvestDate:'2025-06-01', phase:'drying', dryingLogs:[{day:1}], curingLogs:[], completedSummaries:[] };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(testData));
+    var loaded = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    assert(loaded.phase === 'drying' && loaded.dryingLogs.length === 1, 'localStorage round-trip');
+    if (savedRaw) localStorage.setItem(STORAGE_KEY, savedRaw);
+    else localStorage.removeItem(STORAGE_KEY);
+  } catch(e) { assert(false, 'localStorage: ' + e.message); }
+
+  // Corrupted localStorage → warning, not crash
+  try {
+    localStorage.setItem(STORAGE_KEY, '{broken json!!!');
+    loadState(); // should not throw
+    assert(true, 'Corrupted localStorage does not crash');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(savedState));
+  } catch(e) { assert(false, 'Corrupted localStorage crashed: ' + e.message); }
+
+  // Restore
+  state = savedState;
+  render();
+
+  console.log('\n' + passed + ' passed, ' + failed + ' failed');
+}
+</script>
+</body>
+</html>

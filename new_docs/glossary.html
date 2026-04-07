@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grow Glossar — Illustriertes Nachschlagewerk</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0e0a;--bg2:#141810;--bg3:#1a2014;--text:#d4cdb7;--text2:#a39e8a;--text3:#6b6756;--accent:#8fb856;--accent2:#6a9e3a;--accent3:#4a7a25;--gold:#c9a84c;--gold2:#a8872e;--red:#c45c4a;--blue:#5a9eb8;--purple:#8a7abf;--border:#2a3320;--border2:#3a4530;--serif:'DM Serif Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'IBM Plex Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.78;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:60px 32px 80px}
+h1{font-family:var(--serif);font-size:2.4em;font-weight:400;color:var(--accent);margin-bottom:8px}
+.subtitle{font-size:1em;color:var(--text2);margin-bottom:40px;line-height:1.7;font-weight:300}
+h2{font-family:var(--serif);font-size:1.4em;font-weight:400;color:var(--accent);margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+p{margin:0 0 .85rem;font-weight:300}
+
+.term{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin:10px 0}
+.term:hover{border-color:var(--border2)}
+.term-name{font-family:var(--serif);font-size:1.1em;color:var(--accent);margin-bottom:2px}
+.term-de{font-family:var(--mono);font-size:.72rem;color:var(--gold);margin-bottom:8px}
+.term-def{font-size:.9rem;color:var(--text2);line-height:1.7}
+.term-def strong{color:var(--text);font-weight:600}
+.term-example{font-family:var(--mono);font-size:.78rem;color:var(--text3);margin-top:6px;padding-left:12px;border-left:2px solid var(--border)}
+.tag{display:inline-block;font-family:var(--mono);font-size:.6rem;padding:2px 6px;border-radius:3px;margin-left:6px;vertical-align:middle}
+.tag-env{background:rgba(90,158,184,.12);color:var(--blue)}
+.tag-plant{background:rgba(106,158,58,.12);color:var(--accent)}
+.tag-equip{background:rgba(201,168,76,.12);color:var(--gold)}
+.tag-stealth{background:rgba(196,92,74,.12);color:var(--red)}
+.tag-harvest{background:rgba(138,122,191,.12);color:var(--purple)}
+@media(max-width:640px){.container{padding:28px 16px 60px}h1{font-size:2em}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Grow Glossar</h1>
+<p class="subtitle">Illustriertes Nachschlagewerk mit deutschen und englischen Grow-Begriffen. Sortiert nach Wichtigkeit für deinen HS80 Indoor-Grow. Jeder Begriff mit praktischer Erklärung, nicht mit Wikipedia-Definition.</p>
+
+<h2>Must-Know Begriffe</h2>
+
+<div class="term">
+  <div class="term-name">VPD <span class="tag tag-env">Umgebung</span></div>
+  <div class="term-de">Vapor Pressure Deficit · Dampfdruckdefizit</div>
+  <div class="term-def">Der Druckunterschied zwischen der Feuchtigkeit IN der Pflanze und der Luft AUSSEN. Steuert die Stomata (Spaltöffnungen) → Transpiration → Nährstoffaufnahme. <strong>Die eine Zahl, die Temperatur und Luftfeuchtigkeit zusammenfasst.</strong> Messen auf Canopy-Höhe, nicht an der Wand. Unter LED: Blatttemperatur ≈ Luft −2°C (kein Infrarot).</div>
+  <div class="term-example">Clone settling: 0.4–0.8 kPa · Veg: 0.8–1.2 · Early flower: 1.0–1.4 · Late flower: 1.2–1.6</div>
+</div>
+
+<div class="term">
+  <div class="term-name">DLI <span class="tag tag-env">Umgebung</span></div>
+  <div class="term-de">Daily Light Integral · Tägliche Lichtmenge</div>
+  <div class="term-def">Die Gesamtmenge an Photonen, die eine Pflanze pro Tag empfängt. <strong>PPFD × Stunden × 0.0036 = DLI (mol/m²/Tag).</strong> Cannabis-Ertrag sättigt bei ~40 DLI. Deine 2× STIXX 50 liefern ~15–18 DLI bei 12/12 — 45% des Optimums. Darum ist Canopy-Management bei dir wichtiger als bei einem 600W-Grower.</div>
+  <div class="term-example">108W in HS80 = ~350–420 PPFD → DLI ~15–18 bei 12h → ~45% des Yield-Plateaus</div>
+</div>
+
+<div class="term">
+  <div class="term-name">ScrOG <span class="tag tag-plant">Pflanze</span></div>
+  <div class="term-de">Screen of Green · Netz-Training</div>
+  <div class="term-def">Trainingstechnik: ein horizontales Netz (5×5cm Maschen) über den Pflanzen. Alle Triebe werden unter das Netz gesteckt (tucking), bis es zu 90%+ gefüllt ist. Erzeugt eine flache, gleichmäßige Canopy die 95%+ der Photonen abfängt. <strong>Dein wichtigstes Yield-Werkzeug bei 108W.</strong></div>
+  <div class="term-example">Single-plant ScrOG: 6–8 Wochen Veg um 80×80cm Netz zu füllen. Multi-plant: 4–5 Wochen.</div>
+</div>
+
+<div class="term">
+  <div class="term-name">LST <span class="tag tag-plant">Pflanze</span></div>
+  <div class="term-de">Low Stress Training</div>
+  <div class="term-def">Biegen des Hauptstamms zu horizontal, ohne zu schneiden oder zu brechen. Verteilt Auxin (Wachstumshormon) gleichmäßig → alle Seitentriebe wachsen gleich schnell → flache Canopy. <strong>Nur grüne, flexible Stängel biegen. Verholzte Stängel brechen.</strong></div>
+  <div class="term-example">Wk 3–4 Veg: Hauptstamm mit weichem Draht sanft nach unten biegen. 90°-Regel: auf horizontal.</div>
+</div>
+
+<div class="term">
+  <div class="term-name">AKF / Carbon Filter <span class="tag tag-stealth">Stealth</span></div>
+  <div class="term-de">Aktivkohlefilter</div>
+  <div class="term-def">Geruchsfilter mit Aktivkohle. Luft wird durch den Filter gezogen (nicht gedrückt!) → Geruchsmoleküle binden an die Kohle. <strong>CAN-Lite 300 ist dein Modell. 24/7 laufen während Blüte UND Trocknung. Kohle alle 12–18 Monate erneuern</strong> oder sofort wenn Geruch durchbricht.</div>
+  <div class="term-example">Luftpfad: Zelt-Innenraum → AKF → RK125 Fan → Schlauch raus. Nie umgekehrt!</div>
+</div>
+
+<div class="term">
+  <div class="term-name">Abluft / Zuluft <span class="tag tag-equip">Equipment</span></div>
+  <div class="term-de">Exhaust / Intake</div>
+  <div class="term-def"><strong>Abluft:</strong> aktiv — CAN RK125 zieht Luft durch den AKF nach draußen. <strong>Zuluft:</strong> passiv — frische Luft strömt durch die unteren Zeltsocken nach. Funktioniert durch Unterdruck (Zeltwände ziehen sich leicht nach innen). Wenn die Wände sich nicht einziehen = Luftleck finden und abdichten.</div>
+</div>
+
+<div class="term">
+  <div class="term-name">CalMag <span class="tag tag-plant">Pflanze</span></div>
+  <div class="term-de">Calcium-Magnesium Supplement</div>
+  <div class="term-def">Unter LED absolut nicht verhandelbar. LEDs treiben die Photosynthese schneller an als HPS, aber ohne Infrarotwärme. Weniger Transpiration = weniger passive Ca-Aufnahme. <strong>Ab Woche 3 mit 0.5–1 ml/L starten. Verhindert den stummen 10–30% Ertragsverlust</strong> durch Mid-Flower Calcium-Lockout.</div>
+  <div class="term-example">Symptom Ca-Mangel: zufällige braune nekrotische Flecken auf unteren/mittleren Blättern.</div>
+</div>
+
+<div class="term">
+  <div class="term-name">Mykorrhiza <span class="tag tag-plant">Pflanze</span></div>
+  <div class="term-de">Mycorrhizal fungi · Pilzsymbiose</div>
+  <div class="term-def">Pilze die mit den Pflanzenwurzeln eine Symbiose eingehen. Verlängern das Wurzelsystem um ein Vielfaches → bessere P-Aufnahme, Trockenheitstoleranz. <strong>Direkt auf den Wurzelballen beim Umtopfen auftragen, nicht ins Substrat mischen.</strong> Organische Nährstoffe sind kompatibel; synthetische Salze unterdrücken die Kolonisation.</div>
+  <div class="term-example">Realistische Erwartung: 5–15% Benefit (nicht die 10–45% der Hersteller-Werbung).</div>
+</div>
+
+<h2>Wichtige Begriffe</h2>
+
+<div class="term">
+  <div class="term-name">Topping <span class="tag tag-plant">Pflanze</span></div>
+  <div class="term-de">Köpfen / Spitze schneiden</div>
+  <div class="term-def">Sauberer Schnitt oberhalb eines Knotens → 2 neue Haupttriebe statt einem. Bricht die apikale Dominanz. <strong>Dein Citron Givré Steckling wurde bereits einmal getoppt</strong> — die zwei Hauptäste sind dein ScrOG-Grundgerüst. Ein zweites Topping ist möglich falls die Struktur es hergibt.</div>
+</div>
+
+<div class="term">
+  <div class="term-name">Lollipopping <span class="tag tag-plant">Pflanze</span></div>
+  <div class="term-de">Untere Äste entfernen</div>
+  <div class="term-def">Alles unterhalb des ScrOG-Netzes entfernen — kleine Triebe, Schattenblätter. Diese bekommen bei 108W sowieso nicht genug Licht und produzieren nur Popcorn-Buds. <strong>Die Pflanze konzentriert ihre Energie auf die oberen, beleuchteten Bud-Sites.</strong></div>
+</div>
+
+<div class="term">
+  <div class="term-name">Defoliation <span class="tag tag-plant">Pflanze</span></div>
+  <div class="term-de">Blätter entfernen</div>
+  <div class="term-def">Gezieltes Entfernen von Fächerblättern die Bud-Sites beschatten. <strong>Bei 108W konservativ bleiben: maximal 20–25% auf einmal. Nie gestresste Pflanzen defoliieren.</strong> Timing: Tag 1 der Blüte (leicht), Tag 21 (moderat). Schwazzing (aggressives Entfernen) ist für 600W+CO₂ Setups — bei deiner Wattzahl kontraproduktiv.</div>
+</div>
+
+<div class="term">
+  <div class="term-name">Steckling <span class="tag tag-plant">Pflanze</span></div>
+  <div class="term-de">Clone / Cutting</div>
+  <div class="term-def">Genetisch identische Kopie durch Abschneiden und Bewurzeln eines Triebs. <strong>Bei irreplaceable Genetik (Citron Givré) die wichtigste Versicherung.</strong> 10–15cm Trieb, 45° Schnitt unter einem Knoten, Stängel 2cm anritzen, in Clonex/Honig tauchen, in feuchtem Medium unter Kuppel bewurzeln.</div>
+  <div class="term-example">Erfolgsrate beim ersten Versuch: 50–75%. Darum 4 nehmen um sicher 2 zu bekommen.</div>
+</div>
+
+<div class="term">
+  <div class="term-name">Flip <span class="tag tag-env">Umgebung</span></div>
+  <div class="term-de">Umschalten auf 12/12</div>
+  <div class="term-def">Der Lichtplan wechselt von 18/6 (Veg) auf 12/12 → die Pflanze interpretiert die kürzeren Tage als Herbst und beginnt zu blühen. <strong>Flip bei 90%+ Netzfüllung und 25–35cm Canopy-Höhe.</strong> Die Pflanze stretcht in den ersten 2–3 Wochen nach dem Flip um 50–100%.</div>
+</div>
+
+<div class="term">
+  <div class="term-name">Trichome <span class="tag tag-harvest">Ernte</span></div>
+  <div class="term-de">Harzdrüsen</div>
+  <div class="term-def">Die gestielten Harzdrüsen auf den Blütenkelchen (Calyxes) die THC, CBD und Terpene produzieren. <strong>Erntezeitpunkt bestimmen: klar = zu früh, milchig = Peak THC, bernstein = THC→CBN Abbau.</strong> 70–80% milchig + 20–30% bernstein = optimaler Zeitpunkt für Quality-Grower. 60× Lupe auf Calyxes, NICHT auf Zuckerblättern prüfen.</div>
+</div>
+
+<h2>Gut zu wissen</h2>
+
+<div class="term">
+  <div class="term-name">pH Lockout <span class="tag tag-plant">Pflanze</span></div>
+  <div class="term-de">pH-bedingte Nährstoffsperre</div>
+  <div class="term-def">Die häufigste Ursache für "Mangelerscheinungen" ist kein echter Mangel — die Nährstoffe sind vorhanden, aber bei falschem pH nicht verfügbar. <strong>Optimaler Boden-pH: 6.0–6.8. Österreichische Tomatenerde oft pH 7.0–7.5 → Eisen sperrt aus.</strong> Immer erst pH prüfen bevor man Nährstoffe hinzufügt.</div>
+</div>
+
+<div class="term">
+  <div class="term-name">Umluft <span class="tag tag-equip">Equipment</span></div>
+  <div class="term-de">Circulation fan / Clip fan</div>
+  <div class="term-def">Die Monkey Fans im Zelt. Sorgen für Luftbewegung innerhalb der Canopy → stärkere Stämme, weniger Feuchtigkeits-Taschen, reduziertes Schimmelrisiko. <strong>Nie direkt auf Buds richten — Wind-Burn.</strong> Auf niedrigster Stufe, oscillierend oder an die Wand gerichtet.</div>
+</div>
+
+<div class="term">
+  <div class="term-name">Boveda <span class="tag tag-harvest">Ernte</span></div>
+  <div class="term-de">Zwei-Wege Feuchtigkeitsregulator</div>
+  <div class="term-def">Kleine Packs die in Einmachgläser kommen. Halten die Luftfeuchtigkeit bei exakt 62% RH — geben Feuchtigkeit ab wenn zu trocken, absorbieren wenn zu feucht. <strong>Ab Cure-Woche 2 in die Gläser legen.</strong> Mini-Hygrometer im Glas (€2–3) ist die Echtzeit-Kontrolle.</div>
+</div>
+
+<div class="term">
+  <div class="term-name">Zeitschaltuhr <span class="tag tag-equip">Equipment</span></div>
+  <div class="term-de">Timer</div>
+  <div class="term-def">Automatisiert den Lichtplan. <strong>NUR die STIXX Bars über den Timer laufen. Fan und Umluft 24/7 direkt am Stecker.</strong> Digitale Timer sind geräuschlos; mechanische klicken hörbar — in einer Stealth-Anlage relevant. Aktuell: manuelle An/Aus, Timer kommen in ~2 Tagen.</div>
+</div>
+
+<div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--text3);line-height:2">
+  <p>Grow Glossar v3.0 · April 2026</p>
+  <p style="color:var(--border2)">Deutsch/Englisch · Praxis-orientiert · Spezifisch für HS80 + STIXX 50 Setup</p>
+</div>
+
+</div>
+</body>
+</html>
