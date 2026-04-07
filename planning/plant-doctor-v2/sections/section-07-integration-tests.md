@@ -535,19 +535,31 @@ transitionToNode = _origTransition;
 
 ## Checklist
 
-1. Add Section 07 integration tests to `runTests()` after all section-specific tests
-2. Implement full state save/restore around integration tests
-3. Add cross-reference validation tests (7.2): symptom usage, SCORING coverage, REFINE_RULES targets
-4. Add end-to-end multi-dx flow test (7.3): select → score → refine → results → plan
-5. Add journal lifecycle test (7.4): create → track → check-in → re-score → resolve
-6. Add wizard-to-journal test (7.5): wizard result → create journal entry with notes
-7. Add localStorage v2 round-trip test (7.6): serialize → deserialize → validate fields
-8. Add backward compatibility tests (7.7): wizard/expert render without data file, mode selector presence
-9. Add edge case tests (7.8): empty inputs, invalid IDs, back at select, small journal eviction
-10. Add performance sanity check (7.9): 100 scoring runs under 500ms
-11. Add conditional execution guard for data-file-dependent tests
-12. Verify all tests use IIFE pattern for localStorage manipulation
-13. Open in browser with data file loaded, run `runTests()` — all pass
-14. Open in browser WITHOUT data file, run `runTests()` — v1 + backward compat pass, data-dependent skip
-15. Verify test count is ~100+ with all sections complete
-16. Verify state is fully restored after tests (UI returns to pre-test state)
+1. [x] Add Section 07 integration tests to `runTests()` after all section-specific tests
+2. [x] Implement full state save/restore around integration tests
+3. [x] Add cross-reference validation tests (7.2): symptom usage, SCORING coverage, REFINE_RULES targets
+4. [x] Add end-to-end multi-dx flow test (7.3): select → score → refine → results → plan
+5. [x] Add journal lifecycle test (7.4): create → track → check-in → re-score → resolve
+6. [x] Add wizard-to-journal test (7.5): wizard result → create journal entry with notes
+7. [x] Add localStorage v2 round-trip test (7.6): serialize → deserialize → validate fields
+8. [x] Add backward compatibility tests (7.7): wizard/expert render without data file, mode selector presence
+9. [x] Add edge case tests (7.8): empty inputs, invalid IDs, back at select, small journal eviction
+10. [x] Add performance sanity check (7.9): 100 scoring runs under 500ms
+11. [x] Add conditional execution guard for data-file-dependent tests
+12. [x] Verify all tests use IIFE pattern for localStorage manipulation
+13. [ ] Open in browser with data file loaded, run `runTests()` — all pass (manual)
+14. [ ] Open in browser WITHOUT data file, run `runTests()` — v1 + backward compat pass (manual)
+15. [ ] Verify test count is ~100+ with all sections complete (manual)
+16. [ ] Verify state is fully restored after tests — UI returns to pre-test state (manual)
+
+---
+
+## Implementation Notes (Post-Review)
+
+**Deviations from plan:**
+- Added try/catch wrapper around 7.3-7.9 integration block to prevent state corruption on crash.
+- Expanded local state save/restore to include all mutated variables (10+ variables vs plan's 4).
+- Added global multiDxState save/restore to runTests() top-level scope.
+
+**Files modified:** `docs/tool-plant-doctor.html` (all changes in single file)
+**Tests added:** ~25 integration tests covering cross-reference validation, E2E flows, journal lifecycle, backward compatibility, edge cases, and performance.
