@@ -367,3 +367,22 @@ This ensures `SYMPTOMS`, `SCORING`, and `REFINE_RULES` are available as globals 
 13. Add the Section 01 tests to `runTests()` in the HTML file
 14. Open in browser, run `runTests()` — all new tests should pass
 15. Verify wizard and expert modes still work identically (no regression)
+
+---
+
+## Implementation Notes
+
+**Actual counts:**
+- SYMPTOMS: 34 entries (leaves: 23, stems: 3, roots: 2, whole: 6)
+- SCORING: 44 entries (all v1 result nodes covered)
+- REFINE_RULES: 20 entries (15 mandatory + 5 additional)
+
+**Files created:** `docs/plant-doctor-data.js`
+**Files modified:** `docs/tool-plant-doctor.html` (script tag at line 205, 11 tests added to runTests())
+
+**Deviations from plan:**
+- `rusty-edges` and `dark-green` moved to region `leaves` (plan had them as `whole`; code review identified them as leaf-observed symptoms)
+- Added `white-residue` symptom not in original mapping table (needed for `r-mineral` scoring)
+- Added `webbing: 0.1` to `r-wpm-early` and `white-residue: 0.15` to `r-nute-burn-severe` to meet coverage requirement (every symptom in 2+ SCORING entries)
+
+**Code review:** See `implementation/code_review/section-01-review.md` and `section-01-interview.md`

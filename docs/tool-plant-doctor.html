@@ -202,6 +202,7 @@ h1 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-
 <div class="progress" id="progress" role="img" aria-label="Diagnosis progress"></div>
 <div id="app" aria-live="polite"></div>
 
+<script src="plant-doctor-data.js"></script>
 <script>
 /* ── Helpers ── */
 function escapeHtml(s) {
@@ -1199,6 +1200,122 @@ function runTests() {
     if (savedRaw2) localStorage.setItem(STORAGE_KEY, savedRaw2);
     else localStorage.removeItem(STORAGE_KEY);
   } catch(e) { assert(false, 'Corrupted localStorage crashed: ' + e.message); }
+
+  // ── Section 01: Knowledge Base Data File Tests ──
+
+  // Test: SYMPTOMS is defined and is an object with at least 25 entries
+  assert(typeof SYMPTOMS === 'object' && SYMPTOMS !== null, 'SYMPTOMS is defined as an object');
+  var symptomCount = Object.keys(SYMPTOMS).length;
+  assert(symptomCount >= 25, 'SYMPTOMS has at least 25 entries (found ' + symptomCount + ')');
+
+  // Test: Every SYMPTOMS entry has required fields: id, label, region, group
+  var symptomMissingFields = 0;
+  for (var sId in SYMPTOMS) {
+    if (!SYMPTOMS.hasOwnProperty(sId)) continue;
+    var sym = SYMPTOMS[sId];
+    if (!sym.id || !sym.label || !sym.region || !sym.group) symptomMissingFields++;
+    if (sym.id !== sId) symptomMissingFields++; // id must match key
+  }
+  assert(symptomMissingFields === 0, 'All SYMPTOMS have id, label, region, group (' + symptomMissingFields + ' missing)');
+
+  // Test: Every SYMPTOMS region is one of the allowed values
+  var validRegions = { leaves: 1, stems: 1, roots: 1, whole: 1 };
+  var badRegionCount = 0;
+  for (var sId2 in SYMPTOMS) {
+    if (!SYMPTOMS.hasOwnProperty(sId2)) continue;
+    if (!validRegions[SYMPTOMS[sId2].region]) badRegionCount++;
+  }
+  assert(badRegionCount === 0, 'All SYMPTOMS regions are valid (' + badRegionCount + ' invalid)');
+
+  // Test: SCORING is defined and is an object with at least 40 entries
+  assert(typeof SCORING === 'object' && SCORING !== null, 'SCORING is defined as an object');
+  var scoringCount = Object.keys(SCORING).length;
+  assert(scoringCount >= 40, 'SCORING has at least 40 entries (found ' + scoringCount + ')');
+
+  // Test: Every SCORING key matches a TREE result node ID
+  var scoringBadKeys = 0;
+  for (var scId in SCORING) {
+    if (!SCORING.hasOwnProperty(scId)) continue;
+    if (!TREE[scId] || !isResult(TREE[scId])) scoringBadKeys++;
+  }
+  assert(scoringBadKeys === 0, 'Every SCORING key matches a TREE result node (' + scoringBadKeys + ' mismatched)');
+
+  // Test: Every symptom ID referenced in SCORING exists in SYMPTOMS
+  var scoringBadSymptoms = 0;
+  var scoringBadSymptomList = [];
+  for (var scId2 in SCORING) {
+    if (!SCORING.hasOwnProperty(scId2)) continue;
+    var syms = SCORING[scId2].symptoms;
+    for (var symRef in syms) {
+      if (!syms.hasOwnProperty(symRef)) continue;
+      if (!SYMPTOMS[symRef]) {
+        scoringBadSymptoms++;
+        scoringBadSymptomList.push(symRef + ' in ' + scId2);
+      }
+    }
+  }
+  assert(scoringBadSymptoms === 0, 'Every symptom in SCORING exists in SYMPTOMS (' + scoringBadSymptoms + ' missing: ' + scoringBadSymptomList.slice(0, 5).join(', ') + ')');
+
+  // Test: All SCORING weight values are between 0.0 and 1.0
+  var badWeights = 0;
+  for (var scId3 in SCORING) {
+    if (!SCORING.hasOwnProperty(scId3)) continue;
+    var syms3 = SCORING[scId3].symptoms;
+    for (var sw in syms3) {
+      if (!syms3.hasOwnProperty(sw)) continue;
+      if (typeof syms3[sw] !== 'number' || syms3[sw] < 0 || syms3[sw] > 1) badWeights++;
+    }
+  }
+  assert(badWeights === 0, 'All SCORING weights are 0.0-1.0 (' + badWeights + ' out of range)');
+
+  // Test: All SCORING entries have base_confidence between 0.0 and 1.0
+  var badBaseConf = 0;
+  for (var scId4 in SCORING) {
+    if (!SCORING.hasOwnProperty(scId4)) continue;
+    var bc = SCORING[scId4].base_confidence;
+    if (typeof bc !== 'number' || bc < 0 || bc > 1) badBaseConf++;
+  }
+  assert(badBaseConf === 0, 'All SCORING base_confidence values are 0.0-1.0 (' + badBaseConf + ' invalid)');
+
+  // Test: REFINE_RULES is defined and is an array with at least 10 entries
+  assert(Array.isArray(REFINE_RULES), 'REFINE_RULES is an array');
+  assert(REFINE_RULES.length >= 10, 'REFINE_RULES has at least 10 entries (found ' + REFINE_RULES.length + ')');
+
+  // Test: Every REFINE_RULES entry has id, condition (function), question (string), options (array)
+  var rulesMissingFields = 0;
+  for (var ri = 0; ri < REFINE_RULES.length; ri++) {
+    var rule = REFINE_RULES[ri];
+    if (!rule.id || typeof rule.condition !== 'function' || typeof rule.question !== 'string' || !Array.isArray(rule.options)) {
+      rulesMissingFields++;
+    }
+  }
+  assert(rulesMissingFields === 0, 'All REFINE_RULES have id, condition, question, options (' + rulesMissingFields + ' missing)');
+
+  // Test: Every REFINE_RULES option has label (string) and adjust (object)
+  var rulesOptionBad = 0;
+  for (var ri2 = 0; ri2 < REFINE_RULES.length; ri2++) {
+    var opts = REFINE_RULES[ri2].options;
+    for (var oi = 0; oi < opts.length; oi++) {
+      if (typeof opts[oi].label !== 'string' || typeof opts[oi].adjust !== 'object') {
+        rulesOptionBad++;
+      }
+    }
+  }
+  assert(rulesOptionBad === 0, 'All REFINE_RULES options have label and adjust (' + rulesOptionBad + ' invalid)');
+
+  // Test: Every diagnosis ID referenced in REFINE_RULES adjust objects exists in SCORING
+  var adjustBadIds = 0;
+  for (var ri3 = 0; ri3 < REFINE_RULES.length; ri3++) {
+    var opts3 = REFINE_RULES[ri3].options;
+    for (var oi3 = 0; oi3 < opts3.length; oi3++) {
+      var adj = opts3[oi3].adjust;
+      for (var adjKey in adj) {
+        if (!adj.hasOwnProperty(adjKey)) continue;
+        if (!SCORING[adjKey]) adjustBadIds++;
+      }
+    }
+  }
+  assert(adjustBadIds === 0, 'All REFINE_RULES adjust IDs reference valid SCORING keys (' + adjustBadIds + ' invalid)');
 
   // Restore state
   state.currentNode = savedState.currentNode;
