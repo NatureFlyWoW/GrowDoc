@@ -511,3 +511,23 @@ The following v1 tests reference `state.expertMode` and `toggleExpertMode()` and
 19. Open in browser, verify Wizard/Expert tabs work identically to v1
 20. Verify Multi-Dx tab is disabled if data file is not loaded, enabled if it is
 21. Verify keyboard navigation (arrows, Home, End) on mode selector
+
+---
+
+## Implementation Notes
+
+**Files modified:** `docs/tool-plant-doctor.html`
+
+**All 21 checklist items addressed.** Key changes:
+- Replaced toggle HTML/CSS with 3-button segmented control (Wizard/Expert/Multi-Dx)
+- Refactored state: `state.mode` replaces `state.expertMode`, added `wizardNotes`, `multiDxState`, `journalState`
+- New functions: `setMode()`, `updateModeSelector()`, `bindModeSelector()`, `resetMultiDxState()`, `dataFileLoaded()`
+- `render()` dispatches by `state.mode` with journal precedence
+- All v1 toggle tests updated; 10 new Section 02 tests added
+- Zero remaining references to `state.expertMode`, `toggleExpertMode`, `bindToggle`, toggle CSS
+
+**Deviations from plan:**
+- Added Enter/Space `preventDefault()` to keyboard handler (code review fix for page-scroll bug)
+- Multi-Dx placeholder includes inline styling for better visual presentation
+
+**Code review:** See `implementation/code_review/section-02-review.md` and `section-02-interview.md`
