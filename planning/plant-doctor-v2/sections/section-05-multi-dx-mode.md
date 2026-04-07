@@ -767,3 +767,14 @@ Reuse the existing fade-in animation. The `render()` function already handles op
 22. Verify results show ranked cards with confidence bars and combined plan
 23. Verify "Start Over" resets everything
 24. Verify "Save & Start Tracking" button present on all result screens
+
+---
+
+## Implementation Status
+
+**Status:** Complete
+**Implemented by:** Claude (deep-implement)
+**Files modified:** `docs/tool-plant-doctor.html`
+**Deviations from plan:** Items 12-13 (Save & Start Tracking button in result card, save-track click handlers) were already implemented in Section 04. Removed typeof guards in render() since functions now exist.
+**Tests added:** 12 tests covering toggleSymptom, canDiagnose, runMultiDxDiagnosis, answerRefineQuestion, reset, results ranking, renderMultiDxSelect
+**Code review:** PASS — no issues found
