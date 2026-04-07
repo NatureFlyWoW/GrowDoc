@@ -561,3 +561,14 @@ var STORAGE_KEY = 'growdoc-plant-doctor';
 17. Add Section 03 tests to `runTests()`
 18. Open in browser with data file loaded, run `runTests()` — all pass
 19. Test with data file absent — scoring tests are skipped, v1 tests still pass
+
+---
+
+## Implementation Status
+
+**Status:** Complete
+**Implemented by:** Claude (deep-implement)
+**Files modified:** `docs/tool-plant-doctor.html`
+**Deviations from plan:** None — implementation matches plan exactly.
+**Tests added:** 15 tests covering scoreDiagnoses, getRefineQuestions, applyRefineAnswer, generateCombinedPlan
+**Code review:** PASS — no issues found
