@@ -1,0 +1,147 @@
+/* GrowDoc Companion — Timeline & Dry/Cure Styles */
+
+/* Timeline bar */
+.timeline { margin: var(--space-4) 0; }
+.timeline-compact .timeline-header {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.timeline-bar {
+  display: flex;
+  height: 20px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-elevated);
+}
+
+.timeline-full .timeline-bar { height: 48px; }
+
+.timeline-segment {
+  position: relative;
+  min-width: 2px;
+  transition: background var(--transition-fast);
+}
+
+.timeline-segment.completed { background: rgba(143, 184, 86, 0.3); }
+.timeline-segment.current { background: var(--accent-green); }
+.timeline-segment.future { background: var(--bg-elevated); }
+
+.timeline-segment + .timeline-segment { border-left: 1px solid var(--bg-primary); }
+
+/* Position marker */
+.timeline-marker {
+  position: absolute;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--text-primary);
+  border-radius: 1px;
+  z-index: 2;
+}
+
+/* Milestone markers */
+.timeline-milestone {
+  position: absolute;
+  top: 2px;
+  font-size: 0.6rem;
+  transform: translateX(-50%);
+  z-index: 1;
+  opacity: 0.7;
+}
+
+.timeline-full .timeline-milestone { font-size: 0.8rem; top: 4px; }
+
+/* Stage labels (full mode) */
+.timeline-label {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Auto-advance prompt */
+.timeline-advance-prompt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-green);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+}
+
+.btn-sm { padding: var(--space-1) var(--space-3); font-size: 0.8rem; }
+
+/* Stage detail panel */
+.stage-detail-panel {
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-3);
+}
+
+.stage-detail-subtitle {
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: var(--space-3) 0 var(--space-2);
+  font-size: 0.85rem;
+}
+
+.stage-milestone-item {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding: var(--space-1) 0;
+}
+
+/* Dry/Cure */
+.dry-cure-plant {
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+
+.dry-cure-form { margin-top: var(--space-3); }
+
+.dry-cure-targets {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-3);
+  padding: var(--space-2);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+}
+
+.form-field {
+  margin-bottom: var(--space-3);
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: var(--space-1);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.log-history {
+  margin-top: var(--space-4);
+  border-top: 1px solid var(--bg-elevated);
+  padding-top: var(--space-3);
+}
+
+.log-entry {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--bg-elevated);
+}

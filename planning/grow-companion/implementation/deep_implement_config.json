@@ -47,6 +47,10 @@
     "section-05-strain-database": {
       "status": "complete",
       "commit_hash": "8c2912d"
+    },
+    "section-06-priority-system": {
+      "status": "complete",
+      "commit_hash": "99ebb27"
     }
   },
   "pre_commit": {
