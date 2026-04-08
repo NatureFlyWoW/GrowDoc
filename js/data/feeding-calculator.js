@@ -6,11 +6,25 @@ import { calculateWeights, blendTarget } from './priority-engine.js';
 /**
  * getFeedingSchedule(medium, stage, priorities) — Returns feeding targets.
  */
-export function getFeedingSchedule(medium, stage, priorities) {
+/**
+ * getFeedingSchedule(medium, stage, priorities, context) — Returns feeding targets.
+ * Context-aware: autoflower reduces EC 25%, living soil gradient adjusts further.
+ */
+export function getFeedingSchedule(medium, stage, priorities, context) {
   const targets = NUTRIENT_TARGETS[medium]?.[stage];
   if (!targets) return null;
 
   const weights = calculateWeights(priorities || { yield: 3, quality: 3, terpenes: 3, effect: 3 });
+  const ctx = context || {};
+
+  // Autoflower EC reduction: 25% across the board
+  const autoMultiplier = ctx.isAutoflower ? 0.75 : 1.0;
+
+  // Living soil gradient reduction
+  let soilMultiplier = 1.0;
+  if (ctx.amendmentDensity === 'high') soilMultiplier = 0.4;     // Water only territory
+  else if (ctx.amendmentDensity === 'medium') soilMultiplier = 0.65;
+  else if (ctx.amendmentDensity === 'low') soilMultiplier = 0.8;
 
   // Priority-adjusted EC: yield increases, terpenes decreases
   const ecAdjust = {
@@ -31,15 +45,26 @@ export function getFeedingSchedule(medium, stage, priorities) {
     terpenes: ecAdjust.terpenes.max,
   }, weights);
 
+  // Apply autoflower and soil multipliers
+  const finalMin = ecMin * autoMultiplier * soilMultiplier;
+  const finalMax = ecMax * autoMultiplier * soilMultiplier;
+
   const calmagRequired = medium === 'coco' || (medium === 'hydro' && targets.calmagNote);
 
+  // Build context-specific notes
+  const contextNotes = [];
+  if (ctx.isAutoflower) contextNotes.push('Autoflower: EC reduced 25% from photoperiod baseline — autos are more sensitive to nutrient concentration.');
+  if (ctx.amendmentDensity === 'high') contextNotes.push('Living soil with amendments: water only first 4-6 weeks. Top-dress when deficiency appears.');
+  else if (ctx.amendmentDensity === 'medium') contextNotes.push('Amended soil: lighter feeding schedule. Top-dress every 2-3 weeks rather than liquid feed.');
+  if (ctx.waterPH && ctx.waterPH > 7.5) contextNotes.push(`Your tap water pH (${ctx.waterPH}) is high — always pH down before feeding.`);
+
   return {
-    ecTarget: { min: Math.round(ecMin * 10) / 10, max: Math.round(ecMax * 10) / 10 },
+    ecTarget: { min: Math.round(finalMin * 10) / 10, max: Math.round(finalMax * 10) / 10 },
     phTarget: { min: targets.ph.min, max: targets.ph.max },
     npkRatio: targets.npkRatio,
     calmagRequired,
     calmagDose: targets.calmagNote || null,
-    notes: targets.notes || [],
+    notes: [...(targets.notes || []), ...contextNotes],
     evidence: 'established',
   };
 }

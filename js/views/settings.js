@@ -2,6 +2,7 @@
 
 import { renderStarRating, renderPriorityDisplay } from '../components/star-rating.js';
 import { calculateWeights } from '../data/priority-engine.js';
+import { parseProfileNotes, NOTE_PLACEHOLDERS } from '../data/profile-context-rules.js';
 import { escapeHtml } from '../utils.js';
 import { navigate } from '../router.js';
 
@@ -20,6 +21,9 @@ export function renderSettingsView(container, store) {
 
   // Priority editor with live preview
   _renderPriorityEditor(container, store);
+
+  // Profile notes editor
+  _renderNotesEditor(container, store);
 
   // Storage usage
   _renderStorageUsage(container);
@@ -126,6 +130,51 @@ function _renderPriorityEditor(container, store) {
   weightText.style.fontSize = '0.78rem';
   weightText.textContent = `Weights: Y=${(weights.yield * 100).toFixed(0)}% Q=${(weights.quality * 100).toFixed(0)}% T=${(weights.terpenes * 100).toFixed(0)}% E=${(weights.effect * 100).toFixed(0)}%`;
   section.appendChild(weightText);
+
+  container.appendChild(section);
+}
+
+function _renderNotesEditor(container, store) {
+  const profile = store.state.profile || {};
+  const notes = profile.notes || {};
+
+  if (Object.values(notes).every(v => !v)) return; // No notes to edit
+
+  const section = document.createElement('div');
+  section.className = 'settings-section';
+  const h3 = document.createElement('h3');
+  h3.textContent = 'Grow Context Notes';
+  section.appendChild(h3);
+
+  const hint = document.createElement('p');
+  hint.className = 'text-muted';
+  hint.style.fontSize = '0.82rem';
+  hint.textContent = 'Notes from your setup wizard that personalize recommendations. Edit to update.';
+  section.appendChild(hint);
+
+  for (const [step, text] of Object.entries(notes)) {
+    if (!text) continue;
+    const group = document.createElement('div');
+    group.className = 'form-field';
+    const label = document.createElement('label');
+    label.textContent = step.charAt(0).toUpperCase() + step.slice(1);
+    const textarea = document.createElement('textarea');
+    textarea.className = 'input';
+    textarea.rows = 2;
+    textarea.value = text;
+    textarea.placeholder = NOTE_PLACEHOLDERS[step] || '';
+    textarea.addEventListener('change', () => {
+      const profileSnap = store.getSnapshot().profile || {};
+      if (!profileSnap.notes) profileSnap.notes = {};
+      profileSnap.notes[step] = escapeHtml(textarea.value);
+      profileSnap.context = parseProfileNotes(profileSnap.notes);
+      store.commit('profile', profileSnap);
+      store.publish('context:changed', { step });
+    });
+    group.appendChild(label);
+    group.appendChild(textarea);
+    section.appendChild(group);
+  }
 
   container.appendChild(section);
 }

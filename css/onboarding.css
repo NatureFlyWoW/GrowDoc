@@ -291,6 +291,28 @@
   flex-shrink: 0;
 }
 
+/* Context Notes */
+.context-notes {
+  margin-top: var(--space-3);
+}
+
+.context-notes summary {
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.context-notes summary:hover {
+  color: var(--accent-green);
+}
+
+.context-notes-input {
+  width: 100%;
+  margin-top: var(--space-2);
+  font-size: 0.85rem;
+  resize: vertical;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   .selection-cards {

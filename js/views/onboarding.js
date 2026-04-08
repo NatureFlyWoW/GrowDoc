@@ -3,6 +3,7 @@
 import { navigate } from '../router.js';
 import { escapeHtml, generateId } from '../utils.js';
 import { renderStarRating, renderEffectSelector } from '../components/star-rating.js';
+import { parseProfileNotes, NOTE_PLACEHOLDERS } from '../data/profile-context-rules.js';
 
 // ── Stage Options ──────────────────────────────────────────────────────
 
@@ -122,6 +123,7 @@ const _defaultState = () => ({
   experience: null,
   priorities: { yield: 3, quality: 3, terpenes: 3, effect: 3 },
   targetEffect: null,
+  notes: { stage: '', medium: '', lighting: '', strain: '', space: '', priorities: '' },
 });
 
 let _wizardState = _defaultState();
@@ -284,13 +286,45 @@ function _renderSelectionCards(container, title, options, currentValue, onSelect
   container.appendChild(cards);
 }
 
+function _renderContextNotes(container, stepKey) {
+  const placeholder = NOTE_PLACEHOLDERS[stepKey] || 'Add any relevant context...';
+  const details = document.createElement('details');
+  details.className = 'context-notes';
+
+  const summary = document.createElement('summary');
+  summary.textContent = 'Add context (optional)';
+  details.appendChild(summary);
+
+  const textarea = document.createElement('textarea');
+  textarea.className = 'input context-notes-input';
+  textarea.rows = 2;
+  textarea.placeholder = placeholder;
+  textarea.value = _wizardState.notes[stepKey] || '';
+  textarea.addEventListener('input', () => {
+    _wizardState.notes[stepKey] = textarea.value;
+  });
+  details.appendChild(textarea);
+
+  const hint = document.createElement('div');
+  hint.className = 'text-muted';
+  hint.style.fontSize = '0.75rem';
+  hint.style.marginTop = 'var(--space-1)';
+  hint.textContent = 'Helps personalize your recommendations';
+  details.appendChild(hint);
+
+  // Auto-open if already has content
+  if (_wizardState.notes[stepKey]) details.open = true;
+
+  container.appendChild(details);
+}
+
 function _renderStageStep(container) {
   _renderSelectionCards(container, 'What stage is your grow?', STAGES, _wizardState.stage, (id) => {
     _wizardState.stage = id;
-    // Re-render to show selection
     container.innerHTML = '';
     _renderStageStep(container);
   });
+  _renderContextNotes(container, 'stage');
 }
 
 function _renderMediumStep(container) {
@@ -299,6 +333,7 @@ function _renderMediumStep(container) {
     container.innerHTML = '';
     _renderMediumStep(container);
   });
+  _renderContextNotes(container, 'medium');
 }
 
 function _renderLightingStep(container) {
@@ -327,6 +362,7 @@ function _renderLightingStep(container) {
   field.appendChild(label);
   field.appendChild(input);
   container.appendChild(field);
+  _renderContextNotes(container, 'lighting');
 }
 
 function _renderPlantCountStep(container) {
@@ -413,6 +449,7 @@ function _renderStrainStep(container) {
   hint.style.fontSize = '0.82rem';
   hint.textContent = 'You can add more strains and assign per-plant later.';
   container.appendChild(hint);
+  _renderContextNotes(container, 'strain');
 }
 
 function _renderSpaceStep(container) {
@@ -453,6 +490,7 @@ function _renderSpaceStep(container) {
     field.appendChild(input);
     container.appendChild(field);
   }
+  _renderContextNotes(container, 'space');
 }
 
 function _renderExperienceStep(container) {
@@ -510,6 +548,8 @@ function _renderPriorityStep(container) {
     onChange: (v) => { _wizardState.targetEffect = v; },
     visible: _wizardState.priorities.effect >= 3,
   });
+
+  _renderContextNotes(container, 'priorities');
 }
 
 function _renderSummaryStep(container) {
@@ -615,7 +655,13 @@ function _completeOnboarding() {
 
   const w = _wizardState;
 
-  // 1. Create profile
+  // 1. Create profile with parsed context notes
+  const sanitizedNotes = {};
+  for (const [key, val] of Object.entries(w.notes)) {
+    sanitizedNotes[key] = escapeHtml(val || '');
+  }
+  const context = parseProfileNotes(sanitizedNotes);
+
   const profile = {
     version: 1,
     medium: w.medium,
@@ -627,6 +673,8 @@ function _completeOnboarding() {
     experience: w.experience,
     priorities: { ...w.priorities },
     targetEffect: w.targetEffect,
+    notes: sanitizedNotes,
+    context,
   };
   store.commit('profile', profile);
 

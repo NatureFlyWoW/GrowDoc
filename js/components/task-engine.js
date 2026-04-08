@@ -11,6 +11,7 @@ import { generateId } from '../utils.js';
  */
 export function generateTasks(store) {
   const profile = store.state.profile || {};
+  const context = profile.context || {};
   const grow = store.state.grow;
   const envData = store.state.environment || {};
 
@@ -110,12 +111,30 @@ export function evaluateStageTriggers(plant, profile, existingTasks) {
   const tasks = [];
   const days = getDaysInStage(plant);
   const stage = plant.stage;
+  const context = profile.context || {};
 
+  // Autoflower: skip 12/12 flip prompts
   // Stage transition
   const advance = shouldAutoAdvance(plant);
   if (advance) {
-    tasks.push(_createTask(plant.id, 'stage', 'recommended', `Advance ${plant.name} to ${advance.nextStage}`,
-      _simpleDetail(`${advance.message} (Day ${advance.daysInStage} in ${stage})`)));
+    // Autoflower: skip transition (12/12 flip) prompt
+    if (context.isAutoflower && stage === 'late-veg' && advance.nextStage === 'transition') {
+      tasks.push(_createTask(plant.id, 'stage', 'recommended', `${plant.name} entering pre-flower (auto)`,
+        _simpleDetail(`Autoflower will transition on its own. Watch for first pistils — no light schedule change needed.`)));
+    } else {
+      tasks.push(_createTask(plant.id, 'stage', 'recommended', `Advance ${plant.name} to ${advance.nextStage}`,
+        _simpleDetail(`${advance.message} (Day ${advance.daysInStage} in ${stage})`)));
+    }
+  }
+
+  // Living soil: skip early feeding tasks
+  if (context.amendmentDensity === 'high' && (stage === 'seedling' || stage === 'early-veg') && days < 28) {
+    // Don't generate feeding tasks — soil has nutrients
+    // Add a water-only reminder instead
+    if (days === 1 || days % 7 === 0) {
+      tasks.push(_createTask(plant.id, 'check', 'optional', `Water only — ${plant.name}`,
+        _simpleDetail(`Living soil with amendments — water only for the first 4-6 weeks. Your soil has built-in nutrition.`)));
+    }
   }
 
   // Defoliation — early flower days 0-2

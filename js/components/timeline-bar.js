@@ -256,10 +256,11 @@ function _renderDryingForm(container, store, plant) {
   targets.innerHTML = `<strong>Target:</strong> ${DRYING_TARGETS.temp.min}-${DRYING_TARGETS.temp.max}°C, ${DRYING_TARGETS.rh.min}-${DRYING_TARGETS.rh.max}% RH`;
   form.appendChild(targets);
 
-  // Form fields
+  // Form fields (IDs scoped by plant)
+  const pid = plant.id;
   const fields = [
-    { id: 'dry-temp', label: 'Temperature (°C)', type: 'number', placeholder: '18' },
-    { id: 'dry-rh', label: 'Humidity (%)', type: 'number', placeholder: '60' },
+    { id: `dry-temp-${pid}`, label: 'Temperature (°C)', type: 'number', placeholder: '18' },
+    { id: `dry-rh-${pid}`, label: 'Humidity (%)', type: 'number', placeholder: '60' },
   ];
 
   for (const f of fields) {
@@ -268,7 +269,7 @@ function _renderDryingForm(container, store, plant) {
   }
 
   // Smell dropdown
-  const smellGroup = _selectField('dry-smell', 'Smell Assessment', SMELL_OPTIONS_DRYING);
+  const smellGroup = _selectField(`dry-smell-${pid}`, 'Smell Assessment', SMELL_OPTIONS_DRYING);
   form.appendChild(smellGroup);
 
   // Snap test
@@ -277,7 +278,7 @@ function _renderDryingForm(container, store, plant) {
   const snapLabel = document.createElement('label');
   const snapCheck = document.createElement('input');
   snapCheck.type = 'checkbox';
-  snapCheck.id = 'dry-snap';
+  snapCheck.id = `dry-snap-${pid}`;
   snapLabel.appendChild(snapCheck);
   snapLabel.append(' Stems snap cleanly');
   snapGroup.appendChild(snapLabel);
@@ -291,10 +292,10 @@ function _renderDryingForm(container, store, plant) {
     const entry = {
       date: new Date().toISOString(),
       type: 'drying',
-      temp: parseFloat(document.getElementById('dry-temp')?.value) || null,
-      rh: parseFloat(document.getElementById('dry-rh')?.value) || null,
-      smell: document.getElementById('dry-smell')?.value || null,
-      snapTest: document.getElementById('dry-snap')?.checked || false,
+      temp: parseFloat(document.getElementById(`dry-temp-${pid}`)?.value) || null,
+      rh: parseFloat(document.getElementById(`dry-rh-${pid}`)?.value) || null,
+      smell: document.getElementById(`dry-smell-${pid}`)?.value || null,
+      snapTest: document.getElementById(`dry-snap-${pid}`)?.checked || false,
     };
     _addLog(store, plant.id, entry);
     renderDryCureView(container.closest('#content') || container.parentElement, store);
@@ -307,6 +308,7 @@ function _renderDryingForm(container, store, plant) {
 function _renderCuringForm(container, store, plant) {
   const form = document.createElement('div');
   form.className = 'dry-cure-form';
+  const pid = plant.id;
 
   const days = getDaysInStage(plant);
   const burpSchedule = getCureBurpSchedule(days);
@@ -318,28 +320,47 @@ function _renderCuringForm(container, store, plant) {
     `<strong>Burp schedule:</strong> ${burpSchedule.label}`;
   form.appendChild(targets);
 
-  // Form fields
-  const rhGroup = _formField('cure-rh', 'Jar RH (%)', 'number', '60');
+  // Form fields (IDs scoped by plant)
+  const rhGroup = _formField(`cure-rh-${pid}`, 'Jar RH (%)', 'number', '60');
   form.appendChild(rhGroup);
 
-  const smellGroup = _selectField('cure-smell', 'Smell Assessment', SMELL_OPTIONS_CURING);
+  const smellGroup = _selectField(`cure-smell-${pid}`, 'Smell Assessment', SMELL_OPTIONS_CURING);
   form.appendChild(smellGroup);
 
-  const burpGroup = _formField('cure-burps', 'Burps today', 'number', String(burpSchedule.perDay >= 1 ? Math.round(burpSchedule.perDay) : 1));
+  const burpGroup = _formField(`cure-burps-${pid}`, 'Burps today', 'number', String(burpSchedule.perDay >= 1 ? Math.round(burpSchedule.perDay) : 1));
   form.appendChild(burpGroup);
+
+  // Cure completion prompt (min 2 weeks)
+  if (days >= CURING_TARGETS.minWeeks * 7) {
+    const completionPrompt = document.createElement('div');
+    completionPrompt.className = 'timeline-advance-prompt';
+    completionPrompt.style.marginTop = 'var(--space-3)';
+    const msg = document.createElement('span');
+    msg.textContent = `${plant.name} has been curing for ${days} days. Finish curing?`;
+    completionPrompt.appendChild(msg);
+    const finishBtn = document.createElement('button');
+    finishBtn.className = 'btn btn-primary btn-sm';
+    finishBtn.textContent = 'Finish Curing';
+    finishBtn.addEventListener('click', () => {
+      advancePlantStage(store, plant.id, 'done');
+      renderDryCureView(container.closest('#content') || container.parentElement, store);
+    });
+    completionPrompt.appendChild(finishBtn);
+    form.appendChild(completionPrompt);
+  }
 
   // Log button
   const logBtn = document.createElement('button');
   logBtn.className = 'btn btn-primary';
   logBtn.textContent = 'Log Curing Entry';
   logBtn.addEventListener('click', () => {
-    const jarRH = parseFloat(document.getElementById('cure-rh')?.value) || null;
+    const jarRH = parseFloat(document.getElementById(`cure-rh-${pid}`)?.value) || null;
     const entry = {
       date: new Date().toISOString(),
       type: 'curing',
       jarRH,
-      smell: document.getElementById('cure-smell')?.value || null,
-      burpCount: parseInt(document.getElementById('cure-burps')?.value, 10) || 0,
+      smell: document.getElementById(`cure-smell-${pid}`)?.value || null,
+      burpCount: parseInt(document.getElementById(`cure-burps-${pid}`)?.value, 10) || 0,
     };
 
     // RH warnings
