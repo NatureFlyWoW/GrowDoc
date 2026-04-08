@@ -59,6 +59,22 @@
     "section-08-task-engine": {
       "status": "complete",
       "commit_hash": "63bbb55"
+    },
+    "section-09-dashboard": {
+      "status": "complete",
+      "commit_hash": "5cc1a75"
+    },
+    "section-10-environment": {
+      "status": "complete",
+      "commit_hash": "5cc1a75"
+    },
+    "section-11-quick-log-plants": {
+      "status": "complete",
+      "commit_hash": "cc21469"
+    },
+    "section-12-feeding-schedule": {
+      "status": "complete",
+      "commit_hash": "2d84c8f"
     }
   },
   "pre_commit": {

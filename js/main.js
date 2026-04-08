@@ -11,6 +11,13 @@ import { renderMyGrow } from './views/my-grow.js';
 import { renderPlantDetail } from './views/plant-detail.js';
 import { renderFeedingView } from './views/feeding.js';
 import { renderDryCureView } from './components/timeline-bar.js';
+import { renderTrainingView } from './views/training.js';
+import { renderHarvestView } from './views/harvest.js';
+import { renderPlantDoctor } from './plant-doctor/doctor-ui.js';
+import { renderKnowledgeView, renderMythsView } from './views/knowledge.js';
+import { renderToolsView } from './views/tools.js';
+import { renderSettingsView } from './views/settings.js';
+import { runMigration } from './migration.js';
 
 /** Initialize reactive store with persisted state. */
 function initStore() {
@@ -53,6 +60,14 @@ const viewMap = {
   'plant-detail': (container, params) => renderPlantDetail(container, window.__growdocStore, params?.id),
   'feeding': (container) => renderFeedingView(container, window.__growdocStore),
   'dry-cure': (container) => renderDryCureView(container, window.__growdocStore),
+  'training': (container) => renderTrainingView(container, window.__growdocStore),
+  'harvest': (container) => renderHarvestView(container, window.__growdocStore),
+  'doctor': (container) => renderPlantDoctor(container, window.__growdocStore),
+  'knowledge': (container) => renderKnowledgeView(container, window.__growdocStore),
+  'myths': (container) => renderMythsView(container),
+  'tools': (container, params) => renderToolsView(container, window.__growdocStore, params?.id),
+  'stealth': (container) => renderToolsView(container, window.__growdocStore, 'stealth'),
+  'settings': (container) => renderSettingsView(container, window.__growdocStore),
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -70,6 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize store with persisted state
     const store = initStore();
+
+    // Run v2 companion migration (after store init)
+    runMigration(store);
 
     // Make store accessible for other modules
     window.__growdocStore = store;
