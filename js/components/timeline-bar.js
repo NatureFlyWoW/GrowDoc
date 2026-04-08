@@ -96,10 +96,37 @@ export function renderTimeline(container, options) {
       msg.textContent = transition.confirmMessage;
       prompt.appendChild(msg);
 
+      // Decision notes field
+      const notesRow = document.createElement('div');
+      notesRow.className = 'decision-notes';
+      const notesToggle = document.createElement('button');
+      notesToggle.className = 'decision-notes-toggle';
+      notesToggle.textContent = '+ Add context';
+      const notesInput = document.createElement('textarea');
+      notesInput.className = 'input decision-notes-input';
+      notesInput.rows = 2;
+      notesInput.placeholder = 'e.g., just transplanted, plant looks stressed, want to wait for recovery...';
+      notesInput.style.display = 'none';
+      notesToggle.addEventListener('click', () => {
+        notesInput.style.display = notesInput.style.display === 'none' ? '' : 'none';
+        if (notesInput.style.display !== 'none') notesInput.focus();
+      });
+      notesRow.appendChild(notesToggle);
+      notesRow.appendChild(notesInput);
+      prompt.appendChild(notesRow);
+
+      const btnRow = document.createElement('div');
+      btnRow.className = 'decision-btn-row';
+
       const yesBtn = document.createElement('button');
       yesBtn.className = 'btn btn-primary btn-sm';
       yesBtn.textContent = 'Yes, advance';
       yesBtn.addEventListener('click', () => {
+        // Save the decision note as a log entry
+        const note = notesInput.value.trim();
+        if (note && options.plantId) {
+          _logDecisionNote(options.plantId, 'stage-advance', `Advanced to ${transition.next}`, note, options._store);
+        }
         if (onAdvance) onAdvance(transition.next);
         prompt.remove();
       });
@@ -107,10 +134,17 @@ export function renderTimeline(container, options) {
       const noBtn = document.createElement('button');
       noBtn.className = 'btn btn-sm';
       noBtn.textContent = 'Not yet';
-      noBtn.addEventListener('click', () => prompt.remove());
+      noBtn.addEventListener('click', () => {
+        const note = notesInput.value.trim();
+        if (note && options.plantId) {
+          _logDecisionNote(options.plantId, 'stage-decline', `Declined advance to ${transition.next}`, note, options._store);
+        }
+        prompt.remove();
+      });
 
-      prompt.appendChild(yesBtn);
-      prompt.appendChild(noBtn);
+      btnRow.appendChild(yesBtn);
+      btnRow.appendChild(noBtn);
+      prompt.appendChild(btnRow);
       wrapper.appendChild(prompt);
     }
   }
@@ -338,10 +372,32 @@ function _renderCuringForm(container, store, plant) {
     const msg = document.createElement('span');
     msg.textContent = `${plant.name} has been curing for ${days} days. Finish curing?`;
     completionPrompt.appendChild(msg);
+
+    // Decision notes for cure completion
+    const cureNotesRow = document.createElement('div');
+    cureNotesRow.className = 'decision-notes';
+    const cureNotesToggle = document.createElement('button');
+    cureNotesToggle.className = 'decision-notes-toggle';
+    cureNotesToggle.textContent = '+ Add notes';
+    const cureNotesInput = document.createElement('textarea');
+    cureNotesInput.className = 'input decision-notes-input';
+    cureNotesInput.rows = 2;
+    cureNotesInput.placeholder = 'e.g., smells amazing, smooth test burn, jar RH stable at 62%...';
+    cureNotesInput.style.display = 'none';
+    cureNotesToggle.addEventListener('click', () => {
+      cureNotesInput.style.display = cureNotesInput.style.display === 'none' ? '' : 'none';
+      if (cureNotesInput.style.display !== 'none') cureNotesInput.focus();
+    });
+    cureNotesRow.appendChild(cureNotesToggle);
+    cureNotesRow.appendChild(cureNotesInput);
+    completionPrompt.appendChild(cureNotesRow);
+
     const finishBtn = document.createElement('button');
     finishBtn.className = 'btn btn-primary btn-sm';
     finishBtn.textContent = 'Finish Curing';
     finishBtn.addEventListener('click', () => {
+      const note = cureNotesInput.value.trim();
+      if (note) _logDecisionNote(plant.id, 'cure-complete', `Finished curing after ${days} days`, note, store);
       advancePlantStage(store, plant.id, 'done');
       renderDryCureView(container.closest('#content') || container.parentElement, store);
     });
@@ -456,6 +512,21 @@ function _selectField(id, label, options) {
   group.appendChild(lbl);
   group.appendChild(select);
   return group;
+}
+
+function _logDecisionNote(plantId, type, action, note, store) {
+  if (!store || !note) return;
+  const grow = store.getSnapshot().grow;
+  const plant = grow.plants?.find(p => p.id === plantId);
+  if (!plant) return;
+  if (!plant.logs) plant.logs = [];
+  plant.logs.push({
+    date: new Date().toISOString(),
+    timestamp: new Date().toISOString(),
+    type: 'decision',
+    details: { action, note, decisionType: type },
+  });
+  store.commit('grow', grow);
 }
 
 function _milestoneIcon(icon) {

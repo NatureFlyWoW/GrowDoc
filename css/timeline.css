@@ -82,6 +82,29 @@
 
 .btn-sm { padding: var(--space-1) var(--space-3); font-size: 0.8rem; }
 
+/* Decision notes on prompts */
+.decision-notes { margin: var(--space-2) 0; width: 100%; }
+
+.decision-notes-toggle {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: var(--space-1) 0;
+}
+
+.decision-notes-toggle:hover { color: var(--accent-green); }
+
+.decision-notes-input {
+  width: 100%;
+  margin-top: var(--space-1);
+  font-size: 0.82rem;
+  resize: vertical;
+}
+
+.decision-btn-row { display: flex; gap: var(--space-2); }
+
 /* Stage detail panel */
 .stage-detail-panel {
   padding: var(--space-4);
