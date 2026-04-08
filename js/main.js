@@ -2,32 +2,38 @@
 
 import { initRouter, navigate } from './router.js';
 import { renderSidebar } from './components/sidebar.js';
+import { createStore } from './store.js';
+import { load, save, migrate, STORAGE_KEYS, migrateFromLegacy } from './storage.js';
 
-/**
- * Minimal store stub for section-01.
- * Will be replaced by the real reactive store in section-02.
- */
-const store = {
-  _data: {},
-  get(key) {
-    const keys = key.split('.');
-    let val = this._data;
-    for (const k of keys) {
-      if (val == null) return undefined;
-      val = val[k];
-    }
-    return val;
-  },
-  set(key, val) {
-    const keys = key.split('.');
-    let obj = this._data;
-    for (let i = 0; i < keys.length - 1; i++) {
-      if (obj[keys[i]] == null) obj[keys[i]] = {};
-      obj = obj[keys[i]];
-    }
-    obj[keys[keys.length - 1]] = val;
-  },
-};
+/** Initialize reactive store with persisted state. */
+function initStore() {
+  // Load and run schema migrations on each key
+  const profile = migrate('profile', load('profile') || {});
+  const grow = migrate('grow', load('grow') || {});
+  const environment = migrate('environment', load('environment') || { readings: [] });
+  const archive = migrate('archive', load('archive') || []);
+  const outcomes = migrate('outcomes', load('outcomes') || []);
+  const ui = migrate('ui', load('ui') || { sidebarCollapsed: false });
+
+  const store = createStore({
+    profile,
+    grow,
+    environment,
+    archive,
+    outcomes,
+    ui,
+  });
+
+  // Auto-save on commit: persist each top-level key to localStorage
+  const persistKeys = ['profile', 'grow', 'environment', 'archive', 'outcomes', 'ui'];
+  for (const key of persistKeys) {
+    store.subscribe(key, () => {
+      save(key, store.state[key]);
+    });
+  }
+
+  return store;
+}
 
 /** View map: route view names -> render functions. Stubs for now. */
 const viewMap = {
@@ -44,6 +50,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   try {
+    // Run legacy migration (first load only)
+    migrateFromLegacy();
+
+    // Initialize store with persisted state
+    const store = initStore();
+
+    // Make store accessible for other modules
+    window.__growdocStore = store;
+
     // Initialize sidebar
     renderSidebar(sidebar, store);
 
@@ -155,10 +170,14 @@ function restoreBackup() {
       if (key && key.startsWith('growdoc-companion-backup-')) backupKeys.push(key);
     }
     for (const bk of backupKeys) {
-      const targetKey = bk.replace('-backup-', '-');
+      // Backup keys are: growdoc-companion-backup-{original-legacy-key}
+      // Restore the original legacy key so the next migration re-imports it
+      const originalKey = bk.replace('growdoc-companion-backup-', '');
       const val = localStorage.getItem(bk);
-      if (val) localStorage.setItem(targetKey, val);
+      if (val) localStorage.setItem(originalKey, val);
     }
+    // Clear migration flag so re-import runs on reload
+    localStorage.removeItem('growdoc-companion-migrated');
     location.reload();
   } catch (err) {
     alert('Restore failed: ' + err.message);
@@ -189,6 +208,8 @@ async function renderTestRunner(container) {
   const output = document.getElementById('test-output');
   const modules = [
     { name: 'utils', path: './utils.js' },
+    { name: 'store', path: './store.js' },
+    { name: 'storage', path: './storage.js' },
     { name: 'router', path: './router.js' },
     { name: 'sidebar', path: './components/sidebar.js' },
     { name: 'vercel-config', path: './tests/vercel-config.test.js' },

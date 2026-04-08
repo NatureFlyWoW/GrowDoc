@@ -27,7 +27,12 @@
     "section-18-settings-data",
     "section-19-migration"
   ],
-  "sections_state": {},
+  "sections_state": {
+    "section-01-app-shell": {
+      "status": "complete",
+      "commit_hash": "033d85e"
+    }
+  },
   "pre_commit": {
     "present": false,
     "type": "none",

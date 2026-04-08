@@ -20,10 +20,11 @@ This section builds the reactive state management system (Proxy-based store with
 
 ## Files to Create
 
-| File | Purpose |
-|------|---------|
-| `/js/store.js` | Centralized reactive state with Proxy, dispatch/commit pattern, pub/sub |
-| `/js/storage.js` | localStorage abstraction with versioning, migration, quota handling |
+| File | Purpose | Status |
+|------|---------|--------|
+| `/js/store.js` | Centralized reactive state with Proxy, dispatch/commit pattern, pub/sub | Done |
+| `/js/storage.js` | localStorage abstraction with versioning, migration, quota handling | Done |
+| `/js/main.js` | Updated: real store init, auto-save, legacy migration at startup | Done |
 
 ---
 
@@ -341,3 +342,19 @@ Migration runs once, sets a `growdoc-companion-migrated` flag. Old keys are pres
 10. Run all store tests and verify passing
 11. Run all storage tests and verify passing
 12. Run migration tests against mock data simulating existing Plant Doctor/cure tracker keys
+
+---
+
+## Implementation Notes
+
+### Code Review Fixes Applied
+- **store.off() fix**: Added callback mapping so `off()` correctly removes wrapped listeners
+- **restoreBackup() fix**: Fixed key extraction to restore original legacy keys and clear migration flag
+- **migrate() wired in**: Schema migrations now run at startup in `initStore()`
+- **Cure tracker migration**: Added to `migrateFromLegacy()` — maps entries/settings to `grow.cureData`
+- **Round-trip test fix**: Now uses actual `save()`/`load()` functions instead of raw localStorage
+- **Proxy set deep-clone**: `set` trap now deep-clones values for consistency with `commit()`
+
+### Test Counts
+- `store.js`: 25 assertions (commit, subscribe, dispatch, immutable enforcement, event bus on/off, wildcard, get/set, snapshot)
+- `storage.js`: ~30 assertions (round-trip, missing key, corrupted JSON, sequential migration, no-op migration, capacity, quota, legacy migration, profile import, migration flag, failure safety, exportAll)
