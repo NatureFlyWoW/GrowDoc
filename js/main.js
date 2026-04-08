@@ -5,6 +5,12 @@ import { renderSidebar } from './components/sidebar.js';
 import { createStore } from './store.js';
 import { load, save, migrate, STORAGE_KEYS, migrateFromLegacy } from './storage.js';
 import { renderLanding, renderOnboarding } from './views/onboarding.js';
+import { renderDashboard } from './views/dashboard.js';
+import { renderEnvironmentView } from './views/environment.js';
+import { renderMyGrow } from './views/my-grow.js';
+import { renderPlantDetail } from './views/plant-detail.js';
+import { renderFeedingView } from './views/feeding.js';
+import { renderDryCureView } from './components/timeline-bar.js';
 
 /** Initialize reactive store with persisted state. */
 function initStore() {
@@ -41,6 +47,12 @@ const viewMap = {
   'landing': renderLanding,
   'onboarding': (container) => renderOnboarding(container, null),
   'test-runner': renderTestRunner,
+  'dashboard': (container) => renderDashboard(container, window.__growdocStore),
+  'environment': (container) => renderEnvironmentView(container, window.__growdocStore),
+  'my-grow': (container) => renderMyGrow(container, window.__growdocStore),
+  'plant-detail': (container, params) => renderPlantDetail(container, window.__growdocStore, params?.id),
+  'feeding': (container) => renderFeedingView(container, window.__growdocStore),
+  'dry-cure': (container) => renderDryCureView(container, window.__growdocStore),
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -222,6 +234,9 @@ async function renderTestRunner(container) {
     { name: 'priority-system', path: './tests/priority-system.test.js' },
     { name: 'stage-timeline', path: './tests/stage-timeline.test.js' },
     { name: 'task-engine', path: './tests/task-engine.test.js' },
+    { name: 'dashboard', path: './views/dashboard.js' },
+    { name: 'vpd-widget', path: './components/vpd-widget.js' },
+    { name: 'feeding-calculator', path: './data/feeding-calculator.js' },
   ];
 
   let totalPass = 0;

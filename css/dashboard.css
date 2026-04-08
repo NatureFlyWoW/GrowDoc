@@ -1,0 +1,220 @@
+/* GrowDoc Companion — Dashboard, Environment, Plant & Feeding Styles */
+
+/* Dashboard layout */
+.dashboard { padding: var(--space-4) 0; }
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--space-6);
+}
+
+@media (max-width: 768px) {
+  .dashboard-layout { grid-template-columns: 1fr; }
+}
+
+.dashboard-empty {
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--text-secondary);
+}
+
+/* Status banner */
+.status-banner {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+}
+
+.status-green { background: rgba(143, 184, 86, 0.15); color: var(--status-good); }
+.status-gold { background: rgba(212, 168, 67, 0.15); color: var(--status-action); }
+.status-red { background: rgba(192, 57, 43, 0.15); color: var(--status-urgent); }
+
+/* Sidebar widgets */
+.sidebar-widget {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+  border-left: 3px solid var(--bg-elevated);
+}
+
+.sidebar-widget h4 {
+  margin: 0 0 var(--space-2) 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.stat-line {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: var(--space-1) 0;
+}
+
+/* VPD widget */
+.vpd-widget { border-left-color: var(--accent-green); }
+.vpd-value { font-size: 1.3rem; font-weight: 700; color: var(--text-primary); }
+.vpd-status { font-size: 0.82rem; margin-top: var(--space-1); }
+.vpd-update-form { display: flex; gap: var(--space-2); margin-top: var(--space-2); flex-wrap: wrap; }
+.vpd-calc-result { font-weight: 600; }
+
+/* Between grows */
+.between-grows {
+  text-align: center;
+  padding: var(--space-16) var(--space-4);
+}
+
+.between-grows h1 {
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+/* Plant cards */
+.plant-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.plant-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plant-name { font-weight: 600; color: var(--text-primary); }
+.stage-badge { font-size: 0.78rem; color: var(--accent-green); }
+.plant-counters { font-size: 0.78rem; margin: var(--space-2) 0; display: flex; gap: var(--space-4); }
+.plant-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.text-urgent { color: var(--status-urgent); }
+.text-warning { color: var(--status-action); }
+
+/* Add plant form */
+.add-plant-form {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Plant detail */
+.plant-detail-header { margin-bottom: var(--space-4); }
+
+.tab-bar {
+  display: flex;
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--bg-elevated);
+  margin-bottom: var(--space-4);
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: var(--space-2) var(--space-3);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-btn.active {
+  color: var(--accent-green);
+  border-bottom-color: var(--accent-green);
+}
+
+.plant-stats div { font-size: 0.85rem; color: var(--text-secondary); padding: var(--space-1) 0; }
+
+/* Environment */
+.env-section {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.env-section h3 { margin: 0 0 var(--space-3) 0; }
+
+.env-log-form {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.form-field-inline { display: flex; flex-direction: column; gap: var(--space-1); }
+.form-field-inline label { font-size: 0.78rem; color: var(--text-muted); }
+
+.drift-warning {
+  background: rgba(192, 57, 43, 0.15);
+  color: var(--status-urgent);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+  font-size: 0.85rem;
+}
+
+/* Feeding */
+.feeding-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.feeding-targets { display: flex; gap: var(--space-4); flex-wrap: wrap; margin: var(--space-3) 0; }
+.feeding-target { font-size: 0.9rem; }
+
+.feeding-callout {
+  background: rgba(212, 168, 67, 0.15);
+  color: var(--status-action);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  margin: var(--space-3) 0;
+}
+
+.feeding-notes { font-size: 0.82rem; color: var(--text-secondary); padding-left: var(--space-4); }
+.feeding-notes li { margin-bottom: var(--space-1); }
+
+.feeding-section { margin-bottom: var(--space-4); }
+
+.feeding-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.feeding-table th {
+  text-align: left;
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--bg-elevated);
+  color: var(--text-muted);
+}
+
+.feeding-table td { padding: var(--space-2); border-bottom: 1px solid var(--bg-elevated); }
+.current-stage-row { background: rgba(143, 184, 86, 0.1); }
+
+.calc-result { margin-top: var(--space-3); font-size: 0.85rem; }
+
+/* Log form */
+.log-form { background: var(--bg-surface); border-radius: var(--radius-md); padding: var(--space-4); }
+.log-type-bar { display: flex; gap: var(--space-2); margin-bottom: var(--space-3); flex-wrap: wrap; }
+.log-form-actions { display: flex; gap: var(--space-2); margin-top: var(--space-4); }
+.prefill-banner {
+  background: rgba(143, 184, 86, 0.1);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+/* Charts */
+.trend-chart { max-width: 100%; margin: var(--space-3) 0; }
+.chart-empty { padding: var(--space-4); text-align: center; }
