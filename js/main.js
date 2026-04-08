@@ -221,6 +221,7 @@ async function renderTestRunner(container) {
     { name: 'strain-database', path: './tests/strain-database.test.js' },
     { name: 'priority-system', path: './tests/priority-system.test.js' },
     { name: 'stage-timeline', path: './tests/stage-timeline.test.js' },
+    { name: 'task-engine', path: './tests/task-engine.test.js' },
   ];
 
   let totalPass = 0;

@@ -51,6 +51,10 @@
     "section-06-priority-system": {
       "status": "complete",
       "commit_hash": "99ebb27"
+    },
+    "section-07-stage-timeline": {
+      "status": "complete",
+      "commit_hash": "caea23c"
     }
   },
   "pre_commit": {
