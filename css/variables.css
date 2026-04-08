@@ -22,6 +22,7 @@
 
   /* Evidence level badges */
   --evidence-strong: #8fb856;
+  --evidence-established: #8fb856;  /* alias for data compatibility */
   --evidence-moderate: #d4a843;
   --evidence-emerging: #5c6bc0;
   --evidence-anecdotal: #a09880;
