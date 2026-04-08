@@ -4,6 +4,7 @@ import { initRouter, navigate } from './router.js';
 import { renderSidebar } from './components/sidebar.js';
 import { createStore } from './store.js';
 import { load, save, migrate, STORAGE_KEYS, migrateFromLegacy } from './storage.js';
+import { renderLanding, renderOnboarding } from './views/onboarding.js';
 
 /** Initialize reactive store with persisted state. */
 function initStore() {
@@ -35,8 +36,10 @@ function initStore() {
   return store;
 }
 
-/** View map: route view names -> render functions. Stubs for now. */
+/** View map: route view names -> render functions. */
 const viewMap = {
+  'landing': renderLanding,
+  'onboarding': (container) => renderOnboarding(container, null),
   'test-runner': renderTestRunner,
 };
 
@@ -212,6 +215,7 @@ async function renderTestRunner(container) {
     { name: 'storage', path: './storage.js' },
     { name: 'router', path: './router.js' },
     { name: 'sidebar', path: './components/sidebar.js' },
+    { name: 'onboarding', path: './views/onboarding.js' },
     { name: 'vercel-config', path: './tests/vercel-config.test.js' },
   ];
 
@@ -225,7 +229,7 @@ async function renderTestRunner(container) {
         output.innerHTML += `<div style="color:var(--text-muted)">-- ${mod.name}: no runTests() exported --</div>`;
         continue;
       }
-      const results = m.runTests();
+      const results = await m.runTests();
       const passed = results.filter(r => r.pass).length;
       const failed = results.filter(r => !r.pass).length;
       totalPass += passed;

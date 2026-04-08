@@ -31,6 +31,10 @@
     "section-01-app-shell": {
       "status": "complete",
       "commit_hash": "033d85e"
+    },
+    "section-02-store-storage": {
+      "status": "complete",
+      "commit_hash": "d010543"
     }
   },
   "pre_commit": {

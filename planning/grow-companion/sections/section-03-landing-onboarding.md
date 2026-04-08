@@ -22,10 +22,12 @@ This section builds the first-visit landing page and the 10-step setup wizard th
 
 ## Files to Create
 
-| File | Purpose |
-|------|---------|
-| `/js/views/onboarding.js` | Setup wizard flow (10 steps) |
-| `/css/onboarding.css` | Wizard-specific styles |
+| File | Purpose | Status |
+|------|---------|--------|
+| `/js/views/onboarding.js` | Landing page + setup wizard (10 steps) + tests | Done |
+| `/css/onboarding.css` | Wizard-specific styles | Done |
+| `/js/main.js` | Updated: registered landing + onboarding views | Done |
+| `/index.html` | Updated: added onboarding.css link | Done |
 
 The landing page can be implemented as a view function within `onboarding.js` or as a separate landing view. It renders into the main content area (not a separate HTML file).
 
@@ -179,3 +181,15 @@ export function renderOnboarding(container, store) { /* ... */ }
 18. Verify all onboarding tests pass
 19. Verify all validation tests pass
 20. Test full flow: landing -> setup -> all 10 steps -> dashboard redirect
+
+---
+
+## Implementation Notes
+
+### Deviations from Plan
+1. **Strain picker**: Using simple text input fallback since section 05 is not yet implemented
+2. **Star rating**: Built a basic star rating component inline since section 06 is not yet available
+3. **Landing page**: Implemented as `renderLanding()` in the same module as `renderOnboarding()`
+
+### Test Counts
+- 30+ assertions covering wizard navigation, validation, profile creation, plant generation, and summary display
