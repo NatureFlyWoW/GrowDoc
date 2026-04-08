@@ -1,0 +1,40 @@
+{
+  "plugin_root": "C:\\Users\\Caus\\.claude\\plugins\\cache\\piercelamb-plugins\\deep-implement\\0.2.1",
+  "sections_dir": "C:\\GrowDoc\\planning\\grow-companion\\sections",
+  "target_dir": "C:\\GrowDoc",
+  "state_dir": "C:\\GrowDoc\\planning\\grow-companion\\implementation",
+  "git_root": "C:\\GrowDoc",
+  "commit_style": "simple",
+  "test_command": "uv run pytest",
+  "sections": [
+    "section-01-app-shell",
+    "section-02-store-storage",
+    "section-03-landing-onboarding",
+    "section-04-grow-knowledge",
+    "section-05-strain-database",
+    "section-06-priority-system",
+    "section-07-stage-timeline",
+    "section-08-task-engine",
+    "section-09-dashboard",
+    "section-10-environment",
+    "section-11-quick-log-plants",
+    "section-12-feeding-schedule",
+    "section-13-training-planner",
+    "section-14-harvest-advisor",
+    "section-15-plant-doctor",
+    "section-16-knowledge-base",
+    "section-17-stealth-audit",
+    "section-18-settings-data",
+    "section-19-migration"
+  ],
+  "sections_state": {},
+  "pre_commit": {
+    "present": false,
+    "type": "none",
+    "config_file": null,
+    "native_hook": null,
+    "may_modify_files": false,
+    "detected_formatters": []
+  },
+  "created_at": "2026-04-08T11:08:26.111586+00:00"
+}

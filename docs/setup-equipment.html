@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup, Equipment &amp; Room Build — Citron Givré Grow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0d0a;
+      --bg-card: #111611;
+      --bg-card-hover: #161b16;
+      --bg-section: #0d100d;
+      --text-primary: #e8e4d9;
+      --text-secondary: #9ca38e;
+      --text-muted: #5e6556;
+      --accent-gold: #c9a84c;
+      --accent-gold-dim: #8a7234;
+      --accent-green: #4a7c3f;
+      --accent-green-bright: #6db35f;
+      --accent-green-dim: #2d4a26;
+      --accent-purple: #7c5a9e;
+      --accent-red: #b54c4c;
+      --accent-orange: #c97a2e;
+      --accent-blue: #4a7c9e;
+      --accent-teal: #3a8a7a;
+      --border: #1e241e;
+      --border-light: #2a322a;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 30% 40%, rgba(74,124,63,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 500px at 70% 60%, rgba(201,168,76,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 300px at 50% 80%, rgba(74,124,158,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      max-width: 900px;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero h1 span { color: var(--accent-gold); }
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 640px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Sections */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+    .section-header { margin-bottom: 3rem; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent-gold-dim);
+      margin-bottom: 0.75rem;
+    }
+    .section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section h2 span { color: var(--accent-gold); }
+    .section-intro {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 720px;
+      line-height: 1.8;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+      margin: 0 auto;
+      max-width: 1100px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      border-color: var(--border-light);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .card-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .card.accent-top::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent-gold);
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    /* Badges */
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      padding: 0.35rem 0.75rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+    .badge-gold { background: rgba(201,168,76,0.12); color: var(--accent-gold); border: 1px solid rgba(201,168,76,0.2); }
+    .badge-green { background: rgba(74,124,63,0.12); color: var(--accent-green-bright); border: 1px solid rgba(74,124,63,0.2); }
+    .badge-red { background: rgba(181,76,76,0.12); color: var(--accent-red); border: 1px solid rgba(181,76,76,0.2); }
+    .badge-orange { background: rgba(201,122,46,0.12); color: var(--accent-orange); border: 1px solid rgba(201,122,46,0.2); }
+    .badge-blue { background: rgba(74,124,158,0.12); color: var(--accent-blue); border: 1px solid rgba(74,124,158,0.2); }
+
+    /* Callouts */
+    .callout {
+      border-left: 3px solid var(--accent-gold);
+      background: rgba(201,168,76,0.04);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .callout-red { border-left-color: var(--accent-red); background: rgba(181,76,76,0.06); }
+    .callout-green { border-left-color: var(--accent-green-bright); background: rgba(109,179,95,0.04); }
+    .callout-blue { border-left-color: var(--accent-blue); background: rgba(74,124,158,0.04); }
+    .callout-orange { border-left-color: var(--accent-orange); background: rgba(201,122,46,0.04); }
+    .callout-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      color: var(--accent-gold);
+    }
+    .callout-red .callout-label { color: var(--accent-red); }
+    .callout-green .callout-label { color: var(--accent-green-bright); }
+    .callout-blue .callout-label { color: var(--accent-blue); }
+    .callout-orange .callout-label { color: var(--accent-orange); }
+    .callout p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1.1;
+    }
+    .stat-sub {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-top: 0.3rem;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 2rem 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 0.88rem;
+    }
+    th {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      background: var(--bg-section);
+      text-align: left;
+      padding: 0.9rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 0.85rem 1.2rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bg-card-hover); color: var(--text-primary); }
+    td strong { color: var(--text-primary); font-weight: 600; }
+
+    /* Lists */
+    ul, ol {
+      margin: 0 0 1rem 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+    }
+    li {
+      margin-bottom: 0.4rem;
+      line-height: 1.7;
+    }
+    li strong { color: var(--text-primary); }
+
+    /* Text */
+    p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
+    p strong { color: var(--text-primary); font-weight: 600; }
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.82em;
+      background: rgba(255,255,255,0.04);
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      color: var(--accent-gold);
+    }
+    hr { border: none; height: 1px; background: var(--border); margin: 2rem 0; }
+
+    /* Checklist */
+    .checklist { margin: 1.5rem 0; }
+    .check-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+    }
+    .check-item:last-child { border-bottom: none; }
+    .check-marker {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .check-done { background: rgba(109,179,95,0.15); color: var(--accent-green-bright); }
+    .check-pending { background: rgba(201,168,76,0.15); color: var(--accent-gold); }
+    .check-todo { background: rgba(181,76,76,0.15); color: var(--accent-red); }
+
+    /* Phase comparison */
+    .phase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .phase-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+    .phase-card.active { border-color: var(--accent-gold-dim); }
+    .phase-card.target { border-color: var(--accent-green); }
+
+    /* Dimmer table */
+    .dimmer-row td:first-child { font-family: var(--font-mono); font-size: 0.8rem; }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer p {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin: 0 0 0.4rem;
+    }
+
+    @media (max-width: 768px) {
+      .section { padding: 4rem 1.25rem; }
+      .hero { padding: 2rem 1.25rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .phase-grid { grid-template-columns: 1fr; }
+      table { font-size: 0.8rem; }
+      th, td { padding: 0.65rem 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-subtitle">Citron Givré Grow · Linz, Österreich · April 2026</div>
+  <h1>Setup, Equipment<br>&amp; <span>Room Build</span></h1>
+  <p class="hero-desc">Hardware, Belüftung &amp; Konstruktion für den Citron Givré Indoor-Grow im Abstellraum. Vollständige Inventur, Raumanalyse und Aufbau-Dokumentation.</p>
+</section>
+<div class="divider"></div>
+
+<!-- Section 1: Room Analysis -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt I · Raumanalyse</div>
+    <h2>Der <span>Abstellraum</span></h2>
+    <p class="section-intro">Dimensionen, Ventilationsbeurteilung, Lichtdichtigkeit und Stealth-Analyse des Grow-Raums — basierend auf tatsächlichen Raumfotos, Grundriss und Messungen.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-label">Raumfläche</div>
+      <div class="stat-value">1,32 m²</div>
+      <div class="stat-sub">~90 cm × ~120 cm</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Türbreite</div>
+      <div class="stat-value">80 cm</div>
+      <div class="stat-sub">200 cm Höhe, öffnet nach außen</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Zelt-Footprint</div>
+      <div class="stat-value">80×80</div>
+      <div class="stat-sub">40 cm Servicegang links</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Standort</div>
+      <div class="stat-value">Diele</div>
+      <div class="stat-sub">Zwischen Küche, Bad/WC, Diele</div>
+    </div>
+  </div>
+
+  <p>Der Abstellraum liegt laut Grundriss zwischen Diele und Küche — die angrenzenden Räume sind Bad/WC. Der Fliesenboden schützt vor Wasserschäden. Die weiße Deckenlampe mit E27-Fassung ist ein potenzielles Lichtleck. Das Zelt steht rechtsseitig an der AR-Wand und lässt einen <strong>40 cm breiten Servicegang links</strong> für Wartungsarbeiten frei.</p>
+
+  <div class="callout-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0">
+    <div class="callout">
+      <div class="callout-label">Lichtleck — Deckenlampe</div>
+      <p>Die E27-Fassung an der Decke muss vor dem ersten Grow entfernt werden. Glühbirne abschrauben und sicher aufbewahren (für Auszug). Lichtschalter mit Klebeband sichern. Bei Arbeit im Zelt: grüne Stirnlampe verwenden — grünes Licht stört den Pflanzen-Schlafrhythmus nicht.</p>
+    </div>
+    <div class="callout-red">
+      <div class="callout-label">Lüftungsgitter — Kritisch</div>
+      <p>An der linken Wand befindet sich ein Lüftungsgitter — ein direkter Geruchspfad in die Gebäude-Infrastruktur. Vor Blütebeginn abdichten: magnetische Lüftungsabdeckung oder Schaumstoff + Klebeband. <strong>Wichtig:</strong> Dauerhaftes Blockieren kann die Wohnraumbelüftung beeinträchtigen und unter Umständen gegen Mietbedingungen verstoßen. Rücksprache mit Vermieter empfohlen oder reversible Lösung wählen.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Stealth — Türdichtung</div>
+    <p>Selbstklebendes Schaumstoff-Band am Türrahmen + Bürstendichtung unten reduziert Geruchs- und Lichtaustritt um ~50 % und dämpft Lüftergeräusche spürbar. Installation vor der ersten Pflanze im Raum.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Section 2: Equipment Inventory -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt II · Equipment-Inventur</div>
+    <h2>Vollständige <span>Ausrüstung</span></h2>
+    <p class="section-intro">Alle Geräte mit Specs, Preis und Status. Core-Equipment bar bezahlt bei Viva Sativa, Dinghoferstraße 69, Linz.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-label">Gesamtinvestition</div>
+      <div class="stat-value">€545</div>
+      <div class="stat-sub">Bar · Viva Sativa</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">LED-Leistung</div>
+      <div class="stat-value">108 W</div>
+      <div class="stat-sub">2× STIXX 50 (54W je)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Belüftung</div>
+      <div class="stat-value">47 W</div>
+      <div class="stat-sub">CAN RK125 + Monkey Fans</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Gesamtwatt</div>
+      <div class="stat-value">155 W</div>
+      <div class="stat-sub">LED + Ventilation</div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Artikel</th>
+        <th>Modell / Specs</th>
+        <th>Preis</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Sanlight STIXX 50</strong></td>
+        <td>54W · Samsung LM301B · ~2,5 µmol/J · PPF ~148 µmol/s</td>
+        <td>€125</td>
+        <td><span class="badge badge-green">installiert</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sanlight STIXX 50 (2. Einheit)</strong></td>
+        <td>54W · identisch zu Bar 1 · PPF ~148 µmol/s</td>
+        <td>€125</td>
+        <td><span class="badge badge-gold">eintreffend</span></td>
+      </tr>
+      <tr>
+        <td><strong>CAN Fan RK125</strong></td>
+        <td>UFO Ventilator · 310 m³/h · 125mm · 47W</td>
+        <td>€75</td>
+        <td><span class="badge badge-gold">bereit</span></td>
+      </tr>
+      <tr>
+        <td><strong>CAN-Lite AKF 300</strong></td>
+        <td>Aktivkohlefilter · 300 m³/h · ohne Flansch</td>
+        <td>€42</td>
+        <td><span class="badge badge-gold">bereit</span></td>
+      </tr>
+      <tr>
+        <td><strong>CAN 125mm Anschlussflansch</strong></td>
+        <td>Verbindet AKF mit 125mm Schlauch/Fan</td>
+        <td>€4</td>
+        <td><span class="badge badge-green">vorhanden</span></td>
+      </tr>
+      <tr>
+        <td><strong>Monkey Fan SJ M F120 (2er-Pack)</strong></td>
+        <td>Secret Jardin · 24V · für 16–19mm Stangen</td>
+        <td>€42</td>
+        <td><span class="badge badge-green">installiert</span></td>
+      </tr>
+      <tr>
+        <td><strong>Secret Jardin Hydro Shoot HS 80 R2</strong></td>
+        <td>80×80×178 cm · reflektierendes Mylar · Bodenwanne</td>
+        <td>€120</td>
+        <td><span class="badge badge-green">installiert</span></td>
+      </tr>
+      <tr>
+        <td><strong>GHP ProHanger 68kg Set (×2)</strong></td>
+        <td>Ratschen-Seilhänger · kleiner Karabiner</td>
+        <td>€9</td>
+        <td><span class="badge badge-green">installiert</span></td>
+      </tr>
+      <tr>
+        <td><strong>IEC Netzkabel</strong></td>
+        <td>Schuko → IEC · 1,5mm² · 2m</td>
+        <td>€3</td>
+        <td><span class="badge badge-green">vorhanden</span></td>
+      </tr>
+      <tr>
+        <td><strong>Speed Controller (Varispeed)</strong></td>
+        <td>Spannungsregler für RK125 · ~€25</td>
+        <td>~€25</td>
+        <td><span class="badge badge-red">fehlt</span></td>
+      </tr>
+      <tr>
+        <td><strong>Zeitschaltuhr ×2</strong></td>
+        <td>Digital, lautlos · für 18/6 → 12/12</td>
+        <td>~€10</td>
+        <td><span class="badge badge-gold">eintreffend</span></td>
+      </tr>
+      <tr>
+        <td><strong>Türdichtung &amp; Bürstensweep</strong></td>
+        <td>Schaumstoffband + Bürstendichtung · AR-Tür</td>
+        <td>~€13</td>
+        <td><span class="badge badge-red">fehlt</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout-red">
+    <div class="callout-label">Noch fehlt — Verbrauchsmaterial</div>
+    <p>Dünger (BioBizz oder Äquivalent von La Ganja Loca / Viva Sativa), CalMag, Mykorrhiza-Inokulum (DYNOMYCO oder Great White), Stoff-Pot 7–11L, Wurmkompost, Boveda 62% für Curing, 60× Juwelierslupe, Hygrometer mit Min/Max-Speicher, gelbe Klebefallen.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Section 3: Light System -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt III · Lichtsystem</div>
+    <h2>Sanlight <span>STIXX 50</span></h2>
+    <p class="section-intro">Offiziell spezifizierte Werte laut Sanlight-Herstellerdaten. Dimmer-Einstellungen, PPFD-Karte und DLI-Berechnung für alle Wachstumsphasen.</p>
+  </div>
+
+  <div class="phase-grid">
+    <div class="phase-card active">
+      <div class="card-label">Aktuell — 1× STIXX 50</div>
+      <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--accent-gold);margin:0.5rem 0">54 W · ~148 µmol/s</div>
+      <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">PPFD ~200–250 µmol/m²/s mittig bei 25 cm. Ausreichend für Clone-Recovery und frühe Veg bei 30–50% Dimmer. Nicht ausreichend für Blüte.</p>
+    </div>
+    <div class="phase-card target">
+      <div class="card-label">Ziel — 2× STIXX 50</div>
+      <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--accent-green-bright);margin:0.5rem 0">108 W · ~296 µmol/s</div>
+      <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">PPFD ~350–420 µmol/m²/s bei 25 cm. Bars parallel, 20–25 cm Abstand, zentriert im Zelt. Minimum für ordentliche Blüteerträge.</p>
+    </div>
+  </div>
+
+  <div class="callout-blue">
+    <div class="callout-label">Herstellerangabe — Sanlight STIXX 50</div>
+    <p>Offiziell spezifiziertes PPF: <strong>~148 µmol/s</strong> (Sanlight-Herstellerdaten). Wirkungsgrad: ~2,5 µmol/J. Dioden: Samsung LM301B. Dimmer: 0–100 % stufenlos. Alle Leistungsangaben in diesem Dokument basieren auf den offiziellen Herstellerdaten — nicht auf Schätzungen.</p>
+  </div>
+
+  <h3 style="font-family:var(--font-display);font-size:1.4rem;margin:2rem 0 1rem;color:var(--text-primary)">Dimmer-Einstellungen nach Phase</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Phase</th>
+        <th>Dimmer</th>
+        <th>PPFD (geschätzt)</th>
+        <th>Lichtstunden</th>
+        <th>DLI (mol/m²/d)</th>
+      </tr>
+    </thead>
+    <tbody class="dimmer-row">
+      <tr>
+        <td><strong>Clone-Recovery</strong></td>
+        <td><code>30–40%</code></td>
+        <td>~100–150 µmol/m²/s</td>
+        <td>18h</td>
+        <td>~6,5–9,7</td>
+      </tr>
+      <tr>
+        <td><strong>Frühe Veg (1 Bar)</strong></td>
+        <td><code>50–60%</code></td>
+        <td>~150–200 µmol/m²/s</td>
+        <td>18h</td>
+        <td>~9,7–13,0</td>
+      </tr>
+      <tr>
+        <td><strong>Veg (2 Bars)</strong></td>
+        <td><code>70–80%</code></td>
+        <td>~280–340 µmol/m²/s</td>
+        <td>18h</td>
+        <td>~18–22</td>
+      </tr>
+      <tr>
+        <td><strong>Blüte (2 Bars)</strong></td>
+        <td><code>90–100%</code></td>
+        <td>~350–420 µmol/m²/s</td>
+        <td>12h</td>
+        <td>~15–18</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-label">PPFD-Uniformität</div>
+    <p>Mit zwei parallelen Bars (20–25 cm Abstand, zentriert) verbessert sich die Uniformität über die 80×80 cm Fläche deutlich. Ecken erhalten je nach Aufhängehöhe 60–80 % des Zentrums-PPFD — bei 80×80 cm Canopy ist das akzeptabel. Höher hängen = gleichmäßiger, aber PPFD sinkt.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Section 4: Ventilation & Carbon Filter -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt IV · Belüftung &amp; Geruchskontrolle</div>
+    <h2>AKF-Installation &amp; <span>Speed Controller</span></h2>
+    <p class="section-intro">CAN RK125 + CAN-Lite AKF 300 — Installationsplan, Luftpfad und Geruchsmanagement für Wohnungsstealth.</p>
+  </div>
+
+  <div class="callout-red">
+    <div class="callout-label">Kritisch — Speed Controller ist Tag-1-Pflicht</div>
+    <p>Der CAN RK125 bei voller Leistung (310 m³/h, 47W) ist in einer Wohnung deutlich hörbar und damit die größte offene Stealth-Bedrohung. <strong>Ohne Drehzahlregler (Varispeed) ist die Stealth-Anlage kompromittiert.</strong> Der Speed Controller bestimmt gleichzeitig Lärm UND Geruchskontrolle: zu langsam = schlechte Filterleistung, zu schnell = zu laut. Optimaler Betrieb: 40–60 % Drehzahl. Kosten: ~€25. Priorität: gleichzeitig mit Fan-Installation kaufen, niemals "später".</p>
+  </div>
+
+  <div class="card-grid" style="margin-top:2rem">
+    <div class="card">
+      <div class="card-label">CAN Fan RK125</div>
+      <div class="card-title">Abluftlüfter</div>
+      <div class="card-desc">310 m³/h · 125mm · 47W. Inline-Fan für den Abluftkanal. Läuft 24/7 — niemals auf einem Timer. Verbindet sich mit dem AKF-Flansch via 125mm Schlauch.</div>
+    </div>
+    <div class="card">
+      <div class="card-label">CAN-Lite AKF 300</div>
+      <div class="card-title">Aktivkohlefilter</div>
+      <div class="card-desc">300 m³/h · hängt innen im Zelt an ProHanger. Luftpfad: Zelt → Filter → Fan → Abluftschlauch. Aktivkohle alle 12–18 Monate oder bei Geruchsdurchbruch tauschen.</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Monkey Fan SJ M F120</div>
+      <div class="card-title">Umluftventilator (×2)</div>
+      <div class="card-desc">24V Clip-On. Montiert an vertikalen Zeltpfosten auf Canopy-Höhe. Sanfte Luftbewegung verhindert tote Zonen, stärkt Stängel, reduziert Schimmelrisiko.</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);font-size:1.4rem;margin:2.5rem 0 1rem;color:var(--text-primary)">Installationsreihenfolge</h3>
+
+  <div class="checklist">
+    <div class="check-item">
+      <span class="check-marker check-todo">1</span>
+      <div><strong>125mm Flansch</strong> an CAN-Lite AKF festschrauben — dicht, kein Spalt.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-todo">2</span>
+      <div><strong>AKF mit ProHanger</strong> an oberer Zeltstange aufhängen, nahe am Auslass.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-todo">3</span>
+      <div><strong>125mm Schlauch</strong> von AKF-Flansch zu RK125-Einlass — Aluminiumklebeband an allen Verbindungen (kein Stoffklebeband).</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-todo">4</span>
+      <div><strong>Abluftschlauch</strong> vom RK125 nach oben durch Zelt-Buchse nach außen leiten.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-todo">5</span>
+      <div><strong>Speed Controller</strong> am RK125 anschließen — GLEICHZEITIG mit Fan kaufen, nicht danach.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-todo">6</span>
+      <div><strong>Unterdrucktest:</strong> Zelt schließen, Fan anschalten → Zeltwände müssen leicht nach innen gezogen werden. Kein Unterdruck = Leck suchen und abdichten.</div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Section 5: Electrical -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt V · Elektrisch</div>
+    <h2>Verbrauch &amp; <span>Kosten</span></h2>
+    <p class="section-intro">Leistungsaufnahme, kWh-Berechnung und Stromkostenschätzung für beide Wachstumsphasen.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-label">LED (2× STIXX 50)</div>
+      <div class="stat-value">108 W</div>
+      <div class="stat-sub">Vollleistung</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Belüftung (RK125)</div>
+      <div class="stat-value">47 W</div>
+      <div class="stat-sub">24/7 bei ~50% Speed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Gesamt</div>
+      <div class="stat-value">~155 W</div>
+      <div class="stat-sub">LED + Lüfter (Vollast)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Österr. Ø-Tarif</div>
+      <div class="stat-value">~€0,25</div>
+      <div class="stat-sub">pro kWh (variiert stark)</div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Phase</th>
+        <th>LED-Stunden</th>
+        <th>LED kWh/Tag</th>
+        <th>Fan kWh/Tag</th>
+        <th>Gesamt/Tag</th>
+        <th>Gesamt/Monat</th>
+        <th>Kosten/Monat (€0,25/kWh)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Vegetativ (18/6)</strong></td>
+        <td>18h</td>
+        <td>108W × 18h = <strong>1,94 kWh</strong></td>
+        <td>~0,56 kWh</td>
+        <td>~2,50 kWh</td>
+        <td><strong>~75 kWh</strong></td>
+        <td>~€18,75</td>
+      </tr>
+      <tr>
+        <td><strong>Blüte (12/12)</strong></td>
+        <td>12h</td>
+        <td>108W × 12h = <strong>1,30 kWh</strong></td>
+        <td>~0,56 kWh</td>
+        <td>~1,86 kWh</td>
+        <td><strong>~56 kWh</strong></td>
+        <td>~€14,00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout-orange">
+    <div class="callout-label">Korrektur — kWh-Berechnung</div>
+    <p>Die Gesamtangabe "~75 kWh/Monat" gilt spezifisch für die <strong>Vegetationsphase (18/6)</strong>. In der Blüte (12/12) sinkt der LED-Verbrauch auf ~56 kWh/Monat. Die Differenz beträgt ~19 kWh/Monat zwischen den Phasen — relevant für Jahresplanung. Der Fan läuft in beiden Phasen 24/7.</p>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Österreichischer Stromtarif — Hinweis</div>
+    <p>Österreichische Nacht-Tarife laufen üblicherweise von <strong>22:00 bis 06:00 Uhr</strong> (anbieterspezifisch). Eine früher genannte Fensterspanne von 20:00–14:00 ist nicht als österreichischer Standardtarif anerkannt — bitte beim eigenen Anbieter nachfragen. Wenn ein Nachttarif verfügbar ist: Licht-An in den günstigsten Stunden legen. Als Nebeneffekt: Dunkelphase fällt in die wärmsten Abendstunden = natürlicher Temperatur-DIF.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Section 6: Build Checklist -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt VI · Aufbau-Checkliste</div>
+    <h2>Konstruktions<span>status</span></h2>
+    <p class="section-intro">Stand aller Aufbau-Schritte mit Fertig / Ausstehend / Noch zu erledigen Markierungen.</p>
+  </div>
+
+  <div class="checklist">
+    <div class="check-item">
+      <span class="check-marker check-done">erledigt</span>
+      <div>Grow-Zelt (SJ HS 80 R2) aufgebaut und positioniert — rechts an AR-Wand.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-done">erledigt</span>
+      <div>STIXX 50 Bar #1 via ProHanger an Zeltstange aufgehängt und angeschlossen.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-done">erledigt</span>
+      <div>Monkey Fans (×2) an vertikalen Zeltpfosten montiert, Umluftzirkulation aktiv.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-done">erledigt</span>
+      <div>IEC-Netzkabel für STIXX-Bars vorhanden.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-done">erledigt</span>
+      <div>125mm AKF-Flansch vorhanden und bereit zur Montage.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-pending">ausstehend</span>
+      <div>STIXX 50 Bar #2 installieren — Dual-Bar-Konfiguration für Blüte erforderlich.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-pending">ausstehend</span>
+      <div>Zeitschaltuhr (×2) für automatischen Lichtplan installieren.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-todo">todo</span>
+      <div><strong>Speed Controller kaufen und am RK125 installieren</strong> — Höchste Priorität vor Fan-Inbetriebnahme.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-todo">todo</span>
+      <div>CAN RK125 + CAN-Lite AKF 300 vollständig installieren (siehe Installationsreihenfolge Abschnitt IV).</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-todo">todo</span>
+      <div>Lüftungsgitter in AR-Wand abdichten — reversible magnetische Abdeckung oder Schaumstoff.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-todo">todo</span>
+      <div>Türdichtung (Schaumstoffband + Bürstensweep) an AR-Tür installieren.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-todo">todo</span>
+      <div>Deckenlampe (E27) entfernen, Schalter mit Klebeband sichern.</div>
+    </div>
+    <div class="check-item">
+      <span class="check-marker check-todo">todo</span>
+      <div>Alle Zelt-Zips und Nähte auf Lichtlecks prüfen — bei Dunkelheit von außen kontrollieren.</div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Section 7: Post-Setup Verification -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt VII · Post-Setup-Verifikation</div>
+    <h2>Betriebsbereitschafts<span>prüfung</span></h2>
+    <p class="section-intro">Diese Checks müssen bestanden werden, bevor die erste Pflanze in den Raum kommt. Kein Schritt überspringen.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card accent-top">
+      <div class="card-label">Test 1 · Unterdruck</div>
+      <div class="card-title">Negativdrucktest</div>
+      <div class="card-desc">Fan anschalten, Zelt schließen. Alle Wände müssen leicht nach innen gezogen werden. Kein Sog = Leck vorhanden. Systematisch alle Socken, Reißverschlüsse und Verbindungen mit der Hand abfahren. Alle Verbindungsstellen mit Aluminiumklebeband nachdichten.</div>
+    </div>
+    <div class="card accent-top" style="--accent-gold: var(--accent-blue)">
+      <div class="card-label">Test 2 · Temp/Humidity</div>
+      <div class="card-title">24h Klima-Protokoll</div>
+      <div class="card-desc">Hygrometer mit Min/Max-Speicher installieren. 24 Stunden laufen lassen und Extremwerte notieren. Ziel Veg: 22–28°C Lights-on, 65–75% rH. Blüte: 20–26°C, 40–60% rH. VPD 0,8–1,0 kPa Veg, 1,0–1,5 kPa Blüte.</div>
+    </div>
+    <div class="card accent-top" style="--accent-gold: var(--accent-red)">
+      <div class="card-label">Test 3 · Lichtdichtigkeit</div>
+      <div class="card-title">Lichtleck-Test (beide Richtungen)</div>
+      <div class="card-desc"><strong>Von innen:</strong> Licht anlassen, Zelt schließen, von außen auf Lichtaustritt prüfen — besonders Türspalten, Lüftungsgitter, unter der Tür. <strong>Von außen:</strong> Dunkelheit im AR, prüfen ob externe Lichtquellen (Tür, Gitter) ins Zelt fallen. Beide Richtungen sind Pflicht.</div>
+    </div>
+    <div class="card accent-top" style="--accent-gold: var(--accent-green-bright)">
+      <div class="card-label">Test 4 · Geruch</div>
+      <div class="card-title">Geruchstest (Prä-Blüte)</div>
+      <div class="card-desc">Fan + Filter in Betrieb, Tür schließen. 30 Minuten warten. AR-Tür öffnen und sofort schnüffeln — kein Filtergeruch sollte durchdringen. Dann im Flur prüfen. Wenn Geruch wahrnehmbar: Verbindungen auf Undichtigkeit prüfen, Flansch-Dichtung kontrollieren.</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Test 5 · Lärm</div>
+      <div class="card-title">Lärmpegel mit Speed Controller</div>
+      <div class="card-desc">Fan auf 40 % einstellen, AR-Tür schließen und vor der Wohnungstür horchen. Ziel: nicht von normalen Wohngeräuschen unterscheidbar. Wenn hörbar: Speed Controller weiter reduzieren, aber Min. 25 % für ausreichende Filterleistung beachten.</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Test 6 · Elektrik</div>
+      <div class="card-title">Stromkreis-Sicherheit</div>
+      <div class="card-desc">Alle Kabelverbindungen auf festen Sitz prüfen. Keine Kabel auf dem Boden, wo Gießwasser hinfallen kann. Verlängerungskabel: nur geerdet, ausreichend dimensioniert (min. 1,5mm²). Sicherungsautomat im Verteiler identifizieren.</div>
+    </div>
+  </div>
+
+  <div class="callout-green">
+    <div class="callout-label">Alle Tests bestanden</div>
+    <p>Erst wenn alle sechs Tests ohne Befund bestanden wurden, ist der Grow-Raum bereit. Mängel sofort beheben — nicht auf "später" verschieben. Besonders Lichtlecks und Geruchsprobleme werden in der Blüte zum ernsthaften Risiko.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<footer class="footer">
+  <p>Setup, Equipment &amp; Room Build · Citron Givré Grow · Linz, April 2026</p>
+  <p style="margin-top:0.25rem">Bar-Einkauf · Viva Sativa, Dinghoferstraße 69 · Hardware-Stand: v3.0</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

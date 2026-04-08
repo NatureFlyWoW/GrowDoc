@@ -1,175 +1,706 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bellaflora Field Guide — Stealth Organic Indoor Grow</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0e1108;--bg2:#161c10;--bg3:#1c2416;--text:#d4dcc8;--text2:#8a9878;--text3:#5a6a4a;--accent:#7fb840;--accent2:#5a8a2a;--gold:#d4a020;--gold2:#a87a18;--red:#c45c4a;--blue:#5a9eb8;--purple:#8a7abf;--border:#2a3520;--border2:#4a6630;--serif:'DM Serif Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'IBM Plex Mono',monospace}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.78;font-size:15px}
-.container{max-width:900px;margin:0 auto;padding:60px 32px 80px}
-h1{font-family:var(--serif);font-size:2.4em;font-weight:400;color:var(--accent);margin-bottom:8px}
-.subtitle{font-size:1em;color:var(--text2);margin-bottom:40px;line-height:1.7;font-weight:300}
-h2{font-family:var(--serif);font-size:1.4em;font-weight:400;color:var(--accent);margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--border)}
-h3{font-family:var(--body);font-size:1em;font-weight:600;margin:1.5rem 0 .5rem;color:var(--gold)}
-p{margin:0 0 .85rem;font-weight:300}
-strong{font-weight:600;color:var(--text)}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.2rem 0}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:1.2rem 0}
-.cd{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
-.cd .lb{font-family:var(--mono);font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
-.cd .vl{font-size:.95em;font-weight:600;margin-top:4px;color:var(--text)}
-.cd .desc{font-size:.82rem;color:var(--text2);margin-top:6px;line-height:1.6}
-.product{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin:10px 0}
-.product:hover{border-color:var(--border2)}
-.product .name{font-family:var(--serif);font-size:1.05em;color:var(--text);margin-bottom:4px}
-.product .detail{font-family:var(--mono);font-size:.72rem;color:var(--text2);margin-bottom:8px}
-.product .why{font-size:.85rem;color:var(--text2);line-height:1.7}
-.product .price{font-family:var(--mono);font-size:.85rem;color:var(--accent);margin-top:6px}
-.tip{background:rgba(127,184,64,.08);border-left:3px solid var(--accent2);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
-.tip b{color:var(--accent);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
-.warn{background:rgba(212,160,32,.08);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
-.warn b{color:var(--gold);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
-.da{background:rgba(138,122,191,.08);border-left:3px solid var(--purple);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
-.da b{color:var(--purple);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
-.shopping-list{background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:24px;margin:2rem 0}
-.shopping-list h3{color:var(--accent);margin-top:0}
-.shop-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.88rem}
-.shop-item:last-child{border-bottom:none}
-.shop-item .name{color:var(--text)}
-.shop-item .price{font-family:var(--mono);color:var(--accent);font-size:.82rem}
-@media(max-width:640px){.g2,.g3{grid-template-columns:1fr}.container{padding:28px 16px 60px}h1{font-size:2em}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bellaflora Stealth Shopping Guide — Indoor Organic Grow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0d0a;
+      --bg-card: #111611;
+      --bg-card-hover: #161b16;
+      --bg-section: #0d100d;
+      --text-primary: #e8e4d9;
+      --text-secondary: #9ca38e;
+      --text-muted: #5e6556;
+      --accent-gold: #c9a84c;
+      --accent-gold-dim: #8a7234;
+      --accent-green: #4a7c3f;
+      --accent-green-bright: #6db35f;
+      --accent-green-dim: #2d4a26;
+      --accent-purple: #7c5a9e;
+      --accent-red: #b54c4c;
+      --accent-orange: #c97a2e;
+      --accent-blue: #4a7c9e;
+      --accent-teal: #3a8a7a;
+      --border: #1e241e;
+      --border-light: #2a322a;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 30% 40%, rgba(74,124,63,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 500px at 70% 60%, rgba(201,168,76,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 300px at 50% 80%, rgba(124,90,158,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      max-width: 900px;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero h1 span { color: var(--accent-gold); }
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 640px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Sections */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+    .section-header { margin-bottom: 3rem; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent-gold-dim);
+      margin-bottom: 0.75rem;
+    }
+    .section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section h2 span { color: var(--accent-gold); }
+    .section-intro {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 720px;
+      line-height: 1.8;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+      margin: 0 auto;
+      max-width: 1100px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      border-color: var(--border-light);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .card-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .card-price {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-green-bright);
+      margin-top: 0.75rem;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .card.accent-top::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent-gold);
+    }
+
+    /* Callouts */
+    .callout {
+      border-left: 3px solid var(--accent-gold);
+      background: rgba(201,168,76,0.04);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .callout-red { border-left-color: var(--accent-red); background: rgba(181,76,76,0.08); }
+    .callout-green { border-left-color: var(--accent-green-bright); background: rgba(109,179,95,0.04); }
+    .callout-purple { border-left-color: var(--accent-purple); background: rgba(124,90,158,0.04); }
+    .callout-blue { border-left-color: var(--accent-blue); background: rgba(74,124,158,0.04); }
+    .callout-orange { border-left-color: var(--accent-orange); background: rgba(201,122,46,0.04); }
+    .callout-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      color: var(--accent-gold);
+    }
+    .callout-red .callout-label { color: var(--accent-red); }
+    .callout-green .callout-label { color: var(--accent-green-bright); }
+    .callout-purple .callout-label { color: #a88ad4; }
+    .callout-blue .callout-label { color: var(--accent-blue); }
+    .callout-orange .callout-label { color: var(--accent-orange); }
+    .callout p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin: 0;
+    }
+    .callout p + p { margin-top: 0.75rem; }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1.1;
+    }
+    .stat-sub {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-top: 0.3rem;
+    }
+
+    /* Shopping list */
+    .shopping-list {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 2rem 0;
+    }
+    .shopping-list-header {
+      padding: 1rem 1.5rem;
+      background: var(--bg-section);
+      border-bottom: 1px solid var(--border);
+    }
+    .shopping-list-header span {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-gold-dim);
+    }
+    .shop-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .shop-item:last-child { border-bottom: none; }
+    .shop-item:hover { background: var(--bg-card-hover); }
+    .shop-item .name { color: var(--text-secondary); }
+    .shop-item .price {
+      font-family: var(--font-mono);
+      color: var(--accent-green-bright);
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+    .shop-item.total {
+      border-top: 2px solid var(--border-light);
+      background: var(--bg-section);
+    }
+    .shop-item.total .name { color: var(--text-primary); font-weight: 600; }
+    .shop-item.total .price { font-size: 1rem; color: var(--accent-gold); }
+
+    /* Split grid */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 2rem 0;
+    }
+    .split-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .split-card-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .split-card ul { margin-left: 0; list-style: none; }
+    .split-card li {
+      padding: 0.3rem 0;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    .split-card li:last-child { border-bottom: none; }
+
+    /* Lists */
+    ul, ol {
+      margin: 0 0 1rem 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+    }
+    li { margin-bottom: 0.4rem; line-height: 1.7; }
+    li strong { color: var(--text-primary); }
+
+    /* Text */
+    p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
+    p strong { color: var(--text-primary); font-weight: 600; }
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.82em;
+      background: rgba(255,255,255,0.04);
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      color: var(--accent-gold);
+    }
+
+    /* Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer p {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin: 0 0 0.4rem;
+    }
+
+    @media (max-width: 768px) {
+      .section { padding: 4rem 1.25rem; }
+      .hero { padding: 2rem 1.25rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .split-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
 
-<h1>Bellaflora Field Guide</h1>
-<p class="subtitle">Stealth-Einkaufsführer für die österreichische Gartencenter-Kette. Was du bei Bellaflora für deinen Indoor Living Soil Grow findest — und was du besser im Growshop kaufst. Basierend auf tatsächlicher Produktrecherche im Sortiment 2025/2026.</p>
+<section class="hero">
+  <div class="hero-subtitle">Österreich · Bellaflora · Indoor Organic Grow</div>
+  <h1>Bellaflora<br><span>Stealth Guide</span></h1>
+  <p class="hero-desc">Was du bei Bellaflora für deinen Indoor Living Soil Grow findest — mit korrekten Dosierungen, Substrat-Rezept und wissenschaftlichen Korrekturen. Basierend auf tatsächlichem Sortiment 2025/2026.</p>
+</section>
+<div class="divider"></div>
 
-<div class="g3">
-  <div class="cd"><div class="lb">Vorteil</div><div class="vl">Komplett unverdächtig</div><div class="desc">Normaler Gartenmarkt. Keine digitale Spur, die auf Cannabis deutet.</div></div>
-  <div class="cd"><div class="lb">Schwerpunkt</div><div class="vl">Erde, Dünger, Zubehör</div><div class="desc">Bio-zertifiziertes Sortiment seit 2013. Torffrei, ohne Blaukorn.</div></div>
-  <div class="cd"><div class="lb">Limitation</div><div class="vl">Kein Cannabis-Spezifisches</div><div class="desc">Kein CalMag, keine Mykorrhiza für Cannabis, kein pH-Messgerät.</div></div>
-</div>
-
-<h2>Die Basis: Torffrei, bio-zertifiziert, kein Blaukorn</h2>
-
-<div class="product">
-  <div class="name">biogarten Naturerde</div>
-  <div class="detail">Torffrei · ohne mineralische Vordüngung · seltene Mainstream-Erde</div>
-  <div class="why">Das Hidden Gem bei Bellaflora. Die meisten Garten-Erden (auch "Bio") enthalten mineralische Vordüngung mit Salzen, die junge Wurzeln verbrennen können. Die biogarten Naturerde verzichtet darauf — eine der wenigen Mainstream-Erden, die tatsächlich als Living Soil Basis funktioniert. Kann als 30–40% Anteil deiner Mix-Erde verwendet werden.</div>
-  <div class="price">~€8–12 / 40L</div>
-</div>
-
-<div class="da"><b>Devil's Advocate — Tomatenerde</b> — Reguläre Tomatenerde (auch Bio) enthält fast immer mineralische NPK-Salze als Startdüngung. pH oft 6.8–7.5. Für Cannabis-Stecklinge problematisch: zu "heiß" für junge Wurzeln, pH zu hoch für Eisen-Verfügbarkeit. Wenn du Tomatenerde verwendest, maximal 25–30% im Mix und die ersten 2 Wochen mit pH 6.0–6.3 Wasser gießen.</div>
-
-<h2>Alles bio, manches Gold wert</h2>
-
-<div class="product">
-  <div class="name">biogarten Rasendünger Langzeitwirkung</div>
-  <div class="detail">Knochenmehl, Federmehl, Hornmehl, Vinasse, Mykorrhiza</div>
-  <div class="why">Liest sich wie ein Living Soil Amendment. Die Kombination aus tierischem Protein (langsam verfügbarer N), Knochenmehl (P + Ca) und Vinasse (K + Spurenelemente) plus eingebettete Mykorrhiza-Sporen macht das zu einem Budget-Supersoil-Booster. Als Top-Dress in der Vegetationsphase verwenden, nicht direkt an junge Wurzeln.</div>
-  <div class="price">~€10–14 / 5kg</div>
-</div>
-
-<div class="product">
-  <div class="name">Multikraft Effektive Mikroorganismen Aktiv</div>
-  <div class="detail">EM-Aktiv · Milchsäurebakterien, Hefen, Photosynthesebakterien</div>
-  <div class="why">Belebt die Bodenbiologie. Als Gießwasser-Zusatz (10–20 ml/L) fördert es die mikrobielle Vielfalt im Substrat. Besonders wertvoll nach dem Umtopfen, wenn die Wurzeln neue Erde besiedeln. Nicht mit Neem-Öl oder Pestiziden mischen — das tötet die Mikroben.</div>
-  <div class="price">~€8–12 / 1L</div>
-</div>
-
-<h2>Biologisch seit 2013 — richtig stark</h2>
-
-<div class="product">
-  <div class="name">Bittersalz (Magnesiumsulfat)</div>
-  <div class="detail">MgSO₄ · Budget-Magnesium-Quelle</div>
-  <div class="why">Wenn du kein CalMag vom Growshop hast, ist Bittersalz die schnellste Mg-Quelle: 1–2 g/L Gießwasser bei Mg-Mangel (intervenale Chlorose an älteren Blättern). Liefert aber KEIN Calcium — das musst du separat ergänzen. Bittersalz + Patentkali zusammen sind eine Budget-Alternative zu CalMag.</div>
-  <div class="price">~€5–8 / 1kg</div>
-</div>
-
-<div class="product">
-  <div class="name">Patentkali</div>
-  <div class="detail">K₂SO₄ + MgSO₄ · Kalium + Magnesium</div>
-  <div class="why">Budget-K+Mg-Quelle für die Blütephase. 1–2 g/L Gießwasser ab Blütewoche 3. Zusammen mit Bittersalz eine funktionale Alternative zu teurem CalMag — aber ohne Calcium. Für die volle CalMag-Funktion brauchst du zusätzlich eine Ca-Quelle (Knochenmehl, Gips, oder echtes CalMag vom Growshop).</div>
-  <div class="price">~€6–9 / 2.5kg</div>
-</div>
-
-<h2>Was sonst noch in den Einkaufswagen gehört</h2>
-
-<div class="g2">
-  <div class="product">
-    <div class="name">Jute Ranknetz</div>
-    <div class="detail">Naturfaser · ~5×5cm Maschen</div>
-    <div class="why">Günstiges ScrOG-Netz. Jute ist biologisch abbaubar — am Ende der Ernte einfach entsorgen. Im Growshop kosten Kunststoff-ScrOG-Netze €10–15 für 80×80cm; ein Jute-Ranknetz gibt's bei Bellaflora für €3–5.</div>
-    <div class="price">~€3–5</div>
+<!-- Section 1: Overview -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt I · Überblick</div>
+    <h2>Bellaflora als <span>Stealth-Quelle</span></h2>
+    <p class="section-intro">Normaler Gartenmarkt. Bio-zertifiziertes Sortiment ohne mineralische Vordüngung. Keine digitale Spur, die auf Cannabis deutet. Die Kunst liegt im Wissen, was tatsächlich für Indoor Living Soil funktioniert — und was nicht.</p>
   </div>
-  <div class="product">
-    <div class="name">Kokos-Quelltabletten / Jiffy Pellets</div>
-    <div class="detail">Für Stecklinge und Keimung</div>
-    <div class="why">Perfekt zum Bewurzeln von Stecklingen. Vorquellen lassen, Steckling rein, unter Feuchtigkeitskuppel stellen. Bellaflora hat diese im Sämerei-Regal — komplett unverdächtig.</div>
-    <div class="price">~€3–5 / 50 Stk</div>
-  </div>
-</div>
 
-<h2>Der Growshop-Einkaufszettel</h2>
-
-<p>Was du bei Bellaflora <strong>nicht</strong> findest und im Growshop (La Ganja Loca, Viva Sativa, Seeds24) kaufen musst:</p>
-
-<div class="g2">
-  <div class="cd" style="border-color:var(--red)">
-    <div class="lb" style="color:var(--red)">Nur im Growshop</div>
-    <div style="font-size:.85rem;margin-top:8px;line-height:1.9;color:var(--text2)">
-      • CalMag (Cannabis-spezifisch)<br>
-      • Mykorrhiza-Inokulum (DYNOMYCO, Great White)<br>
-      • BioBizz Grow/Bloom/TopMax<br>
-      • pH-Messgerät + pH-Down<br>
-      • Fabric Pots (7–11L)<br>
-      • Seetangextrakt / Kelp<br>
-      • 60× Juwelierslupe
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-label">Vorteil</div>
+      <div class="stat-value" style="font-size:1.2rem;padding-top:0.3rem">Unverdächtig</div>
+      <div class="stat-sub">Normaler Gartenmarkt, keine spezifische Spur</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Sortiment</div>
+      <div class="stat-value" style="font-size:1.2rem;padding-top:0.3rem">Bio seit 2013</div>
+      <div class="stat-sub">Torffrei, ohne Blaukorn</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Limitation</div>
+      <div class="stat-value" style="font-size:1.2rem;padding-top:0.3rem">Kein Spezifisches</div>
+      <div class="stat-sub">Kein CalMag, kein pH-Gerät, keine Mykorrhiza</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Barzahlung</div>
+      <div class="stat-value" style="font-size:1.2rem;padding-top:0.3rem">Empfohlen</div>
+      <div class="stat-sub">Minimiert digitale Spuren generell</div>
     </div>
   </div>
-  <div class="cd" style="border-color:var(--accent2)">
-    <div class="lb" style="color:var(--accent)">Beides möglich</div>
-    <div style="font-size:.85rem;margin-top:8px;line-height:1.9;color:var(--text2)">
-      • Wurmkompost (Bellaflora ✓ / Growshop ✓)<br>
-      • Perlit (Bellaflora ✓ / Growshop ✓)<br>
-      • Kokos-Quelltabs (Bellaflora ✓)<br>
-      • Jute-Netz für ScrOG (Bellaflora ✓)<br>
-      • Bittersalz als Budget-Mg (Bellaflora ✓)<br>
-      • Gelbe Klebefallen (Bellaflora ✓)
+
+  <div class="callout">
+    <div class="callout-label">OPSEC-Hinweis</div>
+    <p>Alles auf dieser Liste ist für Tomaten, Gemüse oder Rasen einsetzbar. Bei Nachfragen: "Ich mache Bio-Gemüse auf dem Balkon." Barzahlung trotzdem empfohlen — minimiert digitale Spuren generell, nicht nur für diesen Einkauf.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Section 2: Soil -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt II · Substrat</div>
+    <h2>Die <span>Basis-Erde</span></h2>
+    <p class="section-intro">Torffrei, bio-zertifiziert, ohne mineralische Vordüngung. Das Hidden Gem im Bellaflora-Sortiment — und das vollständige Substrat-Rezept für einen funktionierenden Living Soil.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card accent-top">
+      <div class="card-label">Basis-Substrat</div>
+      <div class="card-title">biogarten Naturerde</div>
+      <div class="card-desc">Torffrei, ohne mineralische Vordüngung — eine der wenigen Mainstream-Erden, die tatsächlich als Living Soil Basis funktioniert. Die meisten Garten-Erden (auch "Bio") enthalten mineralische NPK-Salze als Startdüngung — die Naturerde verzichtet darauf. Als <strong>50–60 % Anteil</strong> des Substrat-Mix verwenden.</div>
+      <div class="card-price">~€8–12 / 40L</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Drainage &amp; Struktur</div>
+      <div class="card-title">Perlit</div>
+      <div class="card-desc"><strong>30 % Perlit</strong> zur Naturerde ist die Zielmarke für optimale Drainage, Sauerstoff an den Wurzeln und Überwässerungs-Prävention. Ohne Perlit ist die Naturerde zu dicht für Cannabis in Töpfen. Sowohl bei Bellaflora als auch im Growshop erhältlich.</div>
+      <div class="card-price">~€5–8 / 10L · Bellaflora oder Growshop</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Biologie &amp; Nährstoffe</div>
+      <div class="card-title">Wurmkompost (Wurmhumus)</div>
+      <div class="card-desc"><strong>20 % Wurmhumus</strong> im Mix verbessert Mikrobiologie, Nährstoff-Verfügbarkeit und Pufferfähigkeit. Qualität variiert — aktiver Wurmhumus (riecht erdig, nicht faulig) ist deutlich besser als abgestorbener. Bei Bellaflora verfügbar.</div>
+      <div class="card-price">~€6–10 / 5–10L · Bellaflora oder Growshop</div>
     </div>
   </div>
-</div>
 
-<h2>Die Bellaflora-Einkaufsliste</h2>
+  <div class="callout-green">
+    <div class="callout-label">Empfohlenes Substrat-Rezept</div>
+    <p><strong>50 % biogarten Naturerde + 30 % Perlit + 20 % Wurmhumus</strong></p>
+    <p>Dieses Verhältnis liefert ausreichend Drainage (Perlit), Basisdüngung und Mikrobiologie (Wurmhumus) ohne junge Wurzeln zu verbrennen. Für einen 10-Liter-Topf: ~5 L Naturerde + 3 L Perlit + 2 L Wurmhumus. pH des fertigen Mix immer vor der Bepflanzung messen.</p>
+  </div>
 
-<div class="shopping-list">
-  <h3>Optimierter Bellaflora-Einkauf</h3>
-  <div class="shop-item"><span class="name">biogarten Naturerde 40L</span><span class="price">~€10</span></div>
-  <div class="shop-item"><span class="name">biogarten Rasendünger Langzeitwirkung 5kg</span><span class="price">~€12</span></div>
-  <div class="shop-item"><span class="name">Multikraft EM Aktiv 1L</span><span class="price">~€10</span></div>
-  <div class="shop-item"><span class="name">Bittersalz 1kg</span><span class="price">~€6</span></div>
-  <div class="shop-item"><span class="name">Patentkali 2.5kg</span><span class="price">~€7</span></div>
-  <div class="shop-item"><span class="name">Jute Ranknetz</span><span class="price">~€4</span></div>
-  <div class="shop-item"><span class="name">Kokos-Quelltabletten 50 Stk</span><span class="price">~€4</span></div>
-  <div class="shop-item"><span class="name">Gelbe Klebefallen</span><span class="price">~€3</span></div>
-  <div class="shop-item" style="border-top:2px solid var(--border2);padding-top:12px"><span class="name" style="font-weight:600">Gesamt</span><span class="price" style="font-size:1rem">~€56</span></div>
-</div>
+  <div class="callout-purple">
+    <div class="callout-label">Devil's Advocate — Tomatenerde</div>
+    <p>Reguläre Tomatenerde (auch Bio) enthält fast immer mineralische NPK-Salze als Startdüngung. pH oft 6,8–7,5. Für Cannabis-Stecklinge problematisch: zu "heiß" für junge Wurzeln, pH zu hoch für Eisen-Verfügbarkeit. Wenn doch Tomatenerde: <strong>maximal 25–30 % im Mix</strong> und die ersten 2 Wochen mit pH 6,0–6,3 Wasser gießen. Runoff-pH messen bevor Dünger hinzugefügt werden.</p>
+  </div>
+</section>
+<div class="divider"></div>
 
-<div class="tip"><b>OPSEC-Hinweis</b> — Bellaflora ist ein normaler Gartenmarkt. Alles auf dieser Liste ist für Tomaten, Gemüse oder Rasen einsetzbar. Keine Erklärung nötig. Barzahlung trotzdem empfohlen — minimiert digitale Spuren generell.</div>
+<!-- Section 3: Amendments -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt III · Amendments &amp; Dünger</div>
+    <h2>Organische <span>Nährstoffquellen</span></h2>
+    <p class="section-intro">Biologische Amendments aus dem Bellaflora-Sortiment — mit korrekten Dosierungen und wissenschaftlichen Hinweisen zu Wechselwirkungen und Nährstoffgrenzen.</p>
+  </div>
 
-<div class="da"><b>Devil's Advocate — Wissen aus Erfahrung</b> — Kaffee-Satz NICHT als Dünger verwenden: frisch hat er zu niedrigen pH, bindet Stickstoff, und kann Schimmel fördern. Bellaflora verkauft keinen speziellen Cannabis-CalMag — Bittersalz + Patentkali sind eine Budget-Lösung, aber sie liefern kein Calcium. Für ein optimales Ergebnis brauchst du echtes CalMag vom Growshop (€5–8 für eine Flasche die den ganzen Grow reicht).</div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label">Stickstoff · Phosphor · Kalzium</div>
+      <div class="card-title">biogarten Rasendünger Langzeitwirkung</div>
+      <div class="card-desc">Knochenmehl, Federmehl, Hornmehl, Vinasse, Mykorrhiza-Sporen. Die Kombination aus tierischem Protein (langsam verfügbarer N), Knochenmehl (P + Ca) und Vinasse (K + Spurenelemente) macht das zu einem Budget-Supersoil-Booster. <strong>Als Top-Dress in der Vegetationsphase verwenden</strong> — nicht direkt an junge Wurzeln, da zu konzentriert.</div>
+      <div class="card-price">~€10–14 / 5kg</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Magnesium</div>
+      <div class="card-title">Bittersalz (Magnesiumsulfat)</div>
+      <div class="card-desc">MgSO₄. Bei Mg-Mangel (intervenale Chlorose an älteren Blättern): <strong>1–2 g/L Gießwasser</strong>. Liefert KEIN Calcium — separate Ca-Quelle nötig (Knochenmehl, Gips, oder echtes CalMag vom Growshop). Bittersalz + Patentkali = Budget-Alternative zu CalMag, aber ohne Ca-Komponente.</div>
+      <div class="card-price">~€5–8 / 1kg</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Kalium · Magnesium</div>
+      <div class="card-title">Patentkali</div>
+      <div class="card-desc">K₂SO₄ + MgSO₄. Budget-K+Mg-Quelle für die Blütephase. <strong>Granulat schlecht wasserlöslich</strong> — besser als Top-Dress auftragen und mit Gießwasser langsam einarbeiten lassen, nicht direkt im Wasser aufzulösen versuchen. Ab Blütewoche 3: 2–3 g als Top-Dress alle 2 Wochen.</div>
+      <div class="card-price">~€6–9 / 2,5kg</div>
+    </div>
+  </div>
 
-<div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--text3);line-height:2">
-  <p>Bellaflora Field Guide v3.0 · April 2026</p>
-  <p style="color:#2a3520">Stealth-optimierter Einkaufsführer für österreichische Indoor-Grower</p>
-  <p style="color:#2a3520">Ergänzung zu den Growshop-Einkäufen bei Viva Sativa / La Ganja Loca</p>
-</div>
+  <div class="callout-blue">
+    <div class="callout-label">Wissenschaftliche Referenz — Optimale Nährstoffziele</div>
+    <p>Kalium-Zielwert laut Bernstein-Labor: <strong>60–175 mg/L</strong> (Saloner &amp; Bernstein 2019, 2020). Phosphor-Optimalbereich: <strong>40–80 mg/L</strong> (Shiponi &amp; Bernstein 2021). Patentkali (K₂SO₄) liefert hochverfügbares Sulfat-Kalium — für organischen Soil geeignet, wirkt nach mikrobieller Umwandlung.</p>
+  </div>
 
-</div>
+  <div class="callout-orange">
+    <div class="callout-label">Hinweis — Phosphor-Überschuss</div>
+    <p>Knochenmehl (im Rasendünger enthalten) plus weitere P-haltige Amendments können den optimalen P-Bereich von 40–80 mg/L (Shiponi &amp; Bernstein 2021) leicht überschreiten. <strong>P-Überschuss blockiert Eisen, Zink und Mangan.</strong> Bei P-Überversorgung: keine weiteren P-Quellen hinzufügen, Knochenmehl-Gaben pausieren bis Symptome abklingen. Gesamte P-Zufuhr aus allen Quellen schätzen oder messen.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Section 4: EM -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt IV · Bodenbiologie</div>
+    <h2>EM-Aktiv &amp; <span>Mikroorganismen</span></h2>
+    <p class="section-intro">Multikraft Effektive Mikroorganismen Aktiv — Dosierungskorrektur, wissenschaftliche Einordnung und korrekte Anwendung für den Living Soil.</p>
+  </div>
+
+  <div class="callout-red">
+    <div class="callout-label">Dosierungskorrektur — Kritischer Fehler, 10-fache Überdosierung</div>
+    <p><strong>KORREKTE DOSIERUNG: 10–20 ml pro 10 Liter Gießwasser</strong> (= 1–2 ml/L).</p>
+    <p>Eine früher kursierende Angabe von "10–20 ml/L" ist eine <strong>10-fache Überdosierung</strong> und darf nicht angewendet werden. Bei 10–20 ml/L würdest du bei einem 10-Liter-Gießvorgang 100–200 ml EM-Aktiv verbrauchen — das entspricht nicht der Herstellerempfehlung und kann das Substrat-pH destabilisieren. Die korrekte Anwendung: <strong>1–2 ml pro Liter Gießwasser</strong>. Bei 5 L Wasser: 5–10 ml EM-Aktiv zugeben.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Multikraft EM Aktiv — Anwendung</div>
+    <div class="card-title">Anwendungsanleitung (korrigiert)</div>
+    <div class="card-desc" style="margin-top:0.75rem">
+      <p style="font-size:0.9rem;margin-bottom:0.5rem"><strong>Dosierung:</strong> 1–2 ml/L Gießwasser (= 10–20 ml pro 10 Liter)</p>
+      <p style="font-size:0.9rem;margin-bottom:0.5rem"><strong>Frequenz:</strong> Alle 1–2 Wochen, nicht bei jeder Bewässerung</p>
+      <p style="font-size:0.9rem;margin-bottom:0.5rem"><strong>Zeitpunkt:</strong> Besonders wertvoll nach dem Umtopfen, wenn Wurzeln neue Erde besiedeln</p>
+      <p style="font-size:0.9rem;margin-bottom:0.5rem"><strong>Nicht mischen mit:</strong> Neem-Öl, Pestiziden, Kupferpräparaten — tötet die Mikroben</p>
+      <p style="font-size:0.9rem;margin-bottom:0"><strong>pH-Hinweis:</strong> Nicht gleichzeitig mit stark saurem pH-Down in hohen Mengen</p>
+    </div>
+    <div class="card-price">~€8–12 / 1L · Multikraft EM Aktiv</div>
+  </div>
+
+  <div class="callout-purple">
+    <div class="callout-label">Wissenschaftliche Einordnung — EM-Präparate</div>
+    <p>Die Wirksamkeit von EM-Präparaten ist in der Forschung umstritten (van Vliet et al. 2006). Keine Cannabis-spezifische kontrollierte Studie existiert. Positive Effekte sind in einigen Boden- und Kompost-Studien dokumentiert, in anderen nicht repliziert. EM-Aktiv ist bei korrekter Dosierung ein niedrigrisikoreiches Supplement — es schadet nicht, aber seine Wirksamkeit sollte nicht als wissenschaftlich gesichert betrachtet werden.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Section 5: Other Products -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt V · Weiteres Sortiment</div>
+    <h2>Was noch in den <span>Einkaufswagen</span> gehört</h2>
+    <p class="section-intro">Nützliche Ergänzungen aus dem Bellaflora-Sortiment — alle komplett unverdächtig, alle für Gemüse- und Rasen-Anwendung vermarktbar.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label">Training · ScrOG</div>
+      <div class="card-title">Jute Ranknetz</div>
+      <div class="card-desc">Naturfaser, ~5×5 cm Maschen. Günstiges ScrOG-Netz für 80×80 cm Zelt. Jute ist biologisch abbaubar — am Ende der Ernte einfach entsorgen. Im Growshop kosten Kunststoff-ScrOG-Netze €10–15; ein Jute-Ranknetz gibt's bei Bellaflora für einen Bruchteil davon.</div>
+      <div class="card-price">~€3–5</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Stecklinge · Keimung</div>
+      <div class="card-title">Kokos-Quelltabletten / Jiffy Pellets</div>
+      <div class="card-desc">Perfekt zum Bewurzeln von Stecklingen. Vorquellen lassen (warmes Wasser), Steckling rein, unter Feuchtigkeitskuppel bei ~26°C stellen. Im Sämerei-Regal bei Bellaflora — Standardprodukt für Gemüsegärtner, kein Aufsehen.</div>
+      <div class="card-price">~€3–5 / 50 Stk</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Schädlingsprävention</div>
+      <div class="card-title">Gelbe Klebefallen</div>
+      <div class="card-desc">Trauermücken und Blattläuse werden von Gelb angezogen. Im Zelt aufhängen — früheste Warnung bei Schädlingsbefall. Bei Bellaflora im Gartenpflege-Regal. Prophylaktisch einsetzen, nicht erst bei sichtbarem Befall.</div>
+      <div class="card-price">~€3–5 / 10 Stk</div>
+    </div>
+  </div>
+
+  <div class="callout-red">
+    <div class="callout-label">Warnung — Kaffeesatz</div>
+    <p>Kaffeesatz NICHT als Dünger oder Bodenverbesserer im Topf verwenden. Frischer Kaffeesatz hat zu niedrigen pH (4,5–5,0), bindet verfügbaren Stickstoff durch hohe C:N-Ratio, und fördert aktiv Schimmelwachstum im feuchten Substrat. Die populäre "Kaffeesatz als Dünger"-Empfehlung ist für Indoor-Töpfe kontraproduktiv.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Section 6: Growshop vs Bellaflora -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt VI · Bezugsquellen</div>
+    <h2>Bellaflora vs. <span>Growshop</span></h2>
+    <p class="section-intro">Was du bei Bellaflora findest, was du besser im Growshop kaufst, und was beides möglich ist — für operative Trennung und optimales Budget.</p>
+  </div>
+
+  <div class="split-grid">
+    <div class="split-card" style="border-color: var(--accent-red);">
+      <span class="split-card-label" style="color:var(--accent-red)">Nur im Growshop</span>
+      <ul>
+        <li>CalMag (Cannabis-spezifisch, inkl. Calcium)</li>
+        <li>Mykorrhiza-Inokulum (DYNOMYCO, Great White)</li>
+        <li>BioBizz Grow / Bloom / TopMax</li>
+        <li>pH-Messgerät + pH-Down</li>
+        <li>Fabric Pots (7–11L)</li>
+        <li>Seetangextrakt / Kelp</li>
+        <li>60× Juwelierslupe</li>
+        <li>Hygrometer mit Min/Max-Speicher</li>
+      </ul>
+    </div>
+    <div class="split-card" style="border-color: var(--accent-green);">
+      <span class="split-card-label" style="color:var(--accent-green-bright)">Beides möglich</span>
+      <ul>
+        <li>Wurmkompost (Bellaflora oder Growshop)</li>
+        <li>Perlit (Bellaflora oder Growshop)</li>
+        <li>Kokos-Quelltabs (Bellaflora)</li>
+        <li>Jute-Netz für ScrOG (Bellaflora)</li>
+        <li>Bittersalz als Budget-Mg (Bellaflora)</li>
+        <li>Gelbe Klebefallen (Bellaflora)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Budget-Strategie</div>
+    <p><strong>Basis bei Bellaflora</strong> kaufen (Erde, Perlit, Wurmhumus, Amendments), <strong>Spezialprodukte bei Growshop</strong> (CalMag, Mykorrhiza, pH-Gerät, Fabric Pots). Das trennt unverdächtige von spezifischen Einkäufen — operative Trennung ist sinnvoll. Growshop-Besuch bar, möglichst selten.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- Section 7: Shopping List -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Abschnitt VII · Einkaufsliste</div>
+    <h2>Der optimierte <span>Bellaflora-Einkauf</span></h2>
+    <p class="section-intro">Vollständige Einkaufsliste für einen Gang — alle Produkte unverdächtig, vollständiges Substrat-Set für den ersten Living Soil Grow.</p>
+  </div>
+
+  <div class="shopping-list">
+    <div class="shopping-list-header">
+      <span>Bellaflora Einkaufsliste — April 2026</span>
+    </div>
+    <div class="shop-item">
+      <span class="name">biogarten Naturerde 40L</span>
+      <span class="price">~€10</span>
+    </div>
+    <div class="shop-item">
+      <span class="name">Perlit 10L (für 30% Substrat-Mix)</span>
+      <span class="price">~€6</span>
+    </div>
+    <div class="shop-item">
+      <span class="name">Wurmhumus / Wurmkompost 5L</span>
+      <span class="price">~€6</span>
+    </div>
+    <div class="shop-item">
+      <span class="name">biogarten Rasendünger Langzeitwirkung 5kg</span>
+      <span class="price">~€12</span>
+    </div>
+    <div class="shop-item">
+      <span class="name">Multikraft EM Aktiv 1L <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-red);margin-left:0.5rem">Dosierung: 1–2 ml/L</span></span>
+      <span class="price">~€10</span>
+    </div>
+    <div class="shop-item">
+      <span class="name">Bittersalz (Magnesiumsulfat) 1kg</span>
+      <span class="price">~€6</span>
+    </div>
+    <div class="shop-item">
+      <span class="name">Patentkali 2,5kg <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);margin-left:0.5rem">Top-Dress, nicht auflösen</span></span>
+      <span class="price">~€7</span>
+    </div>
+    <div class="shop-item">
+      <span class="name">Jute Ranknetz (für ScrOG)</span>
+      <span class="price">~€4</span>
+    </div>
+    <div class="shop-item">
+      <span class="name">Kokos-Quelltabletten 50 Stk</span>
+      <span class="price">~€4</span>
+    </div>
+    <div class="shop-item">
+      <span class="name">Gelbe Klebefallen</span>
+      <span class="price">~€4</span>
+    </div>
+    <div class="shop-item total">
+      <span class="name">Gesamt</span>
+      <span class="price">~€69</span>
+    </div>
+  </div>
+
+  <div class="callout-green">
+    <div class="callout-label">Substrat-Rezept in der Praxis</div>
+    <p>Für einen 10L Fabric Pot: <strong>5L Naturerde + 3L Perlit + 2L Wurmhumus</strong>. Optional: 1–2 EL Rasendünger als Top-Mix einrühren (nicht direkt an Wurzeln). pH-Test des fertigen Mix immer vor der Bepflanzung — österreichische Gartenerde kann bis pH 7,2 gehen. Ziel-pH für Cannabis-Substrat: 6,2–6,8.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<footer class="footer">
+  <p>Bellaflora Stealth Shopping Guide · Indoor Organic Grow · Österreich, April 2026</p>
+  <p>Stealth-optimierter Einkaufsführer · Ergänzung zu Growshop-Einkäufen bei Viva Sativa / La Ganja Loca</p>
+  <p>Referenzen: Saloner &amp; Bernstein 2019/2020 · Shiponi &amp; Bernstein 2021 · van Vliet et al. 2006</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

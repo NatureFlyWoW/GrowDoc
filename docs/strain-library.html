@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cannabis Strain Research Library — GrowDoc</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0d0a;
+      --bg-card: #111611;
+      --bg-card-hover: #161b16;
+      --bg-section: #0d100d;
+      --text-primary: #e8e4d9;
+      --text-secondary: #9ca38e;
+      --text-muted: #5e6556;
+      --accent-gold: #c9a84c;
+      --accent-gold-dim: #8a7234;
+      --accent-green: #4a7c3f;
+      --accent-green-bright: #6db35f;
+      --accent-green-dim: #2d4a26;
+      --accent-purple: #7c5a9e;
+      --accent-red: #b54c4c;
+      --accent-orange: #c97a2e;
+      --accent-blue: #4a7c9e;
+      --accent-teal: #3a8a7a;
+      --border: #1e241e;
+      --border-light: #2a322a;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 30% 40%, rgba(74,124,63,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 500px at 70% 60%, rgba(201,168,76,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 300px at 50% 80%, rgba(124,90,158,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      max-width: 900px;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero h1 span { color: var(--accent-gold); }
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 660px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Layout ── */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+    .section-header { margin-bottom: 3rem; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent-gold-dim);
+      margin-bottom: 0.75rem;
+    }
+    .section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section h2 span { color: var(--accent-gold); }
+    .section-intro {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 720px;
+      line-height: 1.8;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+      margin: 0 auto;
+      max-width: 1100px;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      border-color: var(--border-light);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .card-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .card.accent-top::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent-gold);
+    }
+    .card.accent-top-green::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent-green-bright);
+    }
+    .card.accent-top-purple::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent-purple);
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    /* ── Strain cards (full-width) ── */
+    .strain-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      margin: 1.5rem 0;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .strain-card:hover {
+      border-color: var(--border-light);
+      background: var(--bg-card-hover);
+    }
+    .strain-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent-gold);
+    }
+    .strain-card.current-grow::before {
+      background: var(--accent-green-bright);
+    }
+    .strain-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .strain-name {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .strain-lineage {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent-gold-dim);
+      margin-top: 0.3rem;
+      letter-spacing: 0.05em;
+    }
+    .strain-attrs {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.85rem;
+      margin: 1.25rem 0;
+    }
+    .strain-attr {
+      border-left: 2px solid var(--border-light);
+      padding-left: 0.75rem;
+    }
+    .attr-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    .attr-value {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ── Terpene pills ── */
+    .terp-row {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    .terp {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+      background: rgba(74,124,63,0.12);
+      color: var(--accent-green-bright);
+      letter-spacing: 0.04em;
+    }
+    .terp.dominant {
+      background: rgba(201,168,76,0.14);
+      color: var(--accent-gold);
+      font-weight: 500;
+    }
+
+    /* ── Scores ── */
+    .score-row {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    .score-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .score-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+    .score-stars {
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+    .score-stars .filled { color: var(--accent-gold); }
+    .score-stars .empty  { color: var(--text-muted); }
+
+    /* ── Badges ── */
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      padding: 0.35rem 0.75rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+    .badge-gold   { background: rgba(201,168,76,0.12); color: var(--accent-gold);         border: 1px solid rgba(201,168,76,0.2); }
+    .badge-green  { background: rgba(74,124,63,0.12);  color: var(--accent-green-bright);  border: 1px solid rgba(74,124,63,0.2); }
+    .badge-purple { background: rgba(124,90,158,0.12); color: #a88ad4;                     border: 1px solid rgba(124,90,158,0.2); }
+    .badge-red    { background: rgba(181,76,76,0.12);  color: var(--accent-red);            border: 1px solid rgba(181,76,76,0.2); }
+    .badge-orange { background: rgba(201,122,46,0.12); color: var(--accent-orange);         border: 1px solid rgba(201,122,46,0.2); }
+    .badge-blue   { background: rgba(74,124,158,0.12); color: var(--accent-blue);           border: 1px solid rgba(74,124,158,0.2); }
+
+    /* ── Callouts ── */
+    .callout {
+      border-left: 3px solid var(--accent-gold);
+      background: rgba(201,168,76,0.04);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .callout-red    { border-left-color: var(--accent-red);          background: rgba(181,76,76,0.04); }
+    .callout-green  { border-left-color: var(--accent-green-bright);  background: rgba(109,179,95,0.04); }
+    .callout-purple { border-left-color: var(--accent-purple);        background: rgba(124,90,158,0.04); }
+    .callout-blue   { border-left-color: var(--accent-blue);          background: rgba(74,124,158,0.04); }
+    .callout-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      color: var(--accent-gold);
+    }
+    .callout-red    .callout-label { color: var(--accent-red); }
+    .callout-green  .callout-label { color: var(--accent-green-bright); }
+    .callout-purple .callout-label { color: var(--accent-purple); }
+    .callout-blue   .callout-label { color: var(--accent-blue); }
+    .callout p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    /* ── Stats ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1.1;
+    }
+    .stat-sub {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-top: 0.3rem;
+    }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 2rem 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 0.88rem;
+    }
+    th {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      background: var(--bg-section);
+      text-align: left;
+      padding: 0.9rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 0.85rem 1.2rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bg-card-hover); color: var(--text-primary); }
+    td strong { color: var(--text-primary); font-weight: 600; }
+    td.highlight { color: var(--accent-gold); }
+
+    /* ── Text ── */
+    p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
+    p strong { color: var(--text-primary); font-weight: 600; }
+    ul, ol { margin: 0 0 1rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; }
+    li { margin-bottom: 0.4rem; line-height: 1.7; }
+    li strong { color: var(--text-primary); }
+
+    .strain-notes {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Terpene target cards ── */
+    .target-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .target-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+    .target-card.primary   { border-color: var(--accent-green); }
+    .target-card.secondary { border-color: var(--accent-gold-dim); }
+    .target-card .tc-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .target-card .tc-name {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin-bottom: 0.5rem;
+    }
+    .target-card .tc-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── Reveal animation ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer p {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .section { padding: 4rem 1.25rem; }
+      .hero { padding: 2rem 1.25rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .target-grid { grid-template-columns: 1fr; }
+      .strain-attrs { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════ HERO -->
+<section class="hero">
+  <div class="hero-subtitle">Genetics · Terpenes · Phenotype Intelligence</div>
+  <h1>Cannabis Strain <span>Research Library</span></h1>
+  <p class="hero-desc">A consolidated field reference covering six profiled cultivars, a terpene-first selection methodology, comparative tier rankings, and annotated research notes. All profiles include corrected lineage data, honest terpene scoring, and full academic caveats.</p>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════ METHODOLOGY -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Chapter I · Selection Framework</div>
+    <h2>Terpene-First <span>Selection Methodology</span></h2>
+    <p class="section-intro">Cultivar selection driven by effect profile rather than yield metrics or breeder reputation. The core hypothesis: if you match terpene chemistry to your target experience, the genetics take care of the rest.</p>
+  </div>
+
+  <p>Most growers choose strains based on yield figures, THC percentages, or brand reputation. This library uses a different starting point: <strong>terpene profile as the primary filter</strong>, with grow characteristics and genetic stability as secondary considerations. The reasoning is straightforward — cannabinoid content is the ceiling of potency, but terpene chemistry determines the character of the experience. Two strains at 22% THC can produce radically different effects depending on their dominant terpene signatures.</p>
+
+  <p>The target effect profile that anchors this library is <strong>euphoric, cerebral, and uplifting</strong> with moderate body relaxation — not sedating, not racey, but clear-headed and socially functional. That profile maps to a specific terpene axis: <strong>beta-caryophyllene + limonene</strong> as primary drivers, with terpinolene or linalool adding complexity.</p>
+
+  <div class="callout-blue callout">
+    <div class="callout-label">Research Caveat — Terpene Variability</div>
+    <p>Terpene profiles shown throughout this library are averages from aggregated analytical data. Individual plants of the same cultivar can vary significantly depending on phenotype, environment, and harvest timing (Reimann-Phillip et al. 2020). Treat all listed profiles as representative ranges, not guaranteed outputs.</p>
+  </div>
+
+  <div class="target-grid">
+    <div class="target-card primary">
+      <div class="tc-label">Primary Target</div>
+      <div class="tc-name">β-Caryophyllene</div>
+      <div class="tc-desc">Spicy, peppery, clove-like. The only terpene confirmed as a CB2 receptor agonist (Gertsch et al. 2008, <em>PNAS</em>). Body relaxation without sedation. <strong>Note:</strong> CB2 binding is established science. Anti-inflammatory and anxiolytic functional effects are preclinical only — not confirmed in human trials at cannabis-consumption doses.</div>
+    </div>
+    <div class="target-card secondary">
+      <div class="tc-label">Secondary Target</div>
+      <div class="tc-name">Limonene</div>
+      <div class="tc-desc">Citrus, bright, uplifting. Associated with mood elevation and anxiolytic effects in animal models (Carvalho-Freitas &amp; Costa 2002). <strong>Note:</strong> Anxiolytic effects have not been confirmed in controlled human trials at cannabis-relevant doses.</div>
+    </div>
+    <div class="target-card">
+      <div class="tc-label">Tertiary</div>
+      <div class="tc-name">Terpinolene / Linalool</div>
+      <div class="tc-desc">Terpinolene: fresh, piney, herbal — found in ~10% of cannabis. Associated with uplifting, almost psychedelic clarity. Linalool: floral, lavender — adds smoothness and complexity to the overall profile.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Lineage Disclaimer</div>
+    <p>All strain lineages recorded in this library are breeder-reported claims unless independently verified through genomic analysis. The cannabis seed market has historically operated without standardized genetic verification protocols, and breeder-reported ancestry should be treated as a working hypothesis rather than established fact.</p>
+  </div>
+
+  <div class="callout-blue callout">
+    <div class="callout-label">Effect Disclaimer — All Strains</div>
+    <p>Effect descriptions throughout this library are based on user-reported experiences and terpene-mechanism plausibility, not controlled clinical data. Individual responses vary based on dose, tolerance, set, and setting. No effect claim in this document should be interpreted as a therapeutic or medical statement.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════ STRAIN DEEP DIVES -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-label">Chapter II · Strain Profiles</div>
+    <h2>Six Cultivar <span>Deep Dives</span></h2>
+    <p class="section-intro">Full phenotype profiles for six cultivars in the research pipeline. Each card covers lineage, terpene chemistry, grow characteristics, indoor suitability, and stealth rating. Citron Givré leads as the current grow project.</p>
+  </div>
+
+  <!-- ── CITRON GIVRÉ (current grow, first position) ── -->
+  <div class="strain-card current-grow reveal">
+    <div class="strain-header">
+      <div>
+        <div class="strain-name">Citron Givré</div>
+        <div class="strain-lineage">GSC (Girl Scout Cookies) lineage · Indica-dominant hybrid · Exact cross unconfirmed by breeder</div>
+      </div>
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+        <span class="badge badge-green">Current Grow</span>
+        <span class="badge badge-gold">Research Priority</span>
+      </div>
+    </div>
+
+    <div class="strain-attrs">
+      <div class="strain-attr">
+        <div class="attr-label">Type</div>
+        <div class="attr-value">Indica-dominant hybrid</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Lineage Family</div>
+        <div class="attr-value">GSC / OG Kush / Durban</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">THC</div>
+        <div class="attr-value">Unspecified — GSC lineage typically 20–27%</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Effect Profile</div>
+        <div class="attr-value">Euphoric, uplifting, body relaxation</div>
+      </div>
+    </div>
+
+    <div class="terp-row">
+      <span class="terp dominant">β-Caryophyllene (estimated)</span>
+      <span class="terp dominant">Limonene (estimated)</span>
+      <span class="terp">Linalool (estimated)</span>
+    </div>
+
+    <div class="score-row">
+      <div class="score-item">
+        <div class="score-label">Indoor Suitability</div>
+        <div class="score-stars"><span class="filled">★★★★</span><span class="empty">☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Stealth Rating</div>
+        <div class="score-stars"><span class="filled">★★★</span><span class="empty">☆☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Terpene Match</div>
+        <div class="score-stars"><span class="filled">★★★★★</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Grower Forgiveness</div>
+        <div class="score-stars"><span class="filled">★★★</span><span class="empty">☆☆</span></div>
+      </div>
+    </div>
+
+    <div class="strain-notes">
+      <p><strong>Profile:</strong> Citron Givré derives from the GSC (Girl Scout Cookies) family, placing it in the same terpene lineage as OG Kush and Thin Mint — the β-caryophyllene + limonene axis that defines Cookie-family genetics. Linalool is estimated from lineage pattern; no strain-specific analytical data is available for Citron Givré specifically. The terpene profile above should be confirmed through flower-stage analytical testing.</p>
+      <p><strong>Grow notes:</strong> GSC-family strains are known to be moderately demanding — they respond well to precise VPD management and consistent organic feeding but punish overwatering and pH swings. OG Kush in the lineage contributes calcium sensitivity and moderate stretch. Expect similar structure to Glookies (see below), which shares Thin Mint GSC parentage.</p>
+      <div class="callout-blue callout" style="margin-top:1rem; margin-bottom:0;">
+        <div class="callout-label">Data Gap</div>
+        <p>No publicly available strain-specific terpene analysis for Citron Givré was located. All terpene data above is estimated from known GSC-lineage analytical averages. Analytical testing (GC-MS for terpenes, HPLC for cannabinoids) of harvested flower is recommended for accurate characterization.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── JACK HERER ── -->
+  <div class="strain-card reveal">
+    <div class="strain-header">
+      <div>
+        <div class="strain-name">Jack Herer</div>
+        <div class="strain-lineage">Haze × (Northern Lights #5 × Shiva Skunk) · Sensi Seeds · 1994 · Lineage widely reported but not officially confirmed by Sensi Seeds</div>
+      </div>
+      <span class="badge badge-gold">Tier 1 Reference</span>
+    </div>
+
+    <div class="strain-attrs">
+      <div class="strain-attr">
+        <div class="attr-label">Type</div>
+        <div class="attr-value">Sativa-dominant hybrid (65/35)</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Flower Time</div>
+        <div class="attr-value">60–70 days (Haze phenos: 70–80+)</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">THC</div>
+        <div class="attr-value">18–24%</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Effect</div>
+        <div class="attr-value">Euphoric, creative, clear-headed, energetic</div>
+      </div>
+    </div>
+
+    <div class="terp-row">
+      <span class="terp dominant">Terpinolene</span>
+      <span class="terp dominant">β-Caryophyllene</span>
+      <span class="terp">Ocimene</span>
+      <span class="terp">Pinene</span>
+      <span class="terp">Myrcene (low)</span>
+    </div>
+
+    <div class="score-row">
+      <div class="score-item">
+        <div class="score-label">Indoor Suitability</div>
+        <div class="score-stars"><span class="filled">★★★</span><span class="empty">☆☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Stealth Rating</div>
+        <div class="score-stars"><span class="filled">★★</span><span class="empty">☆☆☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Terpene Match</div>
+        <div class="score-stars"><span class="filled">★★★★★</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Grower Forgiveness</div>
+        <div class="score-stars"><span class="filled">★★★</span><span class="empty">☆☆</span></div>
+      </div>
+    </div>
+
+    <div class="strain-notes">
+      <p><strong>Why it's interesting:</strong> Terpinolene-dominant strains represent roughly 10% of cannabis and produce a distinctly uplifting, almost psychedelic clarity that myrcene-dominant strains cannot replicate. Jack Herer's Haze genetics introduce significant phenotype variation — stretch behavior differs substantially by pheno type.</p>
+      <div class="callout-red callout" style="margin:1rem 0;">
+        <div class="callout-label">Stretch Correction</div>
+        <p><strong>The "2–3× stretch" figure applies only to Haze-dominant phenos.</strong> NL5-leaning phenos express 50–80% stretch — significantly more manageable in a constrained indoor space. Identify pheno type early (leaf blade width, internode spacing) before committing to canopy management strategy. Haze phenos require aggressive training and early flip; NL5 phenos are far more tent-friendly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SUPER SKUNK ── -->
+  <div class="strain-card reveal">
+    <div class="strain-header">
+      <div>
+        <div class="strain-name">Super Skunk</div>
+        <div class="strain-lineage">Skunk #1 × Afghani hashplant · Sensi Seeds · 1990</div>
+      </div>
+      <span class="badge badge-green">Previous Grow Target</span>
+    </div>
+
+    <div class="strain-attrs">
+      <div class="strain-attr">
+        <div class="attr-label">Type</div>
+        <div class="attr-value">Indica-dominant (80/20)</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Flower Time</div>
+        <div class="attr-value">45–65 days (pheno-dependent)</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">THC</div>
+        <div class="attr-value">18–22%</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Effect</div>
+        <div class="attr-value">Heavy body stone, relaxing, euphoric onset</div>
+      </div>
+    </div>
+
+    <div class="terp-row">
+      <span class="terp dominant">Myrcene</span>
+      <span class="terp dominant">β-Caryophyllene</span>
+      <span class="terp">Limonene</span>
+      <span class="terp">Humulene</span>
+    </div>
+
+    <div class="score-row">
+      <div class="score-item">
+        <div class="score-label">Indoor Suitability</div>
+        <div class="score-stars"><span class="filled">★★★★★</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Stealth Rating</div>
+        <div class="score-stars"><span class="filled">★★</span><span class="empty">☆☆☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Terpene Match</div>
+        <div class="score-stars"><span class="filled">★★★</span><span class="empty">☆☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Grower Forgiveness</div>
+        <div class="score-stars"><span class="filled">★★★★★</span></div>
+      </div>
+    </div>
+
+    <div class="strain-notes">
+      <p><strong>Profile:</strong> Super Skunk is a workhorse indica with 35 years of indoor cultivation data. The Afghani hashplant parent contributes compact structure, dense resin, and fast flowering — ideal fundamentals for a constrained tent. Its terpene dominance is <strong>myrcene-forward</strong>, which produces a more sedating character than the BCP+Limonene target profile.</p>
+
+      <div class="callout-red callout" style="margin:1rem 0 0.75rem;">
+        <div class="callout-label">Terpene Match Correction</div>
+        <p>Super Skunk is <strong>myrcene-dominant</strong>, not a BCP+Limonene strain. An honest terpene match score against that specific target is <strong>3/5</strong>. BCP is present as a secondary terpene, contributing some body relaxation. As a beginner-friendly grow with excellent structure and robust yields, however, its forgiveness score is a genuine <strong>5/5</strong>. These are separate qualities — do not conflate them.</p>
+      </div>
+
+      <div class="callout-red callout" style="margin:0.75rem 0 0;">
+        <div class="callout-label">Pheno Rate Correction — Sativa Expression</div>
+        <p>Sativa-leaning phenos occur at roughly <strong>15–30% in regular seeds</strong> (not 30–50% as sometimes cited). Sensi Seeds has conducted extensive selection pressure toward indica expression over decades of production. In <strong>feminized seeds</strong>, sativa expression is considerably rarer — the feminization process introduces additional genetic selection pressure, further reducing phenotypic spread.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SKUNK #1 lineage note embedded where relevant -->
+  <!-- (Skunk #1 is a parent strain referenced above; full Skunk #1 lineage note applied per Professor correction) -->
+
+  <!-- ── OG KUSH ── -->
+  <div class="strain-card reveal">
+    <div class="strain-header">
+      <div>
+        <div class="strain-name">OG Kush</div>
+        <div class="strain-lineage">Chemdawg × Lemon Thai × Pakistani Kush (disputed) · Origin ~1995 · Full lineage unverified</div>
+      </div>
+      <span class="badge badge-gold">Tier 1 Reference</span>
+    </div>
+
+    <div class="strain-attrs">
+      <div class="strain-attr">
+        <div class="attr-label">Type</div>
+        <div class="attr-value">Hybrid (55/45 sativa-leaning)</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Flower Time</div>
+        <div class="attr-value">56–65 days</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">THC</div>
+        <div class="attr-value">20–27%</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Effect</div>
+        <div class="attr-value">Euphoric, heavy, stress-crushing</div>
+      </div>
+    </div>
+
+    <div class="terp-row">
+      <span class="terp dominant">β-Caryophyllene</span>
+      <span class="terp dominant">Limonene</span>
+      <span class="terp dominant">Myrcene</span>
+      <span class="terp">Linalool</span>
+      <span class="terp">Humulene</span>
+    </div>
+
+    <div class="score-row">
+      <div class="score-item">
+        <div class="score-label">Indoor Suitability</div>
+        <div class="score-stars"><span class="filled">★★★</span><span class="empty">☆☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Stealth Rating</div>
+        <div class="score-stars"><span class="filled">★★</span><span class="empty">☆☆☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Terpene Match</div>
+        <div class="score-stars"><span class="filled">★★★★★</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Grower Forgiveness</div>
+        <div class="score-stars"><span class="filled">★★</span><span class="empty">☆☆☆</span></div>
+      </div>
+    </div>
+
+    <div class="strain-notes">
+      <p><strong>Relevance to the Citron Givré grow:</strong> OG Kush is a grandparent of Citron Givré through GSC. The dominant β-caryophyllene + limonene profile is a direct inheritance. OG is notoriously finicky — pH-sensitive, calcium-hungry, stretch-prone — and these traits may surface in your grow. The good news is that OG's quality ceiling is extremely high when conditions are dialled in.</p>
+      <p>Limonene in OG Kush contributes significant citrus-fuel aromatics. Note that limonene's anxiolytic effects have been demonstrated in animal models (Carvalho-Freitas &amp; Costa 2002) but have not been confirmed in controlled human trials at cannabis-relevant doses.</p>
+    </div>
+  </div>
+
+  <!-- ── GLOOKIES ── -->
+  <div class="strain-card reveal">
+    <div class="strain-header">
+      <div>
+        <div class="strain-name">Glookies</div>
+        <div class="strain-lineage">Gorilla Glue #4 × Thin Mint GSC · Barney's Farm</div>
+      </div>
+      <span class="badge badge-gold">Cookie-Family Reference</span>
+    </div>
+
+    <div class="strain-attrs">
+      <div class="strain-attr">
+        <div class="attr-label">Type</div>
+        <div class="attr-value">Indica-dominant hybrid (70/30)</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Flower Time</div>
+        <div class="attr-value">56–63 days</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">THC</div>
+        <div class="attr-value">22–28%</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Effect</div>
+        <div class="attr-value">Potent, euphoric, full-body relaxation</div>
+      </div>
+    </div>
+
+    <div class="terp-row">
+      <span class="terp dominant">β-Caryophyllene</span>
+      <span class="terp dominant">Limonene</span>
+      <span class="terp">Myrcene</span>
+      <span class="terp">Linalool</span>
+    </div>
+
+    <div class="score-row">
+      <div class="score-item">
+        <div class="score-label">Indoor Suitability</div>
+        <div class="score-stars"><span class="filled">★★★★</span><span class="empty">☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Stealth Rating</div>
+        <div class="score-stars"><span class="filled">★★</span><span class="empty">☆☆☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Terpene Match</div>
+        <div class="score-stars"><span class="filled">★★★★★</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Grower Forgiveness</div>
+        <div class="score-stars"><span class="filled">★★★</span><span class="empty">☆☆</span></div>
+      </div>
+    </div>
+
+    <div class="strain-notes">
+      <p><strong>The Cookie connection:</strong> Glookies and Citron Givré share Thin Mint GSC genetics — they are terpene cousins. Both express the β-caryophyllene + limonene dominance that defines Cookie-family genetics: the characteristic "dough + citrus + gas" aroma. Glookies adds GG4's extreme resin production on top. Expect broadly similar training and feeding demands as Citron Givré, making Glookies a useful comparative benchmark.</p>
+    </div>
+  </div>
+
+  <!-- ── CANNALOPE HAZE ── -->
+  <div class="strain-card reveal">
+    <div class="strain-header">
+      <div>
+        <div class="strain-name">Cannalope Haze</div>
+        <div class="strain-lineage">Haze Brothers × Mexican landrace · DNA Genetics</div>
+      </div>
+      <span class="badge badge-blue">Sativa Reference</span>
+    </div>
+
+    <div class="strain-attrs">
+      <div class="strain-attr">
+        <div class="attr-label">Type</div>
+        <div class="attr-value">Sativa-dominant (80/20)</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Flower Time</div>
+        <div class="attr-value">56–63 days (fast for a Haze)</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">THC</div>
+        <div class="attr-value">18–22%</div>
+      </div>
+      <div class="strain-attr">
+        <div class="attr-label">Effect</div>
+        <div class="attr-value">Uplifting, energetic, clear, functional</div>
+      </div>
+    </div>
+
+    <div class="terp-row">
+      <span class="terp dominant">Myrcene</span>
+      <span class="terp">Limonene</span>
+      <span class="terp">β-Caryophyllene</span>
+      <span class="terp">Terpinolene</span>
+    </div>
+
+    <div class="score-row">
+      <div class="score-item">
+        <div class="score-label">Indoor Suitability</div>
+        <div class="score-stars"><span class="filled">★★★</span><span class="empty">☆☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Stealth Rating</div>
+        <div class="score-stars"><span class="filled">★★</span><span class="empty">☆☆☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Terpene Match</div>
+        <div class="score-stars"><span class="filled">★★★</span><span class="empty">☆☆</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Grower Forgiveness</div>
+        <div class="score-stars"><span class="filled">★★★</span><span class="empty">☆☆</span></div>
+      </div>
+    </div>
+
+    <div class="strain-notes">
+      <p><strong>The sativa dream:</strong> One of the fastest-finishing Hazes available — 56–63 days versus the typical 80–100 days of pure Haze lines. The melon/cantaloupe aroma is distinctive. Stretch is still significant for a tent grow — would require aggressive ScrOG and possibly supercropping. The myrcene dominance at full expression leans more sedating than the target BCP+Limonene profile, but terpinolene adds uplifting complexity.</p>
+    </div>
+  </div>
+
+  <!-- BCP Thread section -->
+  <div class="callout-green callout reveal" style="margin-top:2.5rem;">
+    <div class="callout-label">The β-Caryophyllene Thread</div>
+    <p>Every cultivar in the target lineup shares β-Caryophyllene as a dominant or major terpene. BCP is the only terpene confirmed as a direct CB2 receptor agonist (Gertsch et al. 2008, <em>PNAS</em>). CB2 binding is established. The resulting body relaxation and anti-inflammatory <em>functional</em> effects are supported by preclinical data but have not been confirmed in humans at cannabis-consumption doses. When pheno-hunting any strain in this library, BCP-forward stem rub terpenes — spicy, peppery, clove-like — remain a valid positive selection marker for that terpene axis.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════ SELECTION MATRIX -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Chapter III · Comparative Matrix</div>
+    <h2>Tier Ranking <span>Selection Table</span></h2>
+    <p class="section-intro">Six profiled cultivars ranked by terpene match against the BCP+Limonene target, with grow difficulty, stretch, and odour characteristics.</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Cultivar</th>
+        <th>Tier</th>
+        <th>Flower</th>
+        <th>Stretch</th>
+        <th>Odour</th>
+        <th>Difficulty</th>
+        <th>Terpene Match</th>
+        <th>Forgiveness</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Citron Givré</strong> <span style="font-family:var(--font-mono);font-size:0.62rem;color:var(--accent-green-bright);margin-left:0.3rem;">CURRENT</span></td>
+        <td class="highlight">1</td>
+        <td>~60–70d est.</td>
+        <td>Moderate</td>
+        <td>Strong</td>
+        <td>Medium</td>
+        <td class="highlight">★★★★★</td>
+        <td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td><strong>OG Kush</strong></td>
+        <td class="highlight">1</td>
+        <td>56–65d</td>
+        <td>Moderate</td>
+        <td>Strong</td>
+        <td>Hard</td>
+        <td class="highlight">★★★★★</td>
+        <td>★★☆☆☆</td>
+      </tr>
+      <tr>
+        <td><strong>Glookies</strong></td>
+        <td class="highlight">1</td>
+        <td>56–63d</td>
+        <td>Medium</td>
+        <td>Strong</td>
+        <td>Medium</td>
+        <td class="highlight">★★★★★</td>
+        <td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td><strong>Jack Herer</strong></td>
+        <td style="color:var(--accent-orange);">2</td>
+        <td>60–80+d</td>
+        <td>High (Haze pheno)</td>
+        <td>Strong haze</td>
+        <td>Medium</td>
+        <td style="color:var(--accent-gold);">★★★★★</td>
+        <td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td><strong>Cannalope Haze</strong></td>
+        <td style="color:var(--accent-orange);">2</td>
+        <td>56–63d</td>
+        <td>High</td>
+        <td>Strong</td>
+        <td>Medium</td>
+        <td>★★★☆☆</td>
+        <td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td><strong>Super Skunk</strong></td>
+        <td style="color:var(--accent-blue);">3†</td>
+        <td>45–65d</td>
+        <td>Low–Med</td>
+        <td>Strong skunk</td>
+        <td>Easy</td>
+        <td>★★★☆☆</td>
+        <td style="color:var(--accent-gold);">★★★★★</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:0.82rem; color:var(--text-muted); margin-top:-1rem;">† Super Skunk ranks Tier 3 on terpene match against BCP+Limonene target (myrcene-dominant), but Tier 1 on forgiveness and structural suitability. Rating depends entirely on selection criteria.</p>
+
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-label">Cultivars Profiled</div>
+      <div class="stat-value">6</div>
+      <div class="stat-sub">Full deep-dive profiles</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Tier 1 Terpene Match</div>
+      <div class="stat-value">3</div>
+      <div class="stat-sub">Citron Givré, OG Kush, Glookies</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Current Grow</div>
+      <div class="stat-value">1</div>
+      <div class="stat-sub">Citron Givré — GSC lineage</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">BCP Present</div>
+      <div class="stat-value">6/6</div>
+      <div class="stat-sub">All profiled strains</div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════ DEVIL'S ADVOCATE / RESEARCH NOTES -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Chapter IV · Research Notes</div>
+    <h2>Devil's Advocate &amp; <span>Critical Analysis</span></h2>
+    <p class="section-intro">Contrarian perspectives and academic caveats. The section exists because strain research frequently overstates certainty. These notes apply sceptical pressure to the most common overclaims.</p>
+  </div>
+
+  <div class="callout-purple callout">
+    <div class="callout-label">Devil's Advocate — Terpene-First Selection</div>
+    <p>The terpene-first selection methodology is compelling but rests on two assumptions that remain scientifically contested. First, that the terpene profile of a commercial seed-pack will reliably match the consumer's experience — terpene data from aggregated analytical sources does not account for grow environment, phenotype variation, or harvest timing. Second, that terpene-mediated effects (especially the "entourage effect") are robustly dose-dependent at actual consumption levels. The mechanism is plausible; the dose-response relationship in humans is not well-characterised. Select by terpene profile if it aligns with your preferences, but maintain calibrated uncertainty about predictive power.</p>
+  </div>
+
+  <div class="callout-purple callout">
+    <div class="callout-label">Devil's Advocate — The Lineage Confidence Problem</div>
+    <p>Cannabis strain lineages as published by breeders are marketing claims as much as botanical facts. The industry has operated without standardised genetic verification for most of its existence. Genomic analysis of well-known cultivars has repeatedly surfaced discrepancies between breeder-reported ancestry and actual genetic clustering. This is not an accusation of deliberate fraud — genetic drift, parallel development, and informal naming conventions all contribute. Treat every lineage in this library as a plausible working hypothesis, not a verified pedigree.</p>
+  </div>
+
+  <div class="callout-blue callout">
+    <div class="callout-label">Academic Note — Skunk #1 Lineage</div>
+    <p>Skunk #1's sativa characteristics derive from <strong>Colombian and Mexican landrace heritage</strong>, not Durban Poison. Durban Poison is a separate South African landrace not present in the Skunk #1 lineage. This is a persistent and common error in community cultivation resources. The confusion likely originates from the co-occurrence of Durban Poison in other 1970s–80s California breeding projects that ran contemporaneously with Skunk development.</p>
+  </div>
+
+  <div class="callout-blue callout">
+    <div class="callout-label">Academic Note — β-Caryophyllene Claims</div>
+    <p>CB2 receptor binding by β-caryophyllene is established science (Gertsch et al. 2008, <em>PNAS</em>). This library does not dispute that. However, several widely circulated cultivation resources extrapolate from this binding confirmation to claims of "confirmed anti-inflammatory" or "clinically anxiolytic" effects at cannabis-consumption doses in humans. Those functional effects are currently supported by preclinical (primarily animal model) data only. The gap between receptor binding and meaningful clinical outcome in intact humans, at inhaled or orally-consumed terpene concentrations, remains a subject of active investigation. Claims in this library are accordingly bounded.</p>
+  </div>
+
+  <div class="callout-blue callout">
+    <div class="callout-label">Academic Note — Limonene Claims</div>
+    <p>Limonene anxiolytic effects have been demonstrated in animal models (Carvalho-Freitas &amp; Costa 2002) and some human inhalation studies with isolated limonene at concentrations higher than typically achieved through cannabis consumption. Effects at cannabis-relevant doses in mixed-terpene matrices have not been established through controlled human trials. The "mood elevation" attribution in this library reflects user-reported experience and mechanistic plausibility, not confirmed clinical efficacy.</p>
+  </div>
+
+  <div class="callout callout">
+    <div class="callout-label">Practical Note — On Forgiveness vs. Terpene Match</div>
+    <p>The selection matrix in Chapter III separates terpene match from grower forgiveness deliberately. These are orthogonal qualities. Super Skunk scores 3/5 on terpene match against BCP+Limonene and 5/5 on forgiveness. A grower optimising for first-harvest success should weight forgiveness heavily. A grower with one successful harvest behind them can afford to prioritise terpene match. Do not let a high forgiveness score imply terpene excellence, nor a perfect terpene match imply ease of cultivation.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════════ FOOTER -->
+<footer class="footer">
+  <p>Cannabis Strain Research Library · GrowDoc · April 2026</p>
+  <p>Six cultivar profiles · Terpene-first methodology · Franco + Professor reviewed</p>
+  <p>Sources: SeedFinder, ICMag, Gertsch et al. 2008, Carvalho-Freitas &amp; Costa 2002, Reimann-Phillip et al. 2020</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

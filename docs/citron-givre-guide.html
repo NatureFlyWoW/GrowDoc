@@ -4,419 +4,1450 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Citron Givré — Complete Indoor Growing Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-  :root{--lemon:#E8C820;--lemon-dk:#B89800;--lemon-lt:#FFF9DB;--leaf:#3D7A2F;--leaf-dk:#235318;--leaf-lt:#E6F4E0;--soil:#5C3A1E;--soil-lt:#C89B6E;--frost:#E3EDF8;--frost-dk:#7BA3CC;--warn:#D84315;--warn-bg:#FFF3E0;--crit:#B71C1C;--crit-bg:#FFEBEE;--da:#534AB7;--da-bg:#EEEDFE;--note:#6A1B9A;--note-bg:#F3E5F5;--txt:#1B1B1B;--txt2:#5A5A5A;--bg:#F9F8F5;--line:#E2E0DB;--surf:#F1EFE8}
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Source Sans 3',system-ui,sans-serif;color:var(--txt);background:var(--bg);line-height:1.72;font-size:15px}
-  .container{max-width:860px;margin:0 auto;padding:48px 32px}
-  h1{font-family:'Playfair Display',serif;font-size:2.6em;font-weight:900;color:var(--leaf-dk);margin-bottom:8px;line-height:1.15}
-  h1 .accent{color:var(--lemon-dk)}
-  .subtitle{font-size:1.05em;color:var(--txt2);margin-bottom:36px;line-height:1.6;max-width:720px}
-  h2{font-size:1.4em;font-weight:700;color:var(--leaf-dk);margin:2.5rem 0 .75rem;padding-top:1.5rem;border-top:2px solid var(--line)}
-  h3{font-size:1.05em;font-weight:700;margin:1.5rem 0 .5rem}
-  p{margin:0 0 .75rem}
-  .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1rem 0}
-  .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:1rem 0}
-  .g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin:1rem 0}
-  .cd{background:var(--surf);border-radius:10px;padding:14px 16px}
-  .cd .lb{font-size:.7rem;color:var(--txt2);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-  .cd .vl{font-size:.95em;font-weight:600;margin-top:4px}
-  .ill{margin:1.8rem 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
-  .ill svg{display:block;width:100%}
-  .ill-cap{padding:10px 16px;font-size:.78rem;color:var(--txt2);background:var(--surf);border-top:1px solid var(--line);line-height:1.5}
-  .tip{background:var(--leaf-lt);border-left:4px solid var(--leaf);padding:12px 16px;border-radius:0 10px 10px 0;margin:1.2rem 0;font-size:.88rem}
-  .tip b{color:var(--leaf-dk)}
-  .warn{background:var(--warn-bg);border-left:4px solid var(--warn);padding:12px 16px;border-radius:0 10px 10px 0;margin:1.2rem 0;font-size:.88rem}
-  .warn b{color:var(--warn)}
-  .crit{background:var(--crit-bg);border-left:4px solid var(--crit);padding:12px 16px;border-radius:0 10px 10px 0;margin:1.2rem 0;font-size:.88rem}
-  .crit b{color:var(--crit)}
-  .da{background:var(--da-bg);border-left:4px solid var(--da);padding:12px 16px;border-radius:0 10px 10px 0;margin:1.2rem 0;font-size:.88rem}
-  .da b{color:var(--da)}
-  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.85rem}
-  th{background:var(--surf);text-align:left;padding:8px 12px;font-weight:700;border-bottom:2px solid var(--line);font-size:.8rem}
-  td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
-  tr:last-child td{border-bottom:none}
-  .hl{background:var(--leaf-lt)}
-  @media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}.container{padding:24px 16px}h1{font-size:1.8em}}
+:root {
+  --bg-primary: #0a0d0a;
+  --bg-card: #111611;
+  --bg-card-hover: #161b16;
+  --bg-section: #0d100d;
+  --text-primary: #e8e4d9;
+  --text-secondary: #9ca38e;
+  --text-muted: #5e6556;
+  --accent-gold: #c9a84c;
+  --accent-gold-dim: #8a7234;
+  --accent-green: #4a7c3f;
+  --accent-green-bright: #6db35f;
+  --accent-green-dim: #2d4a26;
+  --accent-purple: #7c5a9e;
+  --accent-red: #b54c4c;
+  --accent-orange: #c97a2e;
+  --accent-blue: #4a7c9e;
+  --accent-teal: #3a8a7a;
+  --border: #1e241e;
+  --border-light: #2a322a;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+/* ── Hero ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 30% 40%, rgba(74,124,63,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 70% 60%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 300px at 50% 80%, rgba(124,90,158,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  max-width: 900px;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+.hero h1 span { color: var(--accent-gold); }
+.hero-desc {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+.hero-meta {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Sections ── */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+.section-header { margin-bottom: 3rem; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent-gold-dim);
+  margin-bottom: 0.75rem;
+}
+.section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.section h2 span { color: var(--accent-gold); }
+.section h3 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 3rem 0 0.75rem;
+  color: var(--accent-gold);
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+.section-intro {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 720px;
+  line-height: 1.8;
+}
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+  margin: 0 auto;
+  max-width: 1100px;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.card:hover {
+  border-color: var(--border-light);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+.card-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.card-value {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
+}
+.card-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.card-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.card-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+/* ── Badges ── */
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+.badge-gold  { background: rgba(201,168,76,0.12); color: var(--accent-gold); border: 1px solid rgba(201,168,76,0.25); }
+.badge-green { background: rgba(74,124,63,0.12); color: var(--accent-green-bright); border: 1px solid rgba(74,124,63,0.25); }
+.badge-purple{ background: rgba(124,90,158,0.12); color: #a88ad4; border: 1px solid rgba(124,90,158,0.25); }
+.badge-red   { background: rgba(181,76,76,0.12); color: var(--accent-red); border: 1px solid rgba(181,76,76,0.25); }
+.badge-blue  { background: rgba(74,124,158,0.12); color: var(--accent-blue); border: 1px solid rgba(74,124,158,0.25); }
+
+/* ── Callouts ── */
+.callout {
+  border-left: 3px solid var(--accent-gold);
+  background: rgba(201,168,76,0.04);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+}
+.callout-red    { border-left-color: var(--accent-red);    background: rgba(181,76,76,0.05); }
+.callout-green  { border-left-color: var(--accent-green-bright); background: rgba(109,179,95,0.04); }
+.callout-purple { border-left-color: var(--accent-purple); background: rgba(124,90,158,0.04); }
+.callout-blue   { border-left-color: var(--accent-blue);   background: rgba(74,124,158,0.04); }
+
+.callout-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: var(--accent-gold);
+}
+.callout-red    .callout-label { color: var(--accent-red); }
+.callout-green  .callout-label { color: var(--accent-green-bright); }
+.callout-purple .callout-label { color: var(--accent-purple); }
+.callout-blue   .callout-label { color: var(--accent-blue); }
+.callout p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin: 0;
+}
+.callout p + p { margin-top: 0.6rem; }
+.callout p strong { color: var(--text-primary); }
+
+/* ── Timeline ── */
+.protocol-timeline {
+  position: relative;
+  margin: 2.5rem 0;
+  padding-left: 2rem;
+}
+.protocol-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-gold), var(--accent-green), var(--accent-purple));
+}
+.protocol-phase {
+  position: relative;
+  margin-bottom: 2.5rem;
+  padding-left: 2rem;
+}
+.protocol-phase::before {
+  content: '';
+  position: absolute;
+  left: -2rem; top: 0.3rem;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-gold);
+  background: var(--bg-primary);
+  transform: translateX(-5px);
+}
+.protocol-phase.critical::before { border-color: var(--accent-red); background: rgba(181,76,76,0.2); }
+.protocol-phase.warn::before    { border-color: var(--accent-gold); background: var(--accent-gold); }
+.protocol-phase.active::before  { border-color: var(--accent-green-bright); background: var(--accent-green); }
+.protocol-week {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold-dim);
+  margin-bottom: 0.3rem;
+}
+.protocol-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+.protocol-body {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+.protocol-body strong { color: var(--text-primary); }
+
+/* ── Stats ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem 1.4rem;
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  line-height: 1.1;
+}
+.stat-sub {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.3rem;
+  line-height: 1.5;
+}
+
+/* ── Illustrations ── */
+.ill {
+  margin: 2rem 0;
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-card);
+}
+.ill svg { display: block; width: 100%; }
+.ill-cap {
+  padding: 12px 18px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  background: var(--bg-section);
+  border-top: 1px solid var(--border);
+  line-height: 1.6;
+}
+
+/* ── Tables ── */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.88rem;
+}
+th {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  background: var(--bg-section);
+  text-align: left;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 0.85rem 1.2rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.6;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg-card-hover); color: var(--text-primary); }
+td strong { color: var(--text-primary); font-weight: 600; }
+.row-hl td { background: rgba(201,168,76,0.04); }
+
+/* ── Lists / Text ── */
+ul, ol { margin: 0.5rem 0 1rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; }
+li { margin-bottom: 0.4rem; line-height: 1.7; }
+li strong { color: var(--text-primary); }
+p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
+p strong { color: var(--text-primary); font-weight: 600; }
+
+/* ── Reveal ── */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s, transform 0.6s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── Footer ── */
+.footer { text-align: center; padding: 4rem 2rem; border-top: 1px solid var(--border); }
+.footer p { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .section { padding: 4rem 1.25rem; }
+  .hero { padding: 2rem 1.25rem; }
+  .card-grid, .card-grid-2, .card-grid-3 { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
 </style>
 </head>
 <body>
-<div class="container">
 
-<h1>Citron <span class="accent">Givré</span></h1>
-<p class="subtitle">Complete indoor growing guide for a single irreplaceable birthday clone in a Secret Jardin HS80 tent under dual Sanlight STIXX 50 LED bars, organic living soil, Austrian stealth apartment grow. Quality first, clone safety above all. Devil's advocate reviewed throughout.</p>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- HERO                                                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-subtitle">GrowDoc · Flagship Strain Guide · Secret Jardin HS80</div>
+  <h1>Citron <span>Givré</span></h1>
+  <p class="hero-desc">Complete indoor growing reference for a single irreplaceable birthday clone — from arrival to harvest. Organic living soil, dual Sanlight STIXX 50 LED bars, Austrian stealth apartment grow. Quality first. Clone safety above all. Expert-reviewed throughout.</p>
+  <div class="hero-meta">
+    <span class="badge badge-gold">Indica-Dominant Hybrid</span>
+    <span class="badge badge-green">8 Weeks Flower</span>
+    <span class="badge badge-blue">108W LED</span>
+    <span class="badge badge-purple">Living Soil</span>
+    <span class="badge badge-red">Irreplaceable Cut</span>
+  </div>
+</section>
+<div class="divider"></div>
 
-<div class="g4">
-  <div class="cd"><div class="lb">Strain</div><div class="vl">Citron Givré</div></div>
-  <div class="cd"><div class="lb">Genetics</div><div class="vl">T.H. Seeds BDay Cake Kush pheno</div></div>
-  <div class="cd"><div class="lb">Source</div><div class="vl">Birthday clone (irreplaceable)</div></div>
-  <div class="cd"><div class="lb">Type</div><div class="vl">Indica-dominant hybrid</div></div>
-</div>
-<div class="g4">
-  <div class="cd"><div class="lb">Tent</div><div class="vl">Secret Jardin HS80 · 80×80×178cm</div></div>
-  <div class="cd"><div class="lb">Light</div><div class="vl">2× Sanlight STIXX 50 · 108W total</div></div>
-  <div class="cd"><div class="lb">Ventilation</div><div class="vl">CAN RK125 · 310 m³/h + CAN-Lite AKF</div></div>
-  <div class="cd"><div class="lb">Medium</div><div class="vl">Organic living soil + mycorrhizae</div></div>
-</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CHAPTER I: STRAIN PROFILE                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Chapter I · Strain Profile</div>
+    <h2>What You're <span>Actually</span> Growing</h2>
+    <p class="section-intro">Citron Givré is a phenotype selection from T.H. Seeds' Birthday Cake Kush line — a cross of Birthday Cake (Girl Scout Cookies × Cherry Pie) and a proprietary Kush male. The name translates from French as "frosted lemon," describing the heavy trichome coverage and citrus-forward terpene profile this particular phenotype expresses.</p>
+  </div>
 
-<div class="crit"><b>CLONE PRIORITY ALERT:</b> This birthday cut cannot be replaced. Take 2–4 cuttings during veg weeks 5–7 before flipping. Two healthy rooted clones minimum before proceeding to flower. No exceptions.</div>
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-label">Genetics</div>
+      <div class="stat-value" style="font-size:1.05rem;line-height:1.4">Birthday Cake Kush</div>
+      <div class="stat-sub">T.H. Seeds · GSC × Cherry Pie × Kush</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Type</div>
+      <div class="stat-value" style="font-size:1.1rem">Indica-dom.</div>
+      <div class="stat-sub">Hybrid with Cookie structure and density</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Flowering</div>
+      <div class="stat-value">56–70d</div>
+      <div class="stat-sub">From flip. Observe, don't calendar.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Stretch</div>
+      <div class="stat-value">50–80%</div>
+      <div class="stat-sub">Flip at 25–35cm canopy height</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">THC Est.</div>
+      <div class="stat-value">20–25%</div>
+      <div class="stat-sub">From lineage — no strain data exists</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Terpenes</div>
+      <div class="stat-value" style="font-size:0.95rem;line-height:1.5">Citrus · Vanilla · Dough</div>
+      <div class="stat-sub">Cookie-derived terpene profile</div>
+    </div>
+  </div>
 
-<h2>1. Strain Profile — What You're Actually Growing</h2>
+  <!-- Genetic lineage diagram -->
+  <div class="ill">
+  <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="760" height="300" fill="#111611"/>
+    <text font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#6db35f" x="380" y="28" text-anchor="middle">GENETIC LINEAGE — Citron Givré</text>
+    <rect x="40" y="50" width="130" height="44" rx="8" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#6db35f" x="105" y="69" text-anchor="middle">Girl Scout Cookies</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="105" y="84" text-anchor="middle">OG Kush × Durban Poison</text>
+    <rect x="200" y="50" width="130" height="44" rx="8" fill="rgba(74,124,63,0.12)" stroke="#4a7c3f" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#6db35f" x="265" y="69" text-anchor="middle">Cherry Pie</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="265" y="84" text-anchor="middle">GDP × Durban Poison</text>
+    <rect x="430" y="50" width="130" height="44" rx="8" fill="rgba(201,168,76,0.08)" stroke="#8a7234" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#c9a84c" x="495" y="69" text-anchor="middle">T.H. Seeds Kush</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="495" y="84" text-anchor="middle">Proprietary male</text>
+    <line x1="105" y1="94" x2="105" y2="110" stroke="#4a7c3f" stroke-width="1.5"/>
+    <line x1="265" y1="94" x2="265" y2="110" stroke="#4a7c3f" stroke-width="1.5"/>
+    <line x1="105" y1="110" x2="185" y2="110" stroke="#4a7c3f" stroke-width="1.5"/>
+    <line x1="265" y1="110" x2="185" y2="110" stroke="#4a7c3f" stroke-width="1.5"/>
+    <line x1="185" y1="110" x2="185" y2="125" stroke="#4a7c3f" stroke-width="1.5"/>
+    <rect x="110" y="125" width="150" height="50" rx="8" fill="rgba(74,124,63,0.15)" stroke="#4a7c3f" stroke-width="2"/>
+    <text font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#6db35f" x="185" y="147" text-anchor="middle">Birthday Cake</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="185" y="165" text-anchor="middle">GSC × Cherry Pie</text>
+    <line x1="185" y1="175" x2="185" y2="195" stroke="#4a7c3f" stroke-width="1.5"/>
+    <line x1="495" y1="94" x2="495" y2="195" stroke="#8a7234" stroke-width="1.5"/>
+    <line x1="185" y1="195" x2="340" y2="195" stroke="#4a7c3f" stroke-width="1.5"/>
+    <line x1="495" y1="195" x2="340" y2="195" stroke="#8a7234" stroke-width="1.5"/>
+    <line x1="340" y1="195" x2="340" y2="215" stroke="#c9a84c" stroke-width="2"/>
+    <rect x="230" y="215" width="220" height="50" rx="10" fill="rgba(201,168,76,0.1)" stroke="#c9a84c" stroke-width="2"/>
+    <text font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#c9a84c" x="340" y="238" text-anchor="middle">Birthday Cake Kush</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="340" y="255" text-anchor="middle">T.H. Seeds proprietary cross</text>
+    <line x1="340" y1="265" x2="340" y2="278" stroke="#c9a84c" stroke-width="2"/>
+    <polygon points="332,278 348,278 340,288" fill="#c9a84c"/>
+    <rect x="265" y="288" width="150" height="9" rx="4" fill="#c9a84c"/>
+    <text font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#0a0d0a" x="340" y="296" text-anchor="middle">YOUR CUT: Citron Givré</text>
+    <rect x="580" y="118" width="162" height="172" rx="8" fill="rgba(20,26,16,0.9)" stroke="#2a322a"/>
+    <text font-family="JetBrains Mono,monospace" font-size="9" font-weight="500" fill="#c9a84c" x="661" y="138" text-anchor="middle">EXPECTED TRAITS</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="596" y="160">Flowering: 56–70 days</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="596" y="178">Stretch: 50–80%</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="596" y="196">Terpenes: citrus, vanilla, dough</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="596" y="214">THC: 20–25% (est.)</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="596" y="232">Structure: dense, indica-dom</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="596" y="250">Effect: relaxing, euphoric*</text>
+    <text font-family="JetBrains Mono,monospace" font-size="8" fill="#5e6556" x="596" y="276">*user-reported, not clinical</text>
+  </svg>
+  <div class="ill-cap">Genetic lineage of Citron Givré. Trait expectations are derived from Birthday Cake Kush parentage — no independent Citron Givré grow data exists. Your own observation of this cut is the most reliable data you will accumulate over time.</div>
+  </div>
 
-<p>Citron Givré is a phenotype selection from T.H. Seeds' Birthday Cake Kush line — a cross of Birthday Cake (Girl Scout Cookies × Cherry Pie) and a proprietary Kush male. The name translates from French as "frosted lemon," describing the heavy trichome coverage and citrus-forward terpene profile this particular phenotype expresses.</p>
+  <div class="callout callout-purple">
+    <div class="callout-label">Devil's Advocate · Data Honesty</div>
+    <p>Independent grower data on Citron Givré is virtually nonexistent. Seedbank descriptions are marketing copy, not grow data. Treat all strain-specific claims — flowering time, yield, terpene profile — as rough estimates from the broader Birthday Cake Kush lineage. Your own observation of this cut over multiple grows is the only genuinely reliable data source.</p>
+  </div>
 
-<div class="da"><b>Devil's advocate — data honesty:</b> Independent grower data on Citron Givré is virtually nonexistent. Seedbank descriptions are marketing copy, not grow data. Treat all strain-specific claims (flowering time, yield, terpene profile) as rough estimates from the broader Birthday Cake Kush lineage. Your own observation of this cut is the most reliable data you'll have.</div>
+  <div class="callout callout-red">
+    <div class="callout-label">Warning · Cookie Lineage Hermie Risk</div>
+    <p><strong>Watch for nanners (banana-shaped pollen sacs emerging from bud sites) from flower week 3 onward.</strong> Cookie lineage is notorious for hermaphrodite expression under stress. Minimize all stressors during flower — no temperature swings above 5°C, no light leaks during dark period, no mechanical damage, no sudden environmental changes. Check bud sites with a 60× loupe every 1–2 days from flower week 3. Remove any nanners immediately with tweezers and clean them away from the plant. One missed nanner can seed the entire plant.</p>
+  </div>
 
-<div class="ill">
-<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
-  <rect width="760" height="300" fill="#FAFAF8"/>
-  <text font-family="Source Sans 3,system-ui" font-size="14" font-weight="700" fill="#235318" x="380" y="28" text-anchor="middle">GENETIC LINEAGE — Citron Givré</text>
-  <rect x="40" y="50" width="130" height="44" rx="8" fill="#E6F4E0" stroke="#3D7A2F" stroke-width="1.5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="600" fill="#235318" x="105" y="69" text-anchor="middle">Girl Scout Cookies</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#5A5A5A" x="105" y="84" text-anchor="middle">OG Kush × Durban Poison</text>
-  <rect x="200" y="50" width="130" height="44" rx="8" fill="#E6F4E0" stroke="#3D7A2F" stroke-width="1.5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="600" fill="#235318" x="265" y="69" text-anchor="middle">Cherry Pie</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#5A5A5A" x="265" y="84" text-anchor="middle">GDP × Durban Poison</text>
-  <rect x="430" y="50" width="130" height="44" rx="8" fill="#FFF9DB" stroke="#B89800" stroke-width="1.5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="600" fill="#8B7400" x="495" y="69" text-anchor="middle">T.H. Seeds Kush</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#5A5A5A" x="495" y="84" text-anchor="middle">Proprietary male</text>
-  <line x1="105" y1="94" x2="105" y2="110" stroke="#3D7A2F" stroke-width="1.5"/>
-  <line x1="265" y1="94" x2="265" y2="110" stroke="#3D7A2F" stroke-width="1.5"/>
-  <line x1="105" y1="110" x2="185" y2="110" stroke="#3D7A2F" stroke-width="1.5"/>
-  <line x1="265" y1="110" x2="185" y2="110" stroke="#3D7A2F" stroke-width="1.5"/>
-  <line x1="185" y1="110" x2="185" y2="125" stroke="#3D7A2F" stroke-width="1.5"/>
-  <rect x="110" y="125" width="150" height="50" rx="8" fill="#E6F4E0" stroke="#3D7A2F" stroke-width="2"/>
-  <text font-family="Source Sans 3,system-ui" font-size="13" font-weight="700" fill="#235318" x="185" y="147" text-anchor="middle">Birthday Cake</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="185" y="165" text-anchor="middle">GSC × Cherry Pie</text>
-  <line x1="185" y1="175" x2="185" y2="195" stroke="#3D7A2F" stroke-width="1.5"/>
-  <line x1="495" y1="94" x2="495" y2="195" stroke="#B89800" stroke-width="1.5"/>
-  <line x1="185" y1="195" x2="340" y2="195" stroke="#3D7A2F" stroke-width="1.5"/>
-  <line x1="495" y1="195" x2="340" y2="195" stroke="#B89800" stroke-width="1.5"/>
-  <line x1="340" y1="195" x2="340" y2="215" stroke="#235318" stroke-width="2"/>
-  <rect x="230" y="215" width="220" height="50" rx="10" fill="#FFF9DB" stroke="#B89800" stroke-width="2"/>
-  <text font-family="Source Sans 3,system-ui" font-size="14" font-weight="700" fill="#8B7400" x="340" y="238" text-anchor="middle">Birthday Cake Kush</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="340" y="255" text-anchor="middle">T.H. Seeds proprietary cross</text>
-  <line x1="340" y1="265" x2="340" y2="278" stroke="#B89800" stroke-width="2"/>
-  <polygon points="332,278 348,278 340,288" fill="#B89800"/>
-  <rect x="265" y="289" width="150" height="8" rx="4" fill="#B89800"/>
-  <text font-family="Source Sans 3,system-ui" font-size="10" font-weight="700" fill="#fff" x="340" y="297" text-anchor="middle">YOUR CUT: Citron Givré</text>
-  <rect x="580" y="120" width="160" height="160" rx="8" fill="#F1EFE8" stroke="#E2E0DB"/>
-  <text font-family="Source Sans 3,system-ui" font-size="10" font-weight="700" fill="#235318" x="660" y="140" text-anchor="middle">EXPECTED TRAITS</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="596" y="162">Flowering: 56–70 days</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="596" y="180">Stretch: 50–80%</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="596" y="198">Terpenes: citrus, vanilla, dough</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="596" y="216">THC: 20–25% (est.)</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="596" y="234">Structure: dense, indica-dom</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="596" y="252">Effect: relaxing, euphoric</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" font-style="italic" fill="#999" x="596" y="274">Based on lineage, not strain data</text>
-</svg>
-<div class="ill-cap">Genetic lineage of Citron Givré. Trait expectations are derived from the Birthday Cake Kush parentage — no independent Citron Givré grow data exists.</div>
-</div>
+  <div class="callout callout-blue">
+    <div class="callout-label">Research Note · Effect Descriptions</div>
+    <p>Effect descriptions throughout this guide — relaxing, euphoric, body-focused — are based on user-reported experiences and terpene-mechanism plausibility, not controlled clinical data. Individual physiological response varies significantly based on tolerance, consumption method, and neurochemistry.</p>
+  </div>
 
-<h2>2. Equipment — What 108W Delivers</h2>
+</section>
+<div class="divider"></div>
 
-<p>Two Sanlight STIXX 50 bars produce ~270 µmol/s total PPF at ~2.5 µmol/J. In the HS80's reflective interior at 25–30cm height, that's roughly 350–420 µmol/m²/s average PPFD across the 80×80cm footprint. During a 12-hour flower cycle, DLI ≈ 15–18 mol/m²/day — about 45% of the theoretical optimum where yield plateaus.</p>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CHAPTER II: PHASE 0 — FIRST 14 DAYS                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Chapter II · Phase 0 · Days 1–14</div>
+    <h2>The <span>Survival</span> Playbook</h2>
+    <p class="section-intro">The first two weeks with your Citron Givré clone — from unboxing to active vegetative growth. Every action is prioritized by urgency. This is not a reference guide — it's a sequence of decisions, in order, with the reasoning behind each one. Follow the timeline, trust the process, protect the genetics.</p>
+  </div>
 
-<div class="ill">
-<svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg">
-  <rect width="760" height="200" fill="#FAFAF8"/>
-  <text font-family="Source Sans 3,system-ui" font-size="14" font-weight="700" fill="#235318" x="380" y="28" text-anchor="middle">LIGHT OUTPUT — 2× Sanlight STIXX 50 in HS80</text>
-  <rect x="30" y="50" width="220" height="130" rx="10" fill="#FFF9DB" stroke="#B89800"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="700" fill="#8B7400" x="140" y="72" text-anchor="middle">RAW OUTPUT</text>
-  <text font-family="JetBrains Mono" font-size="22" font-weight="500" fill="#8B7400" x="140" y="105" text-anchor="middle">108W</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="140" y="125" text-anchor="middle">~270 µmol/s PPF</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="140" y="143" text-anchor="middle">~2.5 µmol/J efficiency</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="140" y="168" text-anchor="middle">2× 54W bars, Samsung diodes</text>
-  <text font-family="Source Sans 3,system-ui" font-size="20" fill="#B89800" x="265" y="115">→</text>
-  <rect x="280" y="50" width="220" height="130" rx="10" fill="#E6F4E0" stroke="#3D7A2F"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="700" fill="#235318" x="390" y="72" text-anchor="middle">AT CANOPY</text>
-  <text font-family="JetBrains Mono" font-size="20" font-weight="500" fill="#235318" x="390" y="105" text-anchor="middle">350–420 PPFD</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="390" y="125" text-anchor="middle">µmol/m²/s at 25–30cm height</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="390" y="143" text-anchor="middle">DLI ≈ 15–18 mol/m²/day (12h)</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="390" y="168" text-anchor="middle">~45% of optimal 40 DLI</text>
-  <text font-family="Source Sans 3,system-ui" font-size="20" fill="#3D7A2F" x="515" y="115">→</text>
-  <rect x="530" y="50" width="200" height="130" rx="10" fill="#235318"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="600" fill="#E6F4E0" x="630" y="72" text-anchor="middle">YIELD RANGE</text>
-  <text font-family="Playfair Display,serif" font-size="28" font-weight="900" fill="#E8C820" x="630" y="110" text-anchor="middle">80–130g</text>
-  <text font-family="Source Sans 3,system-ui" font-size="11" fill="#E6F4E0" x="630" y="135" text-anchor="middle">0.7–1.2 g/W with ScrOG</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#E6F4E0" opacity=".7" x="630" y="160" text-anchor="middle">Single plant, organic soil</text>
-</svg>
-<div class="ill-cap">Light pipeline from wall watts to realistic yield. Training and canopy management are critical at this wattage — every wasted photon hurts proportionally more than at 300W+.</div>
-</div>
+  <div class="callout callout-red">
+    <div class="callout-label">Priority #1 · Clone is Irreplaceable</div>
+    <p>This birthday cut cannot be replaced. Every decision in the next 14 days serves one goal: get this plant healthy, growing, and producing enough vegetative mass to take backup clones before anything else happens. <strong>Speed is secondary to survival.</strong></p>
+  </div>
 
-<h2>3. Height Budget — 178cm Breakdown</h2>
+  <!-- Recovering clone anatomy illustration -->
+  <div class="ill">
+  <svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="leafGrad14" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#5a8a2e"/><stop offset="40%" stop-color="#4a7a25"/><stop offset="100%" stop-color="#3a6a1c"/>
+      </linearGradient>
+      <linearGradient id="stemGrad14" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#3a5a1c"/><stop offset="30%" stop-color="#5a8a2e"/>
+        <stop offset="70%" stop-color="#4a7a25"/><stop offset="100%" stop-color="#2a4a12"/>
+      </linearGradient>
+      <linearGradient id="soilGrad14" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#5a4a30"/><stop offset="50%" stop-color="#4a3a22"/><stop offset="100%" stop-color="#3a2a18"/>
+      </linearGradient>
+      <linearGradient id="potGrad14" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#6a5a3a"/><stop offset="50%" stop-color="#8a7a5a"/><stop offset="100%" stop-color="#5a4a2a"/>
+      </linearGradient>
+      <linearGradient id="rootGrad14" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#c4a87a"/><stop offset="100%" stop-color="#8a7a5a"/>
+      </linearGradient>
+    </defs>
+    <rect width="800" height="420" fill="#111611"/>
+    <text font-family="Cormorant Garamond,serif" font-size="14" fill="#6db35f" x="260" y="26" text-anchor="middle">Recovering Clone — Anatomy &amp; Priority Zones</text>
+    <!-- Pot cross-section -->
+    <path d="M180,330 L185,260 L335,260 L340,330 Z" fill="url(#potGrad14)" stroke="#5a4a2a" stroke-width="1.5"/>
+    <ellipse cx="260" cy="260" rx="77" ry="12" fill="url(#soilGrad14)"/>
+    <!-- Root system -->
+    <g opacity=".3">
+      <path d="M260,270 C250,290 230,305 225,320" stroke="url(#rootGrad14)" stroke-width="1.5" fill="none"/>
+      <path d="M260,270 C265,285 275,300 280,318" stroke="url(#rootGrad14)" stroke-width="1.5" fill="none"/>
+      <path d="M260,270 C255,280 245,290 240,310" stroke="url(#rootGrad14)" stroke-width="1" fill="none"/>
+      <path d="M260,270 C270,280 280,288 290,305" stroke="url(#rootGrad14)" stroke-width="1" fill="none"/>
+      <!-- Mycorrhizae zone -->
+      <circle cx="237" cy="312" r="3" fill="#c9a84c" opacity=".5"/>
+      <circle cx="278" cy="308" r="2.5" fill="#c9a84c" opacity=".5"/>
+      <circle cx="258" cy="280" r="2" fill="#c9a84c" opacity=".6"/>
+    </g>
+    <!-- Main stem -->
+    <path d="M258,258 L258,158 Q258,150 260,148" stroke="url(#stemGrad14)" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="258" cy="200" rx="4" ry="2.5" fill="#4a7a25" opacity=".5"/>
+    <ellipse cx="258" cy="178" rx="4" ry="2.5" fill="#4a7a25" opacity=".5"/>
+    <!-- Topped site marker -->
+    <line x1="256" y1="146" x2="264" y2="150" stroke="#b54c4c" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Branch 1 left -->
+    <path d="M258,150 C248,145 235,135 220,118" stroke="url(#stemGrad14)" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- Branch 2 right -->
+    <path d="M258,150 C268,145 280,135 298,118" stroke="url(#stemGrad14)" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- Leaf left -->
+    <g transform="translate(210,108) rotate(-15)">
+      <path d="M0,0 C-3,-12 -8,-25 -5,-38 C-3,-30 -1,-22 0,-15 C1,-22 3,-30 5,-38 C8,-25 3,-12 0,0" fill="url(#leafGrad14)" stroke="#3a6a1c" stroke-width=".5"/>
+      <path d="M0,-8 C-8,-18 -18,-25 -22,-32 C-16,-26 -10,-20 -4,-14" fill="url(#leafGrad14)" stroke="#3a6a1c" stroke-width=".3"/>
+      <path d="M0,-8 C8,-18 18,-25 22,-32 C16,-26 10,-20 4,-14" fill="url(#leafGrad14)" stroke="#3a6a1c" stroke-width=".3"/>
+      <line x1="0" y1="0" x2="0" y2="-36" stroke="#3a6a1c" stroke-width=".5" opacity=".6"/>
+    </g>
+    <!-- Leaf right -->
+    <g transform="translate(308,108) rotate(15)">
+      <path d="M0,0 C-3,-12 -8,-25 -5,-38 C-3,-30 -1,-22 0,-15 C1,-22 3,-30 5,-38 C8,-25 3,-12 0,0" fill="url(#leafGrad14)" stroke="#3a6a1c" stroke-width=".5"/>
+      <path d="M0,-8 C-8,-18 -18,-25 -22,-32 C-16,-26 -10,-20 -4,-14" fill="url(#leafGrad14)" stroke="#3a6a1c" stroke-width=".3"/>
+      <path d="M0,-8 C8,-18 18,-25 22,-32 C16,-26 10,-20 4,-14" fill="url(#leafGrad14)" stroke="#3a6a1c" stroke-width=".3"/>
+      <line x1="0" y1="0" x2="0" y2="-36" stroke="#3a6a1c" stroke-width=".5" opacity=".6"/>
+    </g>
+    <!-- Annotation: Root zone -->
+    <line x1="340" y1="290" x2="420" y2="290" stroke="#c9a84c" stroke-width="1" stroke-dasharray="3"/>
+    <rect x="425" y="270" width="190" height="52" rx="6" fill="#0a0d0a" stroke="#1e241e" stroke-width="1"/>
+    <text font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" fill="#c9a84c" x="520" y="286" text-anchor="middle">ROOT ZONE — CRITICAL</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#9ca38e" x="520" y="300" text-anchor="middle">Mycorrhizae colonization active</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#9ca38e" x="520" y="312" text-anchor="middle">Water gently at edges, not center</text>
+    <!-- Annotation: Stem -->
+    <line x1="265" y1="200" x2="420" y2="200" stroke="#6db35f" stroke-width="1" stroke-dasharray="3"/>
+    <rect x="425" y="180" width="190" height="52" rx="6" fill="#0a0d0a" stroke="#1e241e" stroke-width="1"/>
+    <text font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" fill="#6db35f" x="520" y="196" text-anchor="middle">STEM HEALTH INDICATOR</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#9ca38e" x="520" y="210" text-anchor="middle">Green + firm = healthy</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#9ca38e" x="520" y="222" text-anchor="middle">Purple = P def or cold stress</text>
+    <!-- Annotation: Topped site -->
+    <line x1="264" y1="148" x2="420" y2="120" stroke="#b54c4c" stroke-width="1" stroke-dasharray="3"/>
+    <rect x="425" y="100" width="190" height="52" rx="6" fill="#0a0d0a" stroke="#1e241e" stroke-width="1"/>
+    <text font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" fill="#b54c4c" x="520" y="116" text-anchor="middle">TOPPED SITE</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#9ca38e" x="520" y="130" text-anchor="middle">Two main branches growing out</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#9ca38e" x="520" y="142" text-anchor="middle">These become your ScrOG framework</text>
+    <!-- Annotation: New growth -->
+    <line x1="210" y1="105" x2="100" y2="80" stroke="#c9a84c" stroke-width="1" stroke-dasharray="3"/>
+    <rect x="20" y="60" width="190" height="52" rx="6" fill="#0a0d0a" stroke="#1e241e" stroke-width="1"/>
+    <text font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" fill="#c9a84c" x="115" y="76" text-anchor="middle">NEW GROWTH TIPS</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#9ca38e" x="115" y="90" text-anchor="middle">Bright green = actively growing</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#9ca38e" x="115" y="102" text-anchor="middle">Pale/yellow = check pH + CalMag</text>
+    <!-- VPD target box -->
+    <rect x="20" y="150" width="150" height="75" rx="8" fill="rgba(74,124,158,0.06)" stroke="#4a7c9e" stroke-width="1"/>
+    <text font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" fill="#4a7c9e" x="95" y="168" text-anchor="middle">TARGET VPD</text>
+    <text font-family="Cormorant Garamond,serif" font-size="22" fill="#4a7c9e" x="95" y="198" text-anchor="middle">0.4–0.8</text>
+    <text font-family="JetBrains Mono,monospace" font-size="8" fill="#4a7c9e" x="95" y="215" text-anchor="middle">kPa · clone settling</text>
+    <!-- Light distance box -->
+    <rect x="20" y="340" width="150" height="60" rx="8" fill="rgba(201,168,76,0.04)" stroke="#8a7234" stroke-width="1"/>
+    <text font-family="JetBrains Mono,monospace" font-size="8" font-weight="500" fill="#c9a84c" x="95" y="358" text-anchor="middle">STIXX DISTANCE</text>
+    <text font-family="Cormorant Garamond,serif" font-size="22" fill="#c9a84c" x="95" y="385" text-anchor="middle">55cm+</text>
+    <text font-family="JetBrains Mono,monospace" font-size="8" fill="#8a7234" x="95" y="398" text-anchor="middle">dimmed to 20–40%</text>
+  </svg>
+  <div class="ill-cap">Annotated cross-section of a recovering topped clone — root zone, stem nodes, topped growth site, and new branch development. The indica-dominant 5-blade leaf pattern from Cookie lineage. Priority zones color-coded by urgency. Focus: do not disturb, do not overfeed, do not overwater.</div>
+  </div>
 
-<div class="ill">
-<svg viewBox="0 0 760 520" xmlns="http://www.w3.org/2000/svg">
-  <rect width="760" height="520" fill="#FAFAF8"/>
-  <text font-family="Source Sans 3,system-ui" font-size="14" font-weight="700" fill="#235318" x="380" y="28" text-anchor="middle">HEIGHT BUDGET — Secret Jardin HS80 R2 · 178cm · Side View</text>
-  <!-- Tent outline -->
-  <rect x="200" y="45" width="260" height="450" rx="4" fill="#fff" stroke="#3D7A2F" stroke-width="2.5"/>
-  <!-- Zone labels right side -->
-  <rect x="500" y="55" width="110" height="36" rx="6" fill="#E3EDF8" stroke="#7BA3CC"/>
-  <text font-family="JetBrains Mono" font-size="14" font-weight="500" fill="#3A6FA0" x="555" y="72" text-anchor="middle">30cm</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#5A5A5A" x="555" y="85" text-anchor="middle">AKF + CAN RK125</text>
-  <rect x="500" y="110" width="110" height="36" rx="6" fill="#FFF9DB" stroke="#B89800"/>
-  <text font-family="JetBrains Mono" font-size="14" font-weight="500" fill="#8B7400" x="555" y="127" text-anchor="middle">15cm</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#5A5A5A" x="555" y="140" text-anchor="middle">2× STIXX 50 + hangers</text>
-  <rect x="500" y="165" width="110" height="36" rx="6" fill="#FFF9DB" stroke="#B89800" stroke-dasharray="4,2"/>
-  <text font-family="JetBrains Mono" font-size="14" font-weight="500" fill="#8B7400" x="555" y="182" text-anchor="middle">25cm</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#5A5A5A" x="555" y="195" text-anchor="middle">LED clearance (min)</text>
-  <rect x="500" y="240" width="130" height="50" rx="8" fill="#E6F4E0" stroke="#3D7A2F" stroke-width="2"/>
-  <text font-family="JetBrains Mono" font-size="18" font-weight="500" fill="#235318" x="565" y="263" text-anchor="middle">78cm</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" font-weight="600" fill="#235318" x="565" y="281" text-anchor="middle">USABLE PLANT ZONE</text>
-  <rect x="500" y="430" width="110" height="36" rx="6" fill="#F1EFE8" stroke="#E2E0DB"/>
-  <text font-family="JetBrains Mono" font-size="14" font-weight="500" fill="#5C3A1E" x="555" y="447" text-anchor="middle">30cm</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#5A5A5A" x="555" y="460" text-anchor="middle">7L pot + riser</text>
-  <!-- Inside tent zones -->
-  <rect x="202" y="47" width="256" height="72" rx="2" fill="#E3EDF8" opacity=".3"/>
-  <rect x="230" y="58" width="80" height="25" rx="5" fill="#E3EDF8" stroke="#7BA3CC" stroke-width="1.5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="8" fill="#3A6FA0" x="270" y="75" text-anchor="middle">CAN-Lite</text>
-  <circle cx="360" cy="70" r="14" fill="none" stroke="#7BA3CC" stroke-width="1.5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="7" fill="#3A6FA0" x="360" y="73" text-anchor="middle">RK125</text>
-  <rect x="202" y="119" width="256" height="40" rx="2" fill="#FFF9DB" opacity=".3"/>
-  <rect x="240" y="128" width="180" height="8" rx="4" fill="#E8C820" stroke="#B89800"/>
-  <rect x="240" y="142" width="180" height="8" rx="4" fill="#E8C820" stroke="#B89800"/>
-  <rect x="202" y="225" width="256" height="195" rx="2" fill="#E6F4E0" opacity=".2"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="600" fill="#235318" x="330" y="320" text-anchor="middle">PLANT ZONE</text>
-  <line x1="210" y1="365" x2="450" y2="365" stroke="#B89800" stroke-width="1.5" stroke-dasharray="6,4"/>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#B89800" x="330" y="380" text-anchor="middle">ScrOG net</text>
-  <line x1="210" y1="395" x2="450" y2="395" stroke="#D84315" stroke-width="1" stroke-dasharray="3,3"/>
-  <text font-family="Source Sans 3,system-ui" font-size="8" fill="#D84315" x="330" y="410" text-anchor="middle">↑ Flip trigger: 25–35cm above pot</text>
-  <rect x="280" y="430" width="100" height="55" rx="4" fill="#C89B6E" opacity=".3" stroke="#5C3A1E" stroke-width="1.5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#5C3A1E" x="330" y="455" text-anchor="middle">7L pot</text>
-  <text font-family="Source Sans 3,system-ui" font-size="8" fill="#5C3A1E" x="330" y="470" text-anchor="middle">+ riser tray</text>
-  <!-- Left summary -->
-  <text font-family="Source Sans 3,system-ui" font-size="10" font-weight="700" fill="#235318" x="100" y="500" text-anchor="middle">30+15+25+78+30 = 178cm</text>
-</svg>
-<div class="ill-cap">Side view height budget. With 78cm usable, flip when canopy reaches 25–35cm. At 50–80% stretch, a 35cm canopy becomes 53–63cm final — right at the edge. Flip earlier rather than later.</div>
-</div>
+  <h3>The First 48 Hours</h3>
 
-<div class="warn"><b>Flip trigger:</b> With only 78cm of plant zone, flip at 25–35cm canopy height. Indica-dominant genetics stretch 50–80%, so a 35cm canopy at flip becomes ~53–63cm final. You can raise the light, but you can't shrink the plant.</div>
+  <p>The clone has just arrived after transport. It has been topped once and is likely in a small pot (1–3L). Your first job is <strong>not</strong> to optimize — it's to not kill it. Resist the urge to repot, feed, or blast it with light. The plant is stressed from transport and needs a gentle introduction to its new environment.</p>
 
-<h2>4. Training — Single-Plant ScrOG</h2>
+  <div class="card-grid-3">
+    <div class="card" style="border-color:rgba(181,76,76,0.35)">
+      <div class="card-label">Immediate</div>
+      <div class="card-value" style="font-size:0.95rem">Place in tent, STIXX at 20%</div>
+      <p class="card-desc">Water only if soil is bone dry. No nutrients.</p>
+    </div>
+    <div class="card" style="border-color:rgba(201,168,76,0.35)">
+      <div class="card-label">First 24h</div>
+      <div class="card-value" style="font-size:0.95rem">Monitor for wilt</div>
+      <p class="card-desc">Check VPD 0.4–0.8 kPa. Dome with cut PET bottle if RH is low.</p>
+    </div>
+    <div class="card" style="border-color:rgba(74,124,63,0.35)">
+      <div class="card-label">48h</div>
+      <div class="card-value" style="font-size:0.95rem">If perking up → proceed</div>
+      <p class="card-desc">Leaves angling upward, firm stem = good to move to Week 1 plan.</p>
+    </div>
+  </div>
 
-<p>One plant filling 80×80cm requires 6–8 weeks of veg (not 4–5 as in multi-plant setups). The clone has been topped once — you're working with at least two main branches that become your canopy framework. Goal: 30–50 evenly spaced bud sites across a flat canopy.</p>
+  <h3>Week 1 — Stabilize</h3>
 
-<div class="ill">
-<svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg">
-  <rect width="760" height="280" fill="#FAFAF8"/>
-  <text font-family="Source Sans 3,system-ui" font-size="14" font-weight="700" fill="#235318" x="380" y="24" text-anchor="middle">TRAINING PROGRESSION — Topped Clone → ScrOG Canopy</text>
-  <!-- Stage 1 -->
-  <rect x="20" y="42" width="170" height="210" rx="8" fill="#fff" stroke="#E2E0DB"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="700" fill="#235318" x="105" y="62" text-anchor="middle">CURRENT</text>
-  <rect x="85" y="195" width="40" height="25" rx="3" fill="#C89B6E" opacity=".3" stroke="#5C3A1E"/>
-  <line x1="105" y1="195" x2="105" y2="155" stroke="#3D7A2F" stroke-width="3"/>
-  <line x1="105" y1="155" x2="75" y2="115" stroke="#3D7A2F" stroke-width="2.5"/>
-  <line x1="105" y1="155" x2="135" y2="115" stroke="#3D7A2F" stroke-width="2.5"/>
-  <ellipse cx="70" cy="108" rx="14" ry="8" fill="#3D7A2F" opacity=".5"/>
-  <ellipse cx="140" cy="108" rx="14" ry="8" fill="#3D7A2F" opacity=".5"/>
-  <line x1="100" y1="153" x2="110" y2="157" stroke="#D84315" stroke-width="2"/>
-  <text font-family="Source Sans 3,system-ui" font-size="8" fill="#D84315" x="105" y="148" text-anchor="middle">topped</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="105" y="242" text-anchor="middle">Wk 0</text>
-  <!-- Arrow -->
-  <text font-size="18" fill="#B89800" x="198" y="155">→</text>
-  <!-- Stage 2 -->
-  <rect x="215" y="42" width="170" height="210" rx="8" fill="#fff" stroke="#E2E0DB"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="700" fill="#235318" x="300" y="62" text-anchor="middle">LST + 2ND TOP</text>
-  <rect x="280" y="195" width="40" height="25" rx="3" fill="#C89B6E" opacity=".3" stroke="#5C3A1E"/>
-  <line x1="300" y1="195" x2="300" y2="175" stroke="#3D7A2F" stroke-width="3"/>
-  <path d="M300,175 Q280,170 250,162" stroke="#3D7A2F" stroke-width="2.5" fill="none"/>
-  <path d="M300,175 Q320,170 350,162" stroke="#3D7A2F" stroke-width="2.5" fill="none"/>
-  <line x1="250" y1="162" x2="237" y2="125" stroke="#3D7A2F" stroke-width="2"/>
-  <line x1="250" y1="162" x2="260" y2="123" stroke="#3D7A2F" stroke-width="2"/>
-  <line x1="350" y1="162" x2="340" y2="123" stroke="#3D7A2F" stroke-width="2"/>
-  <line x1="350" y1="162" x2="363" y2="125" stroke="#3D7A2F" stroke-width="2"/>
-  <ellipse cx="237" cy="118" rx="9" ry="6" fill="#3D7A2F" opacity=".5"/>
-  <ellipse cx="260" cy="116" rx="9" ry="6" fill="#3D7A2F" opacity=".5"/>
-  <ellipse cx="340" cy="116" rx="9" ry="6" fill="#3D7A2F" opacity=".5"/>
-  <ellipse cx="363" cy="118" rx="9" ry="6" fill="#3D7A2F" opacity=".5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="300" y="242" text-anchor="middle">Wk 2–3</text>
-  <!-- Arrow -->
-  <text font-size="18" fill="#B89800" x="393" y="155">→</text>
-  <!-- Stage 3 -->
-  <rect x="410" y="42" width="170" height="210" rx="8" fill="#fff" stroke="#E2E0DB"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="700" fill="#235318" x="495" y="62" text-anchor="middle">ScrOG FILLING</text>
-  <line x1="425" y1="145" x2="565" y2="145" stroke="#B89800" stroke-width="1.5"/>
-  <ellipse cx="435" cy="138" rx="7" ry="5" fill="#3D7A2F" opacity=".5"/>
-  <ellipse cx="455" cy="136" rx="7" ry="5" fill="#3D7A2F" opacity=".6"/>
-  <ellipse cx="475" cy="139" rx="7" ry="5" fill="#3D7A2F" opacity=".5"/>
-  <ellipse cx="495" cy="137" rx="7" ry="5" fill="#3D7A2F" opacity=".6"/>
-  <ellipse cx="515" cy="140" rx="7" ry="5" fill="#3D7A2F" opacity=".5"/>
-  <ellipse cx="535" cy="138" rx="7" ry="5" fill="#3D7A2F" opacity=".6"/>
-  <ellipse cx="555" cy="141" rx="7" ry="5" fill="#3D7A2F" opacity=".4"/>
-  <text font-family="Source Sans 3,system-ui" font-size="8" fill="#B89800" x="495" y="125" text-anchor="middle">~60% filled</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="495" y="242" text-anchor="middle">Wk 4–7</text>
-  <!-- Arrow -->
-  <text font-size="18" fill="#B89800" x="588" y="155">→</text>
-  <!-- Stage 4 -->
-  <rect x="605" y="42" width="140" height="210" rx="8" fill="#E6F4E0" stroke="#3D7A2F" stroke-width="1.5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="700" fill="#235318" x="675" y="62" text-anchor="middle">FLIP DAY</text>
-  <line x1="620" y1="145" x2="730" y2="145" stroke="#B89800" stroke-width="1.5"/>
-  <circle cx="630" cy="139" r="5" fill="#3D7A2F" opacity=".7"/>
-  <circle cx="645" cy="137" r="5" fill="#3D7A2F" opacity=".6"/>
-  <circle cx="660" cy="139" r="5" fill="#3D7A2F" opacity=".7"/>
-  <circle cx="675" cy="136" r="5" fill="#3D7A2F" opacity=".6"/>
-  <circle cx="690" cy="139" r="5" fill="#3D7A2F" opacity=".7"/>
-  <circle cx="705" cy="137" r="5" fill="#3D7A2F" opacity=".6"/>
-  <circle cx="718" cy="140" r="4" fill="#3D7A2F" opacity=".5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="9" font-weight="600" fill="#235318" x="675" y="120" text-anchor="middle">90%+ filled · 30–50 sites</text>
-  <text font-family="Source Sans 3,system-ui" font-size="8" fill="#3D7A2F" x="675" y="165" text-anchor="middle">Lollipop below net</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="675" y="242" text-anchor="middle">Wk 6–8</text>
-</svg>
-<div class="ill-cap">Training progression. With one plant, the net takes 6–8 weeks to fill — be patient. Every empty square at flip wastes photons from your 108W.</div>
-</div>
+  <div class="protocol-timeline">
+    <div class="protocol-phase active">
+      <div class="protocol-week">Days 1–3 · Gentle Introduction</div>
+      <div class="protocol-title">Light at 20%, water only if dry</div>
+      <div class="protocol-body">Single STIXX 50 at 20% intensity, 55cm+ from canopy. VPD target: 0.4–0.8 kPa (24–25°C, 65–70% RH). If RH is too low, a cut PET bottle dome over the pot buys time while the plant stabilizes. <strong>No nutrients, no transplanting, no training.</strong> Let the root system settle and re-establish turgor pressure lost during transit.</div>
+    </div>
+    <div class="protocol-phase">
+      <div class="protocol-week">Day 3 · First Light Increase</div>
+      <div class="protocol-title">Raise dimmer to 40% if plant looks healthy</div>
+      <div class="protocol-body">Healthy signs: leaves pointing slightly upward ("praying"), new growth visible at the topped site, stem firm and green. If wilting or drooping: hold at 20% another 2 days. Don't chase a schedule — chase the plant's response. The plant tells you when it's ready.</div>
+    </div>
+    <div class="protocol-phase critical">
+      <div class="protocol-week">Note on Clone Timing — Revised</div>
+      <div class="protocol-title">Take backup clones when material is available: typically weeks 4–7</div>
+      <div class="protocol-body"><strong>Do not take clones from a freshly transported, recovering clone in the first week.</strong> A stressed plant provides stressed cuttings that are unlikely to root successfully. Instead: take 2–4 cuttings when sufficient lower branching is available — typically weeks 4–7 from a topped clone once it has recovered and is actively growing. If abundant lower branching appears earlier, take clones earlier. Lollipop material (week 7) is ideal: you're removing it anyway, and it's already been light-hardened. Mark weeks 5–7 as your hard window. Two rooted clones before flip. No exceptions.</div>
+    </div>
+    <div class="protocol-phase warn">
+      <div class="protocol-week">Days 6–7 · Second Bar Arrives</div>
+      <div class="protocol-title">Install 2nd STIXX 50</div>
+      <div class="protocol-body">Mount the second bar parallel to the first, 20–25cm apart. Run both at 40% initially. Two bars at 40% ≈ 43W actual draw — gentle, even coverage across the 80×80 footprint without overwhelming the recovering plant.</div>
+    </div>
+  </div>
 
-<h2>5. Clone Backup — Non-Negotiable</h2>
+  <h3>The Transplant — Day 7–10</h3>
 
-<div class="crit"><b>TAKE CUTTINGS BEFORE FLIPPING:</b> Take 2–4 cuttings from lower branches during veg weeks 5–7 (lollipop material = free clones). Cut 10–15cm at 45° below a node, scrape stem 2cm, dip in Clonex or honey, place in jiffy pellet or water glass with cut PET bottle dome. 80%+ RH, 22–25°C, 7–14 days to root. Keep rooted clones in 1L pots under 18/6 light. Two healthy rooted clones = genetic insurance. No exceptions before flipping.</div>
+  <p>If the clone arrived in a small pot (1–3L), transplant to a 7–11L fabric pot with your prepared living soil mix. This is your single opportunity to apply mycorrhizae directly to the rootball during this grow.</p>
 
-<h2>6. Nutrients — Organic Living Soil</h2>
+  <div class="callout">
+    <div class="callout-label">Transplant Protocol</div>
+    <p>Water the existing pot 1 hour before transplant — a moist rootball holds together during the move. Fill the new pot halfway with mix. Add mycorrhizae inoculant directly on the soil layer — <strong>follow product directions (typically 5–10g per transplant for DYNOMYCO; check your product label)</strong>. Place the rootball directly on the inoculant. Fill around with remaining mix. Water gently until 5–10% runoff. Do NOT pack soil — roots need air pockets. Living soil benefits from minimal runoff to protect the beneficial biology.</p>
+  </div>
 
-<div class="warn"><b>Tomato earth pH risk:</b> Austrian pre-fertilized tomato earth often runs pH 6.5–7.5 with mineral salt pre-loading. Test pH before use. If above 6.8, limit to 25% of mix and water with pH 6.0–6.3 water for the first two weeks.</div>
+  <div class="callout callout-red">
+    <div class="callout-label">Warning · Tomato Earth pH Check</div>
+    <p>Austrian Tomatenerde (Tomato Earth) often runs pH 6.5–7.5 with mineral salt pre-loading. Test runoff pH within 24 hours of transplant. If above 6.8, water with pH 6.0–6.3 water for the next two weeks. Most "deficiency" symptoms in the first month are pH lockout from high-pH pre-fertilized soil, not actual nutrient absence.</p>
+  </div>
 
-<table>
-<tr><th>Week</th><th>Stage</th><th>Feed</th><th>CalMag</th><th>Notes</th></tr>
-<tr><td>1–2</td><td>Clone settling</td><td>Water only</td><td>—</td><td>Soil has enough. Don't stress roots.</td></tr>
-<tr><td>3–4</td><td>Early veg</td><td>Light top-dress / compost tea</td><td>0.5 ml/L</td><td>Begin CalMag after 2 weeks under LED</td></tr>
-<tr><td>5–7</td><td>Veg / ScrOG</td><td>Full organic feed, worm castings</td><td>1 ml/L</td><td>Feed the biology, not the plant</td></tr>
-<tr class="hl"><td>8</td><td>Flip</td><td>Reduce N, increase P/K</td><td>1 ml/L</td><td>Transition to bloom amendments</td></tr>
-<tr><td>9–11</td><td>Early flower</td><td>Bloom nutrients, bone meal</td><td>1 ml/L</td><td>Stretch phase, some N still needed</td></tr>
-<tr><td>12–14</td><td>Mid flower</td><td>Peak bloom feeding</td><td>0.5 ml/L</td><td>Watch for burnt tips (overfeeding)</td></tr>
-<tr><td>15–16</td><td>Late flower</td><td>Taper down</td><td>—</td><td>Let reserves deplete naturally</td></tr>
-<tr><td>17</td><td>Pre-harvest</td><td>Plain water 3–5 days</td><td>—</td><td>Organic needs minimal flush</td></tr>
-</table>
+  <h3>Week 2 — Recover, Train, Ramp</h3>
 
-<div class="da"><b>Devil's advocate — CalMag under LED:</b> Non-negotiable. LEDs drive faster photosynthesis with less radiant heat, reducing passive calcium uptake. Even in organic soil, LED-grown plants frequently show mid-flower calcium deficiency. Start at 0.5 ml/L week 3, increase to 1 ml/L during peak veg/early flower. A €5 bottle prevents 10–30% yield loss.</div>
+  <div class="protocol-timeline">
+    <div class="protocol-phase">
+      <div class="protocol-week">Days 8–10 · Post-Transplant Recovery</div>
+      <div class="protocol-title">Hold light at 40%, monitor for transplant shock</div>
+      <div class="protocol-body">Transplant shock shows as drooping for 1–3 days. This is normal. Don't water again until the pot feels light on the lift test. The roots are exploring the new soil — let them seek moisture rather than drowning them. VPD: 0.6–0.8 kPa.</div>
+    </div>
+    <div class="protocol-phase warn">
+      <div class="protocol-week">Day 10 · CalMag Watch Begins</div>
+      <div class="protocol-title">Monitor for early deficiency signs</div>
+      <div class="protocol-body">Under LED, calcium demand increases faster than under natural light — theoretically due to reduced transpiration at equivalent PPFD compared to HPS (no cannabis-specific controlled comparison exists, but the community consensus is strong). Watch for: random brown necrotic spots on lower/middle leaves (Ca deficiency), or interveinal yellowing starting at leaf margins (Mg deficiency). If either appears, start <strong>0.5 ml/L of a standard 3-2-0 CalMag formula (e.g., CaliMagic)</strong> immediately. Prevention beats treatment: start CalMag at day 14 regardless of symptoms.</div>
+    </div>
+    <div class="protocol-phase active">
+      <div class="protocol-week">Days 10–12 · The Fun Begins</div>
+      <div class="protocol-title">Begin LST training</div>
+      <div class="protocol-body">The two branches from the topped site should now be 8–15cm long and showing active growth. Gently bend them outward and down toward horizontal using soft ties or plant clips. <strong>Only bend green, flexible stems — never lignified (woody) stems.</strong> Goal: expose lower nodes to light, creating future bud sites. The 90° rule: bend the main branch to horizontal and all side shoots become equal vertical growth points.</div>
+    </div>
+    <div class="protocol-phase">
+      <div class="protocol-week">Days 12–14 · Full Veg Intensity</div>
+      <div class="protocol-title">Ramp both bars to 60–80%</div>
+      <div class="protocol-body">By day 14 the plant should be actively growing — visible new leaf sets appearing every 1–2 days. Ramp STIXX to 60–80% (65–86W actual). Lower hanging height to 35–40cm. VPD shifts to 0.8–1.0 kPa (25°C, 55–60% RH). Begin light organic feeding: compost tea or a top-dress of worm castings applied around the pot perimeter.</div>
+    </div>
+  </div>
 
-<h2>7. VPD Targets</h2>
+  <h3>Day 14 Checkpoint</h3>
 
-<div class="ill">
-<svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg">
-  <rect width="760" height="200" fill="#FAFAF8"/>
-  <text font-family="Source Sans 3,system-ui" font-size="14" font-weight="700" fill="#235318" x="380" y="24" text-anchor="middle">VPD TARGETS BY GROWTH STAGE</text>
-  <rect x="30" y="42" width="165" height="140" rx="10" fill="#E3EDF8" stroke="#7BA3CC" stroke-width="1.5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="700" fill="#3A6FA0" x="112" y="62" text-anchor="middle">Clone Settling</text>
-  <text font-family="Playfair Display,serif" font-size="24" font-weight="700" fill="#3A6FA0" x="112" y="92" text-anchor="middle">0.4–0.8</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#3A6FA0" x="112" y="108" text-anchor="middle">kPa</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="112" y="130" text-anchor="middle">24–25°C / 65–70% RH</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="112" y="150" text-anchor="middle">Door open, fan lowest</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="112" y="165" text-anchor="middle">Humidity dome if needed</text>
-  <rect x="210" y="42" width="165" height="140" rx="10" fill="#E6F4E0" stroke="#3D7A2F" stroke-width="1.5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="700" fill="#235318" x="292" y="62" text-anchor="middle">Vegetative</text>
-  <text font-family="Playfair Display,serif" font-size="24" font-weight="700" fill="#235318" x="292" y="92" text-anchor="middle">0.8–1.2</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#235318" x="292" y="108" text-anchor="middle">kPa</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="292" y="130" text-anchor="middle">24–26°C / 55–60% RH</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="292" y="150" text-anchor="middle">Fan low-medium</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="292" y="165" text-anchor="middle">Open intake vent</text>
-  <rect x="390" y="42" width="165" height="140" rx="10" fill="#FFF9DB" stroke="#B89800" stroke-width="1.5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="700" fill="#8B7400" x="472" y="62" text-anchor="middle">Early Flower</text>
-  <text font-family="Playfair Display,serif" font-size="24" font-weight="700" fill="#8B7400" x="472" y="92" text-anchor="middle">1.0–1.4</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#8B7400" x="472" y="108" text-anchor="middle">kPa</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="472" y="130" text-anchor="middle">24–25°C / 50–55% RH</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="472" y="150" text-anchor="middle">Increase fan speed</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="472" y="165" text-anchor="middle">Door closed (stealth)</text>
-  <rect x="570" y="42" width="165" height="140" rx="10" fill="#FFEBEE" stroke="#B71C1C" stroke-width="1.5"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="700" fill="#B71C1C" x="652" y="62" text-anchor="middle">Late Flower</text>
-  <text font-family="Playfair Display,serif" font-size="24" font-weight="700" fill="#B71C1C" x="652" y="92" text-anchor="middle">1.2–1.6</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#B71C1C" x="652" y="108" text-anchor="middle">kPa</text>
-  <text font-family="Source Sans 3,system-ui" font-size="10" fill="#5A5A5A" x="652" y="130" text-anchor="middle">21–23°C / 40–45% RH</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#B71C1C" x="652" y="150" text-anchor="middle">Max fan, door closed</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#B71C1C" x="652" y="165" text-anchor="middle">Bud rot prevention zone</text>
-</svg>
-<div class="ill-cap">VPD targets. Measure at canopy level with digital hygrometer. Austrian summer may need a small dehumidifier for late flower. Schedule lights-on during hottest hours.</div>
-</div>
+  <div class="card-grid-3">
+    <div class="card" style="border-color:rgba(74,124,63,0.4)">
+      <div class="card-label">Growth Check</div>
+      <div class="card-value" style="font-size:0.95rem">2–3 new node pairs</div>
+      <p class="card-desc">Active growth indicates a healthy root system. If stalled: check pH, lift test watering, root zone temp (18–22°C optimal).</p>
+    </div>
+    <div class="card" style="border-color:rgba(74,124,63,0.4)">
+      <div class="card-label">Genetics Check</div>
+      <div class="card-value" style="font-size:0.95rem">Clone plan in place</div>
+      <p class="card-desc">If insufficient branching yet, mark weeks 5–7 as the hard deadline. Two rooted clones minimum before flipping.</p>
+    </div>
+    <div class="card" style="border-color:rgba(74,124,63,0.4)">
+      <div class="card-label">Equipment Check</div>
+      <div class="card-value" style="font-size:0.95rem">Both bars installed</div>
+      <p class="card-desc">Fan + AKF running. Timers installed. 24hr environment data logged and within targets.</p>
+    </div>
+  </div>
 
-<h2>8. IPM — Three Layers for €13</h2>
+  <div class="callout callout-purple">
+    <div class="callout-label">Devil's Advocate · First 14 Days Risk Ranking</div>
+    <p>The biggest risk in the first 14 days isn't underfeeding or wrong light height — it's <strong>overwatering</strong>. A freshly transplanted clone in living soil has enough nutrients for 2–3 weeks. The lift test (heavy pot = wait, light pot = water) prevents 70% of early-stage problems. The second biggest risk is not securing backup clones when material becomes available. Everything else is recoverable. A dead clone is not.</p>
+  </div>
 
-<div class="g3">
-  <div class="cd" style="background:#E6F4E0"><div class="lb">Physical</div><div class="vl">Yellow sticky traps (€3)</div><p style="font-size:.82rem;margin-top:4px">2–3 at canopy level. Early warning for gnats, whitefly, thrips.</p></div>
-  <div class="cd" style="background:#FFF9DB"><div class="lb">Biological</div><div class="vl">Neem oil spray (€5)</div><p style="font-size:.82rem;margin-top:4px">Veg only (taints flower). 5ml/L every 10–14 days. Stops mites, aphids.</p></div>
-  <div class="cd" style="background:#E3EDF8"><div class="lb">Environmental</div><div class="vl">Diatomaceous earth (€5)</div><p style="font-size:.82rem;margin-top:4px">Thin layer on soil surface. Kills fungus gnat larvae. Food-grade only.</p></div>
-</div>
+</section>
+<div class="divider"></div>
 
-<h2>9. Harvest — Trichomes, Not Calendar</h2>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CHAPTER III: EQUIPMENT & LIGHT                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Chapter III · Equipment &amp; Light</div>
+    <h2>What <span>108W</span> Delivers</h2>
+    <p class="section-intro">Two Sanlight STIXX 50 bars produce approximately 270 µmol/s total PPF at ~2.5 µmol/J efficiency. In the HS80's reflective interior at the correct hanging distance, that translates to roughly 350–420 µmol/m²/s average PPFD across the 80×80cm footprint.</p>
+  </div>
 
-<div class="ill">
-<svg viewBox="0 0 760 180" xmlns="http://www.w3.org/2000/svg">
-  <rect width="760" height="180" fill="#FAFAF8"/>
-  <text font-family="Source Sans 3,system-ui" font-size="14" font-weight="700" fill="#235318" x="380" y="24" text-anchor="middle">TRICHOME HARVEST WINDOW</text>
-  <rect x="40" y="80" width="680" height="6" rx="3" fill="#E2E0DB"/>
-  <rect x="40" y="80" width="170" height="6" rx="3" fill="#E3EDF8"/>
-  <text font-family="Source Sans 3,system-ui" font-size="10" font-weight="700" fill="#3A6FA0" x="125" y="68" text-anchor="middle">Too Early</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#5A5A5A" x="125" y="110" text-anchor="middle">All clear / glassy</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="125" y="128" text-anchor="middle">Keep waiting</text>
-  <rect x="210" y="80" width="170" height="6" rx="3" fill="#FFF9DB"/>
-  <text font-family="Source Sans 3,system-ui" font-size="10" font-weight="700" fill="#8B7400" x="295" y="68" text-anchor="middle">Peak THC</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#5A5A5A" x="295" y="110" text-anchor="middle">Mostly milky, minimal amber</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="295" y="128" text-anchor="middle">Cerebral, can push further</text>
-  <rect x="375" y="68" width="180" height="30" rx="8" fill="#E6F4E0" stroke="#3D7A2F" stroke-width="2"/>
-  <rect x="380" y="80" width="170" height="6" rx="3" fill="#3D7A2F"/>
-  <text font-family="Source Sans 3,system-ui" font-size="11" font-weight="700" fill="#235318" x="465" y="58" text-anchor="middle">★ HARVEST HERE</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" font-weight="600" fill="#235318" x="465" y="115" text-anchor="middle">70–80% milky, 20–30% amber</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#3D7A2F" x="465" y="133" text-anchor="middle">Balanced potency + body</text>
-  <rect x="550" y="80" width="170" height="6" rx="3" fill="#FFEBEE"/>
-  <text font-family="Source Sans 3,system-ui" font-size="10" font-weight="700" fill="#B71C1C" x="635" y="68" text-anchor="middle">Sedative</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#5A5A5A" x="635" y="110" text-anchor="middle">50%+ amber → CBN</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="635" y="128" text-anchor="middle">Heavy couch-lock only</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="125" y="168" text-anchor="middle">Flower wk 6–7</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="295" y="168" text-anchor="middle">Flower wk 7–8</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" font-weight="600" fill="#235318" x="465" y="168" text-anchor="middle">Flower wk 8–9</text>
-  <text font-family="Source Sans 3,system-ui" font-size="9" fill="#999" x="635" y="168" text-anchor="middle">Flower wk 10+</text>
-</svg>
-<div class="ill-cap">Check calyxes (bud pods), not sugar leaves. 60× jeweler's loupe. Start checking at flower week 6. Cut just before lights-on — THC peaks during dark period.</div>
-</div>
+  <!-- Light pipeline SVG -->
+  <div class="ill">
+  <svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg">
+    <rect width="760" height="200" fill="#111611"/>
+    <text font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#6db35f" x="380" y="28" text-anchor="middle">LIGHT OUTPUT — 2× Sanlight STIXX 50 in HS80</text>
+    <rect x="30" y="50" width="200" height="130" rx="10" fill="rgba(201,168,76,0.07)" stroke="#8a7234" stroke-width="1.5"/>
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#c9a84c" x="130" y="72" text-anchor="middle">RAW OUTPUT</text>
+    <text font-family="Cormorant Garamond,serif" font-size="30" font-weight="700" fill="#c9a84c" x="130" y="110" text-anchor="middle">108W</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="130" y="130" text-anchor="middle">~270 µmol/s PPF</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="130" y="148" text-anchor="middle">~2.5 µmol/J efficiency</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="130" y="168" text-anchor="middle">2× 54W bars, Samsung diodes</text>
+    <text font-family="Cormorant Garamond,serif" font-size="24" fill="#8a7234" x="244" y="120">→</text>
+    <rect x="262" y="50" width="214" height="130" rx="10" fill="rgba(74,124,63,0.10)" stroke="#4a7c3f" stroke-width="1.5"/>
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#6db35f" x="369" y="72" text-anchor="middle">AT CANOPY (30–40cm)</text>
+    <text font-family="Cormorant Garamond,serif" font-size="20" font-weight="700" fill="#6db35f" x="369" y="105" text-anchor="middle">350–420 PPFD</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="369" y="125" text-anchor="middle">µmol/m²/s · 12h DLI ≈ 15–18</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#9ca38e" x="369" y="143" text-anchor="middle">~45% of highest tested research levels</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="369" y="168" text-anchor="middle">(Rodriguez-Morrison et al. 2021)</text>
+    <text font-family="Cormorant Garamond,serif" font-size="24" fill="#4a7c3f" x="491" y="120">→</text>
+    <rect x="510" y="50" width="225" height="130" rx="10" fill="rgba(74,124,63,0.18)" stroke="#4a7c3f" stroke-width="2"/>
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#e8e4d9" x="622" y="72" text-anchor="middle">YIELD RANGE</text>
+    <text font-family="Cormorant Garamond,serif" font-size="34" font-weight="700" fill="#c9a84c" x="622" y="115" text-anchor="middle">80–130g</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#e8e4d9" x="622" y="138" text-anchor="middle">0.7–1.2 g/W with ScrOG</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="622" y="160" text-anchor="middle">Single plant, organic living soil</text>
+  </svg>
+  <div class="ill-cap">Light pipeline from wall watts to realistic yield. Training and canopy management are critical at this wattage — every wasted photon hurts proportionally more than at 300W+. Filling the ScrOG net is the primary yield lever available to you.</div>
+  </div>
 
-<h2>10. Drying & Curing</h2>
+  <div class="callout callout-blue">
+    <div class="callout-label">Research Note · DLI &amp; Yield Saturation</div>
+    <p>Your STIXX 50 setup delivers approximately 45% of the highest tested DLI levels in published cannabis lighting research (Rodriguez-Morrison et al. 2021, <em>Frontiers in Plant Science</em>), where no yield saturation was observed at those maximum levels. More light would likely produce more yield — but 108W is your constraint, and maximizing canopy fill via ScrOG is the correct response.</p>
+  </div>
 
-<p>The tent becomes your drying chamber. Remove LEDs. Hang whole branches from the crossbar. Monkey Fan on lowest — never pointed at buds.</p>
+  <div class="callout callout-blue">
+    <div class="callout-label">Research Note · 13h Photoperiod Option</div>
+    <p>Ahrens et al. (2024, <em>Plants</em>) found a 13h photoperiod produced 38%+ more THC yield versus 12h with no potency loss across all 10 cultivars tested. Consider running <strong>13/11 instead of 12/12</strong> for the flowering phase. The additional hour allows significantly more photosynthesis per day while still reliably triggering and maintaining flowering in photoperiod genetics. Worth testing on your first run with this cut.</p>
+  </div>
 
-<table>
-<tr><th>Phase</th><th>Conditions</th><th>Duration</th><th>Test</th></tr>
-<tr><td>Drying</td><td>15–18°C, 55–60% RH, total darkness</td><td>10–14 days</td><td>Small stems snap cleanly</td></tr>
-<tr><td>Cure wk 1</td><td>Mason jars, 60–65% RH, dark</td><td>Burp 2–3× daily</td><td>No ammonia on opening</td></tr>
-<tr><td>Cure wk 2</td><td>Same</td><td>Burp once daily</td><td>Boveda 62% if below 55%</td></tr>
-<tr class="hl"><td>Cure wk 3+</td><td>Same</td><td>Burp weekly. Min 4 wk.</td><td>Smooth smoke, complex aroma</td></tr>
-</table>
+  <h3>Height Budget — 178cm Breakdown</h3>
 
-<h2>11. Complete Timeline</h2>
+  <!-- Height budget SVG -->
+  <div class="ill">
+  <svg viewBox="0 0 760 520" xmlns="http://www.w3.org/2000/svg">
+    <rect width="760" height="520" fill="#111611"/>
+    <text font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#6db35f" x="380" y="28" text-anchor="middle">HEIGHT BUDGET — Secret Jardin HS80 R2 · 178cm · Side View</text>
+    <!-- Tent outline -->
+    <rect x="200" y="45" width="260" height="450" rx="4" fill="rgba(17,22,17,0.8)" stroke="#4a7c3f" stroke-width="2.5"/>
+    <!-- Zone labels right -->
+    <rect x="500" y="55" width="115" height="38" rx="6" fill="rgba(74,124,158,0.08)" stroke="#4a7c9e"/>
+    <text font-family="JetBrains Mono,monospace" font-size="14" font-weight="500" fill="#4a7c9e" x="557" y="73" text-anchor="middle">30cm</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="557" y="88" text-anchor="middle">AKF + CAN RK125</text>
+    <rect x="500" y="112" width="115" height="38" rx="6" fill="rgba(201,168,76,0.07)" stroke="#8a7234"/>
+    <text font-family="JetBrains Mono,monospace" font-size="14" font-weight="500" fill="#c9a84c" x="557" y="130" text-anchor="middle">15cm</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="557" y="145" text-anchor="middle">2× STIXX 50 + hangers</text>
+    <rect x="500" y="168" width="115" height="40" rx="6" fill="rgba(201,168,76,0.05)" stroke="#8a7234" stroke-dasharray="4,2"/>
+    <text font-family="JetBrains Mono,monospace" font-size="14" font-weight="500" fill="#c9a84c" x="557" y="186" text-anchor="middle">30cm</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="557" y="200" text-anchor="middle">LED clearance (min 30cm)</text>
+    <rect x="492" y="244" width="142" height="52" rx="8" fill="rgba(74,124,63,0.15)" stroke="#4a7c3f" stroke-width="2"/>
+    <text font-family="JetBrains Mono,monospace" font-size="18" font-weight="500" fill="#6db35f" x="563" y="268" text-anchor="middle">73cm</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" font-weight="500" fill="#6db35f" x="563" y="286" text-anchor="middle">USABLE PLANT ZONE</text>
+    <rect x="500" y="432" width="115" height="38" rx="6" fill="rgba(30,36,30,0.8)" stroke="#2a322a"/>
+    <text font-family="JetBrains Mono,monospace" font-size="14" font-weight="500" fill="#9ca38e" x="557" y="450" text-anchor="middle">30cm</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="557" y="465" text-anchor="middle">7L pot + riser</text>
+    <!-- Inside tent zones -->
+    <rect x="202" y="47" width="256" height="74" rx="2" fill="rgba(74,124,158,0.06)"/>
+    <rect x="202" y="121" width="256" height="42" rx="2" fill="rgba(201,168,76,0.05)"/>
+    <rect x="240" y="130" width="180" height="8" rx="4" fill="#c9a84c" opacity=".8" stroke="#8a7234"/>
+    <rect x="240" y="144" width="180" height="8" rx="4" fill="#c9a84c" opacity=".8" stroke="#8a7234"/>
+    <rect x="202" y="228" width="256" height="195" rx="2" fill="rgba(74,124,63,0.06)"/>
+    <text font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#6db35f" x="330" y="325" text-anchor="middle">PLANT ZONE</text>
+    <line x1="210" y1="368" x2="450" y2="368" stroke="#c9a84c" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#c9a84c" x="330" y="382" text-anchor="middle">ScrOG net</text>
+    <line x1="210" y1="400" x2="450" y2="400" stroke="#b54c4c" stroke-width="1" stroke-dasharray="3,3"/>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#b54c4c" x="330" y="414" text-anchor="middle">↑ Flip trigger: 25–35cm above pot</text>
+    <rect x="282" y="432" width="96" height="55" rx="4" fill="rgba(90,60,30,0.25)" stroke="#5e6556" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="330" y="458" text-anchor="middle">7L pot</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#9ca38e" x="330" y="472" text-anchor="middle">+ riser tray</text>
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#6db35f" x="100" y="500" text-anchor="middle">30+15+30+73+30 = 178cm</text>
+  </svg>
+  <div class="ill-cap">Side view height budget. With ~73cm usable plant zone (using 30cm minimum light clearance for STIXX 50), flip when canopy reaches 25–35cm. At 50–80% stretch, a 35cm canopy at flip becomes 53–63cm final. Flip earlier rather than later. Maintain STIXX bars at 30–40cm minimum from the canopy — 25cm causes bleaching directly under the bar at full power.</div>
+  </div>
 
-<table>
-<tr><th>Wk</th><th>Stage</th><th>Light</th><th>Key Actions</th><th>T / RH</th></tr>
-<tr><td>1–2</td><td>Settle</td><td>1× STIXX, 50%</td><td>Water only. Install 2nd bar.</td><td>24°C/68%</td></tr>
-<tr><td>3</td><td>Veg</td><td>2× STIXX, 60%</td><td>Begin LST. CalMag 0.5ml/L.</td><td>25°C/60%</td></tr>
-<tr><td>4</td><td>Veg</td><td>70%</td><td>2nd topping. Continue LST spread.</td><td>25°C/58%</td></tr>
-<tr><td>5</td><td>Veg</td><td>80%</td><td>Install ScrOG net. Begin tucking.</td><td>25°C/55%</td></tr>
-<tr class="hl"><td>6–7</td><td>ScrOG</td><td>85%</td><td>TAKE CLONES (2–4 cuttings). Tuck weekly.</td><td>25°C/55%</td></tr>
-<tr><td>8</td><td>Flip</td><td>100%</td><td>12/12. Net 90%+. Lollipop. Defoliate 15%.</td><td>25°C/52%</td></tr>
-<tr><td>9–10</td><td>F1–2</td><td>100%</td><td>Stretch. Tuck 7–10 days. Bloom nutes.</td><td>24°C/50%</td></tr>
-<tr><td>11</td><td>F3</td><td>100%</td><td>Day 21 defoliation (max 25%). Stop tuck.</td><td>24°C/48%</td></tr>
-<tr><td>12–13</td><td>F4–5</td><td>100%</td><td>Peak feed. Daily bud rot check.</td><td>23°C/45%</td></tr>
-<tr><td>14</td><td>F6</td><td>100%</td><td>Begin trichome checks. Start taper.</td><td>23°C/42%</td></tr>
-<tr><td>15</td><td>F7</td><td>100%</td><td>Mostly milky. Plain water 3–5 days.</td><td>22°C/40%</td></tr>
-<tr class="hl"><td>16</td><td>F8</td><td>100%</td><td>70%milky/20%amber → harvest before lights-on.</td><td>22°C/38%</td></tr>
-<tr><td>17–18</td><td>Dry</td><td>OFF</td><td>Hang in dark tent. Monkey Fan lowest.</td><td>17°C/58%</td></tr>
-<tr><td>19–24</td><td>Cure</td><td>—</td><td>Mason jars. Burp per schedule. Min 4 wk.</td><td>18°C/62%</td></tr>
-</table>
+  <div class="callout callout-red">
+    <div class="callout-label">Warning · Flip Trigger &amp; Light Distance</div>
+    <p>With only ~73cm of plant zone, flip at 25–35cm canopy height. Indica-dominant genetics stretch 50–80%, so a 35cm canopy at flip becomes 53–63cm final — right at the ceiling limit. <strong>Maintain STIXX 50 bars at a minimum of 30–40cm from the canopy.</strong> Running bars at 25cm causes bleaching and photoinhibition directly under the bar. You can raise the light, but you cannot shrink the plant.</p>
+  </div>
 
-<div class="tip"><b>Total timeline:</b> ~24 weeks clone-to-smoke including 4-week cure. The extra veg time (8 weeks vs 5–6 multi-plant) is the trade-off for single-plant ScrOG — but it means denser, higher-quality flowers from undivided root-zone resources.</div>
+  <div class="card-grid">
+    <div class="card"><div class="card-label">Tent</div><div class="card-value">HS80</div><div class="card-desc">80×80×178cm · Secret Jardin</div></div>
+    <div class="card"><div class="card-label">Light</div><div class="card-value">2× STIXX 50</div><div class="card-desc">108W total · Samsung diodes · 2.5 µmol/J</div></div>
+    <div class="card"><div class="card-label">Ventilation</div><div class="card-value">CAN RK125</div><div class="card-desc">310 m³/h + CAN-Lite AKF carbon filter</div></div>
+    <div class="card"><div class="card-label">Medium</div><div class="card-value">Living Soil</div><div class="card-desc">Organic with mycorrhizae inoculant</div></div>
+    <div class="card"><div class="card-label">Pot</div><div class="card-value">7–11L Fabric</div><div class="card-desc">Air prunes roots · Faster dry-down than plastic</div></div>
+    <div class="card"><div class="card-label">pH Range</div><div class="card-value">6.2–6.8</div><div class="card-desc">Water in and runoff · Living soil target</div></div>
+  </div>
 
-<h2>12. Yield Expectations</h2>
+</section>
+<div class="divider"></div>
 
-<div class="g3">
-  <div class="cd" style="background:#E3EDF8"><div class="lb">Floor</div><div class="vl" style="font-size:1.4em;color:#3A6FA0">60g</div><p style="font-size:.82rem;margin-top:4px">Basic ScrOG, organic soil, minimal optimization. Near-guaranteed.</p></div>
-  <div class="cd" style="background:#E6F4E0;border:2px solid #3D7A2F"><div class="lb">Target</div><div class="vl" style="font-size:1.4em;color:#235318">80–100g</div><p style="font-size:.82rem;margin-top:4px">+ VPD + CalMag + full net fill. Realistic with discipline.</p></div>
-  <div class="cd" style="background:#FFF9DB"><div class="lb">Ceiling</div><div class="vl" style="font-size:1.4em;color:#8B7400">130g</div><p style="font-size:.82rem;margin-top:4px">Everything optimized + favorable pheno. 1.2 g/W — excellent.</p></div>
-</div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CHAPTER IV: VEGETATIVE PHASE                              -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Chapter IV · Vegetative Phase · Weeks 3–8</div>
+    <h2>Training — <span>Single-Plant</span> ScrOG</h2>
+    <p class="section-intro">One plant filling 80×80cm requires 6–8 weeks of veg — not 4–5 as in multi-plant setups. The clone has been topped once, giving you at least two main branches as your canopy framework. Goal: 30–50 evenly spaced bud sites across a flat, light-saturated canopy.</p>
+  </div>
 
-<div class="da"><b>Devil's advocate — yield honesty:</b> 80–100g from a single plant under 108W organic would be a strong first-grow result. Don't compare to hydro growers at 600W — different sports. Your organic advantage is terpene complexity, smoothness, and flavour depth. Focus on smoke quality, not scale weight.</div>
+  <!-- Training progression SVG -->
+  <div class="ill">
+  <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg">
+    <rect width="760" height="280" fill="#111611"/>
+    <text font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#6db35f" x="380" y="24" text-anchor="middle">TRAINING PROGRESSION — Topped Clone → ScrOG Canopy</text>
+    <!-- Stage 1: Current -->
+    <rect x="20" y="42" width="168" height="210" rx="8" fill="rgba(17,22,17,0.7)" stroke="#2a322a"/>
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#6db35f" x="104" y="62" text-anchor="middle">CURRENT</text>
+    <rect x="84" y="197" width="40" height="25" rx="3" fill="rgba(90,60,30,0.25)" stroke="#5e6556"/>
+    <line x1="104" y1="197" x2="104" y2="155" stroke="#4a7c3f" stroke-width="3"/>
+    <line x1="104" y1="155" x2="74" y2="115" stroke="#4a7c3f" stroke-width="2.5"/>
+    <line x1="104" y1="155" x2="134" y2="115" stroke="#4a7c3f" stroke-width="2.5"/>
+    <ellipse cx="68" cy="108" rx="14" ry="8" fill="#4a7c3f" opacity=".5"/>
+    <ellipse cx="140" cy="108" rx="14" ry="8" fill="#4a7c3f" opacity=".5"/>
+    <line x1="100" y1="153" x2="110" y2="157" stroke="#b54c4c" stroke-width="2"/>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#b54c4c" x="104" y="148" text-anchor="middle">topped</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" fill="#5e6556" x="104" y="242" text-anchor="middle">Wk 0</text>
+    <text font-family="Cormorant Garamond,serif" font-size="20" fill="#8a7234" x="196" y="155">→</text>
+    <!-- Stage 2: LST -->
+    <rect x="213" y="42" width="168" height="210" rx="8" fill="rgba(17,22,17,0.7)" stroke="#2a322a"/>
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#6db35f" x="297" y="62" text-anchor="middle">LST + 2ND TOP</text>
+    <rect x="277" y="197" width="40" height="25" rx="3" fill="rgba(90,60,30,0.25)" stroke="#5e6556"/>
+    <line x1="297" y1="197" x2="297" y2="177" stroke="#4a7c3f" stroke-width="3"/>
+    <path d="M297,177 Q277,172 247,164" stroke="#4a7c3f" stroke-width="2.5" fill="none"/>
+    <path d="M297,177 Q317,172 347,164" stroke="#4a7c3f" stroke-width="2.5" fill="none"/>
+    <line x1="247" y1="164" x2="234" y2="127" stroke="#4a7c3f" stroke-width="2"/>
+    <line x1="247" y1="164" x2="257" y2="125" stroke="#4a7c3f" stroke-width="2"/>
+    <line x1="347" y1="164" x2="337" y2="125" stroke="#4a7c3f" stroke-width="2"/>
+    <line x1="347" y1="164" x2="360" y2="127" stroke="#4a7c3f" stroke-width="2"/>
+    <ellipse cx="234" cy="120" rx="9" ry="6" fill="#4a7c3f" opacity=".5"/>
+    <ellipse cx="257" cy="118" rx="9" ry="6" fill="#4a7c3f" opacity=".5"/>
+    <ellipse cx="337" cy="118" rx="9" ry="6" fill="#4a7c3f" opacity=".5"/>
+    <ellipse cx="360" cy="120" rx="9" ry="6" fill="#4a7c3f" opacity=".5"/>
+    <text font-family="JetBrains Mono,monospace" font-size="9" fill="#5e6556" x="297" y="242" text-anchor="middle">Wk 2–3</text>
+    <text font-family="Cormorant Garamond,serif" font-size="20" fill="#8a7234" x="389" y="155">→</text>
+    <!-- Stage 3: ScrOG filling -->
+    <rect x="407" y="42" width="168" height="210" rx="8" fill="rgba(17,22,17,0.7)" stroke="#2a322a"/>
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#6db35f" x="491" y="62" text-anchor="middle">ScrOG FILLING</text>
+    <line x1="422" y1="145" x2="560" y2="145" stroke="#c9a84c" stroke-width="1.5"/>
+    <ellipse cx="432" cy="138" rx="7" ry="5" fill="#4a7c3f" opacity=".5"/>
+    <ellipse cx="451" cy="136" rx="7" ry="5" fill="#4a7c3f" opacity=".6"/>
+    <ellipse cx="470" cy="139" rx="7" ry="5" fill="#4a7c3f" opacity=".5"/>
+    <ellipse cx="491" cy="137" rx="7" ry="5" fill="#4a7c3f" opacity=".6"/>
+    <ellipse cx="512" cy="140" rx="7" ry="5" fill="#4a7c3f" opacity=".5"/>
+    <ellipse cx="531" cy="138" rx="7" ry="5" fill="#4a7c3f" opacity=".6"/>
+    <ellipse cx="550" cy="141" rx="7" ry="5" fill="#4a7c3f" opacity=".4"/>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#c9a84c" x="491" y="125" text-anchor="middle">~60% filled</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" fill="#5e6556" x="491" y="242" text-anchor="middle">Wk 4–7</text>
+    <text font-family="Cormorant Garamond,serif" font-size="20" fill="#8a7234" x="583" y="155">→</text>
+    <!-- Stage 4: Flip day -->
+    <rect x="600" y="42" width="145" height="210" rx="8" fill="rgba(74,124,63,0.08)" stroke="#4a7c3f" stroke-width="1.5"/>
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#6db35f" x="672" y="62" text-anchor="middle">FLIP DAY</text>
+    <line x1="615" y1="145" x2="730" y2="145" stroke="#c9a84c" stroke-width="1.5"/>
+    <circle cx="625" cy="139" r="5" fill="#4a7c3f" opacity=".7"/>
+    <circle cx="641" cy="137" r="5" fill="#4a7c3f" opacity=".6"/>
+    <circle cx="657" cy="139" r="5" fill="#4a7c3f" opacity=".7"/>
+    <circle cx="672" cy="136" r="5" fill="#4a7c3f" opacity=".6"/>
+    <circle cx="688" cy="139" r="5" fill="#4a7c3f" opacity=".7"/>
+    <circle cx="704" cy="137" r="5" fill="#4a7c3f" opacity=".6"/>
+    <circle cx="718" cy="140" r="4" fill="#4a7c3f" opacity=".5"/>
+    <text font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#6db35f" x="672" y="120" text-anchor="middle">90%+ filled · 30–50 sites</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#6db35f" x="672" y="165" text-anchor="middle">Lollipop below net</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" fill="#5e6556" x="672" y="242" text-anchor="middle">Wk 6–8</text>
+  </svg>
+  <div class="ill-cap">Training progression. With one plant, the net takes 6–8 weeks to fill — be patient. Every empty square at flip wastes photons from your 108W. A fully filled net is worth an extra 2–3 weeks of veg time in final yield.</div>
+  </div>
 
-<div style="margin-top:3rem;padding-top:1.5rem;border-top:2px solid var(--line);text-align:center;color:var(--txt2);font-size:.85em">
-  <p><em>Citron Givré Growing Guide v2.0 — April 2026 · Devil's advocate reviewed</em></p>
-  <p><em>Secret Jardin HS80 · 2× Sanlight STIXX 50 · CAN RK125 + CAN-Lite · Organic living soil · Linz, Austria</em></p>
-</div>
+  <h3>Nutrients — Organic Living Soil</h3>
 
-</div>
+  <div class="callout callout-red">
+    <div class="callout-label">Warning · Tomato Earth pH Risk</div>
+    <p>Austrian pre-fertilized Tomatenerde often runs pH 6.5–7.5 with mineral salt pre-loading. Test pH before use. If above 6.8, limit to 25% of mix and water with pH 6.0–6.3 for the first two weeks to bring the root zone into the optimal 6.2–6.8 range.</p>
+  </div>
+
+  <table>
+  <tr><th>Week</th><th>Stage</th><th>Feed</th><th>CalMag</th><th>Notes</th></tr>
+  <tr><td><strong>1–2</strong></td><td>Clone settling</td><td>Water only</td><td>—</td><td>Living soil has enough. Stress roots with nutrients = problems.</td></tr>
+  <tr><td><strong>3–4</strong></td><td>Early veg</td><td>Light top-dress / compost tea</td><td>0.5 ml/L</td><td>3-2-0 formula (e.g., CaliMagic). Start after 2 wks under LED.</td></tr>
+  <tr><td><strong>5–7</strong></td><td>Veg / ScrOG</td><td>Full organic feed, worm castings</td><td>1 ml/L</td><td>Feed the soil biology, not just the plant</td></tr>
+  <tr class="row-hl"><td><strong>8</strong></td><td>Flip</td><td>Reduce N, increase P/K</td><td>1 ml/L</td><td>Transition to bloom amendments</td></tr>
+  <tr><td><strong>9–11</strong></td><td>Early flower</td><td>Bloom nutrients, bone meal</td><td>1 ml/L</td><td>Stretch phase — some N still needed</td></tr>
+  <tr><td><strong>12–13</strong></td><td>Mid flower</td><td>Peak bloom feeding</td><td>0.5 ml/L</td><td>K supplement: kelp meal or langbeinite top-dress at flower wk 3–4</td></tr>
+  <tr><td><strong>14–15</strong></td><td>Late flower</td><td>Taper nutrients</td><td>—</td><td>Let reserves deplete naturally. Watch for burnt tips.</td></tr>
+  <tr><td><strong>16–17</strong></td><td>Pre-harvest</td><td>Continue normal watering</td><td>—</td><td>No pre-harvest flush needed (see research note)</td></tr>
+  </table>
+
+  <div class="callout callout-blue">
+    <div class="callout-label">Research Note · Nutrient Targets (Bernstein Lab)</div>
+    <p>Published optimal cannabis flowering ranges from Saloner &amp; Bernstein (2020–2022): <strong>N ~160 mg/L, P 40–80 mg/L, K 60–175 mg/L</strong>. These are hydroponic reference targets — in living soil, biological mediation changes delivery dynamics. Use as directional benchmarks. Potassium in the upper range (100–175 mg/L equivalent) during mid-to-late flower supports bud density and terpene development. A langbeinite or kelp meal top-dress at flower weeks 3–4 addresses this without disrupting the soil ecosystem.</p>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Devil's Advocate · CalMag Under LED</div>
+    <p>CalMag supplementation under LED is effectively universal practitioner consensus. The theoretical mechanism — reduced transpiration at equivalent PPFD compared to HPS leading to lower passive calcium uptake — is plausible but lacks cannabis-specific controlled comparison data. In practice, mid-flower calcium deficiency under LED in organic soil is common enough to treat as a baseline prevention measure. Start 0.5 ml/L at week 3, rise to 1 ml/L during peak veg and early flower. A small bottle prevents what could become 10–30% yield loss from uncorrected deficiency.</p>
+  </div>
+
+  <h3>VPD Targets by Stage</h3>
+
+  <!-- VPD chart -->
+  <div class="ill">
+  <svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg">
+    <rect width="760" height="200" fill="#111611"/>
+    <text font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#6db35f" x="380" y="24" text-anchor="middle">VPD TARGETS BY GROWTH STAGE</text>
+    <rect x="28" y="42" width="160" height="140" rx="10" fill="rgba(74,124,158,0.1)" stroke="#4a7c9e" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#4a7c9e" x="108" y="62" text-anchor="middle">Clone Settling</text>
+    <text font-family="Cormorant Garamond,serif" font-size="28" font-weight="700" fill="#4a7c9e" x="108" y="96" text-anchor="middle">0.4–0.8</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" fill="#4a7c9e" x="108" y="112" text-anchor="middle">kPa</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="108" y="134" text-anchor="middle">24–25°C / 65–70% RH</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="108" y="152" text-anchor="middle">Door open, fan lowest</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="108" y="168" text-anchor="middle">Dome if needed</text>
+    <rect x="202" y="42" width="160" height="140" rx="10" fill="rgba(74,124,63,0.1)" stroke="#4a7c3f" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#6db35f" x="282" y="62" text-anchor="middle">Vegetative</text>
+    <text font-family="Cormorant Garamond,serif" font-size="28" font-weight="700" fill="#6db35f" x="282" y="96" text-anchor="middle">0.8–1.2</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" fill="#6db35f" x="282" y="112" text-anchor="middle">kPa</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="282" y="134" text-anchor="middle">24–26°C / 55–60% RH</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="282" y="152" text-anchor="middle">Fan low-medium</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="282" y="168" text-anchor="middle">Open intake vent</text>
+    <rect x="376" y="42" width="160" height="140" rx="10" fill="rgba(201,168,76,0.08)" stroke="#8a7234" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#c9a84c" x="456" y="62" text-anchor="middle">Early Flower</text>
+    <text font-family="Cormorant Garamond,serif" font-size="28" font-weight="700" fill="#c9a84c" x="456" y="96" text-anchor="middle">1.0–1.4</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" fill="#c9a84c" x="456" y="112" text-anchor="middle">kPa</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="456" y="134" text-anchor="middle">24–25°C / 50–55% RH</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="456" y="152" text-anchor="middle">Increase fan speed</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="456" y="168" text-anchor="middle">Door closed (stealth)</text>
+    <rect x="550" y="42" width="180" height="140" rx="10" fill="rgba(181,76,76,0.10)" stroke="#b54c4c" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#b54c4c" x="640" y="62" text-anchor="middle">Late Flower</text>
+    <text font-family="Cormorant Garamond,serif" font-size="28" font-weight="700" fill="#b54c4c" x="640" y="96" text-anchor="middle">1.2–1.6</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" fill="#b54c4c" x="640" y="112" text-anchor="middle">kPa</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="640" y="134" text-anchor="middle">21–23°C / 40–45% RH</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#b54c4c" x="640" y="152" text-anchor="middle">Max fan, door closed</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#b54c4c" x="640" y="168" text-anchor="middle">Bud rot prevention zone</text>
+  </svg>
+  <div class="ill-cap">VPD targets measured at canopy level with a digital hygrometer. Austrian summer may require a small dehumidifier for late flower. Schedule lights-on during the coolest hours of the day to keep peak tent temperature manageable.</div>
+  </div>
+
+  <h3>IPM — Three Layers</h3>
+
+  <div class="card-grid-3">
+    <div class="card" style="border-color:rgba(74,124,63,0.4)">
+      <div class="card-label">Physical</div>
+      <div class="card-value" style="font-size:0.95rem">Yellow sticky traps</div>
+      <p class="card-desc">2–3 at canopy level. Early warning for fungus gnats, whitefly, thrips. Replace monthly, count and identify weekly.</p>
+    </div>
+    <div class="card" style="border-color:rgba(201,168,76,0.35)">
+      <div class="card-label">Biological</div>
+      <div class="card-value" style="font-size:0.95rem">Neem oil spray</div>
+      <p class="card-desc">Veg phase only — taints flower aroma. 5ml/L every 10–14 days. Prevents mites and aphids preemptively.</p>
+    </div>
+    <div class="card" style="border-color:rgba(74,124,158,0.35)">
+      <div class="card-label">Environmental</div>
+      <div class="card-value" style="font-size:0.95rem">Diatomaceous earth</div>
+      <p class="card-desc">Thin layer on soil surface. Kills fungus gnat larvae mechanically. Food-grade only. Reapply after watering.</p>
+    </div>
+  </div>
+
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CHAPTER V: FLIP & FLOWERING                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Chapter V · Flip &amp; Flowering · Weeks 8–16</div>
+    <h2>The <span>Flip</span> Protocol</h2>
+    <p class="section-intro">The flip is not a single event — it is a managed transition spanning one week. Stacking 100% light intensity, defoliation, and the 12/12 schedule change on the same day creates a stress cascade that is particularly dangerous for Cookie genetics prone to hermaphrodite expression. Separate these actions across several days.</p>
+  </div>
+
+  <div class="callout callout-red">
+    <div class="callout-label">Warning · Never Stack Flip-Day Stressors</div>
+    <p><strong>Do not ramp to 100% light, defoliate, and switch to 12/12 on the same day.</strong> This stress cascade is a leading cause of hermaphrodite expression in Cookie-lineage genetics. The correct three-step sequence:</p>
+    <p><strong>Week before flip:</strong> Ramp light from 85% to 100% over 3–5 days while still on 18/6 (or 20/4). <strong>Flip day:</strong> Change timer to 12/12 (or 13/11) only — no other changes. Light is already at 100%. <strong>2–3 days after flip:</strong> Perform lollipop pruning and up to 15% fan leaf defoliation. One stressor at a time.</p>
+  </div>
+
+  <div class="callout callout-red">
+    <div class="callout-label">Critical · Two Rooted Clones Before Flip</div>
+    <p>Take 2–4 cuttings during veg weeks 5–7 (lollipop material = free clones). Cut 10–15cm at 45° below a node, scrape stem 2cm, dip in Clonex or honey, place in jiffy pellet with humidity dome. 80%+ RH, 22–25°C, 7–14 days to root. <strong>Two healthy rooted clones must exist before flipping. This is a hard rule. No exceptions.</strong></p>
+  </div>
+
+  <div class="protocol-timeline">
+    <div class="protocol-phase">
+      <div class="protocol-week">Week 7 · Pre-Flip Ramp (still on 18/6)</div>
+      <div class="protocol-title">Ramp light to 100%, confirm net is 90%+ filled</div>
+      <div class="protocol-body">Ramp STIXX from 85% to 100% over 3–5 days while still on vegetative photoperiod. Confirm the net has at least 90% canopy fill — 30–50 visible bud sites. Tuck any shoots above the net back under. Perform lollipop pruning (remove all growth below the lowest net level). <strong>Do not defoliate fan leaves yet.</strong></div>
+    </div>
+    <div class="protocol-phase active">
+      <div class="protocol-week">Flip Day · Schedule Change Only</div>
+      <div class="protocol-title">Change timer to 12/12 or 13/11. Nothing else.</div>
+      <div class="protocol-body">Flip day = timer change only. Light is already at 100% from the ramp. No defoliation, no training adjustments, no feeding changes. Monitor for light leaks — even a brief light leak during the dark period can delay flowering or trigger hermaphrodite expression in sensitive Cookie genetics.</div>
+    </div>
+    <div class="protocol-phase">
+      <div class="protocol-week">Days 2–3 Post-Flip · First Defoliation</div>
+      <div class="protocol-title">Remove up to 15% of fan leaves</div>
+      <div class="protocol-body">Two to three days after the schedule flip, perform a moderate defoliation — remove a maximum of 15% of fan leaves. Target leaves that are blocking bud sites or creating dense overlapping canopy areas. Leave at least one full fan leaf per main branch — they power the stretch phase that is currently beginning.</div>
+    </div>
+    <div class="protocol-phase">
+      <div class="protocol-week">Day 21 Post-Flip · Second Defoliation</div>
+      <div class="protocol-title">Maximum 25% fan leaves total removed</div>
+      <div class="protocol-body">Stretch is mostly complete. Remove leaves blocking bud sites and improve airflow through the canopy interior. This is the last major defoliation — flower sites are hardening and need stability from here. Stop all tucking. Transition to full bloom feeding profile. Begin bud rot checks as flowers swell.</div>
+    </div>
+    <div class="protocol-phase warn">
+      <div class="protocol-week">Flower Weeks 3–8 · Cookie Hermie &amp; Rot Watch</div>
+      <div class="protocol-title">Daily nanner inspection + inner bud rot check</div>
+      <div class="protocol-body"><strong>From flower week 3 onward:</strong> inspect bud sites with a 60× loupe at every watering. Nanners (small banana-shaped pollen sacs emerging from within bud tissue) require immediate removal with tweezers. Minimize all stressors. <strong>From flower week 5 onward:</strong> Cookie genetics produce dense, compact buds that trap humidity — bud rot risk is above average for this lineage. Check inner bud sites, not just the surface. Signs of botrytis: gray fuzzy growth, isolated browning pistils, soft or mushy feel. Remove affected material immediately with sterile scissors and increase airflow.</div>
+    </div>
+  </div>
+
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CHAPTER VI: VISUAL CARE REFERENCE                         -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Chapter VI · Visual Care Reference</div>
+    <h2>Watering, Training &amp; <span>Leaf Health</span></h2>
+    <p class="section-intro">Illustrated quick-reference for daily and weekly care routines. These techniques apply throughout veg and into early flower. Your hands and eyes are the best sensors in the tent — no instrument replaces consistent direct observation.</p>
+  </div>
+
+  <h3>The Lift Test — Watering by Weight</h3>
+
+  <p>The single most reliable watering method for living soil. Forget moisture meters and fixed schedules. Pick up the pot. Overwatering is the leading cause of failure in the first month, and living soil biology suffers from constant saturation. The lift test prevents both overwatering and the crop failure that comes from missing the "too dry" stage.</p>
+
+  <!-- Lift test SVG -->
+  <div class="ill">
+  <svg viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="soilWetL" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3a3020"/><stop offset="100%" stop-color="#2a2018"/>
+      </linearGradient>
+      <linearGradient id="soilDryL" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#6a5a3a"/><stop offset="100%" stop-color="#5a4a2a"/>
+      </linearGradient>
+      <linearGradient id="soilDeadL" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8a7a5a"/><stop offset="100%" stop-color="#7a6a4a"/>
+      </linearGradient>
+      <linearGradient id="waterGradL" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%" stop-color="#3a7a9e" stop-opacity=".3"/><stop offset="100%" stop-color="#5a9eb8" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <rect width="800" height="260" fill="#111611"/>
+    <text font-family="Cormorant Garamond,serif" font-size="13" fill="#6db35f" x="400" y="24" text-anchor="middle">The Lift Test — Never Water on a Schedule</text>
+    <!-- Pot 1: Just watered -->
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#4a7c9e" x="135" y="55" text-anchor="middle">JUST WATERED</text>
+    <path d="M70,180 L80,100 L190,100 L200,180 Z" fill="rgba(168,138,90,.18)" stroke="#8a7234" stroke-width="1.5"/>
+    <rect x="82" y="102" width="106" height="76" rx="2" fill="url(#soilWetL)"/>
+    <rect x="82" y="140" width="106" height="38" rx="0" fill="url(#waterGradL)"/>
+    <circle cx="100" cy="155" r="2" fill="#4a7c9e" opacity=".4"/>
+    <circle cx="120" cy="160" r="1.5" fill="#4a7c9e" opacity=".3"/>
+    <circle cx="165" cy="148" r="2" fill="#4a7c9e" opacity=".3"/>
+    <text font-family="Cormorant Garamond,serif" font-size="16" fill="#4a7c9e" x="135" y="210" text-anchor="middle">Heavy</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="135" y="228" text-anchor="middle">Water 5–10% runoff (living soil)</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="135" y="244" text-anchor="middle">Empty drip tray after 15 min</text>
+    <!-- Pot 2: Ready -->
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#6db35f" x="400" y="55" text-anchor="middle">★ READY TO WATER</text>
+    <rect x="335" y="60" width="130" height="130" rx="8" fill="rgba(74,124,63,0.04)" stroke="#2d4a26" stroke-width="1.5"/>
+    <path d="M340,180 L350,100 L450,100 L460,180 Z" fill="rgba(168,138,90,.18)" stroke="#8a7234" stroke-width="1.5"/>
+    <rect x="352" y="102" width="96" height="76" rx="2" fill="url(#soilDryL)"/>
+    <text font-family="Cormorant Garamond,serif" font-size="16" fill="#6db35f" x="400" y="210" text-anchor="middle">Light</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#6db35f" x="400" y="228" text-anchor="middle">Noticeably lighter than just-watered</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#6db35f" x="400" y="244" text-anchor="middle">Soil surface dry to touch</text>
+    <!-- Pot 3: Too dry -->
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#b54c4c" x="665" y="55" text-anchor="middle">TOO DRY — ACT NOW</text>
+    <path d="M600,180 L610,100 L720,100 L730,180 Z" fill="rgba(168,138,90,.18)" stroke="#8a7234" stroke-width="1.5"/>
+    <rect x="612" y="102" width="106" height="76" rx="2" fill="url(#soilDeadL)"/>
+    <line x1="640" y1="115" x2="645" y2="155" stroke="#9a8a6a" stroke-width=".8"/>
+    <line x1="680" y1="110" x2="675" y2="148" stroke="#9a8a6a" stroke-width=".8"/>
+    <line x1="650" y1="130" x2="690" y2="135" stroke="#9a8a6a" stroke-width=".6"/>
+    <line x1="614" y1="105" x2="614" y2="175" stroke="#4a3a22" stroke-width="2"/>
+    <line x1="716" y1="105" x2="716" y2="175" stroke="#4a3a22" stroke-width="2"/>
+    <text font-family="Cormorant Garamond,serif" font-size="16" fill="#b54c4c" x="665" y="210" text-anchor="middle">Feather</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#b54c4c" x="665" y="228" text-anchor="middle">Soil pulling from pot edges</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#b54c4c" x="665" y="244" text-anchor="middle">Water immediately but slowly</text>
+  </svg>
+  <div class="ill-cap">The lift test: pick up the pot with one hand. Heavy → wait. Noticeably lighter → water until 5–10% runoff (living soil — less than conventional to preserve biology). Feather-light with visible soil gap at edges → water immediately but slowly (dry soil initially repels water). Veg cycle: every 2–3 days. Peak flower: every 1–2 days. Fabric pots dry significantly faster than plastic.</div>
+  </div>
+
+  <h3>LST Training — The Bend</h3>
+
+  <p>Low Stress Training works by bending the main stem to horizontal, breaking apical dominance, and allowing every lower branch to receive equal light. Only bend green, flexible stems during active veg growth. Never bend lignified (woody) sections — they'll snap cleanly and are not recoverable. LST is safe to begin once the two topped branches are 8–15cm long and actively growing.</p>
+
+  <!-- LST diagram SVG -->
+  <div class="ill">
+  <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="stemG4" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#3a5a1c"/><stop offset="30%" stop-color="#5a8a2e"/>
+        <stop offset="70%" stop-color="#4a7a25"/><stop offset="100%" stop-color="#2a4a12"/>
+      </linearGradient>
+    </defs>
+    <rect width="800" height="300" fill="#111611"/>
+    <text font-family="Cormorant Garamond,serif" font-size="13" fill="#6db35f" x="400" y="24" text-anchor="middle">LST Technique — Before &amp; After</text>
+    <!-- BEFORE -->
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#b54c4c" x="200" y="50" text-anchor="middle">BEFORE — Apical dominance</text>
+    <path d="M140,260 L150,190 L250,190 L260,260 Z" fill="rgba(90,60,30,0.2)" stroke="#8a7234" stroke-width="1"/>
+    <path d="M200,188 L200,90" stroke="url(#stemG4)" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <g transform="translate(200,80) scale(1.2)">
+      <path d="M0,0 C-2,-8 -6,-18 -4,-28 C-2,-22 -1,-15 0,-10 C1,-15 2,-22 4,-28 C6,-18 2,-8 0,0" fill="#5a8a2e" stroke="#3a6a1c" stroke-width=".4"/>
+      <path d="M0,-5 C-5,-12 -12,-18 -15,-24 C-10,-18 -6,-13 -2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+      <path d="M0,-5 C5,-12 12,-18 15,-24 C10,-18 6,-13 2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+    </g>
+    <g transform="translate(200,130)" opacity=".5">
+      <line x1="0" y1="0" x2="-20" y2="-12" stroke="#4a7c3f" stroke-width="1.5"/>
+      <ellipse cx="-22" cy="-14" rx="5" ry="3" fill="#4a7c3f"/>
+      <line x1="0" y1="0" x2="20" y2="-12" stroke="#4a7c3f" stroke-width="1.5"/>
+      <ellipse cx="22" cy="-14" rx="5" ry="3" fill="#4a7c3f"/>
+    </g>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#b54c4c" x="122" y="128">auxin concentrates</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#b54c4c" x="122" y="140">at top → suppresses</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#b54c4c" x="122" y="152">side branches</text>
+    <text font-family="Cormorant Garamond,serif" font-size="26" fill="#4a7c3f" x="366" y="172">→</text>
+    <!-- AFTER -->
+    <text font-family="JetBrains Mono,monospace" font-size="10" font-weight="500" fill="#6db35f" x="600" y="50" text-anchor="middle">AFTER — Auxin redistributed</text>
+    <path d="M540,260 L550,190 L650,190 L660,260 Z" fill="rgba(90,60,30,0.2)" stroke="#8a7234" stroke-width="1"/>
+    <path d="M600,188 L600,155 Q600,140 580,135 L480,130" stroke="url(#stemG4)" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <line x1="480" y1="130" x2="545" y2="195" stroke="#9ca38e" stroke-width="1" stroke-dasharray="3"/>
+    <text font-family="JetBrains Mono,monospace" font-size="6" fill="#9ca38e" x="505" y="175">soft tie</text>
+    <g transform="translate(500,125)">
+      <line x1="0" y1="0" x2="0" y2="-30" stroke="#6db35f" stroke-width="2"/>
+      <g transform="translate(0,-38) scale(.8)">
+        <path d="M0,0 C-2,-8 -6,-18 -4,-28 C-2,-22 -1,-15 0,-10 C1,-15 2,-22 4,-28 C6,-18 2,-8 0,0" fill="#5a8a2e" stroke="#3a6a1c" stroke-width=".4"/>
+        <path d="M0,-5 C-5,-12 -12,-18 -15,-24 C-10,-18 -6,-13 -2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+        <path d="M0,-5 C5,-12 12,-18 15,-24 C10,-18 6,-13 2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+      </g>
+    </g>
+    <g transform="translate(540,128)">
+      <line x1="0" y1="0" x2="0" y2="-28" stroke="#6db35f" stroke-width="2"/>
+      <g transform="translate(0,-36) scale(.8)">
+        <path d="M0,0 C-2,-8 -6,-18 -4,-28 C-2,-22 -1,-15 0,-10 C1,-15 2,-22 4,-28 C6,-18 2,-8 0,0" fill="#5a8a2e" stroke="#3a6a1c" stroke-width=".4"/>
+        <path d="M0,-5 C-5,-12 -12,-18 -15,-24 C-10,-18 -6,-13 -2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+        <path d="M0,-5 C5,-12 12,-18 15,-24 C10,-18 6,-13 2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+      </g>
+    </g>
+    <g transform="translate(580,130)">
+      <line x1="0" y1="0" x2="0" y2="-32" stroke="#6db35f" stroke-width="2"/>
+      <g transform="translate(0,-40) scale(.85)">
+        <path d="M0,0 C-2,-8 -6,-18 -4,-28 C-2,-22 -1,-15 0,-10 C1,-15 2,-22 4,-28 C6,-18 2,-8 0,0" fill="#5a8a2e" stroke="#3a6a1c" stroke-width=".4"/>
+        <path d="M0,-5 C-5,-12 -12,-18 -15,-24 C-10,-18 -6,-13 -2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+        <path d="M0,-5 C5,-12 12,-18 15,-24 C10,-18 6,-13 2,-9" fill="#4a7a25" stroke="#3a6a1c" stroke-width=".3"/>
+      </g>
+    </g>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#6db35f" x="705" y="100">auxin redistributed</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#6db35f" x="705" y="112">→ all shoots grow</text>
+    <text font-family="DM Sans,sans-serif" font-size="8" fill="#6db35f" x="705" y="124">equally = flat canopy</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="400" y="288" text-anchor="middle">LST redistributes growth hormones. Former apex loses dominance. Every node becomes an equal growth point → flat, even canopy.</text>
+  </svg>
+  <div class="ill-cap">LST before and after with auxin mechanism illustrated. Bending the main stem to horizontal makes all nodes equally "high" in the plant's hormonal map → equal growth distribution → flat canopy → maximum light capture from 108W. The fundamental technique for single-plant ScrOG success.</div>
+  </div>
+
+  <h3>Leaf Health Quick Reference</h3>
+
+  <div class="card-grid-2">
+    <div class="card" style="border-color:rgba(74,124,63,0.5)">
+      <div class="card-label" style="color:var(--accent-green-bright)">Healthy Signs</div>
+      <div style="font-size:0.9rem;margin-top:0.6rem;line-height:2;color:var(--text-secondary)">
+        ✓ Leaves angled slightly upward ("praying")<br>
+        ✓ Bright green new growth at shoot tips<br>
+        ✓ Stem firm, green, and resilient<br>
+        ✓ Visible daily growth progress during veg<br>
+        ✓ White root tips visible at fabric pot edges
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(181,76,76,0.5)">
+      <div class="card-label" style="color:var(--accent-red)">Warning Signs</div>
+      <div style="font-size:0.9rem;margin-top:0.6rem;line-height:2;color:var(--text-secondary)">
+        ⚠ Drooping (soft + heavy pot = overwater; fix: wait)<br>
+        ⚠ Yellow lower leaves (N or Mg deficiency)<br>
+        ⚠ Brown spots (Ca def — start CalMag 0.5ml/L)<br>
+        ⚠ Pale new growth (pH too high — Fe lockout)<br>
+        ⚠ Burnt tips (nutrient excess — reduce feed 20%)
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-green">
+    <div class="callout-label">Confirmed Practice · The 70% Rule</div>
+    <p>Fix pH and watering technique first. Approximately 70% of all plant symptoms resolve within one week of correcting just these two variables. Don't chase multiple deficiency diagnoses simultaneously. Fix the foundation, observe for one full week, then reassess. Only when pH and moisture are confirmed correct should you investigate specific nutrient deficiencies.</p>
+  </div>
+
+  <h3>Weekly Care Checklist</h3>
+
+  <table>
+  <tr><th>Task</th><th>Frequency</th><th>Method</th></tr>
+  <tr><td><strong>Lift test (watering)</strong></td><td>Every 1–3 days</td><td>Pick up pot. Light = water with 5–10% runoff. Heavy = wait.</td></tr>
+  <tr><td><strong>VPD check</strong></td><td>Daily (min/max)</td><td>Hygrometer at canopy level. Check stored min/max each morning.</td></tr>
+  <tr><td><strong>Tuck ScrOG</strong></td><td>Daily during net-filling</td><td>Push every new shoot back under the net. No shoot stays above.</td></tr>
+  <tr><td><strong>Leaf inspection</strong></td><td>Every 2–3 days</td><td>Check undersides for pests. Check lower leaves for yellowing or spots.</td></tr>
+  <tr><td><strong>Nanner check (flower wk 3+)</strong></td><td>Every 1–2 days</td><td>60× loupe on bud sites. Remove any banana-shaped pollen sacs immediately.</td></tr>
+  <tr><td><strong>Bud rot check (flower wk 5+)</strong></td><td>Daily</td><td>Check inner bud sites — Cookie buds trap humidity. Look for grey fuzz or browning inside.</td></tr>
+  <tr><td><strong>Stem rub</strong></td><td>Weekly</td><td>Rub stem between fingers. Note terpene development (citrus, sweet, dough).</td></tr>
+  <tr><td><strong>Sticky trap check</strong></td><td>Weekly</td><td>Count and identify caught insects. Replace traps monthly.</td></tr>
+  <tr><td><strong>Light height adjust</strong></td><td>Weekly</td><td>Maintain 30–40cm from tallest growth point. Raise as plant grows.</td></tr>
+  </table>
+
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CHAPTER VII: HARVEST, DRYING & CURING                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Chapter VII · Harvest, Drying &amp; Curing</div>
+    <h2>Harvest — <span>Trichomes</span>, Not Calendar</h2>
+    <p class="section-intro">Harvest timing is determined by trichome observation, not the calendar. Check calyxes (the bud pods themselves), not sugar leaves — sugar leaves amber faster and give a false early reading. A 60× jeweler's loupe is sufficient. Start checking from flower week 6.</p>
+  </div>
+
+  <!-- Trichome harvest window SVG -->
+  <div class="ill">
+  <svg viewBox="0 0 760 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="760" height="180" fill="#111611"/>
+    <text font-family="Cormorant Garamond,serif" font-size="14" font-weight="700" fill="#6db35f" x="380" y="24" text-anchor="middle">TRICHOME HARVEST WINDOW</text>
+    <rect x="40" y="80" width="680" height="6" rx="3" fill="#2a322a"/>
+    <rect x="40" y="80" width="170" height="6" rx="3" fill="rgba(74,124,158,0.4)"/>
+    <text font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#4a7c9e" x="125" y="68" text-anchor="middle">Too Early</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="125" y="110" text-anchor="middle">All clear / glassy</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="125" y="128" text-anchor="middle">Keep waiting</text>
+    <rect x="210" y="80" width="170" height="6" rx="3" fill="rgba(201,168,76,0.4)"/>
+    <text font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#c9a84c" x="295" y="68" text-anchor="middle">Peak THC</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="295" y="110" text-anchor="middle">Mostly milky, minimal amber</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="295" y="128" text-anchor="middle">Cerebral, can push further</text>
+    <rect x="374" y="68" width="182" height="30" rx="8" fill="rgba(74,124,63,0.15)" stroke="#4a7c3f" stroke-width="2"/>
+    <rect x="379" y="80" width="172" height="6" rx="3" fill="#4a7c3f"/>
+    <text font-family="Cormorant Garamond,serif" font-size="11" font-weight="700" fill="#6db35f" x="465" y="58" text-anchor="middle">★ HARVEST TARGET</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#6db35f" x="465" y="115" text-anchor="middle">70–80% milky, 20–30% amber</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#4a7c3f" x="465" y="133" text-anchor="middle">Balanced potency + body effect*</text>
+    <rect x="550" y="80" width="170" height="6" rx="3" fill="rgba(181,76,76,0.3)"/>
+    <text font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#b54c4c" x="635" y="68" text-anchor="middle">Sedative</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#9ca38e" x="635" y="110" text-anchor="middle">50%+ amber → CBN conversion</text>
+    <text font-family="DM Sans,sans-serif" font-size="9" fill="#5e6556" x="635" y="128" text-anchor="middle">Heavy couch-lock only</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" fill="#5e6556" x="125" y="168" text-anchor="middle">Flower wk 6–7</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" fill="#5e6556" x="295" y="168" text-anchor="middle">Flower wk 7–8</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" font-weight="500" fill="#6db35f" x="465" y="168" text-anchor="middle">Flower wk 8–9</text>
+    <text font-family="JetBrains Mono,monospace" font-size="9" fill="#5e6556" x="635" y="168" text-anchor="middle">Flower wk 10+</text>
+  </svg>
+  <div class="ill-cap">Trichome harvest window. Check calyxes, not sugar leaves. 60× jeweler's loupe minimum. Start checking at flower week 6. *The 70/30 milky/amber target is practitioner consensus — no controlled study has correlated specific trichome ratios with optimal subjective quality. Use as directional guidance, adjusted for your preference.</div>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Devil's Advocate · Trichome Ratios</div>
+    <p>The 70/30 milky/amber harvest target is practitioner consensus developed through decades of collective community experience. No controlled study has correlated specific trichome ratios with optimal subjective quality or cannabinoid concentration at the point of harvest. Use the ratio as a directional guide, but trust your developing knowledge of this specific cut — Citron Givré may express its optimal character slightly earlier or later than the standard window.</p>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-label">Research Note · Harvest Timing</div>
+    <p>Some growers harvest before lights-on, based on unverified community tradition about terpene preservation during the dark period. <strong>No peer-reviewed study confirms this timing advantage.</strong> If harvesting before lights-on is practical for you (cooler tent temperature, lower stress), that is a reasonable preference — but don't expect measurable quality differences from the timing itself versus harvesting during the first hour of lights-on.</p>
+  </div>
+
+  <h3>Drying Protocol</h3>
+
+  <p>The tent becomes your drying chamber. Remove the LED bars. Hang whole branches from the crossbar — whole-branch drying is significantly slower and more even than bucking and rack-drying. A Monkey Fan on its lowest setting creates passive air movement; never point it directly at the buds.</p>
+
+  <table>
+  <tr><th>Phase</th><th>Conditions</th><th>Duration</th><th>Test</th></tr>
+  <tr><td><strong>Drying</strong></td><td>15–18°C, <strong>60–65% RH</strong>, total darkness</td><td><strong>10–14 days</strong> (target)</td><td>Small stems snap cleanly; larger stems still bend</td></tr>
+  <tr><td><strong>Cure week 1</strong></td><td>Mason jars, 60–65% RH, dark</td><td>Burp 2–3× daily</td><td>No ammonia smell on opening</td></tr>
+  <tr><td><strong>Cure week 2</strong></td><td>Same</td><td>Burp once daily</td><td>Boveda 62% if dropping below 58%</td></tr>
+  <tr class="row-hl"><td><strong>Cure week 3+</strong></td><td>Same</td><td>Burp weekly. Minimum 4 weeks total.</td><td>Smooth smoke, complex aroma building</td></tr>
+  </table>
+
+  <div class="callout callout-red">
+    <div class="callout-label">Warning · Drying RH Correction</div>
+    <p>Target <strong>60–65% RH during drying</strong>, not 55–60%. At 55% RH, buds dry too fast — typically 7–8 days — and chlorophyll and ammonia compounds don't have time to break down properly. The result is harsher smoke even after a full cure. At 60–65% RH the drying process sustains the ideal 12–14 day slow dry that produces smooth, complex final product. If your space runs dry in winter, a small humidifier in the dark tent solves this easily.</p>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-label">Research Note · Pre-Harvest Flushing</div>
+    <p>The only controlled study on pre-harvest flushing (Stemeroff 2017) found no statistically significant benefit to taste, burn quality, smoke smoothness, or mineral content from a water-only pre-harvest period. The traditional "3–5 day water-only flush" is a grower tradition without scientific support. <strong>For organic living soil, simply continue normal watering</strong> in the final week — the soil biology continues to moderate nutrient availability naturally, and disrupting it with heavy flushing may actually harm final product quality.</p>
+  </div>
+
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CHAPTER VIII: COMPLETE TIMELINE                           -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="section reveal">
+  <div class="section-header">
+    <div class="section-label">Chapter VIII · Timeline Overview</div>
+    <h2>Week-by-Week <span>Reference</span></h2>
+    <p class="section-intro">Complete grow timeline from clone arrival through cure. Approximately 24 weeks clone-to-smoke including a 4-week minimum cure. The extra veg time of 8 weeks versus 5–6 weeks in a multi-plant setup is the primary trade-off for single-plant ScrOG — the payoff is denser, higher-quality flowers from undivided root-zone resources and a full net of photosynthetically active canopy.</p>
+  </div>
+
+  <table>
+  <tr><th>Wk</th><th>Stage</th><th>Light</th><th>Key Actions</th><th>Temp / RH</th></tr>
+  <tr><td><strong>1–2</strong></td><td>Settle</td><td>1× STIXX, 20–40%</td><td>Water only. Lift test daily. Install 2nd bar day 6–7.</td><td>24°C / 68%</td></tr>
+  <tr><td><strong>2</strong></td><td>Transplant</td><td>40%</td><td>7–11L fabric pot. Mycorrhizae per product label. pH runoff check within 24h.</td><td>24°C / 65%</td></tr>
+  <tr><td><strong>3</strong></td><td>Veg</td><td>2× STIXX, 60%</td><td>Begin LST. CalMag 0.5ml/L (3-2-0 formula). First compost tea.</td><td>25°C / 60%</td></tr>
+  <tr><td><strong>4</strong></td><td>Veg</td><td>70%</td><td>2nd topping. Continue LST spread outward.</td><td>25°C / 58%</td></tr>
+  <tr><td><strong>5</strong></td><td>Veg</td><td>80%</td><td>Install ScrOG net. Begin tucking. CalMag 1ml/L.</td><td>25°C / 55%</td></tr>
+  <tr class="row-hl"><td><strong>5–7</strong></td><td>ScrOG</td><td>85%</td><td>TAKE CLONES (2–4 cuttings once sufficient lower branching exists). Tuck weekly. Worm castings top-dress.</td><td>25°C / 55%</td></tr>
+  <tr><td><strong>7</strong></td><td>Pre-flip</td><td>Ramp 85→100%</td><td>Ramp over 3–5 days. Lollipop below net. Net 90%+. K supplementation begins (kelp meal or langbeinite top-dress).</td><td>25°C / 52%</td></tr>
+  <tr class="row-hl"><td><strong>8</strong></td><td>Flip day</td><td>100%</td><td>12/12 (or 13/11) timer change ONLY. No defoliation today.</td><td>25°C / 52%</td></tr>
+  <tr><td><strong>8+2d</strong></td><td>Post-flip</td><td>100%</td><td>Defoliate max 15% fan leaves. Continue tucking during stretch.</td><td>24°C / 50%</td></tr>
+  <tr><td><strong>9–10</strong></td><td>F1–2</td><td>100%</td><td>Stretch phase. Bloom nutrients. Tuck if needed. CalMag 1ml/L.</td><td>24°C / 50%</td></tr>
+  <tr><td><strong>10</strong></td><td>F3</td><td>100%</td><td>Day 21 defoliation (max 25% total). Stop tucking. Nanner watch begins (daily).</td><td>24°C / 48%</td></tr>
+  <tr><td><strong>11–12</strong></td><td>F3–4</td><td>100%</td><td>Peak bloom feed. Bud density building. Cookie hermie + bud rot vigilance intensifies.</td><td>23°C / 45%</td></tr>
+  <tr><td><strong>13–14</strong></td><td>F5–6</td><td>100%</td><td>Begin trichome checks at wk 6. CalMag 0.5ml/L. Daily inner bud rot inspection.</td><td>23°C / 42%</td></tr>
+  <tr><td><strong>15</strong></td><td>F7</td><td>100%</td><td>Mostly milky trichomes. Taper nutrients. Continue normal watering.</td><td>22°C / 40%</td></tr>
+  <tr class="row-hl"><td><strong>16</strong></td><td>F8</td><td>100%</td><td>70% milky / 20–30% amber on calyxes → harvest. Harvest when convenient.</td><td>22°C / 38%</td></tr>
+  <tr><td><strong>17–18</strong></td><td>Dry</td><td>OFF</td><td>Whole branches hung in dark tent. 60–65% RH. Monkey Fan lowest, not aimed at buds.</td><td>17°C / 62%</td></tr>
+  <tr><td><strong>19–24+</strong></td><td>Cure</td><td>—</td><td>Mason jars. Burp per schedule. Minimum 4 weeks. Aroma and smoothness improve through week 8+.</td><td>18°C / 62%</td></tr>
+  </table>
+
+  <h3>Yield Expectations</h3>
+
+  <div class="stats-grid">
+    <div class="stat" style="border-color:rgba(74,124,158,0.3)">
+      <div class="stat-label">Realistic Floor</div>
+      <div class="stat-value" style="color:var(--accent-blue)">50g</div>
+      <div class="stat-sub">First grower, basic ScrOG, organic soil, clean execution. Realistic minimum.</div>
+    </div>
+    <div class="stat" style="border-width:2px;border-color:rgba(74,124,63,0.6)">
+      <div class="stat-label">Target</div>
+      <div class="stat-value" style="color:var(--accent-green-bright)">60–80g</div>
+      <div class="stat-sub">VPD managed, CalMag consistent, full net fill. Realistic with discipline.</div>
+    </div>
+    <div class="stat" style="border-color:rgba(201,168,76,0.3)">
+      <div class="stat-label">Ceiling</div>
+      <div class="stat-value">130g</div>
+      <div class="stat-sub">Everything optimized + favorable pheno. 1.2 g/W — excellent for this setup.</div>
+    </div>
+  </div>
+
+  <div class="callout callout-purple">
+    <div class="callout-label">Devil's Advocate · Yield Honesty</div>
+    <p>50–80g from a single plant under 108W organic on a first run would be a genuinely strong result. Don't compare to hydroponic growers at 600W — these are different sports entirely. Your organic living soil advantage is terpene complexity, smoke smoothness, and flavour depth that is genuinely difficult to replicate in synthetic hydroponic systems. <strong>Focus on smoke quality, not scale weight.</strong> A 60g jar of exceptional organic Citron Givré is worth considerably more than 130g of mediocre, rushed material.</p>
+  </div>
+
+  <div class="callout callout-red">
+    <div class="callout-label">Final Reminder · Clone Priority</div>
+    <p>This birthday cut cannot be replaced. Two healthy rooted clones must exist before the flip. Take cuttings during weeks 5–7 when lower branching is sufficient. Lollipop material at week 7 is ideal cutting material — you're removing it anyway, and it's been light-hardened. No exception: flip only after clones are rooted and growing independently.</p>
+  </div>
+
+</section>
+<div class="divider"></div>
+
+<footer class="footer">
+  <p>GrowDoc · Citron Givré Complete Guide · 2024</p>
+  <p>Secret Jardin HS80 · 2× Sanlight STIXX 50 · CAN RK125 + CAN-Lite · Organic Living Soil</p>
+  <p style="margin-top:0.4rem">Franco + Professor reviewed · v3.0 · April 2026</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
