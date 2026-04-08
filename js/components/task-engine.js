@@ -37,7 +37,7 @@ export function generateTasks(store) {
 
 export function evaluateTimeTriggers(plant, profile, existingTasks) {
   const tasks = [];
-  const medium = profile.medium || 'soil';
+  const medium = plant.mediumOverride || profile.medium || 'soil';
   const potSize = _potSizeCategory(plant.potSize);
   const stage = plant.stage;
   const days = getDaysInStage(plant);

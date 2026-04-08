@@ -1,7 +1,9 @@
 // GrowDoc Companion — Plant Detail View
 
-import { getDaysInStage } from '../data/stage-rules.js';
-import { renderTimeline } from '../components/timeline-bar.js';
+import { getDaysInStage, STAGES } from '../data/stage-rules.js';
+import { TRAINING_METHODS, generateMilestones } from '../data/training-protocols.js';
+import { parseProfileNotes } from '../data/profile-context-rules.js';
+import { renderTimeline, advancePlantStage } from '../components/timeline-bar.js';
 import { escapeHtml } from '../utils.js';
 import { navigate } from '../router.js';
 
@@ -68,9 +70,9 @@ export function renderPlantDetail(container, store, plantId) {
   });
   container.appendChild(timelineSection);
 
-  // Tabs
-  const tabs = ['Overview', 'Log History', 'Diagnoses', 'Training'];
-  let activeTab = 'Overview';
+  // Tabs — check URL hash for pre-selected tab
+  const tabs = ['Overview', 'Log History', 'Diagnoses', 'Training', 'Edit'];
+  let activeTab = window.location.hash === '#edit' ? 'Edit' : 'Overview';
 
   const tabBar = document.createElement('div');
   tabBar.className = 'tab-bar';
@@ -92,6 +94,7 @@ export function renderPlantDetail(container, store, plantId) {
     else if (name === 'Log History') _renderLogHistory(tabContent, plant);
     else if (name === 'Diagnoses') _renderDiagnoses(tabContent, plant);
     else if (name === 'Training') _renderTraining(tabContent, plant);
+    else if (name === 'Edit') _renderEditTab(tabContent, plant, store, container, plantId);
   }
 
   container.appendChild(tabBar);
@@ -220,6 +223,256 @@ function _renderTraining(container, plant) {
     }
     container.appendChild(list);
   }
+}
+
+function _renderEditTab(container, plant, store, pageContainer, plantId) {
+  const profile = store.state.profile || {};
+
+  // Helper: save a single field and flash confirmation
+  function saveField(field, value) {
+    const growSnap = store.getSnapshot().grow;
+    const p = growSnap.plants.find(pp => pp.id === plant.id);
+    if (!p) return;
+    p[field] = value;
+    store.commit('grow', growSnap);
+  }
+
+  function flashSaved(el) {
+    el.style.outline = '2px solid var(--accent-green)';
+    setTimeout(() => { el.style.outline = ''; }, 600);
+  }
+
+  // ── Name ──
+  const nameGroup = _editField('Name');
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.className = 'input';
+  nameInput.value = plant.name;
+  nameInput.addEventListener('blur', () => {
+    const val = escapeHtml(nameInput.value.trim()) || plant.name;
+    saveField('name', val);
+    flashSaved(nameInput);
+  });
+  nameGroup.appendChild(nameInput);
+  container.appendChild(nameGroup);
+
+  // ── Strain ──
+  const strainGroup = _editField('Strain');
+  const strainInput = document.createElement('input');
+  strainInput.type = 'text';
+  strainInput.className = 'input';
+  strainInput.placeholder = 'Strain name or "Unknown"';
+  strainInput.value = plant.strainCustom?.name || '';
+  strainInput.addEventListener('blur', () => {
+    const val = escapeHtml(strainInput.value.trim());
+    saveField('strainCustom', val ? { name: val } : null);
+    flashSaved(strainInput);
+  });
+  strainGroup.appendChild(strainInput);
+  container.appendChild(strainGroup);
+
+  // ── Pot Size ──
+  const potGroup = _editField('Pot Size');
+  const potSelect = document.createElement('select');
+  potSelect.className = 'input';
+  for (const size of [1, 3, 5, 7, 10, 15, 20]) {
+    const opt = document.createElement('option');
+    opt.value = size;
+    opt.textContent = `${size}L`;
+    if (plant.potSize === size) opt.selected = true;
+    potSelect.appendChild(opt);
+  }
+  potSelect.addEventListener('change', () => {
+    saveField('potSize', parseInt(potSelect.value, 10));
+    flashSaved(potSelect);
+  });
+  potGroup.appendChild(potSelect);
+  container.appendChild(potGroup);
+
+  // ── Stage ──
+  const stageGroup = _editField('Growth Stage');
+  const stageSelect = document.createElement('select');
+  stageSelect.className = 'input';
+  for (const s of STAGES) {
+    const opt = document.createElement('option');
+    opt.value = s.id;
+    opt.textContent = s.name;
+    if (plant.stage === s.id) opt.selected = true;
+    stageSelect.appendChild(opt);
+  }
+
+  const daysGroup = document.createElement('div');
+  daysGroup.className = 'edit-days-group';
+  daysGroup.style.marginTop = 'var(--space-2)';
+  const daysLabel = document.createElement('label');
+  daysLabel.textContent = 'Days in this stage:';
+  daysLabel.style.fontSize = '0.82rem';
+  daysLabel.style.color = 'var(--text-muted)';
+  const daysInput = document.createElement('input');
+  daysInput.type = 'number';
+  daysInput.className = 'input';
+  daysInput.min = '0';
+  daysInput.max = '999';
+  daysInput.style.maxWidth = '80px';
+  daysInput.value = getDaysInStage(plant);
+  daysGroup.appendChild(daysLabel);
+  daysGroup.appendChild(daysInput);
+
+  stageSelect.addEventListener('change', () => {
+    const newStage = stageSelect.value;
+    const days = parseInt(daysInput.value, 10) || 0;
+    _applyStageChange(store, plant.id, newStage, days);
+    flashSaved(stageSelect);
+    // Refresh the page to update header/timeline
+    renderPlantDetail(pageContainer, store, plantId);
+  });
+
+  daysInput.addEventListener('blur', () => {
+    const days = parseInt(daysInput.value, 10) || 0;
+    // Recalculate stageStartDate from days
+    const growSnap = store.getSnapshot().grow;
+    const p = growSnap.plants.find(pp => pp.id === plant.id);
+    if (p) {
+      p.stageStartDate = new Date(Date.now() - days * 86400000).toISOString();
+      store.commit('grow', growSnap);
+      flashSaved(daysInput);
+    }
+  });
+
+  stageGroup.appendChild(stageSelect);
+  stageGroup.appendChild(daysGroup);
+  container.appendChild(stageGroup);
+
+  // ── Medium Override ──
+  const mediumGroup = _editField('Medium');
+  const hasMediumOverride = plant.mediumOverride != null;
+
+  const overrideCheck = document.createElement('label');
+  overrideCheck.style.display = 'flex';
+  overrideCheck.style.alignItems = 'center';
+  overrideCheck.style.gap = 'var(--space-2)';
+  overrideCheck.style.fontSize = '0.85rem';
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.checked = hasMediumOverride;
+  overrideCheck.appendChild(checkbox);
+  overrideCheck.append(`Uses different medium (profile default: ${profile.medium || 'soil'})`);
+
+  const mediumSelect = document.createElement('select');
+  mediumSelect.className = 'input';
+  mediumSelect.style.marginTop = 'var(--space-2)';
+  mediumSelect.style.display = hasMediumOverride ? '' : 'none';
+  for (const m of ['soil', 'coco', 'hydro', 'soilless']) {
+    const opt = document.createElement('option');
+    opt.value = m;
+    opt.textContent = m.charAt(0).toUpperCase() + m.slice(1);
+    if (plant.mediumOverride === m) opt.selected = true;
+    mediumSelect.appendChild(opt);
+  }
+
+  checkbox.addEventListener('change', () => {
+    if (checkbox.checked) {
+      mediumSelect.style.display = '';
+      saveField('mediumOverride', mediumSelect.value);
+    } else {
+      mediumSelect.style.display = 'none';
+      saveField('mediumOverride', null);
+    }
+    flashSaved(checkbox);
+  });
+
+  mediumSelect.addEventListener('change', () => {
+    saveField('mediumOverride', mediumSelect.value);
+    flashSaved(mediumSelect);
+  });
+
+  mediumGroup.appendChild(overrideCheck);
+  mediumGroup.appendChild(mediumSelect);
+  container.appendChild(mediumGroup);
+
+  // ── Training Method ──
+  const trainGroup = _editField('Training Method');
+  const trainSelect = document.createElement('select');
+  trainSelect.className = 'input';
+  for (const m of TRAINING_METHODS) {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    opt.textContent = `${m.name} (Difficulty: ${m.difficulty}/3)`;
+    if ((plant.training?.method || 'none') === m.id) opt.selected = true;
+    trainSelect.appendChild(opt);
+  }
+  trainSelect.addEventListener('change', () => {
+    const growSnap = store.getSnapshot().grow;
+    const p = growSnap.plants.find(pp => pp.id === plant.id);
+    if (p) {
+      p.training = { method: trainSelect.value, milestones: generateMilestones(trainSelect.value) };
+      store.commit('grow', growSnap);
+      flashSaved(trainSelect);
+    }
+  });
+  trainGroup.appendChild(trainSelect);
+  container.appendChild(trainGroup);
+
+  // ── Context Notes ──
+  const notesGroup = _editField('Context Notes');
+  const notesHint = document.createElement('div');
+  notesHint.className = 'text-muted';
+  notesHint.style.fontSize = '0.78rem';
+  notesHint.textContent = 'e.g., autoflower, sensitive to nitrogen, running in coco with perlite';
+  const notesArea = document.createElement('textarea');
+  notesArea.className = 'input';
+  notesArea.rows = 3;
+  notesArea.value = plant.notes || '';
+  notesArea.addEventListener('blur', () => {
+    const sanitized = escapeHtml(notesArea.value);
+    const growSnap = store.getSnapshot().grow;
+    const p = growSnap.plants.find(pp => pp.id === plant.id);
+    if (p) {
+      p.notes = sanitized;
+      p.context = parseProfileNotes({ plant: sanitized });
+      store.commit('grow', growSnap);
+      flashSaved(notesArea);
+    }
+  });
+  notesGroup.appendChild(notesHint);
+  notesGroup.appendChild(notesArea);
+  container.appendChild(notesGroup);
+}
+
+function _editField(label) {
+  const group = document.createElement('div');
+  group.className = 'edit-field';
+  group.style.marginBottom = 'var(--space-4)';
+  const lbl = document.createElement('label');
+  lbl.className = 'edit-field-label';
+  lbl.textContent = label;
+  lbl.style.display = 'block';
+  lbl.style.marginBottom = 'var(--space-2)';
+  lbl.style.fontWeight = '600';
+  lbl.style.fontSize = '0.85rem';
+  lbl.style.color = 'var(--text-secondary)';
+  group.appendChild(lbl);
+  return group;
+}
+
+function _applyStageChange(store, plantId, newStage, daysInStage) {
+  const growSnap = store.getSnapshot().grow;
+  const plant = growSnap.plants.find(p => p.id === plantId);
+  if (!plant) return;
+
+  const now = new Date().toISOString();
+  const oldStage = plant.stage;
+
+  plant.stage = newStage;
+  plant.stageStartDate = new Date(Date.now() - daysInStage * 86400000).toISOString();
+
+  if (!growSnap.stageHistory) growSnap.stageHistory = [];
+  const lastEntry = growSnap.stageHistory.find(h => h.stage === oldStage && !h.endDate);
+  if (lastEntry) lastEntry.endDate = now;
+  growSnap.stageHistory.push({ stage: newStage, startDate: plant.stageStartDate, endDate: null });
+
+  store.commit('grow', growSnap);
+  store.publish('stage:changed', { plantId, oldStage, newStage });
 }
 
 function _daysSince(logs, type) {

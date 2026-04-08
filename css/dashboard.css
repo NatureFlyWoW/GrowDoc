@@ -215,6 +215,40 @@
   margin-bottom: var(--space-2);
 }
 
+/* Plant edit icon */
+.plant-edit-icon {
+  font-size: 1rem;
+  padding: var(--space-1);
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.plant-edit-icon:hover { color: var(--accent-green); }
+
+/* Add plant form */
+.add-plant-form {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.add-form-field {
+  margin-bottom: var(--space-3);
+}
+
+.add-form-field label {
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+/* Edit tab fields */
+.edit-field .input { max-width: 300px; }
+.edit-days-group { display: flex; align-items: center; gap: var(--space-2); }
+
 /* Charts */
 .trend-chart { max-width: 100%; margin: var(--space-3) 0; }
 .chart-empty { padding: var(--space-4); text-align: center; }

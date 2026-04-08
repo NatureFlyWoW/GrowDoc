@@ -1,6 +1,7 @@
 // GrowDoc Companion — My Grow Hub & Plant List
 
-import { getDaysInStage } from '../data/stage-rules.js';
+import { getDaysInStage, STAGES } from '../data/stage-rules.js';
+import { TRAINING_METHODS, generateMilestones } from '../data/training-protocols.js';
 import { escapeHtml, generateId } from '../utils.js';
 import { navigate } from '../router.js';
 
@@ -59,8 +60,18 @@ function _renderPlantCard(plant, store) {
   stageBadge.className = 'stage-badge';
   stageBadge.textContent = `${plant.stage.replace(/-/g, ' ')} — Day ${getDaysInStage(plant)}`;
 
+  const editIcon = document.createElement('button');
+  editIcon.className = 'btn btn-sm plant-edit-icon';
+  editIcon.textContent = '✎';
+  editIcon.title = 'Edit plant';
+  editIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navigate(`/grow/plant/${plant.id}#edit`);
+  });
+
   header.appendChild(name);
   header.appendChild(stageBadge);
+  header.appendChild(editIcon);
   card.appendChild(header);
 
   // Days-since counters
@@ -112,14 +123,45 @@ function _showAddPlantForm(container, store) {
   const existing = container.querySelector('.add-plant-form');
   if (existing) { existing.remove(); return; }
 
+  const profile = store.state.profile || {};
   const form = document.createElement('div');
   form.className = 'add-plant-form';
 
-  const nameInput = document.createElement('input');
-  nameInput.type = 'text';
-  nameInput.className = 'input';
-  nameInput.placeholder = 'Plant name';
+  const title = document.createElement('h3');
+  title.textContent = 'Add Plant';
+  title.style.marginBottom = 'var(--space-3)';
+  form.appendChild(title);
 
+  // Name
+  const nameInput = _addFormField(form, 'Name', 'text', 'Plant name');
+
+  // Stage selector
+  const stageSelect = document.createElement('select');
+  stageSelect.className = 'input';
+  for (const s of STAGES) {
+    const opt = document.createElement('option');
+    opt.value = s.id;
+    opt.textContent = s.name;
+    if (s.id === (store.state.grow?.currentStage || 'early-veg')) opt.selected = true;
+    stageSelect.appendChild(opt);
+  }
+  const stageGroup = document.createElement('div');
+  stageGroup.className = 'add-form-field';
+  const stageLabel = document.createElement('label');
+  stageLabel.textContent = 'Stage';
+  stageLabel.style.fontSize = '0.82rem';
+  stageLabel.style.color = 'var(--text-muted)';
+  stageGroup.appendChild(stageLabel);
+  stageGroup.appendChild(stageSelect);
+  form.appendChild(stageGroup);
+
+  // Days in stage
+  const daysInput = _addFormField(form, 'Days in stage', 'number', '0');
+  daysInput.value = '0';
+  daysInput.min = '0';
+  daysInput.style.maxWidth = '80px';
+
+  // Pot size
   const potSelect = document.createElement('select');
   potSelect.className = 'input';
   for (const size of [1, 3, 5, 7, 10, 15, 20]) {
@@ -129,33 +171,103 @@ function _showAddPlantForm(container, store) {
     potSelect.appendChild(opt);
   }
   potSelect.value = '5';
+  const potGroup = document.createElement('div');
+  potGroup.className = 'add-form-field';
+  const potLabel = document.createElement('label');
+  potLabel.textContent = 'Pot size';
+  potLabel.style.fontSize = '0.82rem';
+  potLabel.style.color = 'var(--text-muted)';
+  potGroup.appendChild(potLabel);
+  potGroup.appendChild(potSelect);
+  form.appendChild(potGroup);
 
+  // Strain
+  const strainInput = _addFormField(form, 'Strain (optional)', 'text', 'e.g., Northern Lights');
+
+  // Training method
+  const trainSelect = document.createElement('select');
+  trainSelect.className = 'input';
+  for (const m of TRAINING_METHODS) {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    opt.textContent = m.name;
+    trainSelect.appendChild(opt);
+  }
+  const trainGroup = document.createElement('div');
+  trainGroup.className = 'add-form-field';
+  const trainLabel = document.createElement('label');
+  trainLabel.textContent = 'Training';
+  trainLabel.style.fontSize = '0.82rem';
+  trainLabel.style.color = 'var(--text-muted)';
+  trainGroup.appendChild(trainLabel);
+  trainGroup.appendChild(trainSelect);
+  form.appendChild(trainGroup);
+
+  // Context notes
+  const notesArea = document.createElement('textarea');
+  notesArea.className = 'input';
+  notesArea.rows = 2;
+  notesArea.placeholder = 'e.g., autoflower, clone, sensitive to N';
+  const notesGroup = document.createElement('div');
+  notesGroup.className = 'add-form-field';
+  const notesLabel = document.createElement('label');
+  notesLabel.textContent = 'Context notes (optional)';
+  notesLabel.style.fontSize = '0.82rem';
+  notesLabel.style.color = 'var(--text-muted)';
+  notesGroup.appendChild(notesLabel);
+  notesGroup.appendChild(notesArea);
+  form.appendChild(notesGroup);
+
+  // Add button
   const saveBtn = document.createElement('button');
-  saveBtn.className = 'btn btn-primary btn-sm';
-  saveBtn.textContent = 'Add';
+  saveBtn.className = 'btn btn-primary';
+  saveBtn.textContent = 'Add Plant';
+  saveBtn.style.marginTop = 'var(--space-3)';
   saveBtn.addEventListener('click', () => {
     const plantName = escapeHtml(nameInput.value.trim()) || `Plant ${(store.state.grow.plants || []).length + 1}`;
+    const days = parseInt(daysInput.value, 10) || 0;
+    const strainName = escapeHtml(strainInput.value.trim());
+    const notes = escapeHtml(notesArea.value);
+
     const growSnap = store.getSnapshot().grow;
     growSnap.plants.push({
       id: generateId(),
       name: plantName,
       strainId: null,
-      strainCustom: null,
+      strainCustom: strainName ? { name: strainName } : null,
       potSize: parseInt(potSelect.value, 10),
-      stage: growSnap.currentStage || 'early-veg',
-      stageStartDate: new Date().toISOString(),
+      stage: stageSelect.value,
+      stageStartDate: new Date(Date.now() - days * 86400000).toISOString(),
       logs: [],
       diagnoses: [],
-      training: { method: 'none', milestones: [] },
+      training: { method: trainSelect.value, milestones: generateMilestones(trainSelect.value) },
+      mediumOverride: null,
+      notes: notes || '',
+      context: {},
     });
     store.commit('grow', growSnap);
     renderMyGrow(container, store);
   });
-
-  form.appendChild(nameInput);
-  form.appendChild(potSelect);
   form.appendChild(saveBtn);
+
   container.appendChild(form);
+}
+
+function _addFormField(container, label, type, placeholder) {
+  const group = document.createElement('div');
+  group.className = 'add-form-field';
+  const lbl = document.createElement('label');
+  lbl.textContent = label;
+  lbl.style.fontSize = '0.82rem';
+  lbl.style.color = 'var(--text-muted)';
+  const input = document.createElement('input');
+  input.type = type;
+  input.className = 'input';
+  input.placeholder = placeholder;
+  group.appendChild(lbl);
+  group.appendChild(input);
+  container.appendChild(group);
+  return input;
 }
 
 function _quickLog(store, plantId, type) {
