@@ -5,6 +5,9 @@
       "maxDuration": 10
     }
   },
+  "rewrites": [
+    { "source": "/((?!api|legacy|assets|css|js|docs).*)", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/docs/docs.json",

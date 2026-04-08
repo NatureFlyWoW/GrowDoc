@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GrowDoc — Grow Planning Docs</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-main">
+        <h1>🌿 GrowDoc</h1>
+        <p>Planning docs for the 80×80 grow project</p>
+      </div>
+      <a href="admin.html" class="admin-link">⚙ Admin</a>
+    </header>
+
+    <div class="mobile-nav" id="mobile-nav"></div>
+
+    <div class="main">
+      <nav class="sidebar" aria-label="Documents by Priority">
+        <div class="sidebar-label">Filter by status</div>
+        <div class="filter-bar" id="filter-bar"></div>
+        <div class="sidebar-label" style="margin-top:18px">Documents by Priority</div>
+        <div id="nav-list"></div>
+      </nav>
+
+      <div class="viewer">
+        <h2 class="viewer-title" id="viewer-title"></h2>
+        <div class="viewer-meta" id="viewer-meta"></div>
+        <div class="viewer-frame">
+          <iframe id="viewer-iframe" title="Document viewer"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      GrowDoc · Shared planning docs
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -22,18 +22,22 @@ This section builds the foundational HTML shell, CSS design system, collapsible 
 
 ## Files to Create/Modify
 
-| File | Action | Purpose |
-|------|--------|---------|
-| `/index.html` | Replace | Companion app shell (replaces current doc viewer) |
-| `/css/variables.css` | Create | Design system: colors, typography, spacing |
-| `/css/layout.css` | Create | Sidebar, main content area, responsive grid |
-| `/css/components.css` | Create | Reusable component styles |
-| `/js/main.js` | Create | App entry: routing, init, sidebar |
-| `/js/router.js` | Create | History API client-side routing |
-| `/js/utils.js` | Create | Shared helpers (escapeHtml, formatDate, etc.) |
-| `/js/components/sidebar.js` | Create | Collapsible sidebar navigation |
-| `/assets/icons.svg` | Create | SVG icon sprite (sidebar nav, task types) |
-| `/vercel.json` | Modify | Add SPA rewrite rules |
+| File | Action | Purpose | Status |
+|------|--------|---------|--------|
+| `/index.html` | Replace | Companion app shell (replaces current doc viewer) | Done |
+| `/css/variables.css` | Create | Design system: colors, typography, spacing | Done |
+| `/css/layout.css` | Create | Sidebar, main content area, responsive grid | Done |
+| `/css/components.css` | Create | Reusable component styles + sidebar nav styles | Done |
+| `/js/main.js` | Create | App entry: routing, init, sidebar, error recovery, test runner | Done |
+| `/js/router.js` | Create | History API client-side routing | Done |
+| `/js/utils.js` | Create | Shared helpers (escapeHtml, formatDate, etc.) | Done |
+| `/js/components/sidebar.js` | Create | Collapsible sidebar navigation | Done |
+| `/js/tests/vercel-config.test.js` | Create | Vercel config tests (browser-only, fetches vercel.json) | Done |
+| `/assets/icons.svg` | Create | SVG icon sprite (reference; inline SVGs used in sidebar) | Done |
+| `/vercel.json` | Modify | Add SPA rewrite rules | Done |
+| `/legacy/index.html` | Create | Old doc viewer preserved | Done |
+| `/legacy/app.js` | Create | Old app.js preserved | Done |
+| `/legacy/style.css` | Create | Old style.css preserved | Done |
 
 ---
 
@@ -308,3 +312,33 @@ The rewrite excludes: `/api/*` (Vercel serverless functions, kept for now), `/le
 14. Verify all router tests pass
 15. Verify all sidebar tests pass
 16. Verify SPA routing works on Vercel (deploy and test refresh on sub-routes)
+
+---
+
+## Implementation Notes
+
+### Deviations from Plan
+
+1. **Sidebar icons**: Used inline SVGs in `_getIcon()` instead of referencing the SVG sprite via `<use>`. Simpler for 5 icons, avoids sprite loading complexity. The `assets/icons.svg` file is preserved as a reference.
+
+2. **Vercel config tests**: Created as a separate module (`js/tests/vercel-config.test.js`) rather than inline in another file, since the tests need to `fetch('/vercel.json')` which is browser-only.
+
+3. **Test runner view**: Implemented in `main.js` as a view function rather than a separate file, since it needs to dynamically import all test modules.
+
+4. **Store stub**: Added a minimal stub store in `main.js` to satisfy sidebar's `store.get()`/`store.set()` interface. Will be replaced by the reactive store in section-02.
+
+### Code Review Fixes Applied
+
+- **XSS fix**: `showErrorScreen()` uses DOM construction instead of innerHTML template
+- **Active state fix**: Split `_isActive()` into exact match and prefix match to prevent `/grow` highlighting for all `/grow/*` routes
+- **Accessibility fix**: Disabled nav links get `tabindex="-1"` and `href` removed
+- **Restore backup**: Added "Restore Backup" button to error screen (shown when backup keys exist)
+- **Auth tests**: Added tests verifying route auth flags
+- **Nav landmarks**: Removed duplicate `role="navigation"` from inner sidebar div
+
+### Test Counts
+
+- `utils.js`: 14 assertions
+- `router.js`: 33 assertions (26 route matching + 7 auth guard)
+- `sidebar.js`: 16 assertions (DOM-based, browser-only)
+- `vercel-config.test.js`: 8 assertions (browser-only, fetches vercel.json)
