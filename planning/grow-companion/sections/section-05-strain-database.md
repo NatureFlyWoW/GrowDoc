@@ -178,16 +178,20 @@ export function renderStrainPicker(container, options) { /* ... */ }
 
 ## Implementation Checklist
 
-1. Write database integrity tests (required fields, flower week ranges, stretch ratio ranges, no duplicates)
-2. Write strain picker tests (lazy loading, search filtering, debounce, selection, custom strain creation)
-3. Create `/js/data/strain-database.js` with 500+ strain entries
-4. Populate all required fields for every strain: name, breeder, flowerWeeks, stretchRatio, sensitivities, type
-5. Add optional fields (dominantTerpenes, thcRange, cbdRange, description) for popular strains
-6. Create `/js/components/strain-picker.js` with lazy loading, search, select, and custom strain flows
-7. Implement debounced search (200ms) with case-insensitive matching
-8. Implement scrollable result list with strain info display
-9. Implement "Add Custom Strain" form with validation and localStorage persistence
-10. Implement accessibility attributes (combobox pattern, keyboard navigation)
-11. Verify database integrity tests pass (especially no duplicates, valid ranges)
-12. Verify strain picker tests pass (lazy load, search, select, custom)
-13. Test with onboarding step 6 integration (if section 03 is available)
+All items completed.
+
+## Actual Files Created
+
+| File | Lines | Purpose |
+|------|-------|---------|
+| `/js/data/strain-database.js` | ~607 | 502 strains (81 autos) with Franco-verified flower times |
+| `/js/components/strain-picker.js` | ~224 | Lazy-loading search/select + custom strain creation |
+| `/js/tests/strain-database.test.js` | ~135 | Database integrity + picker component tests |
+
+## Deviations from Plan
+
+1. **Added `isAuto` and `totalDays` fields** per Franco's recommendation — autos need seed-to-harvest timing, not just flower weeks
+2. **Raised `flowerWeeks.max` to 20** — pure sativa landraces (Neville's Haze, Thai) exceed 16 weeks
+3. **Breeder-encoded strain IDs** — same strain name from different breeders gets separate entries (e.g., `gelato-33-cookies` vs `gelato-barneys`)
+4. **Flower times are from-flip, not from-first-pistils** — adds 7-14 days vs breeder-stated times, per Franco
+5. **502 strains total**: 80 classic, 100 modern, 60 current-gen, 81 auto, 50+ CBD, 40 Dutch, 40 West Coast, 25 East Coast, 25 Spanish, 30 landrace, additional fills
