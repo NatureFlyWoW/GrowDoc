@@ -261,18 +261,21 @@ export const EVIDENCE = { /* ... */ };
 
 ## Implementation Checklist
 
-1. Write VPD data tests (all stages covered, plausible range 0.3-2.0, day > night temps)
-2. Write DLI data tests (all stage/priority combos, priority ordering, range 10-65)
-3. Write nutrient data tests (all medium/stage combos, EC progression, pH by medium, coco CalMag)
-4. Write evidence data tests (all recommendation IDs covered, valid levels, established items have citations)
-5. Create `/js/data/grow-knowledge.js` with VPD_TARGETS, DLI_TARGETS, NUTRIENT_TARGETS, TEMP_DIF, WATERING_FREQUENCY
-6. Populate VPD_TARGETS for all stages with day/night temp, RH, and VPD ranges
-7. Populate DLI_TARGETS for all stage/priority combinations
-8. Populate NUTRIENT_TARGETS for all medium/stage combinations with EC, pH, NPK, CalMag
-9. Populate TEMP_DIF for each priority dimension
-10. Populate WATERING_FREQUENCY for all medium/pot-size/stage combinations
-11. Create `/js/data/evidence-data.js` with EVIDENCE map
-12. Assign evidence levels to every recommendation ID used across the app
-13. Ensure all established-level entries include source citations
-14. Run all data integrity tests and verify passing
-15. Cross-reference with nutrient targets, VPD targets, and DLI targets to ensure no gaps
+All items completed.
+
+## Actual Files Created
+
+| File | Lines | Purpose |
+|------|-------|---------|
+| `/js/data/grow-knowledge.js` | ~340 | VPD (11 stages), DLI (8 stages x 3 priorities), nutrients (4 mediums x 8 stages), temp differentials, watering frequency (4 mediums x 3 pot sizes x 7 stages) |
+| `/js/data/evidence-data.js` | ~240 | 42 evidence entries across 8 domains (vpd, dli, nutrient, water, temp, harvest, training, stage) |
+| `/js/tests/grow-knowledge.test.js` | ~210 | 650+ data integrity assertions |
+| `/js/main.js` | (modified) | Added test module registration |
+
+## Deviations from Plan
+
+1. **Extended VPD coverage**: Plan specified "seedling through ripening" (8 stages). Implementation covers all 11 STAGES including germination, drying, and curing — needed by downstream sections (harvest advisor needs drying/curing VPD).
+2. **Added transition stage**: Plan's nutrient/watering test arrays omitted 'transition'. Added to all 4 nutrient mediums and all watering mediums to prevent undefined lookups.
+3. **Added soilless watering**: Plan mentioned 3 watering mediums (soil/coco/hydro). Added soilless to match the 4 mediums in NUTRIENT_TARGETS.
+4. **Franco practitioner review applied**: Germination VPD floor raised to 0.4 (damping-off risk), late-flower terpene DLI capped at 35 (was 40), terpene night temp floor raised to 17C, hydro CalMag notes added, harvest-trichome-check bumped to "established", living soil EC caveat added.
+5. **Test count**: 650+ assertions (up from original ~530 after coverage expansion)

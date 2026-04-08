@@ -217,6 +217,7 @@ async function renderTestRunner(container) {
     { name: 'sidebar', path: './components/sidebar.js' },
     { name: 'onboarding', path: './views/onboarding.js' },
     { name: 'vercel-config', path: './tests/vercel-config.test.js' },
+    { name: 'grow-knowledge', path: './tests/grow-knowledge.test.js' },
   ];
 
   let totalPass = 0;

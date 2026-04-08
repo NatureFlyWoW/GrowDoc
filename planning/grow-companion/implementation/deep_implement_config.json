@@ -35,6 +35,10 @@
     "section-02-store-storage": {
       "status": "complete",
       "commit_hash": "d010543"
+    },
+    "section-03-landing-onboarding": {
+      "status": "complete",
+      "commit_hash": "328def0"
     }
   },
   "pre_commit": {
