@@ -2,6 +2,7 @@
 
 import { navigate } from '../router.js';
 import { escapeHtml, generateId } from '../utils.js';
+import { renderStarRating, renderEffectSelector } from '../components/star-rating.js';
 
 // ── Stage Options ──────────────────────────────────────────────────────
 
@@ -44,8 +45,6 @@ const EXPERIENCE_LEVELS = [
   { id: 'advanced', label: 'Advanced', desc: 'Dialing in for optimal results' },
   { id: 'expert', label: 'Expert', desc: 'You could write the guides' },
 ];
-
-const EFFECT_TYPES = ['Energetic', 'Relaxing', 'Creative', 'Pain Relief', 'Anti-Anxiety', 'Sleep'];
 
 const TOTAL_STEPS = 10;
 
@@ -476,70 +475,41 @@ function _renderPriorityStep(container) {
     { key: 'effect', label: 'Effect', color: 'var(--priority-effect)' },
   ];
 
+  // Effect selector (created first so we can wire it to the Effect star rating)
+  let effectSelector = null;
+
   for (const p of priorities) {
     const group = document.createElement('div');
     group.className = 'priority-group-onboarding';
 
-    const rating = document.createElement('div');
-    rating.className = 'star-rating';
-    rating.setAttribute('role', 'radiogroup');
-    rating.setAttribute('aria-label', `${p.label} priority`);
+    renderStarRating(group, {
+      name: p.key,
+      label: p.label,
+      color: p.color,
+      value: _wizardState.priorities[p.key],
+      onChange: (v) => {
+        _wizardState.priorities[p.key] = v;
+        // Show/hide effect selector based on Effect rating
+        if (p.key === 'effect' && effectSelector) {
+          if (v >= 3) {
+            effectSelector.show();
+          } else {
+            effectSelector.hide();
+            _wizardState.targetEffect = null;
+          }
+        }
+      },
+    });
 
-    const labelEl = document.createElement('span');
-    labelEl.className = 'star-rating-label';
-    labelEl.style.color = p.color;
-    labelEl.textContent = p.label;
-    rating.appendChild(labelEl);
-
-    for (let i = 1; i <= 5; i++) {
-      const star = document.createElement('button');
-      star.className = 'star-btn' + (i <= _wizardState.priorities[p.key] ? ' filled' : '');
-      star.style.setProperty('--star-color', p.color);
-      star.textContent = i <= _wizardState.priorities[p.key] ? '\u2605' : '\u2606';
-      star.setAttribute('aria-label', `${i} star${i > 1 ? 's' : ''}`);
-      star.setAttribute('role', 'radio');
-      star.setAttribute('aria-checked', String(i === _wizardState.priorities[p.key]));
-      star.addEventListener('click', () => {
-        _wizardState.priorities[p.key] = i;
-        container.innerHTML = '';
-        _renderPriorityStep(container);
-      });
-      rating.appendChild(star);
-    }
-
-    group.appendChild(rating);
     container.appendChild(group);
   }
 
-  // Conditional: effect type selector when Effect >= 3
-  if (_wizardState.priorities.effect >= 3) {
-    const field = document.createElement('div');
-    field.className = 'wizard-field';
-    field.style.marginTop = 'var(--space-4)';
-    const label = document.createElement('label');
-    label.textContent = 'Target effect';
-    label.setAttribute('for', 'effect-type');
-    const select = document.createElement('select');
-    select.id = 'effect-type';
-    select.className = 'input';
-    const emptyOpt = document.createElement('option');
-    emptyOpt.value = '';
-    emptyOpt.textContent = 'Select effect type...';
-    select.appendChild(emptyOpt);
-    for (const eff of EFFECT_TYPES) {
-      const opt = document.createElement('option');
-      opt.value = eff.toLowerCase().replace(/\s+/g, '-');
-      opt.textContent = eff;
-      if (_wizardState.targetEffect === opt.value) opt.selected = true;
-      select.appendChild(opt);
-    }
-    select.addEventListener('change', () => {
-      _wizardState.targetEffect = select.value || null;
-    });
-    field.appendChild(label);
-    field.appendChild(select);
-    container.appendChild(field);
-  }
+  // Effect type selector
+  effectSelector = renderEffectSelector(container, {
+    value: _wizardState.targetEffect,
+    onChange: (v) => { _wizardState.targetEffect = v; },
+    visible: _wizardState.priorities.effect >= 3,
+  });
 }
 
 function _renderSummaryStep(container) {
@@ -808,15 +778,15 @@ export async function runTests() {
     document.body.appendChild(testContainer);
     _renderPriorityStep(testContainer);
 
-    const effectSelect = testContainer.querySelector('#effect-type');
-    assert(effectSelect === null, 'effect type selector hidden when effect < 3');
+    const effectField = testContainer.querySelector('.effect-selector');
+    assert(effectField !== null && effectField.style.display === 'none', 'effect type selector hidden when effect < 3');
 
     testContainer.innerHTML = '';
     _wizardState.priorities.effect = 3;
     _renderPriorityStep(testContainer);
 
-    const effectSelect2 = testContainer.querySelector('#effect-type');
-    assert(effectSelect2 !== null, 'effect type selector shown when effect >= 3');
+    const effectField2 = testContainer.querySelector('.effect-selector');
+    assert(effectField2 !== null && effectField2.style.display !== 'none', 'effect type selector shown when effect >= 3');
 
     testContainer.remove();
   }

@@ -212,18 +212,35 @@ export function getRecommendation(param, stage, medium, priorities) { /* ... */ 
 
 ## Implementation Checklist
 
-1. Write star rating tests (click sets rating, toggle deselect, store update, effect type show/hide)
-2. Write weight calculation tests (equal weights, all-zero handling, sum to 1.0, dominant weight)
-3. Create `/js/components/star-rating.js` with star rendering, click/toggle interaction, and effect type selector
-4. Implement star click handling (set to N, toggle N-1 on re-click)
-5. Implement effect type selector show/hide based on Effect >= 3 threshold
-6. Implement accessibility (radiogroup role, keyboard navigation, aria-live)
-7. Create `/js/data/priority-engine.js` with calculateWeights, blendTarget, getRecommendation
-8. Implement weight calculation with normalization and all-zero edge case
-9. Implement target blending with effect weight redistribution
-10. Implement trade-off note generation logic
-11. Create priority display widget (compact bar or star count visualization)
-12. Run all star rating tests and verify passing
-13. Run all weight calculation tests and verify passing
-14. Test star-rating component in onboarding wizard step 9 (if section 03 is available)
-15. Test priority engine with sample data from grow-knowledge.js (if section 04 is available)
+1. [x] Write star rating tests (click sets rating, toggle deselect, store update, effect type show/hide)
+2. [x] Write weight calculation tests (equal weights, all-zero handling, sum to 1.0, dominant weight)
+3. [x] Create `/js/components/star-rating.js` with star rendering, click/toggle interaction, and effect type selector
+4. [x] Implement star click handling (set to N, toggle N-1 on re-click)
+5. [x] Implement effect type selector show/hide based on Effect >= 3 threshold
+6. [x] Implement accessibility (radiogroup role, keyboard navigation, aria-live)
+7. [x] Create `/js/data/priority-engine.js` with calculateWeights, blendTarget, getRecommendation
+8. [x] Implement weight calculation with normalization and all-zero edge case
+9. [x] Implement target blending with effect weight redistribution
+10. [x] Implement trade-off note generation logic
+11. [x] Create priority display widget (compact bar visualization with CSS)
+12. [x] Run all star rating tests and verify passing
+13. [x] Run all weight calculation tests and verify passing
+14. [x] Refactor onboarding wizard step 9 to use reusable star-rating component
+15. [x] Test priority engine with DLI_TARGETS and TEMP_DIF from grow-knowledge.js
+
+## Actual Files Created/Modified
+
+| File | Status | Notes |
+|------|--------|-------|
+| `/js/components/star-rating.js` | Created | renderStarRating, renderEffectSelector, renderPriorityDisplay |
+| `/js/data/priority-engine.js` | Created | calculateWeights, blendTarget, getRecommendation (DLI + temp_dif) |
+| `/js/tests/priority-system.test.js` | Created | 20 tests covering star rating + weight calculation + blending |
+| `/js/views/onboarding.js` | Modified | Refactored step 9 to use reusable components, removed dead EFFECT_TYPES |
+| `/js/main.js` | Modified | Registered priority-system test module |
+| `/css/onboarding.css` | Modified | Added priority-display widget styles |
+
+## Deviations from Plan
+
+- **Roving tabindex added** (not in original spec): Code review caught that tabindex was stale after rating changes. Fixed with proper roving tabindex in updateStars().
+- **idSuffix added to renderEffectSelector**: Prevents duplicate IDs when multiple instances exist (onboarding + settings).
+- **`medium` param in getRecommendation**: Accepted but not used yet. Reserved for section-12 (feeding schedule).

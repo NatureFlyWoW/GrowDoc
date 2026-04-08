@@ -219,6 +219,7 @@ async function renderTestRunner(container) {
     { name: 'vercel-config', path: './tests/vercel-config.test.js' },
     { name: 'grow-knowledge', path: './tests/grow-knowledge.test.js' },
     { name: 'strain-database', path: './tests/strain-database.test.js' },
+    { name: 'priority-system', path: './tests/priority-system.test.js' },
   ];
 
   let totalPass = 0;

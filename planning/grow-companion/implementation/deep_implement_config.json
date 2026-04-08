@@ -39,6 +39,14 @@
     "section-03-landing-onboarding": {
       "status": "complete",
       "commit_hash": "328def0"
+    },
+    "section-04-grow-knowledge": {
+      "status": "complete",
+      "commit_hash": "5033151"
+    },
+    "section-05-strain-database": {
+      "status": "complete",
+      "commit_hash": "8c2912d"
     }
   },
   "pre_commit": {
