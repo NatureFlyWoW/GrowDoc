@@ -210,6 +210,37 @@ export function renderStageDetail(container, stageId, options = {}) {
     }
   }
 
+  // Manual "Change Stage" control — allows jumping to any stage
+  if (options.currentStage && options.onStageChange) {
+    const changeRow = document.createElement('div');
+    changeRow.className = 'stage-change-row';
+    changeRow.style.marginTop = 'var(--space-4)';
+
+    const select = document.createElement('select');
+    select.className = 'input';
+    select.setAttribute('aria-label', 'Change growth stage');
+    for (const s of STAGES) {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = s.name;
+      if (s.id === options.currentStage) opt.selected = true;
+      select.appendChild(opt);
+    }
+
+    const changeBtn = document.createElement('button');
+    changeBtn.className = 'btn btn-sm';
+    changeBtn.textContent = 'Change Stage';
+    changeBtn.addEventListener('click', () => {
+      if (select.value !== options.currentStage) {
+        options.onStageChange(select.value);
+      }
+    });
+
+    changeRow.appendChild(select);
+    changeRow.appendChild(changeBtn);
+    panel.appendChild(changeRow);
+  }
+
   container.appendChild(panel);
 }
 

@@ -10,7 +10,7 @@ import { renderEnvironmentView } from './views/environment.js';
 import { renderMyGrow } from './views/my-grow.js';
 import { renderPlantDetail } from './views/plant-detail.js';
 import { renderFeedingView } from './views/feeding.js';
-import { renderDryCureView, renderTimeline as renderTimelineBar } from './components/timeline-bar.js';
+import { renderDryCureView, renderTimeline as renderTimelineBar, renderStageDetail, advancePlantStage } from './components/timeline-bar.js';
 import { getDaysInStage } from './data/stage-rules.js';
 import { renderTrainingView } from './views/training.js';
 import { renderHarvestView } from './views/harvest.js';
@@ -66,7 +66,24 @@ const viewMap = {
     if (!plant) { container.innerHTML = '<p class="text-muted">No active grow.</p>'; return; }
     container.innerHTML = '';
     const h1 = document.createElement('h1'); h1.textContent = 'Growth Timeline'; container.appendChild(h1);
-    renderTimelineBar(container, { currentStage: plant.stage, daysInStage: getDaysInStage(plant), stageHistory: grow.stageHistory || [], mode: 'full' });
+    const detailTarget = document.createElement('div');
+    detailTarget.className = 'stage-detail-target';
+    const showDetail = (stageId) => {
+      detailTarget.innerHTML = '';
+      renderStageDetail(detailTarget, stageId, {
+        currentStage: plant.stage,
+        onAdvance: (nextId) => { advancePlantStage(store, plant.id, nextId); navigate('/grow/timeline'); },
+        onStageChange: (newId) => { advancePlantStage(store, plant.id, newId); navigate('/grow/timeline'); },
+      });
+    };
+    renderTimelineBar(container, {
+      currentStage: plant.stage, daysInStage: getDaysInStage(plant),
+      stageHistory: grow.stageHistory || [], mode: 'full',
+      onStageClick: showDetail,
+      onAdvance: (nextId) => { advancePlantStage(store, plant.id, nextId); navigate('/grow/timeline'); },
+      plantId: plant.id, _store: store,
+    });
+    container.appendChild(detailTarget);
   },
   'plant-detail': (container, params) => renderPlantDetail(container, window.__growdocStore, params?.id, params?._hash),
   'feeding': (container) => renderFeedingView(container, window.__growdocStore),

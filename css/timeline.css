@@ -126,6 +126,18 @@
   padding: var(--space-1) 0;
 }
 
+.stage-change-row {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--bg-elevated);
+}
+
+.stage-change-row select { flex: 1; }
+
+.stage-detail-target { margin-top: var(--space-4); }
+
 /* Dry/Cure */
 .dry-cure-plant {
   padding: var(--space-4);
