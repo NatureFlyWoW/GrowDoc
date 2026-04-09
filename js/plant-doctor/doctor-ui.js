@@ -9,8 +9,9 @@ import { CORE_SCORING, CORE_REFINE_RULES, SYMPTOM_OPTIONS } from './doctor-data.
 export function renderPlantDoctor(container, store) {
   container.innerHTML = '';
 
-  // Initialize scoring data
+  // Initialize with core scoring data, then try to load full v3 dataset
   setDiagnosticData(CORE_SCORING, CORE_REFINE_RULES);
+  _tryLoadV3Data();
 
   const context = buildContext(store);
   const selectedSymptoms = new Set();
@@ -151,5 +152,51 @@ function _updateResults(container, symptoms, context, store) {
       refineSection.appendChild(qDiv);
     }
     resultsArea.appendChild(refineSection);
+  }
+}
+
+// Try to load the full v3 Plant Doctor data at runtime
+let _v3Loaded = false;
+async function _tryLoadV3Data() {
+  if (_v3Loaded) return;
+  try {
+    // The v3 data uses global var declarations — load via fetch + eval in a controlled scope
+    const resp = await fetch('/docs/plant-doctor-data.js');
+    if (!resp.ok) return;
+    const text = await resp.text();
+
+    // Extract SCORING_RULES array from the v3 data
+    // The v3 file sets global vars: SYMPTOMS, SCORING_RULES, REFINE_RULES
+    const scope = {};
+    const wrappedCode = `(function() { ${text}; return { SYMPTOMS: typeof SYMPTOMS !== 'undefined' ? SYMPTOMS : null, SCORING_RULES: typeof SCORING_RULES !== 'undefined' ? SCORING_RULES : null, REFINE_RULES: typeof REFINE_RULES !== 'undefined' ? REFINE_RULES : null }; })()`;
+    const v3Data = eval(wrappedCode);
+
+    if (v3Data.SCORING_RULES && Array.isArray(v3Data.SCORING_RULES)) {
+      // Convert v3 SCORING_RULES format to our format
+      const scoring = v3Data.SCORING_RULES.map(r => ({
+        condition: r.resultLabel || r.resultId || 'Unknown',
+        symptom: r.symptomId || '',
+        weight: r.weight || 1,
+        contextBoost: r.contextBoost || null,
+      }));
+
+      const refineRules = (v3Data.REFINE_RULES || [])
+        .filter(r => r.question)
+        .map(r => ({
+          condition: r.resultLabel || r.resultId || 'Unknown',
+          question: r.question,
+          yesBoost: r.yesBoost || 15,
+          noBoost: r.noBoost || -10,
+        }));
+
+      if (scoring.length > 0) {
+        setDiagnosticData(scoring, refineRules.length > 0 ? refineRules : CORE_REFINE_RULES);
+        _v3Loaded = true;
+        console.log(`Plant Doctor: loaded ${scoring.length} v3 scoring rules`);
+      }
+    }
+  } catch (err) {
+    // Silently fall back to core data — v3 data is optional
+    console.warn('Plant Doctor: v3 data not available, using core dataset', err.message);
   }
 }

@@ -6,6 +6,7 @@ const ROUTES = [
   { path: '/dashboard',         view: 'dashboard',    auth: true  },
   { path: '/grow',              view: 'my-grow',      auth: true  },
   { path: '/grow/plant/:id',    view: 'plant-detail', auth: true  },
+  { path: '/grow/timeline',     view: 'timeline',     auth: true  },
   { path: '/grow/training',     view: 'training',     auth: true  },
   { path: '/grow/environment',  view: 'environment',  auth: true  },
   { path: '/grow/harvest',      view: 'harvest',      auth: true  },
@@ -59,10 +60,12 @@ export function getCurrentRoute() {
   return _currentRoute;
 }
 
-/** Navigate to a path via pushState. */
+/** Navigate to a path via pushState. Supports hash fragments (e.g., /grow/plant/id#edit). */
 export function navigate(path) {
-  if (path === window.location.pathname) return;
-  window.history.pushState(null, '', path);
+  const [pathname, hash] = path.split('#');
+  const fullPath = hash ? `${pathname}#${hash}` : pathname;
+  if (fullPath === window.location.pathname + window.location.hash) return;
+  window.history.pushState(null, '', fullPath);
   _handleRoute();
 }
 
@@ -91,6 +94,7 @@ export function initRouter(contentEl, viewMap) {
 
 function _handleRoute() {
   const pathname = window.location.pathname;
+  const hash = window.location.hash.replace('#', '');
   const matched = matchRoute(pathname);
 
   // Check first-visit: no profile -> landing
@@ -121,6 +125,7 @@ function _handleRoute() {
     return;
   }
 
+  if (hash) params._hash = hash;
   _currentRoute = { view: route.view, params };
   _renderView(route.view, params);
 }

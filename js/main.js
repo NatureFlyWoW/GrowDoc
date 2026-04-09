@@ -3,14 +3,15 @@
 import { initRouter, navigate } from './router.js';
 import { renderSidebar } from './components/sidebar.js';
 import { createStore } from './store.js';
-import { load, save, migrate, STORAGE_KEYS, migrateFromLegacy } from './storage.js';
+import { load, save, migrate, STORAGE_KEYS, migrateFromLegacy, compactEnvironmentReadings } from './storage.js';
 import { renderLanding, renderOnboarding } from './views/onboarding.js';
 import { renderDashboard } from './views/dashboard.js';
 import { renderEnvironmentView } from './views/environment.js';
 import { renderMyGrow } from './views/my-grow.js';
 import { renderPlantDetail } from './views/plant-detail.js';
 import { renderFeedingView } from './views/feeding.js';
-import { renderDryCureView } from './components/timeline-bar.js';
+import { renderDryCureView, renderTimeline as renderTimelineBar } from './components/timeline-bar.js';
+import { getDaysInStage } from './data/stage-rules.js';
 import { renderTrainingView } from './views/training.js';
 import { renderHarvestView } from './views/harvest.js';
 import { renderPlantDoctor } from './plant-doctor/doctor-ui.js';
@@ -58,7 +59,16 @@ const viewMap = {
   'dashboard': (container) => renderDashboard(container, window.__growdocStore),
   'environment': (container) => renderEnvironmentView(container, window.__growdocStore),
   'my-grow': (container) => renderMyGrow(container, window.__growdocStore),
-  'plant-detail': (container, params) => renderPlantDetail(container, window.__growdocStore, params?.id),
+  'timeline': (container) => {
+    const store = window.__growdocStore;
+    const grow = store?.state?.grow;
+    const plant = grow?.plants?.[0];
+    if (!plant) { container.innerHTML = '<p class="text-muted">No active grow.</p>'; return; }
+    container.innerHTML = '';
+    const h1 = document.createElement('h1'); h1.textContent = 'Growth Timeline'; container.appendChild(h1);
+    renderTimelineBar(container, { currentStage: plant.stage, daysInStage: getDaysInStage(plant), stageHistory: grow.stageHistory || [], mode: 'full' });
+  },
+  'plant-detail': (container, params) => renderPlantDetail(container, window.__growdocStore, params?.id, params?._hash),
   'feeding': (container) => renderFeedingView(container, window.__growdocStore),
   'dry-cure': (container) => renderDryCureView(container, window.__growdocStore),
   'training': (container) => renderTrainingView(container, window.__growdocStore),
@@ -90,6 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run v2 companion migration (after store init)
     runMigration(store);
+
+    // Run environment data compaction (daily to weekly for old readings)
+    compactEnvironmentReadings();
 
     // Make store accessible for other modules
     window.__growdocStore = store;

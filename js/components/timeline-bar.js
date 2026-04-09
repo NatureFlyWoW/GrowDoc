@@ -29,9 +29,16 @@ export function renderTimeline(container, options) {
     wrapper.appendChild(header);
   }
 
-  // Bar container
+  // Bar container with ARIA
   const bar = document.createElement('div');
   bar.className = 'timeline-bar';
+  bar.setAttribute('role', 'progressbar');
+  bar.setAttribute('aria-label', `Growth timeline — ${currentStage.replace(/-/g, ' ')}, day ${daysInStage}`);
+  const totalStages = STAGES.length;
+  const progressPct = Math.round(((currentIdx + (daysInStage / (getStageById(currentStage)?.typicalDays || 1))) / totalStages) * 100);
+  bar.setAttribute('aria-valuenow', String(Math.min(progressPct, 100)));
+  bar.setAttribute('aria-valuemin', '0');
+  bar.setAttribute('aria-valuemax', '100');
 
   for (let i = 0; i < STAGES.length; i++) {
     const stage = STAGES[i];

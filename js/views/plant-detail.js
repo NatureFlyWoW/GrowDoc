@@ -10,7 +10,7 @@ import { navigate } from '../router.js';
 /**
  * renderPlantDetail(container, store, plantId) — Single plant detail view.
  */
-export function renderPlantDetail(container, store, plantId) {
+export function renderPlantDetail(container, store, plantId, initialTab) {
   container.innerHTML = '';
   const grow = store.state.grow;
   if (!grow) return;
@@ -70,9 +70,10 @@ export function renderPlantDetail(container, store, plantId) {
   });
   container.appendChild(timelineSection);
 
-  // Tabs — check URL hash for pre-selected tab
+  // Tabs — check for pre-selected tab (from hash or parameter)
   const tabs = ['Overview', 'Log History', 'Diagnoses', 'Training', 'Edit'];
-  let activeTab = window.location.hash === '#edit' ? 'Edit' : 'Overview';
+  const hashTab = initialTab || window.location.hash.replace('#', '');
+  let activeTab = hashTab === 'edit' ? 'Edit' : hashTab === 'training' ? 'Training' : hashTab === 'logs' ? 'Log History' : 'Overview';
 
   const tabBar = document.createElement('div');
   tabBar.className = 'tab-bar';

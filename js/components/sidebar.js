@@ -19,7 +19,7 @@ const NAV_ITEMS = [
     auth: true,
     children: [
       { id: 'grow-plants',    label: 'Plants',      path: '/grow' },
-      { id: 'grow-timeline',  label: 'Timeline',    path: '/grow', section: 'timeline' },
+      { id: 'grow-timeline',  label: 'Timeline',    path: '/grow/timeline' },
       { id: 'grow-training',  label: 'Training',    path: '/grow/training' },
       { id: 'grow-env',       label: 'Environment', path: '/grow/environment' },
       { id: 'grow-harvest',   label: 'Harvest',     path: '/grow/harvest' },
@@ -37,6 +37,7 @@ const NAV_ITEMS = [
     children: [
       { id: 'tools-doctor',   label: 'Plant Doctor',  path: '/tools/doctor' },
       { id: 'tools-stealth',  label: 'Stealth Audit', path: '/tools/stealth' },
+      { id: 'tools-calcs',    label: 'Calculators',   path: '/tools/calculators' },
     ],
   },
   {
@@ -76,6 +77,17 @@ export function renderSidebar(container, store) {
   // Listen for grow state changes
   if (store && typeof store.get === 'function') {
     _hasActiveGrow = !!store.get('grow.active');
+  }
+
+  // React to grow state changes (start/finish grow)
+  if (store && typeof store.subscribe === 'function') {
+    store.subscribe('grow', () => {
+      const newState = !!store.get('grow.active');
+      if (newState !== _hasActiveGrow) {
+        _hasActiveGrow = newState;
+        _render();
+      }
+    });
   }
 
   _render();
@@ -273,9 +285,10 @@ export function runTests() {
 
   // Tools children
   const tools = NAV_ITEMS.find(i => i.id === 'tools');
-  assert(tools.children.length === 2, 'Tools has 2 sub-items');
+  assert(tools.children.length === 3, 'Tools has 3 sub-items');
   assert(tools.children[0].label === 'Plant Doctor', 'Tools includes Plant Doctor');
   assert(tools.children[1].label === 'Stealth Audit', 'Tools includes Stealth Audit');
+  assert(tools.children[2].label === 'Calculators', 'Tools includes Calculators');
 
   // Collapsed state test (DOM-based)
   const testContainer = document.createElement('nav');
