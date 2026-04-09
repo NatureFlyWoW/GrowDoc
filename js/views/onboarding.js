@@ -646,7 +646,7 @@ function _validateStep(step) {
 
 // ── Completion ─────────────────────────────────────────────────────────
 
-function _completeOnboarding() {
+function _completeOnboarding({ skipNavigate = false } = {}) {
   const store = _store || window.__growdocStore;
   if (!store) {
     console.error('Store not available');
@@ -714,7 +714,7 @@ function _completeOnboarding() {
   } catch { /* handled by store auto-save */ }
 
   // 6. Redirect to dashboard
-  navigate('/dashboard');
+  if (!skipNavigate) navigate('/dashboard');
 }
 
 // ── Exports for test access ────────────────────────────────────────────
@@ -865,9 +865,7 @@ export async function runTests() {
     _wizardState.priorities = { yield: 4, quality: 3, terpenes: 2, effect: 5 };
     _wizardState.targetEffect = 'relaxing';
 
-    // Mock navigate to prevent actual navigation
-    const origNavigate = window.location.pathname;
-    _completeOnboarding();
+    _completeOnboarding({ skipNavigate: true });
 
     assert(testStore.state.profile !== undefined, 'profile created in store');
     assert(testStore.state.profile.medium === 'soil', 'profile has correct medium');
