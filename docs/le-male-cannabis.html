@@ -1,117 +1,668 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Le Male × Cannabis — Terpene Breeding Feasibility Study</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0e100f;--bg2:#161a17;--bg3:#1a1f1b;--text:#d4cfc4;--text2:#8a8578;--text3:#5a5548;--accent:#b8965a;--accent2:#9a7a3a;--gold:#d4a020;--red:#c45c4a;--blue:#5a9eb8;--green:#7fb840;--purple:#8a7abf;--border:#2a3128;--border2:#3d4a39;--serif:'DM Serif Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'IBM Plex Mono',monospace}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.78;font-size:15px}
-.container{max-width:900px;margin:0 auto;padding:60px 32px 80px}
-h1{font-family:var(--serif);font-size:2.4em;font-weight:400;color:var(--accent);margin-bottom:8px}
-.subtitle{font-size:1em;color:var(--text2);margin-bottom:40px;line-height:1.7;font-weight:300}
-h2{font-family:var(--serif);font-size:1.4em;font-weight:400;color:var(--accent);margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--border)}
-h3{font-family:var(--body);font-size:1em;font-weight:600;margin:1.5rem 0 .5rem;color:var(--gold)}
-p{margin:0 0 .85rem;font-weight:300}
-strong{font-weight:600;color:var(--text)}
-em{color:var(--text2)}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.2rem 0}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:1.2rem 0}
-.cd{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
-.cd .lb{font-family:var(--mono);font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
-.cd .vl{font-size:.92em;font-weight:600;margin-top:4px;color:var(--text)}
-.ill{margin:2rem 0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg2)}
-.ill svg{display:block;width:100%}
-.ill-cap{padding:12px 18px;font-family:var(--mono);font-size:.72rem;color:var(--text3);background:var(--bg);border-top:1px solid var(--border);line-height:1.6}
-.tip{background:rgba(184,150,90,.08);border-left:3px solid var(--accent2);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
-.tip b{color:var(--accent);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
-.warn{background:rgba(212,160,32,.08);border-left:3px solid var(--gold);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
-.warn b{color:var(--gold);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
-.da{background:rgba(138,122,191,.08);border-left:3px solid var(--purple);padding:14px 18px;border-radius:0 10px 10px 0;margin:1.4rem 0;font-size:.88rem}
-.da b{color:var(--purple);font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
-table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.84rem}
-th{background:var(--bg2);text-align:left;padding:10px 14px;font-weight:600;border-bottom:1px solid var(--border2);font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text2)}
-td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;font-weight:300}
-@media(max-width:640px){.g2,.g3{grid-template-columns:1fr}.container{padding:28px 16px 60px}h1{font-size:2em}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le Male x Cannabis — Terpene Breeding Feasibility Study</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0d0a;
+      --bg-card: #111611;
+      --bg-card-hover: #161b16;
+      --bg-section: #0d100d;
+      --text-primary: #e8e4d9;
+      --text-secondary: #9ca38e;
+      --text-muted: #5e6556;
+      --accent-gold: #c9a84c;
+      --accent-gold-dim: #8a7234;
+      --accent-green: #4a7c3f;
+      --accent-green-bright: #6db35f;
+      --accent-green-dim: #2d4a26;
+      --accent-purple: #7c5a9e;
+      --accent-red: #b54c4c;
+      --accent-orange: #c97a2e;
+      --accent-blue: #4a7c9e;
+      --accent-teal: #3a8a7a;
+      --border: #1e241e;
+      --border-light: #2a322a;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 25% 35%, rgba(74,124,158,0.1) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 500px at 75% 60%, rgba(201,168,76,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 300px at 50% 85%, rgba(74,124,63,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      max-width: 900px;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero h1 span { color: var(--accent-gold); }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--text-secondary);
+      font-size: 0.7em;
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 660px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.4rem;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1.2;
+    }
+    .stat-sub {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+      margin: 0 auto;
+      max-width: 1100px;
+    }
+
+    /* Sections */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+    .section-header { margin-bottom: 3rem; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent-gold-dim);
+      margin-bottom: 0.75rem;
+    }
+    .section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section h2 span { color: var(--accent-gold); }
+    .section-intro {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 720px;
+      line-height: 1.8;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      border-color: var(--border-light);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .card-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    /* Evidence badge */
+    .evidence {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      margin-top: 0.75rem;
+    }
+    .ev-established { background: rgba(74,124,63,0.15); color: var(--accent-green-bright); border: 1px solid rgba(74,124,63,0.25); }
+    .ev-promising   { background: rgba(74,124,158,0.12); color: var(--accent-blue);         border: 1px solid rgba(74,124,158,0.2); }
+    .ev-plausible   { background: rgba(201,168,76,0.1);  color: var(--accent-gold);          border: 1px solid rgba(201,168,76,0.2); }
+    .ev-speculative { background: rgba(201,122,46,0.1);  color: var(--accent-orange);        border: 1px solid rgba(201,122,46,0.2); }
+    .ev-debunked    { background: rgba(181,76,76,0.1);   color: var(--accent-red);           border: 1px solid rgba(181,76,76,0.2); }
+
+    /* Callouts */
+    .callout {
+      border-left: 3px solid var(--accent-gold);
+      background: rgba(201,168,76,0.04);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .callout-blue   { border-left-color: var(--accent-blue);         background: rgba(74,124,158,0.04); }
+    .callout-green  { border-left-color: var(--accent-green-bright);  background: rgba(109,179,95,0.04); }
+    .callout-red    { border-left-color: var(--accent-red);           background: rgba(181,76,76,0.04); }
+    .callout-purple { border-left-color: var(--accent-purple);        background: rgba(124,90,158,0.04); }
+    .callout-orange { border-left-color: var(--accent-orange);        background: rgba(201,122,46,0.04); }
+
+    .callout-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      color: var(--accent-gold);
+    }
+    .callout-blue   .callout-label { color: var(--accent-blue); }
+    .callout-green  .callout-label { color: var(--accent-green-bright); }
+    .callout-red    .callout-label { color: var(--accent-red); }
+    .callout-purple .callout-label { color: var(--accent-purple); }
+    .callout-orange .callout-label { color: var(--accent-orange); }
+
+    .callout p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin: 0;
+    }
+    .callout p + p { margin-top: 0.6rem; }
+
+    /* Text */
+    p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
+    p strong { color: var(--text-primary); font-weight: 600; }
+    p em { color: var(--text-secondary); font-style: italic; }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 2rem 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 0.88rem;
+    }
+    th {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      background: var(--bg-section);
+      text-align: left;
+      padding: 0.9rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 0.85rem 1.2rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bg-card-hover); color: var(--text-primary); }
+    td strong { color: var(--text-primary); font-weight: 600; }
+    .can-yes  { color: var(--accent-green-bright); font-weight: 600; }
+    .can-no   { color: var(--accent-red); font-weight: 600; }
+
+    /* Badges */
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      padding: 0.35rem 0.75rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+    .badge-gold   { background: rgba(201,168,76,0.12);  color: var(--accent-gold);          border: 1px solid rgba(201,168,76,0.2); }
+    .badge-green  { background: rgba(74,124,63,0.12);   color: var(--accent-green-bright);  border: 1px solid rgba(74,124,63,0.2); }
+    .badge-blue   { background: rgba(74,124,158,0.12);  color: var(--accent-blue);          border: 1px solid rgba(74,124,158,0.2); }
+    .badge-red    { background: rgba(181,76,76,0.12);   color: var(--accent-red);           border: 1px solid rgba(181,76,76,0.2); }
+    .badge-purple { background: rgba(124,90,158,0.12);  color: #a88ad4;                     border: 1px solid rgba(124,90,158,0.2); }
+
+    /* Lists */
+    ul, ol { margin: 0 0 1rem 1.5rem; color: var(--text-secondary); font-size: 0.92rem; }
+    li { margin-bottom: 0.4rem; line-height: 1.7; }
+    li strong { color: var(--text-primary); }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer p {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+    }
+
+    /* Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .section { padding: 4rem 1.25rem; }
+      .hero { padding: 2rem 1.25rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      table { font-size: 0.8rem; }
+      th, td { padding: 0.7rem 0.8rem; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
 
-<h1>Le Male × Cannabis</h1>
-<p class="subtitle">A terpene-focused feasibility study exploring whether cannabis can be bred to approximate the aromatic profile of Jean Paul Gaultier's Le Male fragrance. Compound-by-compound gap analysis, genetic candidates, environmental manipulation strategies, and a realistic assessment of what's achievable versus what's fantasy. This is a jazz interpretation, not a cover.</p>
+<section class="hero">
+  <div class="hero-subtitle">Terpene Science · Breeding Feasibility · Analytical Study</div>
+  <h1>Le Male <span>x</span> Cannabis <em>— A Feasibility Study</em></h1>
+  <p class="hero-desc">A compound-by-compound gap analysis exploring whether cannabis can be bred to approximate the aromatic profile of Jean Paul Gaultier's Le Male. Evidence ratings corrected against controlled literature. This is a jazz interpretation, not a cover.</p>
+</section>
 
-<div class="g3">
-  <div class="cd"><div class="lb">Fragrance</div><div class="vl">JPG Le Male (1995)</div></div>
-  <div class="cd"><div class="lb">Key Notes</div><div class="vl">Lavender · Vanilla · Mint</div></div>
-  <div class="cd"><div class="lb">Feasibility</div><div class="vl">Partial — 60% of profile achievable</div></div>
-</div>
+<div class="divider"></div>
 
-<h2>Le Male Is Built on Compounds Cannabis Mostly Cannot Make</h2>
-
-<p>Le Male's signature is a tension between <strong>cool lavender</strong> (linalool, linalyl acetate), <strong>warm vanilla</strong> (vanillin, coumarin), and <strong>fresh mint</strong> (menthol, menthone). Cannabis produces linalool naturally — sometimes abundantly — but lacks the enzymatic pathways for vanillin, coumarin, and menthol. These are the gaps that define what's possible versus what's fantasy.</p>
-
-<h2>Compound-by-Compound Gap Analysis</h2>
-
-<table>
-<tr><th>Le Male Compound</th><th>Cannabis Produces?</th><th>Achievability</th><th>Strategy</th></tr>
-<tr><td><strong>Linalool</strong> (lavender)</td><td style="color:var(--green)">✓ Yes — many strains</td><td>★★★★★</td><td>Select high-linalool genetics (GDP, Do-Si-Dos, Lavender)</td></tr>
-<tr><td><strong>Limonene</strong> (citrus brightness)</td><td style="color:var(--green)">✓ Yes — common</td><td>★★★★★</td><td>Nearly universal in cannabis. Easy to select for.</td></tr>
-<tr><td><strong>β-Caryophyllene</strong> (spicy warmth)</td><td style="color:var(--green)">✓ Yes — very common</td><td>★★★★★</td><td>Present in most strains. CB2 agonist — adds body effect.</td></tr>
-<tr><td><strong>Vanillin</strong> (vanilla)</td><td style="color:var(--red)">✗ No pathway</td><td>★☆☆☆☆</td><td>Cannot be bred in. Some strains have "vanilla-adjacent" esters.</td></tr>
-<tr><td><strong>Coumarin</strong> (tonka/hay)</td><td style="color:var(--red)">✗ No pathway</td><td>★☆☆☆☆</td><td>Not produced by cannabis. Warm, sweet undertone absent.</td></tr>
-<tr><td><strong>Menthol</strong> (cool mint)</td><td style="color:var(--red)">✗ No pathway</td><td>★☆☆☆☆</td><td>Cannabis doesn't make menthol. Some "mint" strains have terpinolene.</td></tr>
-<tr><td><strong>Myrcene</strong> (musky base)</td><td style="color:var(--green)">✓ Yes — dominant in many</td><td>★★★★★</td><td>Often the most abundant cannabis terpene. Supports the warm base.</td></tr>
-<tr><td><strong>Terpinolene</strong> (fresh, piney)</td><td style="color:var(--green)">✓ Yes — some strains</td><td>★★★★☆</td><td>Found in Jack Herer, Super Silver Haze. "Fresh" quality partially compensates for missing mint.</td></tr>
-</table>
-
-<h2>Genetics That Carry Le Male's Achievable Notes</h2>
-
-<div class="g2">
-  <div class="cd" style="border-color:var(--accent2)">
-    <div class="lb">Lavender/Floral Base</div>
-    <div class="vl">GDP, Do-Si-Dos, Lavender Kush</div>
-    <div style="font-size:.82rem;color:var(--text2);margin-top:6px">High-linalool strains. GDP's "grape + floral" terpene profile maps directly to Le Male's lavender heart. Do-Si-Dos adds complexity through its Cookie lineage.</div>
+<!-- SECTION I: OVERVIEW -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-label">Section 01 · Study Parameters</div>
+    <h2>The <span>Honest Premise</span></h2>
+    <p class="section-intro">Le Male's signature is a tension between cool lavender, warm vanilla, and fresh mint. Cannabis can make some of these compounds — and not others. This study maps exactly which is which, and what the evidence actually says about enhancement strategies.</p>
   </div>
-  <div class="cd" style="border-color:var(--accent2)">
-    <div class="lb">Warm/Sweet Complement</div>
-    <div class="vl">Ice Cream Mints, Gelato, Wedding Cake</div>
-    <div style="font-size:.82rem;color:var(--text2);margin-top:6px">The "creamy" terpene profile from strains like Ice Cream Mints is the closest cannabis gets to vanilla — not vanillin, but ester compounds that evoke creaminess. Cross with GDP for the lavender base.</div>
+
+  <div class="stats-grid reveal">
+    <div class="stat">
+      <div class="stat-label">Target Fragrance</div>
+      <div class="stat-value">JPG Le Male</div>
+      <div class="stat-sub">Jean Paul Gaultier, 1995</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Key Notes</div>
+      <div class="stat-value">Lav · Van · Mint</div>
+      <div class="stat-sub">Lavender · Vanilla · Mint</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Profile Achievability</div>
+      <div class="stat-value">~60%</div>
+      <div class="stat-sub">The other 40% is biochemically impossible</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Breeding Timeline</div>
+      <div class="stat-value">3–5 yrs</div>
+      <div class="stat-sub">F1 through stabilized selection</div>
+    </div>
   </div>
-</div>
 
-<h2>The Breeding Roadmap: GDP × Ice Cream Mints</h2>
+  <p class="reveal">Le Male's signature is built on a tension between <strong>cool lavender</strong> (linalool, linalyl acetate), <strong>warm vanilla</strong> (vanillin, coumarin), and <strong>fresh mint</strong> (menthol, menthone). Cannabis produces linalool naturally — sometimes abundantly — but lacks the enzymatic pathways for vanillin, coumarin, and menthol. These are fixed biochemical facts, not breeding targets. No amount of genetic selection or environmental stress will cause a cannabis plant to synthesize menthol.</p>
 
-<p>The most promising cross for a "Le Male cannabis" would be <strong>GDP × Ice Cream Mints</strong>. GDP brings the linalool-dominant lavender/floral profile. Ice Cream Mints brings the creamy, sweet ester complexity. The F1 generation would express a blend of both parents; the F2 would segregate — and the pheno hunt begins for the rare individual that maximizes linalool + creamy esters + caryophyllene warmth.</p>
+</section>
 
-<div class="warn"><b>3–5 Year Project</b> — This is a multi-generational breeding project requiring: F1 seed production, F2 population growing (50+ plants minimum for meaningful selection), terpene testing (lab analysis or at minimum trained nose), backcrossing to stabilize. This is not a single-grow project — it's a hobby that spans years and hundreds of plants.</div>
+<div class="divider"></div>
 
-<h2>Environmental Manipulation for Maximum Target Terpenes</h2>
+<!-- SECTION II: COMPOUND ANALYSIS -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-label">Section 02 · Compound Gap Analysis</div>
+    <h2>Compound-by-Compound <span>Gap Map</span></h2>
+    <p class="section-intro">Every aromatic compound in Le Male, assessed against what cannabis biochemistry can and cannot produce — and how achievable each is through genetics alone.</p>
+  </div>
 
-<table>
-<tr><th>Technique</th><th>Effect on Target Terpenes</th><th>Evidence Level</th></tr>
-<tr><td>Late-flower temperature drop (21→17°C nights)</td><td>Preserves volatile linalool, increases terpene concentration per gram</td><td>Well-established</td></tr>
-<tr><td>UV-B supplementation (final 3 weeks)</td><td>Stress-response increases resin and possibly terpene diversity</td><td>Moderate evidence</td></tr>
-<tr><td>Mild drought stress (final 5–7 days)</td><td>Concentrates terpenes per gram (but reduces total gram weight)</td><td>Caplan et al. 2019</td></tr>
-<tr><td>Extended dark period before harvest (48h)</td><td>Theoretical terpene preservation. One unreplicated study. Mold risk.</td><td>Weak — skip.</td></tr>
-<tr><td>Slow dry + long cure (10–14 days dry, 6+ week cure)</td><td>Terpene profile develops complexity through chemical reactions between compounds</td><td>Community consensus + basic chemistry</td></tr>
-</table>
+  <table class="reveal">
+    <tr>
+      <th>Le Male Compound</th>
+      <th>Cannabis Produces?</th>
+      <th>Achievability</th>
+      <th>Strategy</th>
+    </tr>
+    <tr>
+      <td><strong>Linalool</strong> (lavender)</td>
+      <td class="can-yes">Yes — many strains</td>
+      <td>★★★★★</td>
+      <td>Select high-linalool genetics (GDP, Do-Si-Dos, Lavender Kush). Well-documented cannabis terpene (Russo 2011).</td>
+    </tr>
+    <tr>
+      <td><strong>Limonene</strong> (citrus brightness)</td>
+      <td class="can-yes">Yes — common</td>
+      <td>★★★★★</td>
+      <td>Nearly universal in cannabis. Easy to select for. Supports the bright top note.</td>
+    </tr>
+    <tr>
+      <td><strong>beta-Caryophyllene</strong> (spicy warmth)</td>
+      <td class="can-yes">Yes — very common</td>
+      <td>★★★★★</td>
+      <td>Present in most strains. CB2 agonist — adds both aromatic depth and body effect.</td>
+    </tr>
+    <tr>
+      <td><strong>Myrcene</strong> (musky base)</td>
+      <td class="can-yes">Yes — often dominant</td>
+      <td>★★★★★</td>
+      <td>Often the most abundant cannabis terpene. Supports the warm, animalic base note.</td>
+    </tr>
+    <tr>
+      <td><strong>Terpinolene</strong> (fresh, piney)</td>
+      <td class="can-yes">Yes — some strains</td>
+      <td>★★★★☆</td>
+      <td>Found in Jack Herer, SSH. "Fresh" quality partially compensates for missing menthol.</td>
+    </tr>
+    <tr>
+      <td><strong>Vanillin</strong> (vanilla)</td>
+      <td class="can-no">No pathway</td>
+      <td>★☆☆☆☆</td>
+      <td>Cannot be bred in. Some strains have "vanilla-adjacent" ester compounds — the effect is a shadow, not a match.</td>
+    </tr>
+    <tr>
+      <td><strong>Coumarin</strong> (tonka/hay)</td>
+      <td class="can-no">No pathway</td>
+      <td>★☆☆☆☆</td>
+      <td>Not produced by cannabis. The warm, sweet, slightly bitter undertone is absent by definition.</td>
+    </tr>
+    <tr>
+      <td><strong>Menthol</strong> (cool mint)</td>
+      <td class="can-no">No pathway</td>
+      <td>★☆☆☆☆</td>
+      <td>Cannabis does not make menthol. Some "mint" strains have terpinolene — related, not equivalent.</td>
+    </tr>
+  </table>
 
-<h2>What the Final Product Would Actually Smell Like</h2>
+</section>
 
-<p>Not Le Male. Something <em>inspired by</em> Le Male — a cannabis interpretation of the fragrance's emotional register. The linalool gives you the lavender heart. The caryophyllene gives you spicy warmth. The creamy esters give you a nod toward vanilla. But without vanillin, coumarin, and menthol, the fragrance's cool-warm tension — its signature — would be absent. What you'd get instead is something like: <strong>lavender fields on a warm evening, with sweet pastry and earthy undertones.</strong> Beautiful, complex, and uniquely cannabis — but a jazz riff on Le Male, not a reproduction.</p>
+<div class="divider"></div>
 
-<h2>A Jazz Interpretation, Not a Cover</h2>
+<!-- SECTION III: GENETICS -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-label">Section 03 · Genetic Candidates</div>
+    <h2>Genetics That Carry <span>Le Male's Achievable Notes</span></h2>
+    <p class="section-intro">These are the strain families that carry the compounds cannabis can actually produce toward the target profile. The lavender heart is achievable. The vanilla warmth approximates. The mint is absent.</p>
+  </div>
 
-<div class="da"><b>Devil's Advocate — Reality Check</b> — The honest assessment: cannabis can achieve approximately 60% of Le Male's terpene profile through genetics + environment. The missing 40% (vanillin, coumarin, menthol) are compounds cannabis simply cannot produce — no amount of breeding will change this. The result would be a sophisticated, linalool-dominant, creamy-warm strain that <em>evokes</em> aspects of Le Male without replicating it. For a terpene enthusiast, this could be deeply satisfying — the challenge is recognizing it as a creative interpretation, not a failure to replicate. The best perfumes weren't copies either.</div>
+  <div class="card-grid reveal">
+    <div class="card">
+      <div class="card-label">Lavender / Floral Base · Target: Linalool</div>
+      <div class="card-title">GDP, Do-Si-Dos, Lavender Kush</div>
+      <div class="card-desc">High-linalool strains. Grand Daddy Purple's "grape + floral" terpene profile maps most directly to Le Male's lavender heart. Do-Si-Dos adds complexity through its Cookie lineage. Both are documented linalool-dominant producers (Russo 2011 terpene survey data).</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Warm / Creamy Complement · Target: Ester Complexity</div>
+      <div class="card-title">Ice Cream Mints, Gelato, Wedding Cake</div>
+      <div class="card-desc">The "creamy" terpene profile from strains like Ice Cream Mints is the closest cannabis gets to vanillin — not the compound itself, but ester compounds that evoke creaminess. The effect is suggestive rather than accurate. Cross with GDP for the lavender base.</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Fresh / Spice Layer · Target: BCP + Terpinolene</div>
+      <div class="card-title">Jack Herer, Super Silver Haze</div>
+      <div class="card-desc">Terpinolene contributes a fresh, slightly piney quality that partially compensates for the missing mint. Combined with beta-caryophyllene's spicy warmth, this creates a functional analogue of Le Male's middle structure — different in detail, plausible in impression.</div>
+    </div>
+  </div>
 
-<div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--text3);line-height:2">
-  <p>Le Male × Cannabis — Terpene Breeding Feasibility Study · v3.0 · April 2026</p>
-  <p style="color:var(--border)">A thought experiment in terpene-guided breeding · Not a current project</p>
-</div>
+  <div class="callout callout-blue reveal" style="margin-top: 2rem;">
+    <div class="callout-label">Research Note · Terpene Inheritance</div>
+    <p>Terpene inheritance in cannabis is likely polygenic and poorly characterized. Booth et al. (2017, PLOS ONE) identified TPS (terpene synthase) genes but F2 inheritance patterns for specific terpene chemotypes remain unmapped. The practical implication: selecting for a specific terpene combination across generations requires more plants and more generations than most hobby breeders plan for. The 50+ plant minimum for meaningful F2 selection may be insufficient for traits with unknown heritability.</p>
+  </div>
 
-</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION IV: BREEDING ROADMAP -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-label">Section 04 · Breeding Strategy</div>
+    <h2>The Breeding <span>Roadmap</span></h2>
+    <p class="section-intro">The most promising cross for a "Le Male cannabis" is GDP x Ice Cream Mints. This is the recommended entry point — and a realistic assessment of what it actually requires.</p>
+  </div>
+
+  <p class="reveal">GDP brings the linalool-dominant lavender and floral profile. Ice Cream Mints brings the creamy, sweet ester complexity — the closest cannabis gets to vanilla without the actual vanillin pathway. The F1 generation would express a blend of both parents. The F2 would segregate, and <strong>the pheno hunt begins for the rare individual that maximizes linalool + creamy esters + caryophyllene warmth simultaneously.</strong> This combination is not guaranteed to appear in F2 — it may require backcrossing.</p>
+
+  <div class="callout callout-orange reveal">
+    <div class="callout-label">Project Scope Warning · 3-5 Year Minimum</div>
+    <p>This is a multi-generational breeding project requiring: F1 seed production, F2 population growing (50+ plants minimum for meaningful selection), terpene testing (lab GC-MS analysis or at minimum a trained evaluator nose across multiple sessions), and backcrossing to stabilize. The 3–5 year estimate in the original study is accurate — do not compress this timeline. A single grow season cannot substitute for generational selection.</p>
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION V: ENVIRONMENTAL MANIPULATION -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-label">Section 05 · Environmental Strategy</div>
+    <h2>Environmental Manipulation <span>for Target Terpenes</span></h2>
+    <p class="section-intro">Once genetics are established, environmental controls can enhance terpene expression — but the evidence base for each technique varies dramatically. What follows is an evidence-corrected assessment.</p>
+  </div>
+
+  <table class="reveal">
+    <tr>
+      <th>Technique</th>
+      <th>Effect on Target Terpenes</th>
+      <th>Evidence Rating</th>
+    </tr>
+    <tr>
+      <td><strong>Late-flower temperature drop</strong> (21 to 17°C nights, final 3 weeks)</td>
+      <td>Preserves volatile linalool and other monoterpenes by reducing evaporation. Increases terpene concentration per gram.</td>
+      <td><span class="evidence ev-plausible">Thermodynamically Plausible</span><br><small style="font-size:0.78rem;color:var(--text-muted)">No cannabis-specific controlled study with analytical chemistry confirmation. Thermodynamics supports the mechanism; direct evidence is absent.</small></td>
+    </tr>
+    <tr>
+      <td><strong>UV-B supplementation</strong> (final 3 weeks)</td>
+      <td>Claimed to stress-induce resin and terpene diversity via the plant's UV-defense response.</td>
+      <td><span class="evidence ev-debunked">Debunked</span><br><small style="font-size:0.78rem;color:var(--text-muted)">Three controlled studies (Rodriguez-Morrison 2021; Llewellyn 2022) found no benefit from UV supplementation. One study found decreased terpenes under UV-B. Do not rely on UV-B for terpene enhancement.</small></td>
+    </tr>
+    <tr>
+      <td><strong>Drought stress</strong> (-1.5 MPa soil water potential, ~11 days in week 7)</td>
+      <td>Increases cannabinoid and likely terpene concentration per gram <em>without</em> reducing dry weight at the -1.5 MPa target. Total cannabinoid yield increased 43% in the reference study.</td>
+      <td><span class="evidence ev-established">Established — with caveat</span><br><small style="font-size:0.78rem;color:var(--text-muted)">Caplan et al. (2019, HortScience) used controlled hydroponic conditions. In organic soil, the effect is less predictable because soil water-holding capacity buffers drought stress unevenly — the -1.5 MPa target is harder to hit and verify without instruments.</small></td>
+    </tr>
+    <tr>
+      <td><strong>Extended dark period before harvest</strong> (48h lights-off)</td>
+      <td>Claimed to preserve terpenes by eliminating photodegradation during the final pre-harvest window.</td>
+      <td><span class="evidence ev-speculative">Speculative — Grower Folklore</span><br><small style="font-size:0.78rem;color:var(--text-muted)">No controlled study supports this claim. One unreplicated, non-peer-reviewed report exists. Mold risk increases meaningfully with 48h of elevated humidity and no airflow. Skip.</small></td>
+    </tr>
+    <tr>
+      <td><strong>Slow dry + long cure</strong> (10–14 day dry at 15–18°C, 6+ week cure at 62% RH)</td>
+      <td>Terpene profile develops complexity through enzymatic and chemical reactions between compounds during controlled moisture reduction.</td>
+      <td><span class="evidence ev-established">Established</span><br><small style="font-size:0.78rem;color:var(--text-muted)">Community consensus supported by basic chemistry. The mechanisms (chlorophyll degradation, ester formation, terpene oxidation products) are real. The only technique on this list where the evidence is both mechanistically sound and practically robust.</small></td>
+    </tr>
+  </table>
+
+  <div class="callout callout-blue reveal">
+    <div class="callout-label">Research Reference · Caplan et al. 2019</div>
+    <p>Caplan et al. (2019, HortScience) demonstrated that drought stress at -1.5 MPa soil water potential increased cannabinoid concentration per gram without reducing dry weight — and increased total cannabinoid yield by 43%. Protocol: approximately 11 days of water restriction in week 7 of flower, targeting the -1.5 MPa water potential threshold. The key caveat for soil growers: this target was established in hydroponic conditions where water potential is measurable and controllable. In organic soil, achieving the precise -1.5 MPa threshold requires a tensiometer and cannot be approximated by "days since last watering."</p>
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION VI: EVIDENCE SUMMARY -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-label">Section 06 · Evidence Summary</div>
+    <h2>Corrected <span>Evidence Ratings</span></h2>
+    <p class="section-intro">The original study's evidence ratings have been revised against controlled literature. The corrections are significant — particularly for UV-B, which moves from "moderate evidence" to "debunked."</p>
+  </div>
+
+  <div class="card-grid reveal">
+    <div class="card">
+      <div class="card-label">Linalool Selection via Genetics</div>
+      <div class="card-title">Established</div>
+      <div class="card-desc">Well-documented cannabis terpene with known high-linalool genetic lines. Russo (2011) provides the foundational terpene survey data. Selecting for it through phenotyping is straightforward in principle.</div>
+      <div><span class="evidence ev-established">Established</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">BCP Enhancement via Stress</div>
+      <div class="card-title">Promising — with Soil Caveat</div>
+      <div class="card-desc">Caplan (2019) supports drought stress for cannabinoid and terpene concentration increase. The mechanism is sound. The caveat: hydroponic vs. organic soil creates an unpredictable variable in the stress delivery.</div>
+      <div><span class="evidence ev-promising">Promising</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">UV-B Supplementation</div>
+      <div class="card-title">Debunked</div>
+      <div class="card-desc">Multiple controlled studies found no benefit and one found harm. Remove from any terpene-enhancement protocol. The intuitive appeal (UV stress = more resin) is not supported by analytical chemistry data.</div>
+      <div><span class="evidence ev-debunked">Debunked</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Temperature Drop — Terpene Preservation</div>
+      <div class="card-title">Plausible, Unconfirmed</div>
+      <div class="card-desc">Thermodynamically rational — lower temperatures reduce volatile monoterpene loss. No cannabis-specific controlled study with analytical chemistry confirmation. Implement it, but don't cite it as proven science.</div>
+      <div><span class="evidence ev-plausible">Plausible</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Extended Dark Period</div>
+      <div class="card-title">Speculative — No Data</div>
+      <div class="card-desc">Grower folklore with no controlled study support. The mold risk during a 48h dark, high-humidity window is real. No evidence of terpene preservation benefit justifies the risk.</div>
+      <div><span class="evidence ev-speculative">Speculative</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Breeding for Specific Terpene Profiles</div>
+      <div class="card-title">Plausible — Heritability Unknown</div>
+      <div class="card-desc">Booth et al. (2017, PLOS ONE) identified TPS genes. F2 inheritance patterns for specific terpene chemotypes remain unmapped. The 50+ plant minimum for meaningful selection may be insufficient for traits with unknown heritability.</div>
+      <div><span class="evidence ev-plausible">Plausible</span></div>
+    </div>
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION VII: CONCLUSION -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-label">Section 07 · Conclusion</div>
+    <h2>A Jazz Riff, <span>Not a Cover</span></h2>
+  </div>
+
+  <p class="reveal">The final product of this breeding project would not smell like Le Male. It would smell like something <em>inspired by</em> Le Male — a cannabis interpretation of the fragrance's emotional register. The linalool gives you the lavender heart. The beta-caryophyllene gives you spicy warmth. The creamy esters give you a nod toward vanilla. But without vanillin, coumarin, and menthol, the fragrance's cool-warm tension — its defining signature — would be absent.</p>
+
+  <p class="reveal">What you would get instead is something like: <strong>lavender fields on a warm evening, with sweet pastry and earthy undertones.</strong> Beautiful, complex, and uniquely cannabis — but a jazz riff on Le Male, not a reproduction. The best perfumes weren't copies either.</p>
+
+  <div class="callout callout-purple reveal">
+    <div class="callout-label">Devil's Advocate · The Honest Assessment</div>
+    <p>Cannabis can achieve approximately 60% of Le Male's terpene profile through genetics and environment. The missing 40% — vanillin, coumarin, menthol — are compounds cannabis cannot produce regardless of breeding strategy or environmental stress. This is a hard biochemical boundary, not a technical limitation to be solved with better techniques.</p>
+    <p>For a terpene enthusiast, the GDP x Ice Cream Mints project could be deeply satisfying on its own terms — not as a failed Le Male replica, but as a sophisticated, linalool-dominant, creamy-warm strain that evokes a fragment of the original's character. The framing matters: approach it as a creative interpretation, and the result will be judged on its own merits.</p>
+  </div>
+
+</section>
+
+<footer class="footer">
+  <p>Le Male x Cannabis — Terpene Breeding Feasibility Study · v4.0 · April 2026 · GrowDoc</p>
+  <p>A thought experiment in terpene-guided breeding · Evidence ratings corrected against controlled literature · Not a current project</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

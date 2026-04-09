@@ -36,6 +36,7 @@ var SYMPTOMS = {
   'interveinal-upper':   { id: 'interveinal-upper',   label: 'Yellow between veins, veins stay dark (new growth)', region: 'leaves', group: 'discoloration' },
   'yellow-tip-edge':     { id: 'yellow-tip-edge',     label: 'Yellow tips and edges',                              region: 'leaves', group: 'discoloration' },
   'twisted-new-growth':  { id: 'twisted-new-growth',  label: 'New growth twisted or distorted',                    region: 'leaves', group: 'deformation' },
+  'small-leaves':        { id: 'small-leaves',        label: 'Unusually small new leaves',                         region: 'leaves', group: 'deformation' },
   'brown-tips':          { id: 'brown-tips',          label: 'Brown / burnt leaf tips',                            region: 'leaves', group: 'damage' },
   'spots-random':        { id: 'spots-random',        label: 'Random brown spots on leaves',                       region: 'leaves', group: 'damage' },
   'spots-circular':      { id: 'spots-circular',      label: 'Well-defined circular spots',                        region: 'leaves', group: 'damage' },
@@ -65,7 +66,17 @@ var SYMPTOMS = {
   'dark-green':          { id: 'dark-green',          label: 'Very dark green leaves overall',                     region: 'leaves', group: 'discoloration' },
   'rusty-edges':         { id: 'rusty-edges',         label: 'Rusty / bronze on leaf edges',                       region: 'leaves', group: 'damage' },
   'webbing':             { id: 'webbing',             label: 'Webbing between leaves',                             region: 'whole', group: 'surface' },
-  'white-residue':       { id: 'white-residue',       label: 'White residue on pot or soil surface',               region: 'whole', group: 'surface' }
+  'white-residue':       { id: 'white-residue',       label: 'White residue on pot or soil surface',               region: 'whole', group: 'surface' },
+
+  /* — Pest / Hermie (8) — */
+  'silver-streaks':      { id: 'silver-streaks',      label: 'Silver/bronze streaks on leaves',                    region: 'leaves', group: 'surface' },
+  'black-frass':         { id: 'black-frass',          label: 'Tiny black dots (frass) on leaves',                  region: 'leaves', group: 'surface' },
+  'tiny-flying-insects': { id: 'tiny-flying-insects',  label: 'Small flies near soil surface',                      region: 'whole-plant', group: 'damage' },
+  'glossy-new-growth':   { id: 'glossy-new-growth',    label: 'Shiny/wet-looking distorted new growth',             region: 'leaves', group: 'deformation' },
+  'gray-mold-bud':       { id: 'gray-mold-bud',        label: 'Gray fuzzy growth on/in buds',                       region: 'whole-plant', group: 'damage' },
+  'single-leaf-death-bud': { id: 'single-leaf-death-bud', label: 'Single leaf dying at a bud site',                 region: 'leaves', group: 'damage' },
+  'pollen-sacs':         { id: 'pollen-sacs',           label: 'Round structures at branch nodes',                  region: 'whole-plant', group: 'structure' },
+  'nanners-in-buds':     { id: 'nanners-in-buds',       label: 'Yellow banana shapes in buds',                      region: 'whole-plant', group: 'structure' }
 };
 
 /* ═══════════════════════════════════════════════════════════ */
@@ -92,18 +103,25 @@ var SCORING = {
   },
   'r-ca-def': {
     symptoms: { 'yellow-brown-spots': 0.85, 'spots-random': 0.8, 'brown-tips': 0.3, 'stunted-growth': 0.3 },
+    medium_modifier: { 'coco': 0.15 },
+    lighting_modifier: { 'led': 0.15 },
     base_confidence: 0.78
   },
   'r-ca-def-new': {
     symptoms: { 'twisted-new-growth': 0.9, 'yellow-upper': 0.7, 'yellow-tip-edge': 0.5, 'stunted-growth': 0.4 },
+    medium_modifier: { 'coco': 0.15 },
+    lighting_modifier: { 'led': 0.15 },
     base_confidence: 0.75
   },
   'r-mg-def': {
     symptoms: { 'interveinal-lower': 0.9, 'yellow-lower': 0.6, 'yellow-whole': 0.3 },
+    medium_modifier: { 'coco': 0.10 },
+    lighting_modifier: { 'led': 0.20 },
     base_confidence: 0.85
   },
   'r-mg-def-spots': {
     symptoms: { 'spots-random': 0.8, 'interveinal-lower': 0.7, 'yellow-lower': 0.5 },
+    lighting_modifier: { 'led': 0.15 },
     base_confidence: 0.75
   },
   'r-fe-def': {
@@ -114,8 +132,22 @@ var SCORING = {
     symptoms: { 'pale-overall': 0.85, 'yellow-upper': 0.7, 'stunted-growth': 0.3 },
     base_confidence: 0.75
   },
+  'r-mn-def': {
+    symptoms: { 'yellow-upper': 0.7, 'interveinal-upper': 0.9, 'spots-random': 0.5, 'yellow-tips': 0.4, 'stunted-growth': 0.3 },
+    stage_modifier: { 'seedling': -0.2 },
+    medium_modifier: {},
+    base_confidence: 0.72
+  },
+  'r-zn-def': {
+    symptoms: { 'yellow-upper': 0.6, 'interveinal-upper': 0.7, 'twisted-new-growth': 0.8, 'stunted-growth': 0.6, 'small-leaves': 0.7 },
+    stage_modifier: { 'seedling': -0.2 },
+    medium_modifier: {},
+    base_confidence: 0.68
+  },
   'r-ca-mg': {
     symptoms: { 'rusty-edges': 0.8, 'spots-random': 0.6, 'interveinal-lower': 0.5, 'yellow-brown-spots': 0.5, 'stunted-growth': 0.3 },
+    medium_modifier: { 'coco': 0.15 },
+    lighting_modifier: { 'led': 0.20 },
     base_confidence: 0.75
   },
 
@@ -155,6 +187,7 @@ var SCORING = {
   },
   'r-overwater': {
     symptoms: { 'drooping': 0.9, 'curling-down': 0.5, 'yellow-lower': 0.3, 'root-smell': 0.15 },
+    medium_modifier: { 'coco': -0.25, 'hydro': -0.30 },
     base_confidence: 0.85
   },
   'r-overwater-yellow': {
@@ -163,6 +196,7 @@ var SCORING = {
   },
   'r-underwater': {
     symptoms: { 'drooping': 0.9, 'leaves-dry-crispy': 0.7, 'curling-edges': 0.3 },
+    medium_modifier: { 'coco': 0.10 },
     base_confidence: 0.90
   },
   'r-wind-burn': {
@@ -209,10 +243,47 @@ var SCORING = {
   },
   'r-root-rot': {
     symptoms: { 'root-brown': 0.9, 'root-smell': 0.9, 'drooping': 0.7, 'yellow-whole': 0.3, 'stunted-growth': 0.3, 'stem-narrowing': 0.1 },
+    medium_modifier: { 'hydro': 0.15 },
     base_confidence: 0.75
   },
   'r-pest-mites': {
     symptoms: { 'speckling': 0.9, 'webbing': 0.85, 'spots-random': 0.3 },
+    base_confidence: 0.78
+  },
+  'r-broad-mites': {
+    symptoms: { 'glossy-new-growth': 0.95, 'twisted-new-growth': 0.80, 'stunted-growth': 0.40, 'curling-up': 0.30 },
+    stage_modifier: {},
+    medium_modifier: {},
+    base_confidence: 0.75
+  },
+  'r-thrips': {
+    symptoms: { 'silver-streaks': 0.95, 'black-frass': 0.85, 'spots-random': 0.20 },
+    stage_modifier: {},
+    medium_modifier: {},
+    base_confidence: 0.80
+  },
+  'r-fungus-gnats': {
+    symptoms: { 'tiny-flying-insects': 0.95, 'stunted-growth': 0.40, 'drooping': 0.25 },
+    stage_modifier: {},
+    medium_modifier: { 'hydro': -0.40 },
+    base_confidence: 0.78
+  },
+  'r-bud-rot': {
+    symptoms: { 'gray-mold-bud': 0.95, 'single-leaf-death-bud': 0.80, 'drooping': 0.15 },
+    stage_modifier: { 'veg': -0.40 },
+    medium_modifier: { 'hydro': -0.15 },
+    base_confidence: 0.82
+  },
+  'r-hermie-stress': {
+    symptoms: { 'nanners-in-buds': 0.95, 'pollen-sacs': 0.20 },
+    stage_modifier: { 'veg': -0.50, 'early-flower': -0.30 },
+    medium_modifier: {},
+    base_confidence: 0.80
+  },
+  'r-hermie-genetic': {
+    symptoms: { 'pollen-sacs': 0.95, 'nanners-in-buds': 0.20 },
+    stage_modifier: { 'veg': -0.30, 'late-flower': -0.20 },
+    medium_modifier: {},
     base_confidence: 0.78
   },
 
@@ -344,7 +415,7 @@ var REFINE_RULES = [
     id: 'rule-ca-vs-mg',
     condition: diagnosesInclude(['r-ca-def', 'r-mg-def']),
     question: 'Which leaves are most affected?',
-    help: 'Calcium is immobile (shows on new growth). Magnesium is mobile (shows on old growth).',
+    help: 'Calcium is immobile (shows on new growth). Magnesium is mobile (shows on old growth). In coco, calcium issues are more common due to cation exchange.',
     options: [
       { label: 'Newer / upper leaves', adjust: { 'r-ca-def': 0.25, 'r-mg-def': -0.2 } },
       { label: 'Older / lower leaves', adjust: { 'r-ca-def': -0.2, 'r-mg-def': 0.25 } },
@@ -482,6 +553,17 @@ var REFINE_RULES = [
     ]
   },
   {
+    id: 'rule-ca-vs-broadmite',
+    condition: diagnosesInclude(['r-ca-def', 'r-broad-mites']),
+    question: 'Do the affected new leaves have a glossy, wet, or plastic-like surface?',
+    help: 'Broad mites cause a characteristic shiny/wet appearance that calcium deficiency does not.',
+    options: [
+      { label: 'Yes, shiny or plastic-looking', adjust: { 'r-ca-def': -0.30, 'r-broad-mites': 0.30 } },
+      { label: 'No, normal or crispy texture', adjust: { 'r-ca-def': 0.20, 'r-broad-mites': -0.20 } },
+      { label: 'Not sure', adjust: {} }
+    ]
+  },
+  {
     id: 'rule-humidity-vs-k',
     condition: diagnosesInclude(['r-low-humidity', 'r-k-def']),
     question: 'What is your current RH (relative humidity)?',
@@ -489,6 +571,26 @@ var REFINE_RULES = [
     options: [
       { label: 'Below 40% RH', adjust: { 'r-low-humidity': 0.3, 'r-k-def': -0.15 } },
       { label: '40\u201360% RH (normal range)', adjust: { 'r-low-humidity': -0.3, 'r-k-def': 0.2 } }
+    ]
+  },
+  {
+    id: 'rule-gnats-vs-overwater',
+    condition: diagnosesInclude(['r-fungus-gnats', 'r-overwater']),
+    question: 'Do you see small flying insects near the soil surface?',
+    help: 'Fungus gnats are 3-4mm dark flies with long antennae. If no insects are visible, overwatering is more likely.',
+    options: [
+      { label: 'Yes, small flies are visible', adjust: { 'r-fungus-gnats': 0.30, 'r-overwater': -0.15 } },
+      { label: 'No insects visible', adjust: { 'r-fungus-gnats': -0.30, 'r-overwater': 0.20 } }
+    ]
+  },
+  {
+    id: 'rule-hermie-stress-vs-genetic',
+    condition: diagnosesInclude(['r-hermie-stress', 'r-hermie-genetic']),
+    question: 'When did the male structures first appear?',
+    help: 'Early-flower pollen sacs suggest genetic hermaphroditism. Late-flower nanners are usually stress-induced.',
+    options: [
+      { label: 'Early flower (weeks 1-4)', adjust: { 'r-hermie-genetic': 0.30, 'r-hermie-stress': -0.30 } },
+      { label: 'Late flower (weeks 5+)', adjust: { 'r-hermie-stress': 0.30, 'r-hermie-genetic': -0.20 } }
     ]
   }
 ];

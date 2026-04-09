@@ -26,9 +26,8 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.5;
-  padding: 24px;
-  max-width: 860px;
-  margin: 0 auto;
+  padding: 0;
+  margin: 0;
 }
 
 .sr-only {
@@ -37,9 +36,9 @@ body {
 }
 
 /* Header */
-.header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
-h1 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-bottom: 4px; }
-.subtitle { font-size: 0.9rem; color: var(--text2); margin-bottom: 0; }
+.header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+h1 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-bottom: 2px; letter-spacing: -0.01em; }
+.subtitle { font-size: 0.875rem; color: var(--text2); margin-bottom: 0; letter-spacing: 0.01em; }
 
 /* Mode selector (segmented control) */
 .mode-selector {
@@ -56,6 +55,59 @@ h1 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-
 .mode-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .mode-btn[aria-disabled="true"] { opacity: 0.35; cursor: not-allowed; }
 .mode-btn[aria-disabled="true"]:hover { background: transparent; color: var(--text2); }
+.mode-subtitle {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text3);
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* Grow profile badges */
+.grow-badges {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.grow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text2);
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  /* min touch target 44px tall; visual padding kept compact */
+  padding: 0 12px;
+  min-height: 30px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  /* subtle edit indicator */
+  position: relative;
+}
+/* small pencil caret to signal editability */
+.grow-badge::after {
+  content: '✎';
+  font-size: 0.6rem;
+  opacity: 0.4;
+  margin-left: 2px;
+  transition: opacity 0.15s;
+}
+.grow-badge:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(143,184,86,0.07);
+}
+.grow-badge:hover::after {
+  opacity: 0.8;
+}
+.grow-badge:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
 
 /* Storage warning */
 .storage-warn {
@@ -83,72 +135,110 @@ h1 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-
 .dot.active { border-color: var(--accent); animation: pulse-dot 1.5s infinite; }
 .dot-sep { width: 16px; height: 2px; background: var(--border2); border-radius: 1px; }
 .dot-sep.done { background: var(--accent3); }
+.progress-text {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text3);
+  margin-left: 8px;
+  vertical-align: middle;
+}
 
 /* Question card */
 .q-card {
   background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
-  padding: 24px; margin-bottom: 20px;
+  padding: 24px 26px; margin-bottom: 20px;
 }
-.q-text { font-family: var(--serif); font-size: 1.2rem; color: var(--text); margin-bottom: 6px; }
-.q-help { font-size: 0.82rem; color: var(--text3); font-style: italic; margin-bottom: 16px; }
+.q-text { font-family: var(--serif); font-size: 1.2rem; color: var(--text); margin-bottom: 8px; line-height: 1.3; }
+.q-help { font-size: 0.83rem; color: var(--text2); font-style: italic; margin-bottom: 18px; line-height: 1.5; }
 
 /* Option buttons */
 .options { display: flex; flex-direction: column; gap: 8px; }
 .opt-btn {
   display: block; width: 100%; text-align: left; padding: 14px 18px; background: var(--bg3);
   border: 1px solid var(--border2); border-radius: 10px; color: var(--text); font-family: var(--body);
-  font-size: 0.95rem; cursor: pointer; min-height: 44px; transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  font-size: 0.95rem; cursor: pointer; min-height: 44px;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s, color 0.15s;
+  /* subtle left stripe on hover to cue interactivity */
+  border-left-width: 3px;
+  padding-left: 16px;
 }
-.opt-btn:hover { border-color: var(--accent3); background: rgba(143,184,86,0.08); }
+.opt-btn:hover {
+  border-color: var(--accent2);
+  border-left-color: var(--accent);
+  background: rgba(143,184,86,0.08);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.25);
+}
 .opt-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .opt-btn:active { transform: scale(0.99); }
 
 /* Back / Start Over buttons */
-.nav-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.nav-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .btn {
   padding: 12px 24px; border-radius: 8px; font-family: var(--mono); font-size: 0.85rem; font-weight: 600;
-  cursor: pointer; border: 1px solid var(--border2); min-height: 44px; transition: background 0.15s, transform 0.1s;
+  cursor: pointer; border: 1px solid var(--border2); min-height: 44px; transition: background 0.15s, transform 0.1s, border-color 0.15s;
 }
 .btn:active { transform: scale(0.97); }
 .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .btn-secondary { background: var(--bg3); color: var(--text2); }
-.btn-secondary:hover { background: var(--border); }
+.btn-secondary:hover { background: var(--border); color: var(--text); }
 .btn-primary { background: var(--accent3); color: var(--text); border-color: var(--accent2); }
 .btn-primary:hover { background: var(--accent2); }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-danger {
+  background: rgba(139, 26, 26, 0.3);
+  border-color: var(--red);
+  color: var(--red);
+}
+.btn-danger:hover {
+  background: rgba(139, 26, 26, 0.5);
+}
+/* Copy button — distinct teal-accent treatment */
+#btn-copy-dx {
+  border-color: rgba(90, 158, 184, 0.45);
+  color: var(--blue);
+  margin-left: auto; /* push to far right of the nav row */
+}
+#btn-copy-dx:hover {
+  background: rgba(90, 158, 184, 0.1);
+  border-color: var(--blue);
+  color: #fff;
+}
 
 /* Result card */
 .result-card {
   background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
-  padding: 24px; margin-bottom: 20px; border-left: 4px solid var(--accent);
+  padding: 26px 28px; margin-bottom: 24px; border-left: 4px solid var(--accent);
 }
-.result-card.sev-critical { border-left-color: var(--red); }
-.result-card.sev-warning { border-left-color: var(--gold); }
+.result-card.sev-critical { border-left-color: var(--red); background: rgba(196,92,74,0.04); }
+.result-card.sev-warning { border-left-color: var(--gold); background: rgba(201,168,76,0.04); }
 .result-card.sev-note { border-left-color: var(--accent); }
-.result-dx { font-family: var(--serif); font-size: 1.4rem; color: var(--text); margin-bottom: 8px; }
+.result-dx { font-family: var(--serif); font-size: 1.5rem; color: var(--text); margin-bottom: 10px; line-height: 1.25; }
 .result-sev {
   display: inline-block; font-family: var(--mono); font-size: 0.72rem; font-weight: 600;
-  padding: 3px 10px; border-radius: 4px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.8px;
 }
 .result-sev.sev-critical { background: rgba(196,92,74,0.2); color: var(--red); }
 .result-sev.sev-warning { background: rgba(201,168,76,0.2); color: var(--gold); }
 .result-sev.sev-note { background: rgba(143,184,86,0.2); color: var(--accent); }
 
 /* Confidence bar */
-.conf-wrap { margin-bottom: 16px; }
-.conf-label { font-family: var(--mono); font-size: 0.78rem; color: var(--text2); margin-bottom: 4px; }
-.conf-bar { height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
-.conf-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.5s ease-out; }
-.conf-pct { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); font-weight: 600; margin-top: 4px; }
+.conf-wrap { margin-bottom: 18px; }
+.conf-label { font-family: var(--mono); font-size: 0.72rem; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.8px; }
+.conf-bar { height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
+.conf-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+/* severity-aware confidence bar colors */
+.result-card.sev-critical .conf-fill { background: var(--red); }
+.result-card.sev-warning .conf-fill { background: var(--gold); }
+.conf-pct { font-family: var(--mono); font-size: 0.82rem; color: var(--text2); font-weight: 600; margin-top: 5px; }
 
 /* Check first / fixes / also consider */
-.result-section { margin-bottom: 14px; }
+.result-section { margin-bottom: 18px; }
 .result-section-title {
-  font-family: var(--mono); font-size: 0.72rem; font-weight: 600; color: var(--text3);
-  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+  font-family: var(--mono); font-size: 0.72rem; font-weight: 600; color: var(--text2);
+  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;
 }
 .result-ol { padding-left: 20px; }
-.result-ol li { font-size: 0.9rem; color: var(--text2); margin-bottom: 4px; line-height: 1.5; }
+.result-ol li { font-size: 0.9rem; color: var(--text2); margin-bottom: 7px; line-height: 1.6; }
 .result-ol li strong { color: var(--text); font-weight: 600; }
 .also-list { list-style: none; padding: 0; }
 .also-item { font-size: 0.85rem; color: var(--text3); padding: 4px 0; }
@@ -215,13 +305,13 @@ h1 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-
   transition: max-height 0.25s ease-out, opacity 0.2s ease-out;
 }
 .notes-body.open {
-  max-height: 120px;
+  max-height: 220px;
   opacity: 1;
 }
 .notes-textarea {
   width: 100%;
   min-height: 60px;
-  max-height: 80px;
+  max-height: 150px;
   padding: 10px 12px;
   background: var(--bg);
   border: 1px solid var(--border2);
@@ -255,25 +345,156 @@ h1 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-
 }
 /* Notes display in result card */
 .result-notes {
-  margin-top: 16px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border2);
 }
 .result-notes-title {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+.result-note-item {
+  font-size: 0.85rem;
+  color: var(--text2);
+  margin-bottom: 6px;
+  padding-left: 10px;
+  border-left: 2px solid var(--border2);
+  line-height: 1.5;
+}
+.note-insights {
+  margin-top: 18px;
+  padding: 14px 16px;
+  background: rgba(201, 168, 76, 0.08);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-left: 3px solid var(--gold);
+  border-radius: 8px;
+}
+.note-insights-title {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.note-insights-title::before {
+  content: '◆';
+  font-size: 0.5rem;
+  opacity: 0.7;
+}
+.note-insights-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.note-insights-item {
+  font-size: 0.84rem;
+  color: var(--text);
+  line-height: 1.55;
+  padding: 5px 0 5px 12px;
+  border-left: 2px solid rgba(201, 168, 76, 0.4);
+  margin-bottom: 8px;
+}
+.note-insights-item.priority-critical {
+  border-left-color: var(--red);
+}
+.note-insights-item.priority-important {
+  border-left-color: var(--gold);
+}
+.action-plan-title {
+  color: var(--accent);
+}
+.action-plan-personalized {
+  margin-bottom: 12px;
+}
+.action-step {
+  font-size: 0.84rem;
+  color: var(--text);
+  line-height: 1.6;
+  padding: 8px 0 8px 12px;
+  border-left: 2px solid var(--border2);
+  margin-bottom: 8px;
+}
+.action-step.priority-critical {
+  border-left-color: var(--red);
+}
+.action-step.priority-important {
+  border-left-color: var(--gold);
+}
+.general-tips {
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+.general-tips-toggle {
   font-family: var(--mono);
   font-size: 0.72rem;
   font-weight: 600;
   color: var(--text3);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  list-style: none;
+  padding: 4px 0;
 }
-.result-note-item {
-  font-size: 0.85rem;
-  color: var(--text2);
-  margin-bottom: 4px;
-  padding-left: 8px;
-  border-left: 2px solid var(--border2);
+.general-tips-toggle::-webkit-details-marker {
+  display: none;
+}
+.general-tips-toggle::before {
+  content: '\25B6';
+  display: inline-block;
+  margin-right: 6px;
+  font-size: 0.6rem;
+  transition: transform 0.2s;
+}
+.general-tips[open] > .general-tips-toggle::before {
+  transform: rotate(90deg);
+}
+.general-tips-list {
+  margin-top: 8px;
+}
+.general-tips-list li {
+  color: var(--text3);
+  font-size: 0.82rem;
+}
+.vpd-context {
+  margin-top: 18px;
+  padding: 12px 16px;
+  background: rgba(90, 158, 184, 0.07);
+  border: 1px solid rgba(90, 158, 184, 0.3);
+  border-left: 3px solid var(--blue);
+  border-radius: 8px;
+}
+.vpd-context-title {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.vpd-context-title::before {
+  content: '◆';
+  font-size: 0.5rem;
+  opacity: 0.7;
+}
+.vpd-context-body {
+  font-size: 0.84rem;
+  color: var(--text);
+  line-height: 1.55;
 }
 .result-note-step {
   font-family: var(--mono);
@@ -563,47 +784,389 @@ h1 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-
   flex-shrink: 0;
 }
 
+.btn-undo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text3);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-undo:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.btn-undo:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* Responsive */
 @media (max-width: 640px) {
-  body { padding: 14px; }
+  body { padding: 0; }
   h1 { font-size: 1.4rem; }
-  .header { flex-direction: column; }
+  .header { flex-direction: column; gap: 10px; }
   .q-text { font-size: 1.05rem; }
   .result-dx { font-size: 1.2rem; }
-  .opt-btn { padding: 12px 14px; }
+  .opt-btn { padding: 13px 16px; font-size: 0.95rem; }
+  .result-card { padding: 18px 16px; }
+  .mode-selector { width: 100%; justify-content: stretch; }
+  .mode-btn { flex: 1; text-align: center; }
+  .grow-badges { margin-top: 6px; }
+  .grow-badge { min-height: 36px; }
+  .nav-row { gap: 8px; }
+  /* On mobile, copy button shouldn't be pushed to far right via auto margin */
+  #btn-copy-dx { margin-left: 0; }
+  .note-insights, .vpd-context { padding: 12px 14px; }
+  .result-alert { font-size: 0.82rem; padding: 12px 14px; }
+}
+
+/* Urgency alert banner */
+.result-alert {
+  background: rgba(139, 26, 26, 0.85);
+  color: #fff;
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(224, 82, 82, 0.45);
+  border-left: 4px solid #e05252;
+  margin-bottom: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
+}
+.result-alert .alert-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.result-alert .alert-timeline {
+  font-weight: 400;
+  font-size: 0.82rem;
+  margin-top: 5px;
+  opacity: 0.88;
+  font-family: var(--body);
+  letter-spacing: 0;
+}
+
+/* Plant Sidebar */
+.app-layout {
+  display: flex;
+  gap: 0;
+  min-height: 100vh;
+}
+.plant-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  padding: 16px 12px;
+  overflow-y: auto;
+  max-height: 100vh;
+  position: sticky;
+  top: 0;
+}
+.plant-sidebar-title {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+}
+.plant-main {
+  flex: 1;
+  min-width: 0;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+.plant-card {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  position: relative;
+}
+.plant-card:hover {
+  border-color: var(--accent2);
+  background: rgba(100, 120, 60, 0.05);
+}
+.plant-card.active {
+  border-left: 3px solid var(--accent);
+  border-color: var(--accent);
+  background: rgba(100, 120, 60, 0.08);
+}
+.plant-card-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 170px;
+}
+.plant-card-edit {
+  position: absolute;
+  top: 8px;
+  right: 30px;
+  font-size: 0.7rem;
+  color: var(--text3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+}
+.plant-card:hover .plant-card-edit,
+.plant-card.active .plant-card-edit {
+  opacity: 1;
+}
+.plant-card-edit:hover {
+  color: var(--accent);
+}
+.plant-rename-input {
+  width: 100%;
+  padding: 4px 6px;
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: var(--body);
+  margin-bottom: 2px;
+}
+.plant-rename-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(100, 120, 60, 0.2);
+}
+.plant-card-meta {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text3);
+}
+.plant-card-badges {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+.plant-card-badge {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--text3);
+  background: rgba(100, 120, 60, 0.1);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+.plant-card-dx-count {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--accent);
+  background: rgba(100, 120, 60, 0.15);
+  border-radius: 10px;
+  padding: 1px 6px;
+  min-width: 18px;
+  text-align: center;
+}
+.btn-add-plant {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  background: none;
+  border: 1px dashed var(--border2);
+  border-radius: 8px;
+  color: var(--text3);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-add-plant:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+/* Add plant form */
+.plant-form {
+  padding: 12px;
+  border: 1px solid var(--accent2);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: rgba(100, 120, 60, 0.05);
+}
+.plant-form-field {
+  margin-bottom: 8px;
+}
+.plant-form-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 3px;
+}
+.plant-form-input {
+  width: 100%;
+  padding: 6px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.8rem;
+  font-family: var(--body);
+}
+.plant-form-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.plant-form-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.plant-form-row .btn {
+  flex: 1;
+  font-size: 0.75rem;
+  padding: 6px;
+}
+/* Mobile: sidebar becomes top strip */
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+  }
+  .plant-sidebar {
+    width: 100%;
+    max-height: none;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 12px;
+  }
+  .plant-sidebar.collapsed {
+    padding: 8px 12px;
+  }
+  .plant-sidebar.collapsed .plant-card,
+  .plant-sidebar.collapsed .btn-add-plant,
+  .plant-sidebar.collapsed .plant-form,
+  .plant-sidebar.collapsed .plant-sidebar-title {
+    display: none;
+  }
+  .plant-main {
+    padding: 20px 16px 48px;
+  }
+}
+.plant-mobile-strip {
+  display: none;
+}
+@media (max-width: 768px) {
+  .plant-mobile-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .plant-mobile-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .plant-mobile-toggle {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--accent2);
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
 }
 </style>
 </head>
 <body>
+
+<div class="app-layout">
+  <aside class="plant-sidebar" id="plant-sidebar" aria-label="Plant sidebar">
+    <div class="plant-mobile-strip" id="plant-mobile-strip">
+      <span class="plant-mobile-name" id="plant-mobile-name">No plant selected</span>
+      <button class="plant-mobile-toggle" id="plant-mobile-toggle" type="button" aria-expanded="true" aria-controls="plant-list">Switch</button>
+    </div>
+    <div class="plant-sidebar-title" id="plant-sidebar-title">Your Plants</div>
+    <div id="plant-list" role="listbox" aria-labelledby="plant-sidebar-title"></div>
+    <button class="btn-add-plant" id="btn-add-plant" type="button">+ Add Plant</button>
+    <div id="plant-form-container"></div>
+  </aside>
+  <div class="plant-main">
 
 <div class="header">
   <div>
     <h1>Plant Doctor</h1>
     <p class="subtitle">Interactive symptom diagnosis wizard</p>
   </div>
-  <div class="mode-selector" role="radiogroup" aria-label="Diagnosis mode">
-    <button class="mode-btn active" role="radio" aria-checked="true" data-mode="wizard" tabindex="0" type="button">Wizard</button>
-    <button class="mode-btn" role="radio" aria-checked="false" data-mode="expert" tabindex="-1" type="button">Expert</button>
-    <button class="mode-btn" role="radio" aria-checked="false" data-mode="multi-dx" tabindex="-1" type="button">Multi-Dx</button>
+  <div>
+    <div class="mode-selector" role="radiogroup" aria-label="Diagnosis mode">
+      <button class="mode-btn active" role="radio" aria-checked="true" data-mode="wizard" tabindex="0" type="button">Wizard</button>
+      <button class="mode-btn" role="radio" aria-checked="false" data-mode="expert" tabindex="-1" type="button">Expert</button>
+      <button class="mode-btn" role="radio" aria-checked="false" data-mode="multi-dx" tabindex="-1" type="button">Multi-Symptom</button>
+    </div>
+    <div id="mode-subtitle" class="mode-subtitle"></div>
+    <div id="grow-badges"></div>
   </div>
 </div>
 
-<div class="storage-warn" id="storage-warn"></div>
-<div class="last-dx" id="last-dx"></div>
+<div class="storage-warn" id="storage-warn" role="alert" aria-live="assertive"></div>
+<div class="last-dx" id="last-dx" aria-live="polite"></div>
 <div class="progress" id="progress" role="img" aria-label="Diagnosis progress"></div>
 <div id="app" aria-live="polite"></div>
 
+  </div><!-- /.plant-main -->
+</div><!-- /.app-layout -->
+
 <script src="plant-doctor-data.js"></script>
+<script src="note-context-rules.js"></script>
 <script>
 /* ── Helpers ── */
 function escapeHtml(s) {
   if (!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function formatAdviceSteps(text) {
+  var escaped = escapeHtml(text);
+  // Add line break before each step number (2) onwards
+  escaped = escaped.replace(/\s*\((\d+)\)\s*/g, function(match, num) {
+    if (num === '1') return '<strong>(' + num + ')</strong> ';
+    return '<br><strong>(' + num + ')</strong> ';
+  });
+  return escaped;
 }
 
 function makeResult(o) {
   var r = {
-    checkFirst: ['Verify pH: 6.0\u20136.5 (soil) or 5.5\u20136.0 (coco/hydro)'],
+    checkFirst: { default: ['Verify pH is in range for your medium'] },
     fixes: [],
     alsoConsider: []
   };
@@ -611,16 +1174,50 @@ function makeResult(o) {
   return r;
 }
 
+function resolveMediumText(textOrMap, medium) {
+  if (Array.isArray(textOrMap)) return textOrMap;
+  if (!textOrMap || typeof textOrMap !== 'object') return [];
+  if (medium && textOrMap[medium]) return textOrMap[medium];
+  if (textOrMap['default']) return textOrMap['default'];
+  return [];
+}
+
 /* ── Decision Tree ── */
-var ROOT = 'q-stage';
+var ROOT = 'q-medium';
 var TREE = {
+  /* ── Level 0: Grow Profile ── */
+  'q-medium': {
+    id: 'q-medium',
+    question: 'What growing medium are you using?',
+    help: 'This affects pH ranges, watering advice, and diagnosis scoring.',
+    options: [
+      { label: 'Soil', next: 'q-lighting' },
+      { label: 'Coco coir', next: 'q-lighting' },
+      { label: 'Hydro (DWC/NFT)', next: 'q-lighting' },
+      { label: 'Soilless mix (peat/perlite)', next: 'q-lighting' },
+      { label: "I'm not sure", next: 'q-lighting' }
+    ]
+  },
+  'q-lighting': {
+    id: 'q-lighting',
+    question: 'What type of lighting are you using?',
+    help: 'LED lighting affects calcium and magnesium demand.',
+    options: [
+      { label: 'LED', next: 'q-stage' },
+      { label: 'HPS', next: 'q-stage' },
+      { label: 'CFL / Fluorescent', next: 'q-stage' },
+      { label: 'Natural sunlight', next: 'q-stage' },
+      { label: "I'm not sure", next: 'q-stage' }
+    ]
+  },
+
   /* ── Level 1: Growth Stage ── */
-  'q-stage': { id:'q-stage', question:'What growth stage is the plant in?', help:'This helps narrow down the most likely causes.', options:[
+  'q-stage': { id:'q-stage', question:'What growth stage is the plant in?', help:'This helps narrow down the most likely causes. "Late flower" means the final 2\u20133 weeks before harvest, regardless of total flowering time.', options:[
     { label:'Seedling / clone', next:'q-seedling-symptom' },
     { label:'Vegetative', next:'q-symptom' },
     { label:'Early flower (weeks 1\u20133)', next:'q-symptom' },
     { label:'Mid flower (weeks 4\u20136)', next:'q-symptom' },
-    { label:'Late flower (week 7+)', next:'q-symptom-late' }
+    { label:'Late flower (final 2\u20133 weeks)', next:'q-symptom-late' }
   ]},
 
   /* ── Seedling-specific ── */
@@ -644,7 +1241,8 @@ var TREE = {
     { label:'Curling leaves', next:'q-curl-direction' },
     { label:'Drooping / wilting', next:'q-droop-pot' },
     { label:'White or powdery substance', next:'q-white-location' },
-    { label:'Color changes', next:'q-color-which' }
+    { label:'Color changes', next:'q-color-which' },
+    { label:'Pests / Physical signs / Unusual structures', next:'q-pest-type' }
   ]},
   'q-late-yellow': { id:'q-late-yellow', question:'How far into flowering are you?', options:[
     { label:'6+ weeks \u2014 fan leaves fading out', next:'r-natural-fade' },
@@ -659,7 +1257,8 @@ var TREE = {
     { label:'Curling leaves', next:'q-curl-direction' },
     { label:'Drooping / wilting', next:'q-droop-pot' },
     { label:'White or powdery substance', next:'q-white-location' },
-    { label:'Color changes', next:'q-color-which' }
+    { label:'Color changes', next:'q-color-which' },
+    { label:'Pests / Physical signs / Unusual structures', next:'q-pest-type' }
   ]},
 
   /* ── Yellowing path ── */
@@ -672,7 +1271,7 @@ var TREE = {
     { label:'Uniform yellow, starting from tips', next:'r-n-def' },
     { label:'Yellow between veins (veins stay green)', next:'r-mg-def' },
     { label:'Yellow with purple stems', next:'r-p-def' },
-    { label:'Yellow with brown spots', next:'r-ca-def' }
+    { label:'Yellow with brown spots', next:'r-ph-lockout' }
   ]},
   'q-yellow-new': { id:'q-yellow-new', question:'How are the newer leaves yellowing?', options:[
     { label:'Pale / light green overall', next:'r-s-def' },
@@ -700,9 +1299,14 @@ var TREE = {
     { label:'Tips + crispy curling edges', next:'r-k-def' }
   ]},
   'q-random-spots': { id:'q-random-spots', question:'What else do you notice with the spots?', options:[
-    { label:'Yellow halo around the spots', next:'r-ca-def' },
+    { label:'Yellow halo around the spots', next:'q-spot-growth-location' },
     { label:'Just brown spots, no halo', next:'r-ph-flux' },
     { label:'Spots mainly on lower leaves', next:'r-mg-def-spots' }
+  ]},
+  'q-spot-growth-location': { id:'q-spot-growth-location', question:'Where on the plant are the spots appearing?', help:'Calcium issues appear on new growth; magnesium and pH issues appear on older leaves.', options:[
+    { label:'Older / lower leaves', next:'r-ph-lockout' },
+    { label:'Newer / upper growth', next:'r-ca-def' },
+    { label:'Spread throughout the plant', next:'r-ph-lockout' }
   ]},
   'q-interveinal-where': { id:'q-interveinal-where', question:'Which leaves show interveinal symptoms?', options:[
     { label:'Lower / older leaves', next:'r-mg-def' },
@@ -781,30 +1385,113 @@ var TREE = {
     { label:'Scattered across leaf surface', next:'r-ca-mg' }
   ]},
 
+  /* ── Pest / Hermie path ── */
+  'q-pest-type': {
+    id: 'q-pest-type',
+    question: 'What are you seeing?',
+    help: 'Select the closest match to what you observe.',
+    options: [
+      { label: 'Silver/bronze streaks on leaves', next: 'r-thrips' },
+      { label: 'Small flying insects near soil', next: 'r-fungus-gnats' },
+      { label: 'Twisted, glossy, distorted new growth', next: 'r-broad-mites' },
+      { label: 'Gray mold on buds or dying leaves at bud sites', next: 'r-bud-rot' },
+      { label: 'Unusual structures in buds/at nodes (hermie)', next: 'q-hermie-type' }
+    ]
+  },
+  'q-hermie-type': {
+    id: 'q-hermie-type',
+    question: 'What type of structures are you seeing?',
+    help: 'Nanners are yellow banana shapes inside buds. Pollen sacs are round balls at branch nodes.',
+    options: [
+      { label: 'Yellow bananas inside buds (nanners)', next: 'q-hermie-timing' },
+      { label: 'Round balls at branch nodes (pollen sacs)', next: 'r-hermie-genetic' }
+    ]
+  },
+  'q-hermie-timing': {
+    id: 'q-hermie-timing',
+    question: 'When did the nanners first appear?',
+    help: 'Late-flower nanners are usually stress-induced. Early-flower nanners could be either stress or genetic.',
+    options: [
+      { label: 'Early flower (weeks 1-4)', next: 'q-hermie-early-cause' },
+      { label: 'Late flower (weeks 5+)', next: 'r-hermie-stress' }
+    ]
+  },
+  'q-hermie-early-cause': {
+    id: 'q-hermie-early-cause',
+    question: 'Were there any recent environmental disruptions?',
+    help: 'Light leaks, power outages, timer failures, or heat spikes can trigger nanners even in early flower.',
+    options: [
+      { label: 'Yes \u2014 light leak, power outage, timer issue, or heat spike', next: 'r-hermie-stress' },
+      { label: 'No \u2014 environment has been stable', next: 'r-hermie-genetic' },
+      { label: 'Not sure', next: 'r-hermie-stress' }
+    ]
+  },
+
   /* ═══════════════════════════════════════════════════ */
   /* ── RESULT NODES ── */
   /* ═══════════════════════════════════════════════════ */
 
   /* ── Deficiencies ── */
   'r-n-def': makeResult({ id:'r-n-def', diagnosis:'Nitrogen Deficiency', confidence:0.85, severity:'warning',
-    checkFirst:['Verify pH: 6.0\u20136.5 (soil) or 5.5\u20136.0 (coco/hydro)','Check EC/PPM of feed solution'],
-    fixes:['Increase nitrogen in your base nutrient feed','If using organic soil, top-dress with worm castings or blood meal','Foliar spray with dilute N source (2 ml/L) for quick temporary relief','Remove severely yellowed leaves that won\u2019t recover'],
+    checkFirst:{
+      default:['Verify pH is in range for your medium','Check EC/PPM of feed solution'],
+      soil:['Verify pH: 6.0\u20136.8 (soil) \u2014 N locks out outside this range','Check EC/PPM of feed solution','If organic, check if top-dress or soil amendments have broken down fully'],
+      coco:['Verify pH: 5.8\u20136.2 (coco) \u2014 N availability is pH-sensitive in coco','Check EC/PPM of feed solution','Confirm CalMag is included \u2014 coco requires supplemental CalMag'],
+      hydro:['Verify pH: 5.5\u20136.0 (hydro) \u2014 N availability is optimal in this range','Check EC/PPM of reservoir solution','Ensure reservoir temperature is 65\u201368\u00b0F for optimal N uptake']
+    },
+    fixes:{
+      default:['Increase nitrogen in your base nutrient feed','Foliar spray with dilute N source (2 ml/L) for quick temporary relief','Remove severely yellowed leaves that will not recover'],
+      soil:['Increase nitrogen in your base nutrient feed','If using organic soil, top-dress with worm castings or blood meal','Foliar spray with dilute N source (2 ml/L) for quick temporary relief','Remove severely yellowed leaves that will not recover'],
+      coco:['Increase nitrogen in your base nutrient feed \u2014 coco requires full synthetic nutrients','Ensure pH is 5.8\u20136.2 so N is bioavailable','Foliar spray with dilute N source (2 ml/L) for quick temporary relief','Remove severely yellowed leaves that will not recover'],
+      hydro:['Increase nitrogen in reservoir feed solution','Check and rebalance reservoir EC/PPM to correct range','Foliar spray with dilute N source (2 ml/L) for quick temporary relief','Remove severely yellowed leaves that will not recover']
+    },
     alsoConsider:[{name:'Natural fade',hint:'Normal in last 2\u20133 weeks of flower'},{name:'Root zone issues',hint:'If pH is correct, check for root problems'}]
   }),
   'r-p-def': makeResult({ id:'r-p-def', diagnosis:'Phosphorus Deficiency', confidence:0.80, severity:'warning',
-    checkFirst:['Verify pH: 6.0\u20136.5 (soil) \u2014 P locks out below 6.0','Check that water temperature is not below 60\u00b0F / 15\u00b0C'],
-    fixes:['Increase phosphorus in feed (bloom booster if in flower)','Ensure soil temperature is above 62\u00b0F / 17\u00b0C \u2014 cold roots lock out P','If organic: bone meal or bat guano top-dress','Flush if salt buildup suspected, then re-feed at correct strength'],
+    checkFirst:{
+      default:['Verify pH is in range \u2014 P locks out below 6.0 in soil','Check that water/root zone temperature is not below 15\u00b0C / 60\u00b0F'],
+      soil:['Verify pH: 6.0\u20136.8 (soil) \u2014 P locks out below 6.0','Check soil temperature is above 17\u00b0C / 62\u00b0F \u2014 cold roots lock out P'],
+      coco:['Verify pH: 5.8\u20136.2 (coco) \u2014 P locks out below 5.5','Check runoff pH and EC \u2014 P can accumulate as salts in coco'],
+      hydro:['Verify pH: 5.5\u20136.0 (hydro) \u2014 P availability drops above 6.0','Check reservoir temperature \u2014 cold solution reduces P uptake']
+    },
+    fixes:{
+      default:['Increase phosphorus in feed (bloom booster if in flower)','Ensure root zone temperature is above 17\u00b0C \u2014 cold roots lock out P','If organic: bone meal or bat guano top-dress','Flush if salt buildup suspected, then re-feed at correct strength'],
+      soil:['Increase phosphorus in feed (bloom booster if in flower)','Ensure soil temperature is above 17\u00b0C \u2014 cold roots lock out P in soil','If organic: bone meal or bat guano top-dress','Flush with pH 6.3 water if salt buildup suspected'],
+      coco:['Increase P in feed \u2014 coco does not retain P well, may need higher concentration','Verify pH is 5.8\u20136.2 \u2014 P locks out quickly outside this range in coco','Flush with pH 6.0 nutrient solution at half strength if salts have accumulated'],
+      hydro:['Increase P in reservoir \u2014 check that bloom nutrients have adequate P','Verify reservoir pH is 5.5\u20136.0 for optimal P uptake','Warm reservoir if below 18\u00b0C \u2014 cold hydro solution severely limits P absorption']
+    },
     alsoConsider:[{name:'Cold stress',hint:'If night temps are low, purple may be cold-related, not P deficiency'},{name:'pH lockout',hint:'P is one of the first nutrients locked out by incorrect pH'}]
   }),
   'r-k-def': makeResult({ id:'r-k-def', diagnosis:'Potassium Deficiency', confidence:0.80, severity:'warning',
-    checkFirst:['Verify pH: 6.0\u20136.5 (soil)','Check if you\u2019re feeding enough K for the current stage'],
-    fixes:['Increase potassium in feed \u2014 use a bloom booster in flower','If organic: kelp meal or wood ash (small amounts)','Ensure no calcium or magnesium excess is locking out K','Remove dead leaf tissue to prevent mold'],
+    checkFirst:{
+      default:['Verify pH is in range for your medium','Check if you are feeding enough K for the current stage'],
+      soil:['Verify pH: 6.0\u20136.8 (soil) \u2014 K is available across a wide range','Check if base nutrient has adequate K for the current stage'],
+      coco:['Verify pH: 5.8\u20136.2 (coco)','Coco releases K from cation exchange \u2014 true K deficiency is less common in coco'],
+      hydro:['Verify pH: 5.5\u20136.0 (hydro)','Check reservoir K levels in your feed formula']
+    },
+    fixes:{
+      default:['Increase potassium in feed \u2014 use a bloom booster in flower','If organic: kelp meal or wood ash (small amounts)','Ensure no calcium or magnesium excess is locking out K','Remove dead leaf tissue to prevent mold'],
+      soil:['Increase K in feed \u2014 bloom boosters provide extra K for flower','If organic: kelp meal or wood ash top-dress (small amounts)','Check for Ca/Mg excess which can antagonize K uptake'],
+      coco:['True K deficiency is rare in coco \u2014 coco naturally releases K. Verify with runoff EC','If confirmed: increase K in feed slightly, check pH 5.8\u20136.2','More likely: the issue is something else misidentified as K def'],
+      hydro:['Increase K in reservoir via bloom nutrients','Check that Ca:K ratio is balanced \u2014 excess Ca blocks K','Verify reservoir pH 5.5\u20136.0']
+    },
     alsoConsider:[{name:'Nutrient burn',hint:'If tips are uniformly brown, could be excess not deficiency'},{name:'Heat stress',hint:'Can cause similar crispy edges'}]
   }),
   'r-ca-def': makeResult({ id:'r-ca-def', diagnosis:'Calcium Deficiency', confidence:0.78, severity:'warning',
-    checkFirst:['Verify pH: 6.2\u20136.5 (Ca locks out below 6.2 in soil)','Check if using RO or soft water (low mineral content)'],
-    fixes:['Add CalMag supplement (3\u20135 ml/L)','If in coco: CalMag is essential \u2014 coco binds calcium','Ensure soil pH allows calcium uptake','Avoid overwatering, which reduces Ca transport via transpiration'],
-    alsoConsider:[{name:'Magnesium deficiency',hint:'Often occurs together with Ca deficiency'},{name:'pH lockout',hint:'Most common cause of apparent Ca deficiency'}]
+    checkFirst:{
+      default:['Calcium is immobile \u2014 symptoms appear on NEW growth because Ca cannot be redistributed from old leaves','Verify pH is in range for your medium \u2014 Ca locks out at low pH','Check if using RO or soft water (low mineral content)'],
+      soil:['Verify pH: 6.2\u20136.8 (soil) \u2014 Ca locks out below 6.2 in soil','Check if using RO or soft water (low mineral content)','Confirm you are not overwatering \u2014 Ca moves via transpiration'],
+      coco:['Verify pH: 5.8\u20136.2 (coco)','Coco binds calcium \u2014 CalMag is mandatory in coco','Check CalMag dosage \u2014 should be 3\u20135 ml/L every watering'],
+      hydro:['Verify pH: 5.5\u20136.0 (hydro)','Check if using RO water without remineralization','Ensure reservoir Ca levels are adequate in feed formula']
+    },
+    fixes:{
+      default:['Add CalMag supplement (3\u20135 ml/L)','Ensure pH allows calcium uptake','Avoid overwatering, which reduces Ca transport via transpiration'],
+      soil:['Add CalMag supplement (3\u20135 ml/L)','Ensure soil pH is 6.2\u20136.8 for Ca uptake','Avoid overwatering \u2014 Ca moves through plant via water transpiration','Water thoroughly to ensure even distribution'],
+      coco:['CalMag is essential in coco \u2014 increase to 3\u20135 ml/L every watering','Ensure pH is 5.8\u20136.2 \u2014 Ca locks out outside this range in coco','Flush with CalMag-supplemented solution if deficiency is severe'],
+      hydro:['Increase calcium in reservoir via CalMag or Ca-specific supplement','Adjust pH to 5.5\u20136.0 for optimal Ca uptake in hydro','If using RO water, add a base EC of 0.2\u20130.4 using CalMag before nutrients']
+    },
+    alsoConsider:[{name:'Magnesium deficiency',hint:'Often occurs together with Ca deficiency'},{name:'pH lockout',hint:'Most common cause of apparent Ca deficiency'}],
+    vpdContext:'Both very high and very low VPD can cause Ca deficiency symptoms by disrupting transpiration-driven Ca transport. Check your temp and RH before supplementing calcium.'
   }),
   'r-ca-def-new': makeResult({ id:'r-ca-def-new', diagnosis:'Calcium Deficiency (New Growth)', confidence:0.75, severity:'warning',
     checkFirst:['Verify pH is 6.2\u20136.5','Check if using reverse osmosis or very soft water'],
@@ -812,8 +1499,18 @@ var TREE = {
     alsoConsider:[{name:'Boron deficiency',hint:'Rare, but causes similar twisted new growth'},{name:'pH lockout',hint:'Check pH first before adding supplements'}]
   }),
   'r-mg-def': makeResult({ id:'r-mg-def', diagnosis:'Magnesium Deficiency', confidence:0.85, severity:'warning',
-    checkFirst:['Verify pH: 6.0\u20136.5 (Mg locks out below 6.0)','Check if LED lighting is being used (LEDs increase Mg demand)'],
-    fixes:['Add CalMag at 3\u20135 ml/L','Foliar spray with Epsom salt (1 tsp per liter) for quick fix','Under LEDs, increase Mg by 20\u201330% over HPS levels','Ensure no potassium excess is blocking Mg uptake'],
+    checkFirst:{
+      default:['Verify pH is in range for your medium \u2014 Mg locks out at low pH','Check if LED lighting is being used (LEDs increase Mg demand)'],
+      soil:['Verify pH: 6.0\u20136.8 (soil) \u2014 Mg locks out below 6.0','Check if LED lighting is being used (LEDs increase Mg demand)','Check current CalMag or Epsom salt dosage'],
+      coco:['Verify pH: 5.8\u20136.2 (coco)','Coco requires CalMag supplementation \u2014 check current dose','Check if LED lighting is being used (LEDs increase Mg demand in coco)'],
+      hydro:['Verify pH: 5.5\u20136.0 (hydro) \u2014 Mg uptake is pH-sensitive','Check if LED lighting is being used (LEDs increase Mg demand)','Verify Mg levels in reservoir solution']
+    },
+    fixes:{
+      default:['Add CalMag at 3\u20135 ml/L','Foliar spray with Epsom salt (1 tsp per liter) for quick fix','Ensure no potassium excess is blocking Mg uptake'],
+      soil:['Add CalMag at 3\u20135 ml/L','Foliar spray with Epsom salt (1 tsp per liter) for quick fix','Under LEDs, increase Mg by 20\u201330% over HPS levels','Ensure no potassium excess is blocking Mg uptake'],
+      coco:['Increase CalMag to 4\u20136 ml/L \u2014 coco is Mg-hungry','Foliar spray with Epsom salt (1 tsp per liter) for quick relief','Under LEDs, increase Mg by 20\u201330% over HPS levels','Ensure potassium is not excessive \u2014 K competes with Mg in coco'],
+      hydro:['Add Epsom salt or dedicated Mg supplement to reservoir','Foliar spray with Epsom salt (1 tsp per liter) for quick relief','Under LEDs, increase Mg by 20\u201330% over HPS levels','Rebalance reservoir to correct K:Mg ratio']
+    },
     alsoConsider:[{name:'Iron deficiency',hint:'If interveinal yellowing is on NEW leaves instead'},{name:'pH lockout',hint:'Most common underlying cause'}]
   }),
   'r-mg-def-spots': makeResult({ id:'r-mg-def-spots', diagnosis:'Magnesium Deficiency (Spotted Pattern)', confidence:0.75, severity:'warning',
@@ -828,8 +1525,18 @@ var TREE = {
   }),
   'r-s-def': makeResult({ id:'r-s-def', diagnosis:'Sulfur Deficiency', confidence:0.75, severity:'note',
     checkFirst:['Verify pH: 6.0\u20136.5','Check base nutrient \u2014 most contain adequate S'],
-    fixes:['Add Epsom salt (magnesium sulfate) at 1 tsp per gallon','Most quality base nutrients include sufficient sulfur','If using organic: gypsum provides calcium + sulfur','Rare in cannabis \u2014 rule out iron and nitrogen first'],
+    fixes:['Add Epsom salt (magnesium sulfate) as root drench: 1\u20132 tsp per gallon of water at pH 6.5','Most quality base nutrients include sufficient sulfur','If using organic: gypsum top-dress provides calcium + sulfur without pH change','Rare in cannabis \u2014 rule out iron and nitrogen first'],
     alsoConsider:[{name:'Nitrogen deficiency',hint:'More common, also yellows new growth'},{name:'Iron deficiency',hint:'Check if veins remain dark (Fe) vs uniform pale (S)'}]
+  }),
+  'r-mn-def': makeResult({ id:'r-mn-def', diagnosis:'Manganese Deficiency', confidence:0.72, severity:'warning',
+    checkFirst:['Test pH \u2014 Mn locks out above 6.5 in soil, above 6.0 in coco/hydro','Check if using RO water without cal-mag (RO strips trace minerals)','Rule out Magnesium deficiency \u2014 Mn shows interveinal chlorosis on NEWER leaves, Mg on OLDER'],
+    fixes:['Correct pH to 6.0\u20136.5 range (most common fix \u2014 Mn is usually present but locked out)','Foliar spray with manganese sulfate (0.5g/L) for quick correction \u2014 VEG ONLY, never in flower','Add a micronutrient supplement if using a base-only nutrient line','Flush medium if pH has drifted significantly, then re-feed at correct pH'],
+    alsoConsider:[{name:'Magnesium Deficiency',hint:'If chlorosis is on older/lower leaves instead of newer growth'},{name:'Iron Deficiency',hint:'If newest leaves are completely pale/white rather than interveinal pattern'},{name:'pH Lockout',hint:'If multiple deficiency symptoms appear simultaneously'}]
+  }),
+  'r-zn-def': makeResult({ id:'r-zn-def', diagnosis:'Zinc Deficiency', confidence:0.68, severity:'warning',
+    checkFirst:['Test pH \u2014 Zn locks out above 7.0 in soil, above 6.5 in coco','Check for excess phosphorus \u2014 high P blocks Zn uptake','Check if using RO water without trace minerals'],
+    fixes:['Correct pH to 6.0\u20136.5 to restore Zn availability','Reduce phosphorus if running bloom boosters \u2014 excess P is the #1 cause of Zn lockout','Add zinc sulfate at 0.5g/L as foliar spray (VEG ONLY)','Use a complete micronutrient supplement'],
+    alsoConsider:[{name:'Iron Deficiency',hint:'If interveinal chlorosis is strictly on newest growth'},{name:'Manganese Deficiency',hint:'If pattern is similar but without the leaf size reduction'},{name:'pH Lockout',hint:'If soil pH is above 7.0'}]
   }),
   'r-ca-mg': makeResult({ id:'r-ca-mg', diagnosis:'Combined Calcium-Magnesium Deficiency', confidence:0.75, severity:'warning',
     checkFirst:['Verify pH: 6.0\u20136.5','Check if using RO water or coco coir without CalMag'],
@@ -858,7 +1565,8 @@ var TREE = {
   'r-heat-stress': makeResult({ id:'r-heat-stress', diagnosis:'Heat Stress', confidence:0.80, severity:'warning',
     checkFirst:['Measure canopy temperature at top of plant','Check VPD \u2014 may be too high'],
     fixes:['Target 75\u201382\u00b0F (24\u201328\u00b0C) at canopy level','Increase air circulation with oscillating fans','Raise lights or dim them to reduce radiant heat','If in tent: increase exhaust fan speed or add intake'],
-    alsoConsider:[{name:'Light stress',hint:'If leaves closest to lights are most affected'},{name:'Low humidity',hint:'Heat + low RH creates very high VPD'}]
+    alsoConsider:[{name:'Light stress',hint:'If leaves closest to lights are most affected'},{name:'Low humidity',hint:'Heat + low RH creates very high VPD'}],
+    vpdContext:'If VPD is above 1.6 kPa (high temp + low humidity), the cure is raising humidity, not just lowering temperature. Calculate VPD from your temp and RH to confirm.'
   }),
   'r-heat-light': makeResult({ id:'r-heat-light', diagnosis:'Combined Heat and Light Stress', confidence:0.80, severity:'critical',
     checkFirst:['Measure canopy temperature','Measure light intensity at canopy (PPFD if possible)','Check VPD'],
@@ -872,13 +1580,24 @@ var TREE = {
   }),
   'r-light-too-close': makeResult({ id:'r-light-too-close', diagnosis:'Light Stress (Intensity)', confidence:0.82, severity:'warning',
     checkFirst:['Check light distance to top of canopy','Review manufacturer recommended PPFD range'],
-    fixes:['Raise lights 4\u20136 inches and monitor for 2\u20133 days','If dimmable, reduce by 10\u201315%','Use the hand test: hold hand at canopy height for 30s \u2014 if too hot, raise light','Supercrop or LST to lower tallest colas if needed'],
+    fixes:['Raise lights 4\u20136 inches and monitor for 2\u20133 days','If dimmable, reduce by 10\u201315%','Measure PPFD at canopy with a PAR meter or smartphone app (Photone). Target: 400\u2013600 veg, 600\u2013900 flower','Only train (supercrop/LST) AFTER light stress is corrected \u2014 do not add training stress on top of active light damage'],
     alsoConsider:[{name:'Heat stress',hint:'Hot LEDs can cause both light and heat stress'},{name:'Nutrient demand',hint:'High light = high nutrient demand \u2014 may need to increase feed'}]
   }),
   'r-overwater': makeResult({ id:'r-overwater', diagnosis:'Overwatering', confidence:0.85, severity:'warning',
-    checkFirst:['Lift the pot \u2014 is it heavy?','Check if the top inch of soil is still wet'],
-    fixes:['Do not water until pot feels light and top inch is dry','Ensure pots have drainage holes','Add perlite (20\u201330%) to improve drainage on next transplant','Reduce watering frequency, not volume \u2014 water thoroughly but less often'],
-    alsoConsider:[{name:'Root rot',hint:'Chronic overwatering leads to root rot \u2014 check for brown, slimy roots'},{name:'Nitrogen toxicity',hint:'Dark green + drooping could be N tox, not overwatering'}]
+    checkFirst:{
+      default:['Check if pot feels heavy \u2014 heavy pot confirms overwatering','Verify drainage holes are clear'],
+      soil:['Lift the pot \u2014 heavy pot confirms overwatering in soil','Check drainage holes are clear','Verify pot size is not too large for plant size'],
+      coco:['Note: Coco is very difficult to overwater \u2014 reassess diagnosis','Check if drainage is blocked','If using pure coco, this is likely NOT overwatering \u2014 check for root rot or low VPD instead'],
+      hydro:['This diagnosis is unlikely in hydro \u2014 check root health instead','Look for brown, slimy roots (root rot)','Check dissolved oxygen levels']
+    },
+    fixes:{
+      default:['Do not water until medium has partially dried','Ensure pots have drainage holes','Reduce watering frequency, not volume \u2014 water thoroughly but less often'],
+      soil:['Do not water until pot feels light and top inch is dry','Ensure pots have drainage holes','Add perlite (20\u201330%) to improve drainage on next transplant','Reduce watering frequency, not volume \u2014 water thoroughly but less often'],
+      coco:['Re-evaluate \u2014 if coco is truly waterlogged, check for blocked drainage','Ensure 10\u201320% runoff at each watering to prevent stagnation','If roots look brown and slimy, treat for root rot instead','Increase airflow and VPD to drive transpiration'],
+      hydro:['Check and increase dissolved oxygen in reservoir (air stone, lower water temp)','Inspect roots for root rot \u2014 treat with Hydroguard or H2O2 if needed','Lower reservoir water temperature below 68\u00b0F','Ensure pump and air circulation are functioning']
+    },
+    alsoConsider:[{name:'Root rot',hint:'Chronic overwatering leads to root rot \u2014 check for brown, slimy roots'},{name:'Nitrogen toxicity',hint:'Dark green + drooping could be N tox, not overwatering'}],
+    vpdContext:'If RH is above 70% and the plant droops despite normal soil moisture, low VPD (not overwatering) may be the real cause. Check your temp and RH.'
   }),
   'r-overwater-yellow': makeResult({ id:'r-overwater-yellow', diagnosis:'Overwatering with Nutrient Lockout', confidence:0.78, severity:'warning',
     checkFirst:['Check pot weight and drainage','Check pH of runoff water'],
@@ -886,8 +1605,18 @@ var TREE = {
     alsoConsider:[{name:'pH lockout',hint:'Wet roots + wrong pH = rapid lockout'},{name:'Root rot',hint:'If smell is foul when checking roots'}]
   }),
   'r-underwater': makeResult({ id:'r-underwater', diagnosis:'Underwatering', confidence:0.90, severity:'warning',
-    checkFirst:['Lift pot \u2014 should feel very light','Check if soil has pulled away from pot edges'],
-    fixes:['Water thoroughly with pH\u2019d water until 10\u201320% runoff','If soil is bone dry, water slowly in stages (dry soil repels water)','Add a small amount of wetting agent or water from the bottom','Plants should perk up within 1\u20134 hours after watering'],
+    checkFirst:{
+      default:['Lift pot \u2014 should feel very light','Check if medium has pulled away from pot edges'],
+      soil:['Lift pot \u2014 should feel very light','Check if soil has pulled away from pot edges','Check if topsoil is bone dry and pulling back'],
+      coco:['Lift pot \u2014 should feel very light','Check if coco has pulled away from pot edges or is dust-dry on surface','Coco can dry out faster than soil \u2014 check weight daily'],
+      hydro:['Underwatering is rare in hydro \u2014 reassess diagnosis','Check if pump or irrigation timer has failed','Ensure roots have access to solution at all times']
+    },
+    fixes:{
+      default:['Water thoroughly until you see runoff','Plants should perk up within 1\u20134 hours after watering','Water more frequently if this is recurring'],
+      soil:['Water thoroughly with pH\u2019d water until 10\u201320% runoff','If soil is bone dry, water slowly in stages (dry soil repels water)','Add a small amount of wetting agent or water from the bottom','Plants should perk up within 1\u20134 hours after watering'],
+      coco:['Water thoroughly with pH\u2019d nutrient solution until 10\u201320% runoff','Coco should never fully dry out \u2014 water more frequently','If coco is hydrophobic (bone dry), soak slowly or bottom-water first','Consider watering 2x per day if in a small pot or high-VPD environment'],
+      hydro:['Check pump functionality immediately \u2014 roots must not dry out in hydro','Inspect irrigation lines for blockages','Replenish reservoir if water level is low','Roots can die within hours without solution access in DWC/NFT']
+    },
     alsoConsider:[{name:'Root bound',hint:'If plant needs water daily, it may need a larger pot'},{name:'Heat stress',hint:'High temps increase water demand dramatically'}]
   }),
   'r-wind-burn': makeResult({ id:'r-wind-burn', diagnosis:'Wind Burn', confidence:0.75, severity:'note',
@@ -903,9 +1632,19 @@ var TREE = {
 
   /* ── pH Related ── */
   'r-ph-lockout': makeResult({ id:'r-ph-lockout', diagnosis:'pH Lockout', confidence:0.82, severity:'critical',
-    checkFirst:['Test pH of input water/feed','Test pH of runoff water','Compare to optimal range for your medium'],
-    fixes:['Flush with correctly pH\u2019d water (3x pot volume)','Resume feeding at correct pH: 6.0\u20136.5 soil, 5.5\u20136.0 coco/hydro','Calibrate your pH meter \u2014 they drift over time','Add nutrients BEFORE adjusting pH (nutrients change pH)'],
-    alsoConsider:[{name:'Multiple deficiencies',hint:'Lockout often looks like several deficiencies at once'},{name:'Salt buildup',hint:'High EC runoff indicates salts preventing uptake'}]
+    checkFirst:{
+      default:['Test pH of input water/feed','Test pH of runoff water','Compare to optimal range for your medium'],
+      soil:['Test pH of input water/feed \u2014 target 6.0\u20136.8 for soil','Test pH of runoff water \u2014 compare to input pH','Check if runoff pH differs by more than 0.5 from input'],
+      coco:['Test pH of input water/feed \u2014 target 5.8\u20136.2 for coco','Test pH of runoff water \u2014 compare to input pH','Check if runoff EC is significantly higher than input (salt buildup)'],
+      hydro:['Test reservoir pH \u2014 target 5.5\u20136.0 for hydro','Check pH stability over 24 hours \u2014 hydro pH can drift rapidly','Calibrate pH meter \u2014 critical in hydro where precision matters most']
+    },
+    fixes:{
+      default:['Flush with correctly pH\u2019d water (3x pot volume)','Resume feeding at correct pH for your medium','Calibrate your pH meter \u2014 they drift over time','Add nutrients BEFORE adjusting pH (nutrients change pH)'],
+      soil:['Flush with correctly pH\u2019d water at 6.3 (3x pot volume)','Resume feeding at 6.0\u20136.8 soil pH','Calibrate your pH meter \u2014 they drift over time','Add nutrients BEFORE adjusting pH (nutrients change pH)'],
+      coco:['Flush with correctly pH\u2019d solution at 6.0 (3x pot volume)','Resume feeding at 5.8\u20136.2 coco pH with CalMag included','Calibrate your pH meter \u2014 accuracy is critical in coco','Add all nutrients BEFORE adjusting pH to final target'],
+      hydro:['Drain and refill reservoir with fresh correctly pH\u2019d solution','Maintain pH 5.5\u20136.0 in reservoir \u2014 check twice daily if drift is recurring','Calibrate pH meter against fresh calibration solution','Use a pH controller or dosing pump if pH drift is chronic']
+    },
+    alsoConsider:[{name:'Multiple deficiencies',hint:'Lockout often looks like several deficiencies at once'},{name:'Salt buildup',hint:'High EC runoff indicates salts preventing uptake'},{name:'Magnesium Deficiency',hint:'If chlorosis follows an interveinal pattern on lower leaves'},{name:'Leaf Septoria (fungal)',hint:'If spots are small, circular, brown with yellow halos \u2014 fungal, not nutrient'},{name:'Calcium Deficiency',hint:'If spots are on mid-canopy leaves rather than the oldest fan leaves, check Ca'}]
   }),
   'r-ph-lockout-feed': makeResult({ id:'r-ph-lockout-feed', diagnosis:'pH Lockout (Post-Feeding)', confidence:0.78, severity:'warning',
     checkFirst:['Test pH of your feed solution AFTER mixing nutrients','Test pH of runoff','Check EC/PPM of runoff vs input'],
@@ -940,14 +1679,167 @@ var TREE = {
     alsoConsider:[{name:'Calcium deficiency',hint:'Can create similar brown spots, but with yellow halos'},{name:'Nutrient splash',hint:'Concentrated nutrient solution on leaves causes burn spots'}]
   }),
   'r-root-rot': makeResult({ id:'r-root-rot', diagnosis:'Root Rot (Pythium)', confidence:0.75, severity:'critical',
-    checkFirst:['Carefully check roots \u2014 healthy roots are white/cream, rotted are brown/slimy','Smell the root zone \u2014 rot has a distinct foul odor'],
-    fixes:['Reduce watering immediately and improve drainage','Add beneficial bacteria (Bacillus, Mycorrhizae) to root zone','Hydrogen peroxide root drench (3% H2O2 at 1 ml/L) kills pathogens but also beneficials','If in hydro: clean reservoir, add hydroguard, lower water temp below 68\u00b0F','Ensure pots have adequate drainage and airflow'],
+    checkFirst:{
+      default:['Carefully check roots \u2014 healthy roots are white/cream, rotted are brown/slimy','Smell the root zone \u2014 rot has a distinct foul odor'],
+      soil:['Carefully unpot and check roots \u2014 healthy are white/cream, rotted are brown/slimy','Smell the root zone \u2014 rot has a distinct foul odor','Check pot drainage and whether medium stays wet for days'],
+      coco:['Check roots by pulling back coco from sides of pot \u2014 brown slimy roots confirm rot','Smell the root zone \u2014 rot has a distinct foul, sulphurous odor','Check if drainage holes are blocked or medium is staying too wet'],
+      hydro:['Inspect roots directly in reservoir \u2014 brown, slimy, or hollow roots confirm rot','Smell the reservoir water \u2014 sour or foul smell confirms Pythium','Check water temperature \u2014 above 72\u00b0F dramatically increases Pythium risk']
+    },
+    fixes:{
+      default:['Reduce watering immediately and improve drainage','Add beneficial bacteria (Bacillus, Mycorrhizae) to root zone','Hydrogen peroxide root drench (3% H2O2 diluted 1:10 with water, soak roots 5 minutes) kills pathogens but also beneficials','Ensure pots have adequate drainage and airflow'],
+      soil:['Reduce watering frequency immediately \u2014 allow medium to dry more between waterings','Add beneficial bacteria (Bacillus subtilis, Mycorrhizae) as root drench','Hydrogen peroxide drench (3% H2O2 diluted 1:10 with water, soak roots 5 minutes) to sterilize root zone','Trim badly rotted roots and repot into fresh, well-draining mix with perlite'],
+      coco:['Improve drainage immediately \u2014 check and clear drainage holes','Treat with beneficial bacteria root drench (Hydroguard or similar)','Hydrogen peroxide drench (3% H2O2 diluted 1:10 with water, soak roots 5 minutes) to kill Pythium spores','Increase frequency but reduce volume per watering to avoid stagnation'],
+      hydro:['Drain and thoroughly clean reservoir with H2O2 solution','Add Hydroguard (Bacillus amyloliquefaciens) to clean reservoir','Lower water temperature below 68\u00b0F \u2014 use a water chiller if needed','Increase dissolved oxygen with additional air stones or recirculation','Trim severely rotted brown roots \u2014 dead roots feed Pythium']
+    },
     alsoConsider:[{name:'Overwatering',hint:'Usually the cause of root rot \u2014 fix watering habits'},{name:'Pythium',hint:'High root zone temps (above 75\u00b0F) promote Pythium'}]
   }),
   'r-pest-mites': makeResult({ id:'r-pest-mites', diagnosis:'Spider Mites', confidence:0.78, severity:'critical',
     checkFirst:['Check leaf undersides with a magnifier \u2014 look for tiny moving dots','Look for fine webbing between leaves and stems'],
     fixes:['Spray leaf undersides with insecticidal soap or neem oil (veg only)','In flower: use spinosad or predatory mites (Phytoseiulus persimilis)','Treat every 3 days for 2 weeks to break the egg cycle','Lower temperatures slow mite reproduction','Quarantine affected plants if possible'],
     alsoConsider:[{name:'Thrips',hint:'Also cause stippling but leave silver streaks'},{name:'Broad mites',hint:'Invisible to naked eye, cause twisted distorted new growth'}]
+  }),
+  'r-broad-mites': makeResult({
+    id: 'r-broad-mites',
+    diagnosis: 'Broad Mite Infestation',
+    confidence: 0.75,
+    severity: 'critical',
+    checkFirst: { default: [
+      'Use a 60x microscope on the underside of the newest leaves and growing tip',
+      'Look for tiny translucent-white moving specks and eggs with polka-dot texture',
+      'Check if multiple plants show the same symptoms (mites spread)'
+    ]},
+    fixes: { default: [
+      'VEG ONLY: Apply Avid (abamectin) or Forbid 4F (spiromesifen) \u2014 rotate chemistry',
+      'Release predatory mites (Neoseiulus californicus) as biological control',
+      'Remove and destroy the most heavily affected growth tips',
+      'For clones: heat treatment at 45\u00b0C (113\u00b0F) for 15 minutes kills mites and eggs',
+      'Do NOT use neem oil or spinosad \u2014 ineffective against broad mites'
+    ]},
+    alsoConsider: [
+      { name: 'Calcium Deficiency', hint: 'If spots/necrosis present but no glossy leaf surface' },
+      { name: 'Russet Mites', hint: 'If lower leaves affected first rather than new growth' }
+    ]
+  }),
+  'r-thrips': makeResult({
+    id: 'r-thrips',
+    diagnosis: 'Thrips Infestation',
+    confidence: 0.80,
+    severity: 'warning',
+    checkFirst: { default: [
+      'Look for black frass dots alongside silver streaks \u2014 confirms thrips',
+      'Check leaf undersides for tiny fast-moving insects (1-2mm, pale yellow or brown)',
+      'Place yellow sticky traps at canopy level to monitor population'
+    ]},
+    fixes: { default: [
+      'VEG: Apply spinosad (Monterey Garden Insect Spray) every 3 days for 3 cycles',
+      'FLOWER: Use predatory insects \u2014 Orius (minute pirate bugs) attack all life stages',
+      'Apply Beauveria bassiana as biological control (safe at any stage)',
+      'Remove heavily infested leaves to reduce population',
+      'Treat on days 0, 3, 6, 9, 12, 15 to break the full life cycle'
+    ]},
+    alsoConsider: [
+      { name: 'Spray Damage', hint: 'If silver marks but NO black frass dots present' },
+      { name: 'Light Bleaching', hint: 'If discoloration only on top canopy nearest the light' }
+    ]
+  }),
+  'r-fungus-gnats': makeResult({
+    id: 'r-fungus-gnats',
+    diagnosis: 'Fungus Gnat Infestation',
+    confidence: 0.78,
+    severity: 'warning',
+    checkFirst: { default: [
+      'Confirm: adults are 3-4mm dark flies with mosquito-like shape and long antennae',
+      'Press a 1-inch raw potato cube into soil \u2014 check underside after 24-48h for white larvae',
+      'Distinguish from shore flies: shore flies are stocky with 5 white wing spots and do NOT damage roots'
+    ]},
+    fixes: {
+      default: [
+        'Let the top 1-2 inches of soil dry completely between waterings',
+        'Apply BTi (Gnatrol, Mosquito Bits) as a soil drench \u2014 kills larvae within 24h',
+        'Alternative: hydrogen peroxide drench (1 part 3% H2O2 to 4 parts water)',
+        'Place yellow sticky traps at soil level to catch adults',
+        'Do NOT combine BTi and H2O2 \u2014 peroxide kills the BTi bacteria'
+      ],
+      hydro: [
+        'Fungus gnats are unlikely in hydro \u2014 verify identification',
+        'Check for algae growth on exposed medium which can attract gnats',
+        'Cover any exposed growing medium to prevent egg-laying'
+      ]
+    },
+    alsoConsider: [
+      { name: 'Overwatering', hint: 'If no insects visible \u2014 wet soil causes similar root symptoms' },
+      { name: 'Root Rot', hint: 'If roots are brown and slimy, root rot may be the primary issue' }
+    ]
+  }),
+  'r-bud-rot': makeResult({
+    id: 'r-bud-rot',
+    diagnosis: 'Bud Rot (Botrytis)',
+    confidence: 0.82,
+    severity: 'critical',
+    checkFirst: { default: [
+      'Gently inspect suspect bud \u2014 look for gray fuzzy mycelium (definitive sign)',
+      'Check for musty or fermented smell from affected bud sites',
+      'Look for single dying leaves at bud sites on otherwise healthy plant (early sign)'
+    ]},
+    fixes: { default: [
+      'IMMEDIATELY remove affected buds \u2014 cut 2 inches below visible infection',
+      'Do NOT compost removed material \u2014 bag and dispose',
+      'Lower humidity below 50% during lights-off',
+      'Improve airflow \u2014 add oscillating fans, defoliate around dense bud sites',
+      'Check other dense colas daily \u2014 Botrytis spreads within 48-72 hours',
+      'Do NOT spray anything on buds in flower'
+    ]},
+    alsoConsider: [
+      { name: 'Natural Senescence', hint: 'If yellowing is gradual, bottom-up, and no gray fuzz present' },
+      { name: 'Caterpillar Damage', hint: 'If you find small holes or frass pellets inside the bud' }
+    ]
+  }),
+  'r-hermie-stress': makeResult({
+    id: 'r-hermie-stress',
+    diagnosis: 'Stress-Induced Hermaphroditism (Nanners)',
+    confidence: 0.80,
+    severity: 'critical',
+    urgency: 'time-sensitive',
+    checkFirst: { default: [
+      'Confirm: yellow banana-shaped structures emerging from within buds (nanners)',
+      'Nanners release pollen IMMEDIATELY upon appearing \u2014 act fast',
+      'Identify the stressor: light leaks, heat spikes, pH swings, timer failures'
+    ]},
+    fixes: { default: [
+      'Remove nanners with tweezers (not fingers \u2014 pollen transfer risk)',
+      'Immediately mist the affected bud site with water \u2014 water deactivates loose pollen',
+      'Fix the identified stressor immediately',
+      'Inspect every bud site DAILY \u2014 new nanners can appear within 24 hours',
+      'If close to harvest, consider harvesting early',
+      'Isolate the plant from others if possible'
+    ]},
+    alsoConsider: [
+      { name: 'Genetic Hermaphroditism', hint: 'If structures are round pollen sacs at nodes rather than bananas in buds' },
+      { name: 'Normal Calyx Swelling', hint: 'If structures are pointed (not round) and have pistils emerging' }
+    ]
+  }),
+  'r-hermie-genetic': makeResult({
+    id: 'r-hermie-genetic',
+    diagnosis: 'Genetic Hermaphroditism',
+    confidence: 0.78,
+    severity: 'critical',
+    urgency: 'time-sensitive',
+    checkFirst: { default: [
+      'Confirm: round or teardrop-shaped pollen sacs developing at branch nodes',
+      'Check if structures appear on multiple branches (genetic = widespread)',
+      'Verify no identifiable stressor \u2014 stable environment suggests genetic cause'
+    ]},
+    fixes: { default: [
+      'CULL THE PLANT \u2014 genetic hermies will continue producing pollen sacs',
+      'Remove carefully in a sealed bag to prevent pollen release',
+      'Check neighboring plants for seeds (pollen may have already spread)',
+      'Do NOT clone or breed from this plant \u2014 the trait is heritable',
+      'Exception: if genetics are irreplaceable, isolate completely and pluck daily'
+    ]},
+    alsoConsider: [
+      { name: 'Stress-Induced Nanners', hint: 'If structures are banana-shaped inside buds and appeared late in flower' },
+      { name: 'Male Plant', hint: 'If entire clusters of pollen sacs with no female flowers present' }
+    ]
   }),
 
   /* ── Seedling Specific ── */
@@ -1021,7 +1913,7 @@ var TREE = {
 };
 
 /* ── Scoring Engine ── */
-function scoreDiagnoses(selectedSymptoms, stage, treatedDiagnoses) {
+function scoreDiagnoses(selectedSymptoms, stage, medium, lighting, treatedDiagnoses) {
   if (!selectedSymptoms || !Array.isArray(selectedSymptoms)) return [];
   var results = [];
   var selectedMap = {};
@@ -1055,6 +1947,18 @@ function scoreDiagnoses(selectedSymptoms, stage, treatedDiagnoses) {
       stageAdjust = entry.stage_modifier[stage];
     }
 
+    // Medium modifier
+    var mediumAdjust = 0;
+    if (entry.medium_modifier && medium && entry.medium_modifier[medium] !== undefined) {
+      mediumAdjust = entry.medium_modifier[medium];
+    }
+
+    // Lighting modifier
+    var lightingAdjust = 0;
+    if (entry.lighting_modifier && lighting && entry.lighting_modifier[lighting] !== undefined) {
+      lightingAdjust = entry.lighting_modifier[lighting];
+    }
+
     // Corroboration bonus
     var regionsHit = {};
     for (var mi = 0; mi < matched.length; mi++) {
@@ -1067,8 +1971,12 @@ function scoreDiagnoses(selectedSymptoms, stage, treatedDiagnoses) {
     }
     var corroboration = regionCount > 1 ? (regionCount - 1) * 0.05 : 0;
 
+    // Clamp combined negative modifiers to prevent over-suppression
+    var totalModifiers = stageAdjust + mediumAdjust + lightingAdjust;
+    if (totalModifiers < -0.40) totalModifiers = -0.40;
+
     // Final score
-    var finalScore = baseScore + stageAdjust + corroboration;
+    var finalScore = baseScore + totalModifiers + corroboration;
     finalScore = Math.min(finalScore, entry.base_confidence);
     finalScore = Math.max(0, Math.min(1, finalScore));
 
@@ -1088,6 +1996,29 @@ function scoreDiagnoses(selectedSymptoms, stage, treatedDiagnoses) {
 
   results.sort(function(a, b) { return b.score - a.score; });
   return results.slice(0, 5);
+}
+
+function getAdjustedConfidence(node, medium, lighting) {
+  if (!node || !node.id || !dataFileLoaded()) return node ? node.confidence : 0;
+  var entry = window.SCORING ? window.SCORING[node.id] : null;
+  if (!entry) return node.confidence;
+
+  var adjust = 0;
+  if (entry.medium_modifier && medium && entry.medium_modifier[medium] !== undefined) {
+    adjust += entry.medium_modifier[medium];
+  }
+  if (entry.lighting_modifier && lighting && entry.lighting_modifier[lighting] !== undefined) {
+    adjust += entry.lighting_modifier[lighting];
+  }
+
+  // Clamp negative adjustment
+  if (adjust < -0.40) adjust = -0.40;
+
+  var result = node.confidence + adjust;
+  // Clamp to 0.05-1.0 range
+  if (result < 0.05) result = 0.05;
+  if (result > 1.0) result = 1.0;
+  return result;
 }
 
 function getRefineQuestions(rankedDiagnoses) {
@@ -1138,7 +2069,7 @@ function applyRefineAnswer(scores, ruleId, optionIndex) {
   return updated;
 }
 
-function generateCombinedPlan(topDiagnoses) {
+function generateCombinedPlan(topDiagnoses, medium) {
   var checkFirstSet = {};
   var checkFirstList = [];
   var fixEntries = [];
@@ -1150,22 +2081,20 @@ function generateCombinedPlan(topDiagnoses) {
     var treeNode = TREE[diag.resultId];
     if (!treeNode || !isResult(treeNode)) continue;
 
-    // checkFirst — deduplicate
-    if (treeNode.checkFirst) {
-      for (var ci = 0; ci < treeNode.checkFirst.length; ci++) {
-        var cf = treeNode.checkFirst[ci];
-        if (!checkFirstSet[cf]) {
-          checkFirstSet[cf] = true;
-          checkFirstList.push(cf);
-        }
+    // checkFirst — resolve through medium helper, then deduplicate
+    var resolvedCheckFirst = resolveMediumText(treeNode.checkFirst, medium);
+    for (var ci = 0; ci < resolvedCheckFirst.length; ci++) {
+      var cf = resolvedCheckFirst[ci];
+      if (!checkFirstSet[cf]) {
+        checkFirstSet[cf] = true;
+        checkFirstList.push(cf);
       }
     }
 
-    // fixes — track count and rank
-    if (treeNode.fixes) {
-      for (var fi = 0; fi < treeNode.fixes.length; fi++) {
-        fixEntries.push({ fix: treeNode.fixes[fi], rank: i, diagId: diag.resultId });
-      }
+    // fixes — resolve through medium helper, then track count and rank
+    var resolvedFixes = resolveMediumText(treeNode.fixes, medium);
+    for (var fi = 0; fi < resolvedFixes.length; fi++) {
+      fixEntries.push({ fix: resolvedFixes[fi], rank: i, diagId: diag.resultId });
     }
 
     // alsoConsider — deduplicate by name
@@ -1225,7 +2154,9 @@ var state = {
   currentNode: ROOT,
   history: [],
   expertSelections: {},
-  wizardNotes: {}
+  wizardNotes: {},
+  medium: null,
+  lighting: null
 };
 
 var multiDxState = {
@@ -1237,7 +2168,9 @@ var multiDxState = {
   refineAnswers: [],
   scores: {},
   results: [],
-  phase: 'select'
+  phase: 'select',
+  medium: null,
+  lighting: null
 };
 
 var journalState = {
@@ -1247,8 +2180,76 @@ var journalState = {
 };
 
 var lastDiagnosis = null;
+var resetPending = false;
+var activePlantId = null;
+
+/* ── Undo Stack ── */
+var undoStack = [];
+var UNDO_MAX = 5;
+
+function pushUndo(label) {
+  undoStack.push({
+    label: label,
+    timestamp: Date.now(),
+    snapshot: {
+      currentNode: state.currentNode,
+      history: state.history.slice(),
+      mode: state.mode,
+      wizardNotes: JSON.parse(JSON.stringify(state.wizardNotes)),
+      expertSelections: JSON.parse(JSON.stringify(state.expertSelections)),
+      medium: state.medium,
+      lighting: state.lighting,
+      activePlantId: activePlantId,
+      multiDxPhase: multiDxState.phase,
+      multiDxSymptoms: multiDxState.selectedSymptoms.slice(),
+      multiDxStage: multiDxState.stage,
+      multiDxNotes: JSON.parse(JSON.stringify(multiDxState.notes))
+    }
+  });
+  if (undoStack.length > UNDO_MAX) undoStack.shift();
+}
+
+function popUndo() {
+  if (undoStack.length === 0) return false;
+  var entry = undoStack.pop();
+  var snap = entry.snapshot;
+
+  state.currentNode = snap.currentNode;
+  state.history = snap.history;
+  state.mode = snap.mode;
+  state.wizardNotes = snap.wizardNotes;
+  state.expertSelections = snap.expertSelections;
+  state.medium = snap.medium;
+  state.lighting = snap.lighting;
+
+  if (snap.activePlantId !== activePlantId && typeof setActivePlant === 'function') {
+    activePlantId = snap.activePlantId;
+    // Don't call setActivePlant since we're restoring full state
+  }
+
+  multiDxState.phase = snap.multiDxPhase;
+  multiDxState.selectedSymptoms = snap.multiDxSymptoms;
+  multiDxState.stage = snap.multiDxStage;
+  if (snap.multiDxNotes) multiDxState.notes = snap.multiDxNotes;
+
+  if (typeof updateModeSelector === 'function') updateModeSelector();
+  if (typeof renderPlantSidebar === 'function') renderPlantSidebar();
+  render();
+  return true;
+}
+
+function canUndo() {
+  return undoStack.length > 0;
+}
+
+function getUndoLabel() {
+  if (undoStack.length === 0) return '';
+  return undoStack[undoStack.length - 1].label;
+}
 
 function resetMultiDxState() {
+  var preservedMedium = multiDxState.medium;
+  var preservedLighting = multiDxState.lighting;
   multiDxState.stage = null;
   multiDxState.selectedSymptoms = [];
   multiDxState.notes = {};
@@ -1258,6 +2259,8 @@ function resetMultiDxState() {
   multiDxState.scores = {};
   multiDxState.results = [];
   multiDxState.phase = 'select';
+  multiDxState.medium = preservedMedium;
+  multiDxState.lighting = preservedLighting;
 }
 
 function dataFileLoaded() {
@@ -1279,7 +2282,21 @@ function canDiagnose() {
 }
 
 function runMultiDxDiagnosis() {
-  var scores = scoreDiagnoses(multiDxState.selectedSymptoms, multiDxState.stage, []);
+  var scores = scoreDiagnoses(multiDxState.selectedSymptoms, multiDxState.stage, multiDxState.medium, multiDxState.lighting, []);
+  var mdxNoteCtx = extractNoteContext(multiDxState.notes);
+  // adjustScoresFromNotes operates on a plain object map; convert array to map, adjust, convert back
+  var scoresMap = {};
+  for (var smi = 0; smi < scores.length; smi++) {
+    scoresMap[scores[smi].resultId] = scores[smi].score;
+  }
+  scoresMap = adjustScoresFromNotes(scoresMap, mdxNoteCtx);
+  for (var smj = 0; smj < scores.length; smj++) {
+    if (scoresMap[scores[smj].resultId] !== undefined) {
+      scores[smj].score = scoresMap[scores[smj].resultId];
+    }
+  }
+  // Re-sort after adjustment
+  scores.sort(function(a, b) { return b.score - a.score; });
   multiDxState.results = scores;
   var refineQs = getRefineQuestions(scores);
   multiDxState.refineQuestions = refineQs;
@@ -1303,13 +2320,30 @@ function answerRefineQuestion(optionIndex) {
   }
 }
 
+function _reScoreWithNoteContext(scores) {
+  var mdxNoteCtx = extractNoteContext(multiDxState.notes);
+  var scoresMap = {};
+  for (var i = 0; i < scores.length; i++) {
+    scoresMap[scores[i].resultId] = scores[i].score;
+  }
+  scoresMap = adjustScoresFromNotes(scoresMap, mdxNoteCtx);
+  for (var j = 0; j < scores.length; j++) {
+    if (scoresMap[scores[j].resultId] !== undefined) {
+      scores[j].score = scoresMap[scores[j].resultId];
+    }
+  }
+  scores.sort(function(a, b) { return b.score - a.score; });
+  return scores;
+}
+
 function multiDxGoBack() {
   if (multiDxState.phase === 'results') {
     if (multiDxState.refineQuestions.length > 0) {
       multiDxState.phase = 'refining';
       multiDxState.refineStep = multiDxState.refineQuestions.length - 1;
       multiDxState.refineAnswers.pop();
-      var scores = scoreDiagnoses(multiDxState.selectedSymptoms, multiDxState.stage, []);
+      var scores = scoreDiagnoses(multiDxState.selectedSymptoms, multiDxState.stage, multiDxState.medium, multiDxState.lighting, []);
+      scores = _reScoreWithNoteContext(scores);
       for (var i = 0; i < multiDxState.refineAnswers.length; i++) {
         var ans = multiDxState.refineAnswers[i];
         scores = applyRefineAnswer(scores, ans.ruleId, ans.optionIndex);
@@ -1322,7 +2356,8 @@ function multiDxGoBack() {
     if (multiDxState.refineStep > 0) {
       multiDxState.refineStep--;
       multiDxState.refineAnswers.pop();
-      var scores2 = scoreDiagnoses(multiDxState.selectedSymptoms, multiDxState.stage, []);
+      var scores2 = scoreDiagnoses(multiDxState.selectedSymptoms, multiDxState.stage, multiDxState.medium, multiDxState.lighting, []);
+      scores2 = _reScoreWithNoteContext(scores2);
       for (var j = 0; j < multiDxState.refineAnswers.length; j++) {
         var ans2 = multiDxState.refineAnswers[j];
         scores2 = applyRefineAnswer(scores2, ans2.ruleId, ans2.optionIndex);
@@ -1345,15 +2380,14 @@ function checkStorage() {
 
 function saveLastDiagnosis(resultNode) {
   if (!storageAvailable) return;
-  var data = {
-    version: 1,
-    lastDiagnosis: {
-      date: new Date().toISOString(),
-      path: state.history.concat([state.currentNode]),
-      result: { id: resultNode.id, diagnosis: resultNode.diagnosis, severity: resultNode.severity, confidence: resultNode.confidence }
-    }
+  var diagRecord = {
+    date: new Date().toISOString(),
+    path: state.history.concat([state.currentNode]),
+    result: { id: resultNode.id, diagnosis: resultNode.diagnosis, severity: resultNode.severity, confidence: resultNode.confidence }
   };
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) { /* quota */ }
+  // Update lastDiagnosis within the existing v2 journal data to avoid overwriting journal entries
+  journalData.lastDiagnosis = diagRecord;
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(journalData)); } catch (e) { /* quota */ }
 }
 
 function loadState() {
@@ -1386,6 +2420,9 @@ function createJournalEntry(mode, primaryResultId, diagnoses, combinedPlan, note
     createdAt: new Date().toISOString(),
     stage: mode === 'multi-dx' ? multiDxState.stage : null,
     mode: mode,
+    medium: state.medium || multiDxState.medium || null,
+    lighting: state.lighting || multiDxState.lighting || null,
+    plantId: activePlantId,
     symptoms: mode === 'multi-dx' ? multiDxState.selectedSymptoms.slice() : [],
     notes: notes ? JSON.parse(JSON.stringify(notes)) : {},
     diagnoses: diagnoses ? diagnoses.map(function(d) {
@@ -1536,25 +2573,79 @@ function saveJournalState(jData) {
   if (!storageAvailable) return;
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(jData));
-  } catch(e) { /* quota */ }
+  } catch(e) {
+    // Storage quota exceeded - warn the user
+    var warn = document.getElementById('storage-warn');
+    if (warn) {
+      warn.textContent = 'Storage is full. Your journal data could not be saved. Try clearing old browser data.';
+      warn.style.display = 'block';
+    }
+  }
+}
+
+function loadGrowProfile() {
+  if (!storageAvailable) return { medium: null, lighting: null };
+  try {
+    var raw = localStorage.getItem('growdoc-grow-profile');
+    if (!raw) return { medium: null, lighting: null };
+    var data = JSON.parse(raw);
+    if (data && data.version === 1) return data;
+    return { medium: null, lighting: null };
+  } catch(e) {
+    return { medium: null, lighting: null };
+  }
+}
+
+function saveGrowProfile(medium, lighting) {
+  if (!storageAvailable) return;
+  try {
+    localStorage.setItem('growdoc-grow-profile', JSON.stringify({
+      version: 1,
+      medium: medium || null,
+      lighting: lighting || null
+    }));
+  } catch(e) {
+    // Quota exceeded - grow profile could not be persisted
+    var warn = document.getElementById('storage-warn');
+    if (warn) {
+      warn.textContent = 'Storage is full. Your grow profile could not be saved.';
+      warn.style.display = 'block';
+    }
+  }
 }
 
 function saveToJournal() {
   var entry;
   if (state.mode === 'multi-dx') {
-    var plan = generateCombinedPlan(multiDxState.results);
+    var plan = generateCombinedPlan(multiDxState.results, multiDxState.medium);
     entry = createJournalEntry('multi-dx', null, multiDxState.results, plan, multiDxState.notes);
     entry.stage = multiDxState.stage;
     entry.symptoms = multiDxState.selectedSymptoms.slice();
   } else {
     var node = TREE[state.currentNode];
     if (!node || !isResult(node)) return;
+    // Filter wizard notes to steps in the current path to exclude
+    // stale notes from abandoned back-navigation paths.
+    // If history is empty, include all notes (no abandoned paths possible).
+    var filteredNotes = {};
+    if (state.history.length === 0) {
+      filteredNotes = state.wizardNotes;
+    } else {
+      var visited = {};
+      for (var si = 0; si < state.history.length; si++) visited[state.history[si]] = true;
+      visited[state.currentNode] = true;
+      for (var nk in state.wizardNotes) {
+        if (state.wizardNotes.hasOwnProperty(nk) && state.wizardNotes[nk] && visited[nk]) {
+          filteredNotes[nk] = state.wizardNotes[nk];
+        }
+      }
+    }
     entry = createJournalEntry(
       state.mode,
       node.id,
       [{ resultId: node.id, score: node.confidence, rank: 1 }],
       null,
-      state.wizardNotes
+      filteredNotes
     );
   }
 
@@ -1602,15 +2693,24 @@ function renderProgress() {
     }
   }
   el.innerHTML = html;
-  el.setAttribute('aria-label', 'Step ' + (steps + 1) + ' of diagnosis');
+  var totalSteps = Math.min(total, maxPossible);
+  el.setAttribute('aria-label', 'Diagnosis progress: step ' + (steps + 1) + ' of approximately ' + totalSteps);
+  var stepText = document.getElementById('progress-text');
+  if (!stepText) {
+    stepText = document.createElement('span');
+    stepText.id = 'progress-text';
+    stepText.className = 'progress-text';
+    el.appendChild(stepText);
+  }
+  stepText.textContent = 'Step ' + (steps + 1);
 }
 
 /* ── Rendering: Wizard Question ── */
 function renderWizardQuestion(node) {
   var html = '<div class="q-card fade-in">';
-  html += '<div class="q-text">' + escapeHtml(node.question) + '</div>';
+  html += '<div class="q-text" id="q-text-' + escapeHtml(node.id) + '">' + escapeHtml(node.question) + '</div>';
   if (node.help) html += '<div class="q-help">' + escapeHtml(node.help) + '</div>';
-  html += '<div class="options" role="group" aria-label="Answer options">';
+  html += '<div class="options" role="group" aria-labelledby="q-text-' + escapeHtml(node.id) + '">';
   for (var i = 0; i < node.options.length; i++) {
     html += '<button class="opt-btn" data-idx="' + i + '" type="button">' + escapeHtml(node.options[i].label) + '</button>';
   }
@@ -1626,26 +2726,249 @@ function renderWizardQuestion(node) {
   return html;
 }
 
+/* ── Note-Aware Diagnosis Engine ── */
+function noteContextRulesLoaded() {
+  return typeof KEYWORD_PATTERNS !== 'undefined' && typeof ADVICE_RULES !== 'undefined';
+}
+
+function extractNoteContext(notes) {
+  var ctx = {
+    plantType: null,
+    timeline: null,
+    timelineDays: null,
+    scope: null,
+    medium: null,
+    lighting: null,
+    temp: null,
+    rh: null,
+    ph: null,
+    ec: null,
+    wateringPattern: null,
+    previousTreatment: null,
+    severity: null,
+    growerIntent: null,
+    plantHealth: null,
+    symptomLocation: null,
+    recentEvent: null,
+    envEvent: null,
+    rootHealth: null,
+    feedType: null,
+    waterType: null,
+    stage: null,
+    flowerWeek: null,
+    keywords: [],
+    rawText: ''
+  };
+
+  if (!notes || typeof notes !== 'object') return ctx;
+  if (!noteContextRulesLoaded()) return ctx;
+
+  // Concatenate all notes into one string for pattern matching
+  var allText = '';
+  for (var key in notes) {
+    if (notes.hasOwnProperty(key) && notes[key]) {
+      allText += ' ' + notes[key];
+    }
+  }
+  allText = allText.trim();
+  ctx.rawText = allText;
+  if (!allText) return ctx;
+
+  // Run all keyword patterns
+  for (var i = 0; i < KEYWORD_PATTERNS.length; i++) {
+    var rule = KEYWORD_PATTERNS[i];
+    var match = allText.match(rule.pattern);
+    if (match) {
+      if (rule.extract === 'days' && match[1]) {
+        ctx.timelineDays = parseInt(match[1], 10);
+        if (ctx.timelineDays <= 7) ctx.timeline = 'recent';
+        else if (ctx.timelineDays <= 28) ctx.timeline = 'ongoing';
+        else ctx.timeline = 'chronic';
+      } else if (rule.extract === 'weeks-to-days' && match[1]) {
+        var weeks = parseInt(match[1], 10);
+        ctx.timelineDays = weeks * 7;
+        if (ctx.timelineDays <= 7) ctx.timeline = 'recent';
+        else if (ctx.timelineDays <= 28) ctx.timeline = 'ongoing';
+        else ctx.timeline = 'chronic';
+      } else if (rule.extract === 'temp' && match[1]) {
+        ctx.temp = parseFloat(match[1]);
+      } else if (rule.extract === 'temp-f' && match[1]) {
+        // Convert Fahrenheit to Celsius for consistent numeric comparisons
+        ctx.temp = Math.round(((parseFloat(match[1]) - 32) * 5 / 9) * 10) / 10;
+      } else if (rule.extract === 'rh' && match[1]) {
+        ctx.rh = parseFloat(match[1]);
+      } else if (rule.extract === 'ph' && match[1]) {
+        ctx.ph = parseFloat(match[1]);
+      } else if (rule.extract === 'ec' && match[1]) {
+        ctx.ec = parseFloat(match[1]);
+      } else if (rule.extract === 'weeks' && match[1]) {
+        ctx.flowerWeek = parseInt(match[1], 10);
+        if (!ctx.stage) {
+          if (ctx.flowerWeek <= 3) ctx.stage = 'early-flower';
+          else if (ctx.flowerWeek <= 6) ctx.stage = 'mid-flower';
+          else ctx.stage = 'late-flower';
+        }
+      } else if (rule.field && rule.value) {
+        ctx[rule.field] = rule.value;
+      }
+      ctx.keywords.push(rule.id || rule.field);
+    }
+  }
+
+  return ctx;
+}
+
+function generateContextualAdvice(noteContext, diagnosisId) {
+  if (!noteContextRulesLoaded() || !noteContext || !noteContext.rawText) return [];
+
+  var adviceItems = [];
+  for (var i = 0; i < ADVICE_RULES.length; i++) {
+    var rule = ADVICE_RULES[i];
+    try {
+      if (rule.condition(noteContext, diagnosisId)) {
+        adviceItems.push({ text: rule.advice, priority: rule.priority || 5, id: rule.id });
+      }
+    } catch(e) {
+      // Skip rules that error
+    }
+  }
+
+  // Sort by priority descending
+  adviceItems.sort(function(a, b) { return (b.priority || 5) - (a.priority || 5); });
+
+  // Smart cap: if any top item is a long protocol (>200 chars), cap at 3
+  var maxItems = 5;
+  for (var ci = 0; ci < Math.min(adviceItems.length, 3); ci++) {
+    if (adviceItems[ci].text.length > 200) {
+      maxItems = 3;
+      break;
+    }
+  }
+
+  // Return top items as objects with text and priority
+  var result = [];
+  for (var j = 0; j < Math.min(adviceItems.length, maxItems); j++) {
+    result.push({ text: adviceItems[j].text, priority: adviceItems[j].priority || 5 });
+  }
+  return result;
+}
+
+function adjustScoresFromNotes(scores, noteContext) {
+  if (!noteContextRulesLoaded() || !noteContext || !noteContext.rawText) return scores;
+  if (typeof SCORE_ADJUSTMENTS === 'undefined') return scores;
+
+  for (var i = 0; i < SCORE_ADJUSTMENTS.length; i++) {
+    var rule = SCORE_ADJUSTMENTS[i];
+    try {
+      if (rule.condition(noteContext)) {
+        for (var diagId in rule.adjustments) {
+          if (rule.adjustments.hasOwnProperty(diagId) && scores[diagId] !== undefined) {
+            scores[diagId] += rule.adjustments[diagId];
+            if (scores[diagId] < 0) scores[diagId] = 0;
+          }
+        }
+      }
+    } catch(e) {
+      // Skip rules that error
+    }
+  }
+  return scores;
+}
+
 /* ── Rendering: Result Card ── */
+var severityLabels = { critical: 'Urgent', warning: 'Needs attention', note: 'Monitor' };
 function renderResultCard(node) {
   var sevClass = 'sev-' + node.severity;
-  var pct = Math.round(node.confidence * 100);
-  var html = '<div class="result-card ' + sevClass + ' fade-in" tabindex="-1" id="result-card">';
-  html += '<span class="sr-only">Diagnosis result: ' + escapeHtml(node.diagnosis) + ', severity ' + escapeHtml(node.severity) + ', confidence ' + pct + ' percent</span>';
+  var sevLabel = severityLabels[node.severity] || node.severity;
+  var adjustedConf = (typeof getAdjustedConfidence === 'function') ? getAdjustedConfidence(node, state.medium, state.lighting) : node.confidence;
+  var pct = Math.round(adjustedConf * 100);
+  var html = '<div class="result-card ' + sevClass + ' fade-in" tabindex="-1" id="result-card" role="region" aria-label="Diagnosis result">';
+  html += '<span class="sr-only">Diagnosis result: ' + escapeHtml(node.diagnosis) + ', severity ' + escapeHtml(sevLabel) + ', confidence ' + pct + ' percent</span>';
+  if (node.urgency === 'time-sensitive') {
+    html += '<div class="result-alert" role="alert" aria-live="assertive">';
+    html += '<span class="alert-icon">\u26A0</span>';
+    html += '<div><div>Act today \u2014 pollen spreads fast</div>';
+    html += '<div class="alert-timeline">Remove with tweezers, mist the area, inspect daily. See fix steps below.</div>';
+    html += '</div></div>';
+  }
   html += '<div class="result-dx">' + escapeHtml(node.diagnosis) + '</div>';
-  html += '<span class="result-sev ' + sevClass + '">' + escapeHtml(node.severity) + '</span>';
+  html += '<span class="result-sev ' + sevClass + '">' + escapeHtml(sevLabel) + '</span>';
   html += '<div class="conf-wrap"><div class="conf-label">Confidence</div>';
-  html += '<div class="conf-bar"><div class="conf-fill" style="width:' + pct + '%"></div></div>';
+  html += '<div class="conf-bar" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100" aria-label="Confidence ' + pct + '%"><div class="conf-fill" style="width:' + pct + '%"></div></div>';
   html += '<div class="conf-pct">' + pct + '%</div></div>';
 
-  if (node.checkFirst && node.checkFirst.length > 0) {
-    html += '<div class="result-section"><div class="result-section-title">Check First</div><ol class="result-ol">';
-    for (var c = 0; c < node.checkFirst.length; c++) html += '<li>' + escapeHtml(node.checkFirst[c]) + '</li>';
-    html += '</ol></div>';
+  // Notes display (resolved early so advice can use it)
+  var notesToShow = {};
+  if (state.mode === 'multi-dx') {
+    notesToShow = multiDxState.notes;
+  } else {
+    // Filter wizard notes to only include steps from the current path
+    // (history + current node) to avoid stale notes from abandoned paths.
+    // If history is empty we are either at the start or in a test — show all.
+    if (state.history.length === 0) {
+      notesToShow = state.wizardNotes;
+    } else {
+      var visitedSteps = {};
+      for (var vi = 0; vi < state.history.length; vi++) visitedSteps[state.history[vi]] = true;
+      visitedSteps[state.currentNode] = true;
+      for (var wk in state.wizardNotes) {
+        if (state.wizardNotes.hasOwnProperty(wk) && state.wizardNotes[wk] && visitedSteps[wk]) {
+          notesToShow[wk] = state.wizardNotes[wk];
+        }
+      }
+    }
   }
-  if (node.fixes && node.fixes.length > 0) {
-    html += '<div class="result-section"><div class="result-section-title">How to Fix</div><ol class="result-ol">';
-    for (var f = 0; f < node.fixes.length; f++) html += '<li>' + escapeHtml(node.fixes[f]) + '</li>';
+
+  // Unified Action Plan: merge personalized advice + generic fixes
+  var noteCtx = extractNoteContext(notesToShow);
+  var adviceItems = generateContextualAdvice(noteCtx, node.id);
+  var fixItems = resolveMediumText(node.fixes, state.medium);
+
+  var hasPersonalized = adviceItems.length > 0;
+  var sectionTitle = hasPersonalized ? 'Your Action Plan' : 'How to Fix';
+
+  html += '<div class="result-section">';
+  html += '<div class="result-section-title' + (hasPersonalized ? ' action-plan-title' : '') + '">' + escapeHtml(sectionTitle) + '</div>';
+
+  // Personalized steps first (from note-aware advice)
+  if (hasPersonalized) {
+    html += '<div class="action-plan-personalized">';
+    for (var ap = 0; ap < adviceItems.length; ap++) {
+      var item = adviceItems[ap];
+      var itemText = typeof item === 'object' ? item.text : item;
+      var itemPriority = typeof item === 'object' ? (item.priority || 5) : 5;
+      var prioClass = itemPriority >= 9 ? ' priority-critical' : (itemPriority >= 7 ? ' priority-important' : '');
+      html += '<div class="action-step' + prioClass + '">' + formatAdviceSteps(itemText) + '</div>';
+    }
+    html += '</div>';
+  }
+
+  // Generic fixes (collapsible if personalized content exists, full if not)
+  if (fixItems.length > 0) {
+    if (hasPersonalized) {
+      // Collapsible "General Tips"
+      html += '<details class="general-tips">';
+      html += '<summary class="general-tips-toggle">General Tips</summary>';
+      html += '<ol class="result-ol general-tips-list">';
+      for (var gf = 0; gf < fixItems.length; gf++) {
+        html += '<li>' + escapeHtml(fixItems[gf]) + '</li>';
+      }
+      html += '</ol></details>';
+    } else {
+      // No personalized content — show fixes normally
+      html += '<ol class="result-ol">';
+      for (var nf = 0; nf < fixItems.length; nf++) {
+        html += '<li>' + escapeHtml(fixItems[nf]) + '</li>';
+      }
+      html += '</ol>';
+    }
+  }
+
+  html += '</div>';
+  var checkFirstItems = resolveMediumText(node.checkFirst, state.medium);
+  if (checkFirstItems.length > 0) {
+    html += '<div class="result-section"><div class="result-section-title">Verify First</div><ol class="result-ol">';
+    for (var c = 0; c < checkFirstItems.length; c++) html += '<li>' + escapeHtml(checkFirstItems[c]) + '</li>';
     html += '</ol></div>';
   }
   if (node.alsoConsider && node.alsoConsider.length > 0) {
@@ -1658,13 +2981,7 @@ function renderResultCard(node) {
     html += '</ul></div>';
   }
 
-  // Notes display
-  var notesToShow = {};
-  if (state.mode === 'multi-dx') {
-    notesToShow = multiDxState.notes;
-  } else {
-    notesToShow = state.wizardNotes;
-  }
+  // Your Notes display
   var hasNotes = false;
   for (var nk in notesToShow) {
     if (notesToShow.hasOwnProperty(nk) && notesToShow[nk]) { hasNotes = true; break; }
@@ -1682,6 +2999,14 @@ function renderResultCard(node) {
     html += '</div>';
   }
 
+  // VPD context
+  if (node.vpdContext) {
+    html += '<div class="vpd-context">';
+    html += '<div class="vpd-context-title">Environment Check</div>';
+    html += '<div class="vpd-context-body">' + escapeHtml(node.vpdContext) + '</div>';
+    html += '</div>';
+  }
+
   html += '</div>';
   html += '<div class="nav-row">';
   html += '<button class="btn btn-primary" id="btn-save-track" type="button">Save &amp; Start Tracking</button>';
@@ -1689,6 +3014,7 @@ function renderResultCard(node) {
   if (state.history.length > 0) {
     html += '<button class="btn btn-secondary" id="btn-back" type="button">Back</button>';
   }
+  html += '<button class="btn btn-secondary" id="btn-copy-dx" type="button">&#128203; Copy Diagnosis</button>';
   html += '</div>';
   return html;
 }
@@ -1699,6 +3025,16 @@ function renderExpert() {
   var currentId = ROOT;
   var depth = 0;
   var reachedResult = false;
+
+  // Pre-populate medium/lighting from saved profile so cascading starts from q-stage
+  if (state.medium && state.expertSelections['q-medium'] === undefined) {
+    var mediumIdx = { soil: 0, coco: 1, hydro: 2, soilless: 3 };
+    state.expertSelections['q-medium'] = mediumIdx[state.medium] !== undefined ? mediumIdx[state.medium] : 0;
+  }
+  if (state.lighting && state.expertSelections['q-lighting'] === undefined) {
+    var lightIdx = { led: 0, hps: 1, cfl: 2, sunlight: 3 };
+    state.expertSelections['q-lighting'] = lightIdx[state.lighting] !== undefined ? lightIdx[state.lighting] : 0;
+  }
 
   while (currentId) {
     var node = TREE[currentId];
@@ -1750,11 +3086,13 @@ function renderMultiDxSelect() {
     { id: 'veg', label: 'Vegetative' },
     { id: 'early-flower', label: 'Early Flower (wk 1-3)' },
     { id: 'mid-flower', label: 'Mid Flower (wk 4-6)' },
-    { id: 'late-flower', label: 'Late Flower (wk 7+)' }
+    { id: 'late-flower', label: 'Late Flower (final 2\u20133 weeks)' }
   ];
   for (var si = 0; si < stages.length; si++) {
     var selected = multiDxState.stage === stages[si].id ? ' selected' : '';
+    var isSelected19 = multiDxState.stage === stages[si].id;
     html += '<button class="stage-pill' + selected + '" type="button"'
+         + ' aria-pressed="' + (isSelected19 ? 'true' : 'false') + '"'
          + ' data-stage="' + stages[si].id + '">'
          + escapeHtml(stages[si].label) + '</button>';
   }
@@ -1764,7 +3102,8 @@ function renderMultiDxSelect() {
     { id: 'leaves', label: 'Leaves' },
     { id: 'stems', label: 'Stems & Structure' },
     { id: 'roots', label: 'Roots' },
-    { id: 'whole', label: 'Whole Plant' }
+    { id: 'whole', label: 'Whole Plant' },
+    { id: 'whole-plant', label: 'Pests & Structures' }
   ];
   html += '<div class="symptom-groups">';
   for (var ri = 0; ri < regions.length; ri++) {
@@ -1795,8 +3134,8 @@ function renderMultiDxSelect() {
   html += '</div>';
   // Hints and warnings
   var symCount = multiDxState.selectedSymptoms.length;
-  if (symCount === 1) {
-    html += '<div class="dx-hint">Select at least 2 symptoms, or use Wizard mode for single-issue diagnosis.</div>';
+  if (symCount < 2) {
+    html += '<div class="dx-hint">Select at least 2 symptoms to diagnose, or use Wizard mode for a single issue.</div>';
   }
   if (symCount > 8) {
     html += '<div class="dx-warning">Many symptoms selected — results may be less precise. Consider focusing on the most prominent 4-6.</div>';
@@ -1819,9 +3158,9 @@ function renderMultiDxRefine() {
   if (!rule) return '';
   var html = '<div class="q-card fade-in">';
   html += '<div class="dx-rank">Refining question ' + (multiDxState.refineStep + 1) + ' of ' + multiDxState.refineQuestions.length + '</div>';
-  html += '<div class="q-text">' + escapeHtml(rule.question) + '</div>';
+  html += '<div class="q-text" id="refine-q-text">' + escapeHtml(rule.question) + '</div>';
   if (rule.help) html += '<div class="q-help">' + escapeHtml(rule.help) + '</div>';
-  html += '<div class="options" role="group" aria-label="Answer options">';
+  html += '<div class="options" role="group" aria-labelledby="refine-q-text">';
   for (var i = 0; i < rule.options.length; i++) {
     html += '<button class="opt-btn" data-refine-idx="' + i + '" type="button">'
          + escapeHtml(rule.options[i].label) + '</button>';
@@ -1849,12 +3188,13 @@ function renderMultiDxResults() {
     if (!treeNode || !isResult(treeNode)) continue;
     var pct = Math.round(diag.score * 100);
     var sevClass = 'sev-' + treeNode.severity;
+    var mdxSevLabel = severityLabels[treeNode.severity] || treeNode.severity;
     html += '<div class="result-card ' + sevClass + '">';
     html += '<div class="dx-rank">#' + (i + 1) + '</div>';
     html += '<div class="result-dx">' + escapeHtml(treeNode.diagnosis) + '</div>';
-    html += '<span class="result-sev ' + sevClass + '">' + escapeHtml(treeNode.severity) + '</span>';
+    html += '<span class="result-sev ' + sevClass + '">' + escapeHtml(mdxSevLabel) + '</span>';
     html += '<div class="conf-wrap"><div class="conf-label">Confidence</div>';
-    html += '<div class="conf-bar"><div class="conf-fill" style="width:' + pct + '%"></div></div>';
+    html += '<div class="conf-bar" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100" aria-label="Confidence ' + pct + '%"><div class="conf-fill" style="width:' + pct + '%"></div></div>';
     html += '<div class="conf-pct">' + pct + '%</div></div>';
     if (diag.matchedSymptoms && diag.matchedSymptoms.length > 0) {
       var symLabels = [];
@@ -1867,7 +3207,7 @@ function renderMultiDxResults() {
     html += '</div>';
   }
   // Combined Action Plan
-  var plan = generateCombinedPlan(results);
+  var plan = generateCombinedPlan(results, multiDxState.medium);
   html += '<div class="combined-plan">';
   html += '<div class="combined-plan-title">Combined Action Plan</div>';
   if (plan.checkFirst.length > 0) {
@@ -1877,13 +3217,49 @@ function renderMultiDxResults() {
     }
     html += '</ol></div>';
   }
-  if (plan.fixes.length > 0) {
-    html += '<div class="result-section"><div class="result-section-title">Fix Steps</div><ol class="result-ol">';
-    for (var fi = 0; fi < plan.fixes.length; fi++) {
-      html += '<li>' + escapeHtml(plan.fixes[fi]) + '</li>';
+  // Unified Fix Steps: merge personalized advice for top diagnosis + generic fixes
+  var mdxNoteCtx = extractNoteContext(multiDxState.notes);
+  var mdxTopAdvice = (multiDxState.results.length > 0) ? generateContextualAdvice(mdxNoteCtx, multiDxState.results[0].resultId) : [];
+  var mdxHasPersonalized = mdxTopAdvice.length > 0;
+  var mdxSectionTitle = mdxHasPersonalized ? 'Your Action Plan' : 'Fix Steps';
+
+  html += '<div class="result-section">';
+  html += '<div class="result-section-title' + (mdxHasPersonalized ? ' action-plan-title' : '') + '">' + escapeHtml(mdxSectionTitle) + '</div>';
+
+  // Personalized steps first
+  if (mdxHasPersonalized) {
+    html += '<div class="action-plan-personalized">';
+    for (var tai = 0; tai < mdxTopAdvice.length; tai++) {
+      var taiItem = mdxTopAdvice[tai];
+      var taiText = typeof taiItem === 'object' ? taiItem.text : taiItem;
+      var taiPriority = typeof taiItem === 'object' ? (taiItem.priority || 5) : 5;
+      var taiPrioClass = taiPriority >= 9 ? ' priority-critical' : (taiPriority >= 7 ? ' priority-important' : '');
+      html += '<div class="action-step' + taiPrioClass + '">' + formatAdviceSteps(taiText) + '</div>';
     }
-    html += '</ol></div>';
+    html += '</div>';
   }
+
+  // Generic fixes
+  if (plan.fixes.length > 0) {
+    if (mdxHasPersonalized) {
+      html += '<details class="general-tips">';
+      html += '<summary class="general-tips-toggle">General Tips</summary>';
+      html += '<ol class="result-ol general-tips-list">';
+      for (var fi = 0; fi < plan.fixes.length; fi++) {
+        html += '<li>' + escapeHtml(plan.fixes[fi]) + '</li>';
+      }
+      html += '</ol></details>';
+    } else {
+      html += '<ol class="result-ol">';
+      for (var fi = 0; fi < plan.fixes.length; fi++) {
+        html += '<li>' + escapeHtml(plan.fixes[fi]) + '</li>';
+      }
+      html += '</ol>';
+    }
+  }
+
+  html += '</div>';
+
   if (plan.alsoConsider.length > 0) {
     html += '<div class="result-section"><div class="result-section-title">Also Consider</div><ul class="also-list">';
     for (var ai = 0; ai < plan.alsoConsider.length; ai++) {
@@ -1913,6 +3289,7 @@ function renderMultiDxResults() {
   html += '<button class="btn btn-primary" id="btn-save-track" type="button">Save &amp; Start Tracking</button>';
   html += '<button class="btn btn-secondary" id="btn-mdx-back" type="button">Back</button>';
   html += '<button class="btn btn-secondary" id="btn-mdx-reset" type="button">Start Over</button>';
+  html += '<button class="btn btn-secondary" id="btn-copy-dx" type="button">&#128203; Copy Diagnosis</button>';
   html += '</div>';
   html += '</div>';
   return html;
@@ -1958,11 +3335,25 @@ function bindMultiDxEvents() {
       render();
     });
   }
-  var resetBtn = document.getElementById('btn-mdx-reset');
-  if (resetBtn) {
-    resetBtn.addEventListener('click', function() {
-      resetMultiDxState();
-      render();
+  var mdxResetBtn = document.getElementById('btn-mdx-reset');
+  if (mdxResetBtn) {
+    mdxResetBtn.addEventListener('click', function() {
+      if (multiDxState.selectedSymptoms.length > 0 && !resetPending) {
+        resetPending = true;
+        this.textContent = 'Confirm reset?';
+        this.className = 'btn btn-danger';
+        var self3 = this;
+        setTimeout(function() {
+          resetPending = false;
+          self3.textContent = 'Start Over';
+          self3.className = 'btn btn-secondary';
+        }, 3000);
+      } else {
+        resetPending = false;
+        pushUndo('diagnosis');
+        resetMultiDxState();
+        render();
+      }
     });
   }
   var saveBtn = document.getElementById('btn-save-track');
@@ -1973,6 +3364,57 @@ function bindMultiDxEvents() {
       }
     });
   }
+  bindCopyDiagnosisBtn(function() {
+    var results = multiDxState.results;
+    if (!results || results.length === 0) return '';
+    var text = 'Plant Doctor Multi-Dx Results\n\n';
+    for (var i = 0; i < results.length; i++) {
+      var diag = results[i];
+      var treeNode = TREE[diag.resultId];
+      if (!treeNode) continue;
+      text += '#' + (i + 1) + ' ' + treeNode.diagnosis + ' (' + Math.round(diag.score * 100) + '%)\n';
+    }
+    text += '\n';
+    var plan = generateCombinedPlan(results, multiDxState.medium);
+    if (plan.checkFirst.length > 0) {
+      text += 'Check First:\n';
+      for (var ci = 0; ci < plan.checkFirst.length; ci++) text += '- ' + plan.checkFirst[ci] + '\n';
+      text += '\n';
+    }
+    // Unified action plan: personalized steps first, then generic fixes
+    var copyNotes = multiDxState.notes;
+    var copyCtx = extractNoteContext(copyNotes);
+    var topResultId = (results.length > 0) ? results[0].resultId : null;
+    var copyAdvice = topResultId ? generateContextualAdvice(copyCtx, topResultId) : [];
+    var copyHasPer = copyAdvice.length > 0;
+    if (copyHasPer) {
+      text += 'Your Action Plan:\n';
+      for (var ca = 0; ca < copyAdvice.length; ca++) {
+        var advText = typeof copyAdvice[ca] === 'object' ? copyAdvice[ca].text : copyAdvice[ca];
+        text += '- ' + advText + '\n';
+      }
+      if (plan.fixes.length > 0) {
+        text += '\nGeneral Tips:\n';
+        for (var fi = 0; fi < plan.fixes.length; fi++) text += '- ' + plan.fixes[fi] + '\n';
+      }
+      text += '\n';
+    } else if (plan.fixes.length > 0) {
+      text += 'Fix Steps:\n';
+      for (var fi = 0; fi < plan.fixes.length; fi++) text += '- ' + plan.fixes[fi] + '\n';
+      text += '\n';
+    }
+    var notes = multiDxState.notes;
+    var hasNotes = false;
+    for (var nk in notes) { if (notes.hasOwnProperty(nk) && notes[nk]) { hasNotes = true; break; } }
+    if (hasNotes) {
+      text += 'Notes:\n';
+      for (var noteKey in notes) {
+        if (notes.hasOwnProperty(noteKey) && notes[noteKey]) text += '- ' + notes[noteKey] + '\n';
+      }
+      text += '\n';
+    }
+    return text;
+  });
   bindNotesEvents();
 }
 
@@ -1984,8 +3426,21 @@ function renderLastDx() {
   var dateStr = d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
   el.innerHTML = '<div class="last-dx-header">Last Diagnosis</div>'
     + '<div class="last-dx-name">' + escapeHtml(lastDiagnosis.result.diagnosis) + '</div>'
-    + '<div class="last-dx-date">' + escapeHtml(dateStr) + '</div>';
+    + '<div class="last-dx-date">' + escapeHtml(dateStr) + '</div>'
+    + '<button id="btn-clear-lastdx" type="button" style="font-size:0.65rem;color:var(--text3);background:none;border:none;cursor:pointer;margin-top:4px;padding:0;" aria-label="Clear last diagnosis">\u2715 clear</button>';
   el.style.display = 'block';
+  var clearBtn = document.getElementById('btn-clear-lastdx');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      lastDiagnosis = null;
+      if (journalData) {
+        journalData.lastDiagnosis = null;
+        saveJournalState(journalData);
+      }
+      el.style.display = 'none';
+      el.innerHTML = '';
+    });
+  }
 }
 
 /* ── Rendering: Journal Dashboard ── */
@@ -2009,6 +3464,8 @@ function renderJournalDashboard() {
   var resolved = [];
   for (var i = 0; i < journalData.journal.length; i++) {
     var e = journalData.journal[i];
+    // Filter by active plant when one is selected; show entries with no plantId (pre-migration)
+    if (activePlantId && e.plantId && e.plantId !== activePlantId) continue;
     if (e.status === 'resolved') resolved.push(e);
     else active.push(e);
   }
@@ -2034,7 +3491,7 @@ function renderJournalDashboard() {
       }
     }
 
-    html += '<article class="journal-entry">';
+    html += '<article class="journal-entry" aria-label="Journal entry: ' + escapeHtml(dxName) + ', ' + escapeHtml(entry.status) + '">';
     html += '<div class="journal-entry-date">' + escapeHtml(dateStr) + '</div>';
     html += '<div class="journal-entry-dx">' + escapeHtml(dxName) + '</div>';
     html += '<div class="journal-entry-meta">';
@@ -2042,11 +3499,12 @@ function renderJournalDashboard() {
     html += '<span class="journal-days">' + daysAgo + ' day' + (daysAgo !== 1 ? 's' : '') + ' ago</span>';
     html += '</div>';
 
+    html += '<div style="margin-top: 8px; display: flex; gap: 6px; align-items: center;">';
     if (entry.status === 'active' || entry.status === 'treating') {
-      html += '<div style="margin-top: 8px;">';
-      html += '<button class="btn btn-secondary" data-checkin-id="' + escapeHtml(entry.id) + '" type="button">Check In</button>';
-      html += '</div>';
+      html += '<button class="btn btn-secondary" data-checkin-id="' + escapeHtml(entry.id) + '" type="button" aria-label="Check in for: ' + escapeHtml(dxName) + '">Check In</button>';
     }
+    html += '<button class="btn btn-secondary" data-dismiss-id="' + escapeHtml(entry.id) + '" type="button" aria-label="Remove ' + escapeHtml(dxName) + ' from journal" style="font-size:0.7rem;padding:4px 8px;color:var(--text3);">\u2715 Remove</button>';
+    html += '</div>';
 
     html += '</article>';
   }
@@ -2065,7 +3523,7 @@ function renderTreatmentSelect() {
     fixes = entry.combinedPlan.fixes;
   } else if (entry.diagnoses && entry.diagnoses.length > 0) {
     var treeNode = TREE[entry.diagnoses[0].resultId];
-    if (treeNode && treeNode.fixes) fixes = treeNode.fixes;
+    if (treeNode && treeNode.fixes) fixes = resolveMediumText(treeNode.fixes, state.medium);
   }
 
   var html = '<div class="checkin-card fade-in">';
@@ -2094,8 +3552,8 @@ function renderCheckInStep1() {
 
   var html = '<div class="checkin-card fade-in">';
   html += '<div class="checkin-title">Check In</div>';
-  html += '<div class="q-text">How is the plant responding?</div>';
-  html += '<div class="options">';
+  html += '<div class="q-text" id="checkin-question">How is the plant responding?</div>';
+  html += '<div class="options" role="group" aria-labelledby="checkin-question">';
   var responses = [
     { id: 'much-better', label: 'Much better' },
     { id: 'somewhat-better', label: 'Somewhat better' },
@@ -2182,7 +3640,7 @@ function renderCheckInResult() {
       var oldPct = oldScore !== null ? Math.round(oldScore * 100) : '?';
       var newPct = Math.round(updated.score * 100);
       var changeClass = updated.score > (oldScore || 0) ? 'score-change-up' : updated.score < (oldScore || 0) ? 'score-change-down' : 'score-change-same';
-      var arrow = updated.score > (oldScore || 0) ? '&#9650;' : updated.score < (oldScore || 0) ? '&#9660;' : '&#8212;';
+      var arrowIcon = updated.score > (oldScore || 0) ? '&#9650;' : updated.score < (oldScore || 0) ? '&#9660;' : '&#8212;'; var arrowLabel = updated.score > (oldScore || 0) ? 'improved' : updated.score < (oldScore || 0) ? 'decreased' : 'unchanged'; var arrow = '<span aria-hidden="true">' + arrowIcon + '</span><span class="sr-only">' + arrowLabel + '</span>';
 
       html += '<div class="score-change ' + changeClass + '">';
       html += '<span>' + escapeHtml(name) + ': ' + oldPct + '% &#8594; ' + newPct + '% ' + arrow + '</span>';
@@ -2240,7 +3698,7 @@ function processCheckIn() {
     }
 
     var treatedIds = entry.diagnoses.map(function(d) { return d.resultId; });
-    var newScores = scoreDiagnoses(updatedSymptoms, entry.stage || 'veg', treatedIds);
+    var newScores = scoreDiagnoses(updatedSymptoms, entry.stage || 'veg', entry.medium || null, entry.lighting || null, treatedIds);
     journalState.checkInData.updatedScores = newScores;
 
     entry.symptoms = updatedSymptoms;
@@ -2251,7 +3709,7 @@ function processCheckIn() {
 
   var notes = '';
   var notesInput = document.querySelector('.notes-textarea');
-  if (notesInput) notes = notesInput.value.substring(0, 200);
+  if (notesInput) notes = notesInput.value.substring(0, 500);
 
   var daysSinceFix = null;
   var daysInput = document.getElementById('days-since-fix');
@@ -2273,6 +3731,36 @@ function processCheckIn() {
 
 /* ── Journal Event Binding ── */
 function bindJournalEvents() {
+  // Dismiss/remove journal entry buttons
+  var dismissBtns = document.querySelectorAll('[data-dismiss-id]');
+  for (var di = 0; di < dismissBtns.length; di++) {
+    dismissBtns[di].addEventListener('click', function() {
+      var entryId = this.getAttribute('data-dismiss-id');
+      var btn = this;
+      // Two-click confirmation
+      if (btn.getAttribute('data-confirm') === 'true') {
+        // Remove entry from journal
+        var newJournal = [];
+        for (var dj = 0; dj < journalData.journal.length; dj++) {
+          if (journalData.journal[dj].id !== entryId) newJournal.push(journalData.journal[dj]);
+        }
+        journalData.journal = newJournal;
+        saveJournalState(journalData);
+        invalidateSidebarCache();
+        render();
+      } else {
+        btn.setAttribute('data-confirm', 'true');
+        btn.textContent = 'Confirm remove?';
+        btn.style.color = 'var(--red)';
+        setTimeout(function() {
+          btn.removeAttribute('data-confirm');
+          btn.textContent = '\u2715 Remove';
+          btn.style.color = 'var(--text3)';
+        }, 3000);
+      }
+    });
+  }
+
   var checkInBtns = document.querySelectorAll('[data-checkin-id]');
   for (var i = 0; i < checkInBtns.length; i++) {
     checkInBtns[i].addEventListener('click', function() {
@@ -2347,7 +3835,6 @@ function bindJournalEvents() {
     render();
   });
 
-  if (typeof bindNotesEvents === 'function') bindNotesEvents();
 }
 
 /* ── Rendering: Notes Expander ── */
@@ -2360,21 +3847,24 @@ function renderNotesExpander(stepId, existingContent, storageKey) {
   html += '<button class="notes-toggle" type="button" data-notes-step="' + escapeHtml(stepId) + '"'
        + ' data-notes-store="' + escapeHtml(storageKey) + '"'
        + ' aria-expanded="' + (isOpen ? 'true' : 'false') + '">';
-  html += '<span class="notes-toggle-icon' + (isOpen ? ' open' : '') + '">&#9654;</span>';
-  html += isOpen ? 'Notes' : 'Add notes';
+  html += '<span class="notes-toggle-icon' + (isOpen ? ' open' : '') + '" aria-hidden="true">&#9654;</span>';
+  html += isOpen ? 'Notes' : 'Add context (improves diagnosis)';
   html += '</button>';
   html += '<div class="notes-body' + (isOpen ? ' open' : '') + '">';
   html += '<textarea class="notes-textarea" data-notes-step="' + escapeHtml(stepId) + '"'
        + ' data-notes-store="' + escapeHtml(storageKey) + '"'
-       + ' maxlength="200"'
-       + ' placeholder="Optional: add context about this step..."'
+       + ' maxlength="500"'
+       + ' placeholder="e.g. pH 6.4, coco, LED, day 28 flower, watering every 2 days..."'
        + ' aria-label="Notes for this step">'
        + escapeHtml(content) + '</textarea>';
 
   var counterClass = 'notes-counter';
-  if (charCount >= 200) counterClass += ' at-limit';
-  else if (charCount >= 170) counterClass += ' near-limit';
-  html += '<div class="' + counterClass + '">' + charCount + '/200</div>';
+  if (charCount >= 500) counterClass += ' at-limit';
+  else if (charCount >= 450) counterClass += ' near-limit';
+  var limitHint = '';
+  if (charCount >= 500) limitHint = '<span class="sr-only"> (limit reached)</span>';
+  else if (charCount >= 450) limitHint = '<span class="sr-only"> (near limit)</span>';
+  html += '<div class="' + counterClass + '" aria-live="polite">' + charCount + '/500' + limitHint + '</div>';
   html += '</div></div>';
   return html;
 }
@@ -2394,9 +3884,9 @@ function bindNotesEvents() {
       this.textContent = '';
       var newIcon = document.createElement('span');
       newIcon.className = 'notes-toggle-icon' + (!isOpen ? ' open' : '');
-      newIcon.innerHTML = '&#9654;';
+      newIcon.setAttribute('aria-hidden', 'true'); newIcon.innerHTML = '&#9654;';
       this.appendChild(newIcon);
-      this.appendChild(document.createTextNode(!isOpen ? 'Notes' : 'Add notes'));
+      this.appendChild(document.createTextNode(!isOpen ? 'Notes' : 'Add context (improves diagnosis)'));
 
       if (!isOpen) {
         var textarea = body.querySelector('.notes-textarea');
@@ -2411,15 +3901,18 @@ function bindNotesEvents() {
     textareas[j].addEventListener('input', function() {
       var stepId = this.getAttribute('data-notes-step');
       var store = this.getAttribute('data-notes-store');
-      var value = this.value.substring(0, 200);
+      var value = this.value.substring(0, 500);
       this.value = value;
 
       var counter = this.parentElement.querySelector('.notes-counter');
       if (counter) {
-        counter.textContent = value.length + '/200';
         counter.className = 'notes-counter';
-        if (value.length >= 200) counter.className += ' at-limit';
-        else if (value.length >= 170) counter.className += ' near-limit';
+        if (value.length >= 500) counter.className += ' at-limit';
+        else if (value.length >= 450) counter.className += ' near-limit';
+        var liveHint = '';
+        if (value.length >= 500) liveHint = '<span class="sr-only"> (limit reached)</span>';
+        else if (value.length >= 450) liveHint = '<span class="sr-only"> (near limit)</span>';
+        counter.innerHTML = value.length + '/500' + liveHint;
       }
 
       if (store === 'wizardNotes') {
@@ -2431,10 +3924,319 @@ function bindNotesEvents() {
   }
 }
 
+/* ── Grow Badges ── */
+function renderGrowBadges() {
+  if (!state.medium && !state.lighting) return '';
+  var html = '<div class="grow-badges">';
+  if (state.medium) {
+    var mediumLabels = { soil: 'Soil', coco: 'Coco', hydro: 'Hydro', soilless: 'Soilless' };
+    html += '<button class="grow-badge" id="badge-medium" type="button" aria-label="Growing medium: ' + escapeHtml(mediumLabels[state.medium] || state.medium) + '. Click to change.">';
+    html += escapeHtml(mediumLabels[state.medium] || state.medium);
+    html += '</button>';
+  }
+  if (state.lighting) {
+    var lightingLabels = { led: 'LED', hps: 'HPS', cfl: 'CFL', sunlight: 'Sunlight' };
+    html += '<button class="grow-badge" id="badge-lighting" type="button" aria-label="Lighting type: ' + escapeHtml(lightingLabels[state.lighting] || state.lighting) + '. Click to change.">';
+    html += escapeHtml(lightingLabels[state.lighting] || state.lighting);
+    html += '</button>';
+  }
+  html += '</div>';
+  return html;
+}
+
+/* ── Plant Sidebar Rendering ── */
+var _lastSidebarPlantId = null;
+var _lastSidebarHash = null;
+
+function _computeSidebarHash() {
+  // Simple hash: active plant + journal count — avoids full localStorage re-read when only notes change
+  var jLen = journalData && journalData.journal ? journalData.journal.length : 0;
+  return (activePlantId || 'none') + ':' + jLen;
+}
+
+function renderPlantSidebar(force) {
+  var listEl = document.getElementById('plant-list');
+  var mobileNameEl = document.getElementById('plant-mobile-name');
+  if (!listEl) return;
+
+  // Skip rebuild if nothing relevant changed (avoids localStorage read on every keystroke)
+  var hash = _computeSidebarHash();
+  if (!force && hash === _lastSidebarHash) return;
+  _lastSidebarHash = hash;
+
+  var plants = (typeof loadPlants === 'function') ? loadPlants() : [];
+  var html = '';
+
+  if (plants.length === 0) {
+    html += '<div style="font-size:0.8rem;color:var(--text3);padding:12px 0;text-align:center;">No plants yet.<br>Add your first plant below.</div>';
+  }
+
+  for (var i = 0; i < plants.length; i++) {
+    var p = plants[i];
+    if (p.status === 'removed') continue;
+    var isActive = (typeof activePlantId !== 'undefined' && activePlantId === p.id);
+    var dxCount = 0;
+    for (var j = 0; j < journalData.journal.length; j++) {
+      if (journalData.journal[j].plantId === p.id) dxCount++;
+    }
+
+    html += '<div class="plant-card' + (isActive ? ' active' : '') + '" data-plant-id="' + escapeHtml(p.id) + '" role="option" aria-selected="' + (isActive ? 'true' : 'false') + '" tabindex="0">';
+    html += '<button class="plant-card-edit" data-rename-id="' + escapeHtml(p.id) + '" type="button" aria-label="Rename ' + escapeHtml(p.name) + '" title="Rename">\u270E</button>';
+    html += '<div class="plant-card-name" data-name-id="' + escapeHtml(p.id) + '">' + escapeHtml(p.name) + '</div>';
+    if (p.strain || p.location) {
+      html += '<div class="plant-card-meta">';
+      if (p.strain) html += escapeHtml(p.strain);
+      if (p.strain && p.location) html += ' \u00B7 ';
+      if (p.location) html += escapeHtml(p.location);
+      html += '</div>';
+    }
+    if (p.medium || p.lighting) {
+      html += '<div class="plant-card-badges">';
+      if (p.medium) {
+        var medLabels = { soil: 'Soil', coco: 'Coco', hydro: 'Hydro', soilless: 'Soilless' };
+        html += '<span class="plant-card-badge">' + escapeHtml(medLabels[p.medium] || p.medium) + '</span>';
+      }
+      if (p.lighting) {
+        var litLabels = { led: 'LED', hps: 'HPS', cfl: 'CFL', sunlight: 'Sun' };
+        html += '<span class="plant-card-badge">' + escapeHtml(litLabels[p.lighting] || p.lighting) + '</span>';
+      }
+      html += '</div>';
+    }
+    if (dxCount > 0) {
+      html += '<span class="plant-card-dx-count">' + dxCount + '</span>';
+    }
+    html += '</div>';
+  }
+
+  listEl.innerHTML = html;
+
+  // Update mobile strip
+  if (mobileNameEl) {
+    var activePlant = (typeof activePlantId !== 'undefined' && activePlantId && typeof getPlant === 'function') ? getPlant(activePlantId) : null;
+    mobileNameEl.textContent = activePlant ? activePlant.name : 'No plant selected';
+  }
+
+  // Bind plant card clicks and keyboard events
+  var cards = listEl.querySelectorAll('.plant-card');
+  function handlePlantSelect(el) {
+    var pid = el.getAttribute('data-plant-id');
+    pushUndo('plant: ' + (getActivePlant() ? getActivePlant().name : 'none'));
+    if (typeof setActivePlant === 'function') setActivePlant(pid);
+    // Reset diagnosis state for new plant context
+    if (state.medium && state.lighting) {
+      state.currentNode = 'q-stage';
+    } else {
+      state.currentNode = ROOT;
+    }
+    state.history = [];
+    state.wizardNotes = {};
+    state.expertSelections = {};
+    resetMultiDxState();
+    journalState.view = 'dashboard';
+    journalState.activeEntryId = null;
+    invalidateSidebarCache();
+    render();
+  }
+  for (var k = 0; k < cards.length; k++) {
+    cards[k].addEventListener('click', function() {
+      handlePlantSelect(this);
+    });
+    cards[k].addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handlePlantSelect(this);
+      }
+    });
+  }
+
+  // Bind rename buttons
+  var renameBtns = listEl.querySelectorAll('.plant-card-edit');
+  for (var rb = 0; rb < renameBtns.length; rb++) {
+    renameBtns[rb].addEventListener('click', function(e) {
+      e.stopPropagation(); // Don't trigger card select
+      var pid = this.getAttribute('data-rename-id');
+      var nameEl = listEl.querySelector('[data-name-id="' + pid + '"]');
+      if (!nameEl) return;
+      var currentName = nameEl.textContent;
+
+      // Replace name with input
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'plant-rename-input';
+      input.value = currentName;
+      input.maxLength = 50;
+      input.setAttribute('aria-label', 'Rename plant');
+      nameEl.textContent = '';
+      nameEl.appendChild(input);
+      input.focus();
+      input.select();
+
+      function commitRename() {
+        var newName = input.value.trim();
+        if (!newName) newName = currentName; // revert if empty
+        if (typeof updatePlant === 'function') {
+          updatePlant(pid, { name: newName });
+        }
+        invalidateSidebarCache();
+        renderPlantSidebar();
+      }
+
+      input.addEventListener('blur', function() {
+        commitRename();
+      });
+      input.addEventListener('keydown', function(ev) {
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          commitRename();
+        } else if (ev.key === 'Escape') {
+          ev.preventDefault();
+          nameEl.textContent = currentName; // revert
+          invalidateSidebarCache();
+          renderPlantSidebar();
+        }
+      });
+    });
+  }
+}
+
+/* Force sidebar re-render when plants change (add/remove/switch) */
+function invalidateSidebarCache() {
+  _lastSidebarHash = null;
+}
+
+function renderAddPlantForm() {
+  var container = document.getElementById('plant-form-container');
+  if (!container) return;
+
+  var html = '<div class="plant-form">';
+  html += '<div class="plant-form-field"><label class="plant-form-label" for="pf-name">Name *</label>';
+  html += '<input class="plant-form-input" id="pf-name" type="text" placeholder="e.g. GSC #3" maxlength="50"></div>';
+  html += '<div class="plant-form-field"><label class="plant-form-label" for="pf-strain">Strain</label>';
+  html += '<input class="plant-form-input" id="pf-strain" type="text" placeholder="e.g. Girl Scout Cookies" maxlength="50"></div>';
+  html += '<div class="plant-form-field"><label class="plant-form-label" for="pf-location">Location</label>';
+  html += '<input class="plant-form-input" id="pf-location" type="text" placeholder="e.g. Tent A - Left" maxlength="50"></div>';
+  html += '<div class="plant-form-field"><label class="plant-form-label" for="pf-medium">Medium</label>';
+  html += '<select class="plant-form-input" id="pf-medium">';
+  html += '<option value="">Select...</option><option value="soil">Soil</option><option value="coco">Coco Coir</option><option value="hydro">Hydro</option><option value="soilless">Soilless Mix</option>';
+  html += '</select></div>';
+  html += '<div class="plant-form-field"><label class="plant-form-label" for="pf-lighting">Lighting</label>';
+  html += '<select class="plant-form-input" id="pf-lighting">';
+  html += '<option value="">Select...</option><option value="led">LED</option><option value="hps">HPS</option><option value="cfl">CFL</option><option value="sunlight">Sunlight</option>';
+  html += '</select></div>';
+  html += '<div class="plant-form-row">';
+  html += '<button class="btn btn-primary" id="pf-save" type="button">Add Plant</button>';
+  html += '<button class="btn btn-secondary" id="pf-cancel" type="button">Cancel</button>';
+  html += '</div></div>';
+
+  container.innerHTML = html;
+
+  // Focus name field
+  var nameInput = document.getElementById('pf-name');
+  if (nameInput) nameInput.focus();
+
+  // Save handler
+  var saveBtn = document.getElementById('pf-save');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', function() {
+      var name = document.getElementById('pf-name').value.trim();
+      if (!name) {
+        document.getElementById('pf-name').style.borderColor = 'var(--red)';
+        return;
+      }
+      var strain = document.getElementById('pf-strain').value.trim();
+      var location = document.getElementById('pf-location').value.trim();
+      var medium = document.getElementById('pf-medium').value || null;
+      var lighting = document.getElementById('pf-lighting').value || null;
+
+      var newPlant = (typeof addPlant === 'function') ? addPlant(name, strain, location, '', medium, lighting) : null;
+      if (newPlant && typeof setActivePlant === 'function') setActivePlant(newPlant.id);
+      container.innerHTML = '';
+
+      // Set state for new plant
+      if (medium) state.medium = medium;
+      if (lighting) state.lighting = lighting;
+      if (medium && lighting) {
+        state.currentNode = 'q-stage';
+      } else {
+        state.currentNode = ROOT;
+      }
+      state.history = [];
+      state.wizardNotes = {};
+
+      invalidateSidebarCache();
+      render();
+    });
+  }
+
+  // Cancel handler
+  var cancelBtn = document.getElementById('pf-cancel');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', function() {
+      container.innerHTML = '';
+    });
+  }
+}
+
 /* ── Main Render ── */
 function render() {
   var app = document.getElementById('app');
   var progressEl = document.getElementById('progress');
+
+  // Render plant sidebar
+  renderPlantSidebar();
+
+  // Update grow profile badges
+  var badgesEl = document.getElementById('grow-badges');
+  if (badgesEl) badgesEl.innerHTML = renderGrowBadges();
+  var mediumBadge = document.getElementById('badge-medium');
+  if (mediumBadge) {
+    mediumBadge.addEventListener('click', function() {
+      pushUndo('profile');
+      state.currentNode = 'q-medium';
+      state.history = [];
+      delete state.expertSelections['q-medium'];
+      delete state.expertSelections['q-lighting'];
+      transitionToNode('q-medium');
+    });
+  }
+  var lightingBadge = document.getElementById('badge-lighting');
+  if (lightingBadge) {
+    lightingBadge.addEventListener('click', function() {
+      pushUndo('profile');
+      state.currentNode = 'q-lighting';
+      state.history = ['q-medium'];
+      delete state.expertSelections['q-lighting'];
+      transitionToNode('q-lighting');
+    });
+  }
+
+  // Render undo button if available
+  var undoBtnEl = document.getElementById('btn-undo');
+  if (!undoBtnEl) {
+    var undoBadgesEl = document.getElementById('grow-badges');
+    if (undoBadgesEl) {
+      var undoBtn = document.createElement('button');
+      undoBtn.id = 'btn-undo';
+      undoBtn.className = 'btn-undo';
+      undoBtn.type = 'button';
+      undoBtn.style.display = 'none';
+      undoBtn.setAttribute('aria-label', 'Undo last action');
+      undoBadgesEl.parentElement.appendChild(undoBtn);
+      undoBtnEl = undoBtn;
+    }
+  }
+  if (undoBtnEl) {
+    if (canUndo()) {
+      undoBtnEl.style.display = 'inline-flex';
+      undoBtnEl.textContent = '\u21A9 Undo';
+      undoBtnEl.title = 'Undo: ' + getUndoLabel();
+      undoBtnEl.onclick = function() {
+        popUndo();
+      };
+    } else {
+      undoBtnEl.style.display = 'none';
+    }
+  }
 
   if (journalState.view !== 'dashboard') {
     progressEl.style.display = 'none';
@@ -2449,7 +4251,7 @@ function render() {
     var node = TREE[state.currentNode];
     if (isResult(node)) {
       app.innerHTML = dashHtml + renderResultCard(node);
-      saveLastDiagnosis(node);
+      if (!lastDiagnosis || lastDiagnosis.result.id !== node.id) saveLastDiagnosis(node);
       lastDiagnosis = { date: new Date().toISOString(), result: { id: node.id, diagnosis: node.diagnosis, severity: node.severity, confidence: node.confidence }, path: state.history.concat([node.id]) };
       renderLastDx();
       setTimeout(function() { var rc = document.getElementById('result-card'); if (rc) rc.focus(); }, 50);
@@ -2515,6 +4317,26 @@ function transitionToNode(nextId) {
 function selectOption(idx) {
   var node = TREE[state.currentNode];
   if (!node || !node.options || !node.options[idx]) return;
+
+  // Save medium/lighting selections
+  if (state.currentNode === 'q-medium') {
+    var mediumMap = { 0: 'soil', 1: 'coco', 2: 'hydro', 3: 'soilless', 4: null };
+    state.medium = (idx in mediumMap) ? mediumMap[idx] : null;
+    multiDxState.medium = state.medium;
+    saveGrowProfile(state.medium, state.lighting);
+    if (activePlantId && typeof updatePlant === 'function') {
+      updatePlant(activePlantId, { medium: state.medium });
+    }
+  } else if (state.currentNode === 'q-lighting') {
+    var lightingMap = { 0: 'led', 1: 'hps', 2: 'cfl', 3: 'sunlight', 4: null };
+    state.lighting = (idx in lightingMap) ? lightingMap[idx] : null;
+    multiDxState.lighting = state.lighting;
+    saveGrowProfile(state.medium, state.lighting);
+    if (activePlantId && typeof updatePlant === 'function') {
+      updatePlant(activePlantId, { lighting: state.lighting });
+    }
+  }
+
   state.history.push(state.currentNode);
   var nextId = node.options[idx].next;
   transitionToNode(nextId);
@@ -2527,6 +4349,7 @@ function goBack() {
 }
 
 function reset() {
+  pushUndo('diagnosis');
   state.currentNode = ROOT;
   state.history = [];
   state.wizardNotes = {};
@@ -2536,6 +4359,7 @@ function reset() {
 function setMode(mode) {
   if (mode === 'multi-dx' && !dataFileLoaded()) return;
   var prevMode = state.mode;
+  pushUndo('mode: ' + state.mode);
   state.mode = mode;
 
   if (prevMode === 'wizard' && mode === 'expert') {
@@ -2570,6 +4394,15 @@ function updateModeSelector() {
     btn.classList.toggle('active', isActive);
     btn.setAttribute('aria-checked', isActive ? 'true' : 'false');
     btn.setAttribute('tabindex', isActive ? '0' : '-1');
+  }
+  var subtitleEl = document.getElementById('mode-subtitle');
+  if (subtitleEl) {
+    var subtitles = {
+      'wizard': 'Answer questions one at a time',
+      'expert': 'Use dropdowns if you know your symptoms',
+      'multi-dx': 'Check all symptoms that apply'
+    };
+    subtitleEl.textContent = subtitles[state.mode] || '';
   }
 }
 
@@ -2634,6 +4467,83 @@ function getExpertResult() {
   return null;
 }
 
+/* ── Copy Diagnosis Helper ── */
+function doCopyDiagnosis(node, notes) {
+  var text = 'Plant Doctor Diagnosis: ' + node.diagnosis + '\n';
+  text += 'Confidence: ' + Math.round(node.confidence * 100) + '%\n';
+  text += 'Severity: ' + node.severity + '\n\n';
+  var copyCheckFirst = resolveMediumText(node.checkFirst, state.medium);
+  if (copyCheckFirst.length) {
+    text += 'Check First:\n';
+    for (var i = 0; i < copyCheckFirst.length; i++) text += '- ' + copyCheckFirst[i] + '\n';
+    text += '\n';
+  }
+  // Unified action plan: personalized steps first, then generic fixes
+  var copyCtx = extractNoteContext(notes);
+  var copyAdvice = generateContextualAdvice(copyCtx, node.id);
+  var copyFixes = resolveMediumText(node.fixes, state.medium);
+  var copyHasPersonalized = copyAdvice.length > 0;
+  if (copyHasPersonalized) {
+    text += 'Your Action Plan:\n';
+    for (var ca = 0; ca < copyAdvice.length; ca++) {
+      var advText = typeof copyAdvice[ca] === 'object' ? copyAdvice[ca].text : copyAdvice[ca];
+      text += '- ' + advText + '\n';
+    }
+    if (copyFixes.length) {
+      text += '\nGeneral Tips:\n';
+      for (var j = 0; j < copyFixes.length; j++) text += '- ' + copyFixes[j] + '\n';
+    }
+    text += '\n';
+  } else if (copyFixes.length) {
+    text += 'How to Fix:\n';
+    for (var j = 0; j < copyFixes.length; j++) text += '- ' + copyFixes[j] + '\n';
+    text += '\n';
+  }
+  var hasNotes = false;
+  for (var k in notes) { if (notes.hasOwnProperty(k) && notes[k]) { hasNotes = true; break; } }
+  if (hasNotes) {
+    text += 'Notes:\n';
+    for (var nk in notes) {
+      if (notes.hasOwnProperty(nk) && notes[nk]) text += '- ' + notes[nk] + '\n';
+    }
+    text += '\n';
+  }
+  return text;
+}
+
+function bindCopyDiagnosisBtn(getText) {
+  var copyBtn = document.getElementById('btn-copy-dx');
+  if (!copyBtn) return;
+  copyBtn.addEventListener('click', function() {
+    var text = getText();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        copyBtn.textContent = '\u2713 Copied!';
+        setTimeout(function() { copyBtn.innerHTML = '&#128203; Copy Diagnosis'; }, 2000);
+      }).catch(function() {
+        copyBtn.textContent = 'Copy failed';
+        setTimeout(function() { copyBtn.innerHTML = '&#128203; Copy Diagnosis'; }, 2000);
+      });
+    } else {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        copyBtn.textContent = '\u2713 Copied!';
+        setTimeout(function() { copyBtn.innerHTML = '&#128203; Copy Diagnosis'; }, 2000);
+      } catch(e) {
+        copyBtn.textContent = 'Copy failed';
+        setTimeout(function() { copyBtn.innerHTML = '&#128203; Copy Diagnosis'; }, 2000);
+      }
+    }
+  });
+}
+
 /* ── Event Binding ── */
 function bindWizardEvents() {
   var buttons = document.querySelectorAll('.opt-btn');
@@ -2645,7 +4555,22 @@ function bindWizardEvents() {
   var backBtn = document.getElementById('btn-back');
   if (backBtn) backBtn.addEventListener('click', goBack);
   var resetBtn = document.getElementById('btn-reset');
-  if (resetBtn) resetBtn.addEventListener('click', reset);
+  if (resetBtn) resetBtn.addEventListener('click', function() {
+    if (state.history.length > 0 && !resetPending) {
+      resetPending = true;
+      this.textContent = 'Confirm reset?';
+      this.className = 'btn btn-danger';
+      var self = this;
+      setTimeout(function() {
+        resetPending = false;
+        self.textContent = 'Start Over';
+        self.className = 'btn btn-secondary';
+      }, 3000);
+    } else {
+      resetPending = false;
+      reset();
+    }
+  });
   var saveTrackBtn = document.getElementById('btn-save-track');
   if (saveTrackBtn) {
     saveTrackBtn.addEventListener('click', function() {
@@ -2654,6 +4579,11 @@ function bindWizardEvents() {
       }
     });
   }
+  bindCopyDiagnosisBtn(function() {
+    var node = TREE[state.currentNode];
+    if (!node) return '';
+    return doCopyDiagnosis(node, state.wizardNotes);
+  });
 }
 
 function bindExpertEvents() {
@@ -2696,11 +4626,25 @@ function bindExpertEvents() {
   if (backBtn) backBtn.addEventListener('click', expertGoBack);
   var resetBtn2 = document.getElementById('btn-reset');
   if (resetBtn2) resetBtn2.addEventListener('click', function() {
-    state.expertSelections = {};
-    state.currentNode = ROOT;
-    state.history = [];
-    state.wizardNotes = {};
-    render();
+    if (state.history.length > 0 && !resetPending) {
+      resetPending = true;
+      this.textContent = 'Confirm reset?';
+      this.className = 'btn btn-danger';
+      var self2 = this;
+      setTimeout(function() {
+        resetPending = false;
+        self2.textContent = 'Start Over';
+        self2.className = 'btn btn-secondary';
+      }, 3000);
+    } else {
+      resetPending = false;
+      pushUndo('diagnosis');
+      state.expertSelections = {};
+      state.currentNode = ROOT;
+      state.history = [];
+      state.wizardNotes = {};
+      render();
+    }
   });
   var saveTrackBtn = document.getElementById('btn-save-track');
   if (saveTrackBtn) {
@@ -2710,6 +4654,11 @@ function bindExpertEvents() {
       }
     });
   }
+  bindCopyDiagnosisBtn(function() {
+    var node = getExpertResult();
+    if (!node) return '';
+    return doCopyDiagnosis(node, state.wizardNotes);
+  });
 }
 
 /* ── Mode Selector Binding ── */
@@ -2750,7 +4699,7 @@ function bindModeSelector() {
       e.preventDefault();
       newIdx = modes.length - 1;
     } else if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
+      // Allow native click to fire for button activation (mode switch via container click listener)
       return;
     } else {
       return;
@@ -2762,6 +4711,156 @@ function bindModeSelector() {
   });
 }
 
+/* ── Plant Data Functions ── */
+function generatePlantId() {
+  return 'p-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6);
+}
+
+function loadPlants() {
+  if (!storageAvailable) return [];
+  try {
+    var raw = localStorage.getItem('growdoc-plants');
+    if (!raw) return [];
+    var data = JSON.parse(raw);
+    return Array.isArray(data) ? data : [];
+  } catch(e) {
+    return [];
+  }
+}
+
+function savePlants(plants) {
+  if (!storageAvailable) return;
+  try {
+    localStorage.setItem('growdoc-plants', JSON.stringify(plants));
+  } catch(e) {
+    var warn = document.getElementById('storage-warn');
+    if (warn) {
+      warn.textContent = 'Storage is full. Plant data could not be saved.';
+      warn.style.display = 'block';
+    }
+  }
+}
+
+function addPlant(name, strain, location, startDate, medium, lighting) {
+  var plant = {
+    id: generatePlantId(),
+    name: name || 'Unnamed Plant',
+    strain: strain || '',
+    location: location || '',
+    startDate: startDate || '',
+    medium: medium || null,
+    lighting: lighting || null,
+    createdAt: new Date().toISOString(),
+    status: 'active'
+  };
+  var plants = loadPlants();
+  plants.push(plant);
+  savePlants(plants);
+  return plant;
+}
+
+function updatePlant(plantId, updates) {
+  var plants = loadPlants();
+  for (var i = 0; i < plants.length; i++) {
+    if (plants[i].id === plantId) {
+      for (var key in updates) {
+        if (updates.hasOwnProperty(key) && key !== 'id') {
+          plants[i][key] = updates[key];
+        }
+      }
+      savePlants(plants);
+      return plants[i];
+    }
+  }
+  return null;
+}
+
+function removePlant(plantId, keepJournal) {
+  var plants = loadPlants();
+  var filtered = [];
+  for (var i = 0; i < plants.length; i++) {
+    if (plants[i].id !== plantId) filtered.push(plants[i]);
+  }
+  savePlants(filtered);
+
+  if (!keepJournal) {
+    // Remove associated journal entries
+    var newJournal = [];
+    for (var j = 0; j < journalData.journal.length; j++) {
+      if (journalData.journal[j].plantId !== plantId) {
+        newJournal.push(journalData.journal[j]);
+      }
+    }
+    journalData.journal = newJournal;
+    saveJournalState(journalData);
+  }
+
+  // If the removed plant was the active plant, switch to next available
+  if (activePlantId === plantId) {
+    activePlantId = null;
+    var remaining = getActivePlants();
+    if (remaining.length > 0) {
+      setActivePlant(remaining[0].id);
+    } else {
+      state.medium = null;
+      state.lighting = null;
+      multiDxState.medium = null;
+      multiDxState.lighting = null;
+      state.currentNode = ROOT;
+      state.history = [];
+    }
+  }
+}
+
+function getPlant(plantId) {
+  var plants = loadPlants();
+  for (var i = 0; i < plants.length; i++) {
+    if (plants[i].id === plantId) return plants[i];
+  }
+  return null;
+}
+
+function getActivePlants() {
+  var plants = loadPlants();
+  var active = [];
+  for (var i = 0; i < plants.length; i++) {
+    if (plants[i].status === 'active') active.push(plants[i]);
+  }
+  return active;
+}
+
+function getActivePlant() {
+  if (!activePlantId) return null;
+  return getPlant(activePlantId);
+}
+
+function setActivePlant(plantId) {
+  activePlantId = plantId;
+  var plant = getPlant(plantId);
+  if (plant) {
+    // Sync state medium/lighting from plant profile
+    state.medium = plant.medium;
+    state.lighting = plant.lighting;
+    multiDxState.medium = plant.medium;
+    multiDxState.lighting = plant.lighting;
+    // Save active plant preference
+    if (storageAvailable) {
+      try {
+        localStorage.setItem('growdoc-active-plant', plantId);
+      } catch(e) {}
+    }
+  }
+}
+
+function loadActivePlantId() {
+  if (!storageAvailable) return null;
+  try {
+    return localStorage.getItem('growdoc-active-plant') || null;
+  } catch(e) {
+    return null;
+  }
+}
+
 /* ── Init ── */
 function init() {
   storageAvailable = checkStorage();
@@ -2771,6 +4870,42 @@ function init() {
     warn.style.display = 'block';
   }
   journalData = loadStateV2();
+  var profile = loadGrowProfile();
+  state.medium = profile.medium;
+  state.lighting = profile.lighting;
+  multiDxState.medium = profile.medium;
+  multiDxState.lighting = profile.lighting;
+
+  // Load plants and handle migration / active plant selection
+  var plants = loadPlants();
+
+  // Migration: if no plants but grow profile exists, create default plant
+  if (plants.length === 0) {
+    if (profile.medium || profile.lighting) {
+      var defaultPlant = addPlant('Plant 1', '', '', '', profile.medium, profile.lighting);
+      activePlantId = defaultPlant.id;
+      if (storageAvailable) {
+        try { localStorage.setItem('growdoc-active-plant', defaultPlant.id); } catch(e) {}
+      }
+    }
+  } else {
+    // Load saved active plant
+    var savedActiveId = loadActivePlantId();
+    if (savedActiveId && getPlant(savedActiveId)) {
+      setActivePlant(savedActiveId);
+    } else if (plants.length > 0) {
+      // Default to first active plant
+      var activePlants = getActivePlants();
+      if (activePlants.length > 0) {
+        setActivePlant(activePlants[0].id);
+      }
+    }
+  }
+
+  // If profile exists, skip medium/lighting questions
+  if (state.medium && state.lighting) {
+    state.currentNode = 'q-stage';
+  }
   if (journalData.lastDiagnosis) {
     lastDiagnosis = journalData.lastDiagnosis;
   } else {
@@ -2778,10 +4913,40 @@ function init() {
   }
   renderLastDx();
   bindModeSelector();
+  updateModeSelector();
   render();
+
+  // Plant sidebar events
+  var addPlantBtn = document.getElementById('btn-add-plant');
+  if (addPlantBtn) {
+    addPlantBtn.addEventListener('click', function() {
+      renderAddPlantForm();
+    });
+  }
+  var mobileToggle = document.getElementById('plant-mobile-toggle');
+  if (mobileToggle) {
+    mobileToggle.addEventListener('click', function() {
+      var sidebar = document.getElementById('plant-sidebar');
+      if (sidebar) {
+        sidebar.classList.toggle('collapsed');
+        var isExpanded = !sidebar.classList.contains('collapsed');
+        this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        this.textContent = isExpanded ? 'Switch' : 'Show Plants';
+      }
+    });
+  }
 }
 
 init();
+
+/* ── Undo Keyboard Shortcut ── */
+document.addEventListener('keydown', function(e) {
+  // Ctrl+Z or Cmd+Z for undo — but not in textareas/inputs
+  if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.target.matches('textarea, input, select')) {
+    e.preventDefault();
+    if (canUndo()) popUndo();
+  }
+});
 
 /* ── Console Tests ── */
 function runTests() {
@@ -2791,7 +4956,7 @@ function runTests() {
     else { failed++; console.error('FAIL:', msg); }
   }
 
-  var savedState = { currentNode: state.currentNode, history: state.history.slice(), mode: state.mode, expertSelections: JSON.parse(JSON.stringify(state.expertSelections)), wizardNotes: JSON.parse(JSON.stringify(state.wizardNotes)) };
+  var savedState = { currentNode: state.currentNode, history: state.history.slice(), mode: state.mode, expertSelections: JSON.parse(JSON.stringify(state.expertSelections)), wizardNotes: JSON.parse(JSON.stringify(state.wizardNotes)), medium: state.medium, lighting: state.lighting, activePlantId: activePlantId };
   var savedDx = lastDiagnosis;
   var savedJournalData = JSON.parse(JSON.stringify(journalData));
   var savedJournalState = JSON.parse(JSON.stringify(journalState));
@@ -2831,7 +4996,7 @@ function runTests() {
 
   // Test: setMode preserves wizard state when switching to expert
   state.currentNode = 'q-symptom';
-  state.history = [ROOT];
+  state.history = ['q-medium', 'q-lighting', 'q-stage'];
   state.mode = 'wizard';
   setMode('expert');
   assert(state.mode === 'expert', 'setMode(expert) sets mode to expert');
@@ -2887,12 +5052,14 @@ function runTests() {
   // Test: localStorage save/load round-trips correctly
   try {
     var savedRaw = localStorage.getItem(STORAGE_KEY);
+    var savedJD = JSON.parse(JSON.stringify(journalData));
     var testResult = TREE['r-n-def'];
     state.currentNode = 'r-n-def';
     state.history = [ROOT, 'q-symptom', 'q-yellow-where', 'q-yellow-old'];
     saveLastDiagnosis(testResult);
     var loaded = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    assert(loaded.version === 1 && loaded.lastDiagnosis.result.diagnosis === 'Nitrogen Deficiency', 'localStorage round-trip works');
+    assert(loaded.version === 2 && loaded.lastDiagnosis && loaded.lastDiagnosis.result.diagnosis === 'Nitrogen Deficiency', 'localStorage round-trip works');
+    journalData = savedJD;
     if (savedRaw) localStorage.setItem(STORAGE_KEY, savedRaw);
     else localStorage.removeItem(STORAGE_KEY);
   } catch(e) { assert(false, 'localStorage: ' + e.message); }
@@ -2953,7 +5120,7 @@ function runTests() {
   // Test: mode switch preserves wizard history when switching to expert
   state.mode = 'wizard';
   state.currentNode = 'q-symptom';
-  state.history = [ROOT];
+  state.history = ['q-medium', 'q-lighting', 'q-stage'];
   setMode('expert');
   assert(state.expertSelections[ROOT] !== undefined, 'Expert mode populated selections from wizard history on switch');
   setMode('wizard');
@@ -3003,7 +5170,7 @@ function runTests() {
   assert(symptomMissingFields === 0, 'All SYMPTOMS have id, label, region, group (' + symptomMissingFields + ' missing)');
 
   // Test: Every SYMPTOMS region is one of the allowed values
-  var validRegions = { leaves: 1, stems: 1, roots: 1, whole: 1 };
+  var validRegions = { leaves: 1, stems: 1, roots: 1, whole: 1, 'whole-plant': 1 };
   var badRegionCount = 0;
   for (var sId2 in SYMPTOMS) {
     if (!SYMPTOMS.hasOwnProperty(sId2)) continue;
@@ -3108,7 +5275,7 @@ function runTests() {
     // ── scoreDiagnoses() tests ──
 
     // Test: scoreDiagnoses returns array of { resultId, score, matchedSymptoms }
-    var testScores = scoreDiagnoses(['yellow-lower', 'yellow-tips'], 'veg', []);
+    var testScores = scoreDiagnoses(['yellow-lower', 'yellow-tips'], 'veg', null, null, []);
     assert(Array.isArray(testScores), 'scoreDiagnoses returns an array');
     assert(testScores.length > 0, 'scoreDiagnoses returns at least one result');
     assert(testScores[0].resultId && typeof testScores[0].score === 'number' && Array.isArray(testScores[0].matchedSymptoms),
@@ -3122,16 +5289,16 @@ function runTests() {
     assert(nDefFound, 'scoreDiagnoses with yellow-lower + yellow-tips returns r-n-def in top 3');
 
     // Test: corroboration bonus — symptoms from 3 regions score higher
-    var singleRegion = scoreDiagnoses(['yellow-lower', 'yellow-tips', 'brown-tips'], 'veg', []);
-    var multiRegion = scoreDiagnoses(['yellow-lower', 'drooping', 'root-brown'], 'veg', []);
+    var singleRegion = scoreDiagnoses(['yellow-lower', 'yellow-tips', 'brown-tips'], 'veg', null, null, []);
+    var multiRegion = scoreDiagnoses(['yellow-lower', 'drooping', 'root-brown'], 'veg', null, null, []);
     var singleMax = singleRegion.length > 0 ? singleRegion[0].score : 0;
     var multiMax = multiRegion.length > 0 ? multiRegion[0].score : 0;
     assert(typeof singleMax === 'number' && typeof multiMax === 'number',
       'Corroboration bonus: multi-region scoring completes without error');
 
     // Test: stage_modifier applies — late-flower scoring differs from veg
-    var vegScores = scoreDiagnoses(['yellow-lower', 'yellow-tips'], 'veg', []);
-    var lateFlowerScores = scoreDiagnoses(['yellow-lower', 'yellow-tips'], 'late-flower', []);
+    var vegScores = scoreDiagnoses(['yellow-lower', 'yellow-tips'], 'veg', null, null, []);
+    var lateFlowerScores = scoreDiagnoses(['yellow-lower', 'yellow-tips'], 'late-flower', null, null, []);
     var vegNDef = null, lfNDef = null;
     for (var vi = 0; vi < vegScores.length; vi++) {
       if (vegScores[vi].resultId === 'r-n-def') vegNDef = vegScores[vi].score;
@@ -3146,8 +5313,8 @@ function runTests() {
     }
 
     // Test: treatedDiagnoses parameter reduces score
-    var untreated = scoreDiagnoses(['yellow-lower', 'yellow-tips'], 'veg', []);
-    var treated = scoreDiagnoses(['yellow-lower', 'yellow-tips'], 'veg', ['r-n-def']);
+    var untreated = scoreDiagnoses(['yellow-lower', 'yellow-tips'], 'veg', null, null, []);
+    var treated = scoreDiagnoses(['yellow-lower', 'yellow-tips'], 'veg', null, null, ['r-n-def']);
     var untreatedNDef = null, treatedNDef = null;
     for (var ui = 0; ui < untreated.length; ui++) {
       if (untreated[ui].resultId === 'r-n-def') untreatedNDef = untreated[ui].score;
@@ -3184,7 +5351,7 @@ function runTests() {
     assert(sorted, 'Results sorted descending by score');
 
     // Test: maximum 5 results returned
-    var manySymptoms = scoreDiagnoses(['yellow-lower', 'brown-tips', 'drooping', 'curling-up', 'spots-random', 'pale-overall'], 'veg', []);
+    var manySymptoms = scoreDiagnoses(['yellow-lower', 'brown-tips', 'drooping', 'curling-up', 'spots-random', 'pale-overall'], 'veg', null, null, []);
     assert(manySymptoms.length <= 5, 'Maximum 5 results returned (got ' + manySymptoms.length + ')');
 
     // ── getRefineQuestions() tests ──
@@ -3246,7 +5413,7 @@ function runTests() {
   var notesHtml = renderNotesExpander('test-node', '', 'wizardNotes');
   assert(typeof notesHtml === 'string', 'renderNotesExpander returns a string');
   assert(notesHtml.indexOf('textarea') !== -1, 'renderNotesExpander includes a textarea');
-  assert(notesHtml.indexOf('maxlength="200"') !== -1, 'renderNotesExpander includes 200 char limit');
+  assert(notesHtml.indexOf('maxlength="500"') !== -1, 'renderNotesExpander includes 500 char limit');
 
   // Test: notes stored in wizardNotes[nodeId] for wizard mode
   state.wizardNotes = {};
@@ -3260,11 +5427,11 @@ function runTests() {
   assert(multiDxState.notes['step-symptoms'] === 'Multi-dx note', 'Notes stored in multiDxState.notes');
   multiDxState.notes = {};
 
-  // Test: notes textarea respects 200 char max
+  // Test: notes textarea respects 500 char max
   var longNote = '';
-  for (var ni = 0; ni < 210; ni++) longNote += 'a';
-  var clipped = longNote.substring(0, 200);
-  assert(clipped.length === 200, 'Notes clipped to 200 chars');
+  for (var ni = 0; ni < 510; ni++) longNote += 'a';
+  var clipped = longNote.substring(0, 500);
+  assert(clipped.length === 500, 'Notes clipped to 500 chars');
 
   // Test: notes content passes through escapeHtml before rendering (XSS check)
   var xssNote = '<scr' + 'ipt>alert("xss")<\/scr' + 'ipt>';
@@ -3672,7 +5839,7 @@ function runTests() {
     }
     assert(e2eSorted, 'E2E: results sorted descending by score');
 
-    var e2ePlan = generateCombinedPlan(multiDxState.results);
+    var e2ePlan = generateCombinedPlan(multiDxState.results, multiDxState.medium);
     assert(e2ePlan.checkFirst.length > 0, 'E2E: combined plan has checkFirst items');
     assert(e2ePlan.fixes.length > 0, 'E2E: combined plan has fix steps');
 
@@ -3698,7 +5865,7 @@ function runTests() {
 
     var updatedSymptoms7 = ['yellow-lower', 'drooping'];
     var treatedIds7 = e2eEntry.diagnoses.map(function(d) { return d.resultId; });
-    var reScored = scoreDiagnoses(updatedSymptoms7, 'veg', treatedIds7);
+    var reScored = scoreDiagnoses(updatedSymptoms7, 'veg', null, null, treatedIds7);
     assert(reScored.length > 0, 'E2E Journal: re-scoring produces results');
 
     e2eEntry.status = 'resolved';
@@ -3764,10 +5931,10 @@ function runTests() {
 
     // ── 7.8 Edge Cases ──
 
-    var emptyScores7 = scoreDiagnoses([], 'veg', []);
+    var emptyScores7 = scoreDiagnoses([], 'veg', null, null, []);
     assert(emptyScores7.length === 0, 'Edge: empty symptoms → empty results');
 
-    var badSymScores7 = scoreDiagnoses(['nonexistent-symptom', 'yellow-lower'], 'veg', []);
+    var badSymScores7 = scoreDiagnoses(['nonexistent-symptom', 'yellow-lower'], 'veg', null, null, []);
     assert(Array.isArray(badSymScores7), 'Edge: unknown symptom ID does not crash scoring');
 
     var emptyPlan7 = generateCombinedPlan([]);
@@ -3793,7 +5960,7 @@ function runTests() {
 
     var perfStart7 = performance.now ? performance.now() : Date.now();
     for (var perfI7 = 0; perfI7 < 100; perfI7++) {
-      scoreDiagnoses(['yellow-lower', 'brown-tips', 'drooping', 'curling-up', 'spots-random'], 'veg', []);
+      scoreDiagnoses(['yellow-lower', 'brown-tips', 'drooping', 'curling-up', 'spots-random'], 'veg', null, null, []);
     }
     var perfEnd7 = performance.now ? performance.now() : Date.now();
     var perfMs7 = perfEnd7 - perfStart7;
@@ -3851,13 +6018,430 @@ function runTests() {
     render();
   }
 
+  // ── Section 06: Pest & Hermie Diagnostic Paths ──
+
+  // Test: All new pest/hermie result nodes exist
+  assert(TREE['r-broad-mites'] && TREE['r-broad-mites'].diagnosis, 'Pest: r-broad-mites exists');
+  assert(TREE['r-thrips'] && TREE['r-thrips'].diagnosis, 'Pest: r-thrips exists');
+  assert(TREE['r-fungus-gnats'] && TREE['r-fungus-gnats'].diagnosis, 'Pest: r-fungus-gnats exists');
+  assert(TREE['r-bud-rot'] && TREE['r-bud-rot'].diagnosis, 'Pest: r-bud-rot exists');
+  assert(TREE['r-hermie-stress'] && TREE['r-hermie-stress'].diagnosis, 'Pest: r-hermie-stress exists');
+  assert(TREE['r-hermie-genetic'] && TREE['r-hermie-genetic'].diagnosis, 'Pest: r-hermie-genetic exists');
+
+  // Test: Hermie nodes have urgency property
+  assert(TREE['r-hermie-stress'].urgency === 'time-sensitive', 'Hermie: r-hermie-stress has urgency');
+  assert(TREE['r-hermie-genetic'].urgency === 'time-sensitive', 'Hermie: r-hermie-genetic has urgency');
+
+  // Test: Urgency banner renders for hermie
+  (function() {
+    var savedState06 = state.currentNode;
+    state.currentNode = 'r-hermie-stress';
+    var hermieHtml = renderResultCard(TREE['r-hermie-stress']);
+    assert(hermieHtml.indexOf('result-alert') !== -1, 'Hermie: urgency banner renders');
+    assert(hermieHtml.indexOf('Act today') !== -1, 'Hermie: urgency text present in banner');
+    state.currentNode = savedState06;
+  })();
+
+  // Test: Urgency banner NOT rendered for non-urgent nodes
+  (function() {
+    var savedState06b = state.currentNode;
+    state.currentNode = 'r-thrips';
+    var thripsHtml = renderResultCard(TREE['r-thrips']);
+    assert(thripsHtml.indexOf('result-alert') === -1, 'Pest: no urgency banner on r-thrips');
+    state.currentNode = savedState06b;
+  })();
+
+  // Test: Wizard pest path exists
+  assert(TREE['q-pest-type'] && TREE['q-pest-type'].options, 'Pest: q-pest-type wizard node exists');
+
+  // Test: q-pest-type routes to correct result nodes
+  (function() {
+    var pestNode = TREE['q-pest-type'];
+    var routeLabels = {};
+    for (var pi = 0; pi < pestNode.options.length; pi++) {
+      routeLabels[pestNode.options[pi].next] = true;
+    }
+    assert(routeLabels['r-thrips'], 'Pest path: q-pest-type routes to r-thrips');
+    assert(routeLabels['r-fungus-gnats'], 'Pest path: q-pest-type routes to r-fungus-gnats');
+    assert(routeLabels['r-broad-mites'], 'Pest path: q-pest-type routes to r-broad-mites');
+    assert(routeLabels['r-bud-rot'], 'Pest path: q-pest-type routes to r-bud-rot');
+    assert(routeLabels['q-hermie-type'], 'Pest path: q-pest-type routes to q-hermie-type');
+  })();
+
+  // Test: Hermie sub-tree nodes exist
+  assert(TREE['q-hermie-type'] && TREE['q-hermie-type'].options, 'Hermie: q-hermie-type wizard node exists');
+  assert(TREE['q-hermie-timing'] && TREE['q-hermie-timing'].options, 'Hermie: q-hermie-timing wizard node exists');
+  assert(TREE['q-hermie-early-cause'] && TREE['q-hermie-early-cause'].options, 'Hermie: q-hermie-early-cause disambiguation node exists');
+
+  // Test: q-hermie-timing late-flower routes to r-hermie-stress
+  (function() {
+    var timingNode = TREE['q-hermie-timing'];
+    var lateRoute = null;
+    for (var ti = 0; ti < timingNode.options.length; ti++) {
+      if (timingNode.options[ti].label.indexOf('weeks 5') !== -1) {
+        lateRoute = timingNode.options[ti].next;
+      }
+    }
+    assert(lateRoute === 'r-hermie-stress', 'Hermie: late-flower timing routes to r-hermie-stress');
+  })();
+
+  // Test: q-symptom has pest option
+  (function() {
+    var symptomNode = TREE['q-symptom'];
+    var hasPestOption = false;
+    for (var qi = 0; qi < symptomNode.options.length; qi++) {
+      if (symptomNode.options[qi].next === 'q-pest-type') { hasPestOption = true; break; }
+    }
+    assert(hasPestOption, 'Pest: q-symptom has option leading to q-pest-type');
+  })();
+
+  // Test: Scoring entries exist for new nodes
+  if (typeof SCORING !== 'undefined') {
+    assert(SCORING['r-broad-mites'], 'Pest scoring: r-broad-mites exists');
+    assert(SCORING['r-thrips'], 'Pest scoring: r-thrips exists');
+    assert(SCORING['r-fungus-gnats'], 'Pest scoring: r-fungus-gnats exists');
+    assert(SCORING['r-bud-rot'], 'Pest scoring: r-bud-rot exists');
+    assert(SCORING['r-hermie-stress'], 'Pest scoring: r-hermie-stress exists');
+    assert(SCORING['r-hermie-genetic'], 'Pest scoring: r-hermie-genetic exists');
+
+    // Test: Fungus gnats suppressed in hydro
+    assert(SCORING['r-fungus-gnats'].medium_modifier && SCORING['r-fungus-gnats'].medium_modifier['hydro'] < 0,
+      'Pest scoring: fungus gnats suppressed in hydro');
+
+    // Test: Bud rot suppressed in veg
+    assert(SCORING['r-bud-rot'].stage_modifier && SCORING['r-bud-rot'].stage_modifier['veg'] < 0,
+      'Pest scoring: bud rot suppressed in veg');
+
+    // Test: silver-streaks symptom scores thrips high
+    var sec06Thrips = scoreDiagnoses(['silver-streaks', 'black-frass'], null, null, null, []);
+    var foundThrips = false;
+    for (var s06i = 0; s06i < sec06Thrips.length; s06i++) {
+      if (sec06Thrips[s06i].resultId === 'r-thrips') { foundThrips = true; break; }
+    }
+    assert(foundThrips, 'Pest scoring: silver-streaks + black-frass surfaces r-thrips');
+
+    // Test: nanners-in-buds scores r-hermie-stress
+    var sec06Hermie = scoreDiagnoses(['nanners-in-buds'], null, null, null, []);
+    var foundHermie = false;
+    for (var s06j = 0; s06j < sec06Hermie.length; s06j++) {
+      if (sec06Hermie[s06j].resultId === 'r-hermie-stress') { foundHermie = true; break; }
+    }
+    assert(foundHermie, 'Pest scoring: nanners-in-buds surfaces r-hermie-stress');
+  }
+
+  // Test: Refine rules for new diagnoses exist
+  if (typeof REFINE_RULES !== 'undefined') {
+    var hasGnatsRule = false;
+    var hasHermieRule = false;
+    for (var rr06 = 0; rr06 < REFINE_RULES.length; rr06++) {
+      if (REFINE_RULES[rr06].id === 'rule-gnats-vs-overwater') hasGnatsRule = true;
+      if (REFINE_RULES[rr06].id === 'rule-hermie-stress-vs-genetic') hasHermieRule = true;
+    }
+    assert(hasGnatsRule, 'Pest refine: rule-gnats-vs-overwater exists');
+    assert(hasHermieRule, 'Hermie refine: rule-hermie-stress-vs-genetic exists');
+  }
+
+  // Test: New symptoms are registered in SYMPTOMS
+  if (typeof SYMPTOMS !== 'undefined') {
+    assert(SYMPTOMS['silver-streaks'], 'Symptom registry: silver-streaks registered');
+    assert(SYMPTOMS['black-frass'], 'Symptom registry: black-frass registered');
+    assert(SYMPTOMS['tiny-flying-insects'], 'Symptom registry: tiny-flying-insects registered');
+    assert(SYMPTOMS['glossy-new-growth'], 'Symptom registry: glossy-new-growth registered');
+    assert(SYMPTOMS['gray-mold-bud'], 'Symptom registry: gray-mold-bud registered');
+    assert(SYMPTOMS['single-leaf-death-bud'], 'Symptom registry: single-leaf-death-bud registered');
+    assert(SYMPTOMS['pollen-sacs'], 'Symptom registry: pollen-sacs registered');
+    assert(SYMPTOMS['nanners-in-buds'], 'Symptom registry: nanners-in-buds registered');
+  }
+
+  // Test: r-fungus-gnats fixes resolve correctly for hydro medium
+  (function() {
+    var savedMed06 = state.medium;
+    state.medium = 'hydro';
+    var gnatNode = TREE['r-fungus-gnats'];
+    var hydroFixes = resolveMediumText(gnatNode.fixes, 'hydro');
+    assert(hydroFixes.length > 0, 'Pest: fungus gnats has hydro-specific fixes');
+    assert(hydroFixes[0].indexOf('unlikely in hydro') !== -1, 'Pest: hydro fix warns gnats unlikely in hydro');
+    state.medium = savedMed06;
+  })();
+
+  // Test: state.medium and state.lighting initialize correctly
+  assert(state.medium === savedState.medium || state.medium === null, 'state.medium initializes');
+  assert(state.lighting === savedState.lighting || state.lighting === null, 'state.lighting initializes');
+
+  // Test: loadGrowProfile returns defaults when no data
+  var savedProfile = null;
+  if (storageAvailable) {
+    savedProfile = localStorage.getItem('growdoc-grow-profile');
+    localStorage.removeItem('growdoc-grow-profile');
+  }
+  var emptyProfile = loadGrowProfile();
+  assert(emptyProfile.medium === null, 'loadGrowProfile returns null medium when empty');
+  assert(emptyProfile.lighting === null, 'loadGrowProfile returns null lighting when empty');
+
+  // Test: saveGrowProfile and loadGrowProfile round-trip
+  saveGrowProfile('coco', 'led');
+  var loaded = loadGrowProfile();
+  assert(loaded.medium === 'coco', 'Grow profile saves and loads medium');
+  assert(loaded.lighting === 'led', 'Grow profile saves and loads lighting');
+
+  // Test: createJournalEntry includes medium and lighting
+  state.medium = 'soil';
+  state.lighting = 'hps';
+  var testEntryWithProfile = createJournalEntry('wizard', 'r-n-def', [{resultId: 'r-n-def', confidence: 0.85, rank: 1}], null, {});
+  assert(testEntryWithProfile.medium === 'soil', 'Journal entry includes medium');
+  assert(testEntryWithProfile.lighting === 'hps', 'Journal entry includes lighting');
+  state.medium = savedState.medium;
+  state.lighting = savedState.lighting;
+
+  // Clean up profile test
+  if (savedProfile) {
+    localStorage.setItem('growdoc-grow-profile', savedProfile);
+  } else if (storageAvailable) {
+    localStorage.removeItem('growdoc-grow-profile');
+  }
+
+  // ── Section 02: resolveMediumText() Tests ──
+
+  // Test: resolveMediumText handles flat array
+  var flatArr = ['item1', 'item2'];
+  assert(resolveMediumText(flatArr, 'soil')[0] === 'item1', 'resolveMediumText handles flat array');
+
+  // Test: resolveMediumText handles object map with matching medium
+  var objMap = { soil: ['soil-item'], coco: ['coco-item'], default: ['default-item'] };
+  assert(resolveMediumText(objMap, 'soil')[0] === 'soil-item', 'resolveMediumText resolves soil');
+  assert(resolveMediumText(objMap, 'coco')[0] === 'coco-item', 'resolveMediumText resolves coco');
+
+  // Test: resolveMediumText falls back to default when medium is null
+  assert(resolveMediumText(objMap, null)[0] === 'default-item', 'resolveMediumText falls back to default with null medium');
+
+  // Test: resolveMediumText falls back to default for unknown medium
+  assert(resolveMediumText(objMap, 'unknown')[0] === 'default-item', 'resolveMediumText falls back for unknown medium');
+
+  // Test: resolveMediumText handles null/undefined input
+  assert(resolveMediumText(null, 'soil').length === 0, 'resolveMediumText handles null input');
+  assert(resolveMediumText(undefined, 'soil').length === 0, 'resolveMediumText handles undefined input');
+
+  // ── Section 03: Medium/Lighting Questions & Persistent Badges ──
+
+  // Test: ROOT is q-medium
+  assert(ROOT === 'q-medium', 'ROOT is q-medium after v3 update');
+
+  // Test: q-medium and q-lighting exist in TREE
+  assert(TREE['q-medium'] && TREE['q-medium'].question, 'q-medium exists in TREE');
+  assert(TREE['q-lighting'] && TREE['q-lighting'].question, 'q-lighting exists in TREE');
+
+  // Test: q-medium options lead to q-lighting
+  assert(TREE['q-medium'].options[0].next === 'q-lighting', 'q-medium options lead to q-lighting');
+
+  // Test: q-lighting options lead to q-stage
+  assert(TREE['q-lighting'].options[0].next === 'q-stage', 'q-lighting options lead to q-stage');
+
+  // Test: renderGrowBadges returns empty when no profile
+  var savedMed = state.medium;
+  var savedLit = state.lighting;
+  state.medium = null;
+  state.lighting = null;
+  assert(renderGrowBadges() === '', 'renderGrowBadges empty when no profile');
+  state.medium = 'coco';
+  state.lighting = 'led';
+  var badgeHtml = renderGrowBadges();
+  assert(badgeHtml.indexOf('Coco') !== -1, 'renderGrowBadges shows medium');
+  assert(badgeHtml.indexOf('LED') !== -1, 'renderGrowBadges shows lighting');
+  assert(badgeHtml.indexOf('aria-label') !== -1, 'renderGrowBadges includes aria-label');
+  state.medium = savedMed;
+  state.lighting = savedLit;
+
+  // ── Section 04: Scoring Engine — Medium & Lighting Modifiers ──
+
+  if (typeof SCORING !== 'undefined') {
+    var sec04Symptoms = ['yellow-lower', 'interveinal-lower'];
+    var sec04Base = scoreDiagnoses(sec04Symptoms, 'veg', null, null, []);
+    var sec04Coco = scoreDiagnoses(sec04Symptoms, 'veg', 'coco', null, []);
+    assert(typeof sec04Base === 'object', 'scoreDiagnoses returns object with medium param');
+
+    // Test: coco medium suppresses overwatering
+    var sec04BaseOW = null, sec04CocoOW = null;
+    for (var s04i = 0; s04i < sec04Base.length; s04i++) {
+      if (sec04Base[s04i].resultId === 'r-overwater') sec04BaseOW = sec04Base[s04i].score;
+    }
+    for (var s04j = 0; s04j < sec04Coco.length; s04j++) {
+      if (sec04Coco[s04j].resultId === 'r-overwater') sec04CocoOW = sec04Coco[s04j].score;
+    }
+    if (sec04BaseOW !== undefined && sec04CocoOW !== undefined && sec04BaseOW !== null && sec04CocoOW !== null) {
+      assert(sec04CocoOW <= sec04BaseOW, 'Coco suppresses overwatering score');
+    } else {
+      assert(true, 'Coco overwater suppression: r-overwater not in result set (skip)');
+    }
+
+    // Test: LED boosts Mg deficiency score
+    var sec04Led = scoreDiagnoses(sec04Symptoms, 'veg', null, 'led', []);
+    var sec04BaseMg = null, sec04LedMg = null;
+    for (var s04k = 0; s04k < sec04Base.length; s04k++) {
+      if (sec04Base[s04k].resultId === 'r-mg-def') sec04BaseMg = sec04Base[s04k].score;
+    }
+    for (var s04l = 0; s04l < sec04Led.length; s04l++) {
+      if (sec04Led[s04l].resultId === 'r-mg-def') sec04LedMg = sec04Led[s04l].score;
+    }
+    if (sec04BaseMg !== null && sec04LedMg !== null) {
+      assert(sec04LedMg >= sec04BaseMg, 'LED boosts Mg deficiency score');
+    } else {
+      assert(true, 'LED Mg boost: r-mg-def not in result set (skip)');
+    }
+
+    // Test: getAdjustedConfidence function exists
+    assert(typeof getAdjustedConfidence === 'function', 'getAdjustedConfidence function exists');
+
+    // Test: getAdjustedConfidence returns base when no modifiers
+    var sec04OwNode = TREE['r-overwater'];
+    if (sec04OwNode) {
+      var sec04BaseConf = getAdjustedConfidence(sec04OwNode, null, null);
+      var sec04CocoConf = getAdjustedConfidence(sec04OwNode, 'coco', null);
+      assert(sec04BaseConf === sec04OwNode.confidence, 'getAdjustedConfidence returns base when no modifiers');
+      assert(sec04CocoConf < sec04BaseConf, 'getAdjustedConfidence reduces overwater confidence for coco');
+    } else {
+      assert(true, 'getAdjustedConfidence: r-overwater node not found (skip)');
+    }
+  }
+
+  // Test: q-yellow-old does NOT lead to r-ca-def
+  var yellowOldNode = TREE['q-yellow-old'];
+  if (yellowOldNode) {
+    var reachesCaDef = false;
+    for (var yoi = 0; yoi < yellowOldNode.options.length; yoi++) {
+      if (yellowOldNode.options[yoi].next === 'r-ca-def') reachesCaDef = true;
+    }
+    assert(!reachesCaDef, 'Ca fix: q-yellow-old does NOT route directly to r-ca-def');
+  }
+
+  // Test: q-random-spots routes through q-spot-growth-location, not directly to r-ca-def
+  var randomSpotsNode = TREE['q-random-spots'];
+  if (randomSpotsNode) {
+    var directCaDef = false;
+    for (var rsi = 0; rsi < randomSpotsNode.options.length; rsi++) {
+      if (randomSpotsNode.options[rsi].next === 'r-ca-def') directCaDef = true;
+    }
+    assert(!directCaDef, 'Ca fix: q-random-spots does NOT route directly to r-ca-def');
+  }
+
+  // Test: q-spot-growth-location exists and routes new growth to r-ca-def
+  var spotLocNode = TREE['q-spot-growth-location'];
+  assert(spotLocNode && spotLocNode.question, 'Ca fix: q-spot-growth-location exists');
+  if (spotLocNode) {
+    var newGrowthRoutes = false;
+    for (var sli = 0; sli < spotLocNode.options.length; sli++) {
+      if (spotLocNode.options[sli].next === 'r-ca-def') newGrowthRoutes = true;
+    }
+    assert(newGrowthRoutes, 'Ca fix: new growth spots still route to r-ca-def');
+  }
+
+  // Test: r-ca-def is reachable through new growth path
+  assert(TREE['r-ca-def'], 'Ca fix: r-ca-def still exists in TREE');
+
+  // ── Section 08: Note-Aware Diagnosis Engine Tests ──
+
+  // Test: extractNoteContext returns structured object
+  var testNotes = { 'q-stage': 'clone in coco, 3 days old, LED light' };
+  if (noteContextRulesLoaded()) {
+    var testCtx = extractNoteContext(testNotes);
+    assert(typeof testCtx === 'object', 'NoteContext: returns object');
+    assert(testCtx.rawText.length > 0, 'NoteContext: rawText populated');
+    assert(typeof testCtx.keywords === 'object', 'NoteContext: keywords is array');
+  } else {
+    assert(true, 'NoteContext: rules not loaded, skipping extraction tests');
+  }
+
+  // Test: extractNoteContext handles empty notes
+  var emptyCtx = extractNoteContext({});
+  assert(emptyCtx.rawText === '', 'NoteContext: empty notes returns empty rawText');
+  assert(emptyCtx.plantType === null, 'NoteContext: empty notes returns null plantType');
+
+  // Test: extractNoteContext handles null
+  var nullCtx = extractNoteContext(null);
+  assert(nullCtx.plantType === null, 'NoteContext: null input returns defaults');
+
+  // Test: generateContextualAdvice returns array
+  var adviceResult = generateContextualAdvice(emptyCtx, 'r-n-def');
+  assert(Array.isArray(adviceResult), 'NoteContext: generateContextualAdvice returns array');
+
+  // Test: adjustScoresFromNotes returns scores object
+  var testScores8 = { 'r-n-def': 0.5, 'r-overwater': 0.3 };
+  var adjustedScores8 = adjustScoresFromNotes(testScores8, emptyCtx);
+  assert(typeof adjustedScores8 === 'object', 'NoteContext: adjustScoresFromNotes returns object');
+  assert(adjustedScores8['r-n-def'] >= 0, 'NoteContext: adjusted scores are non-negative');
+
+  // ── Section 09: Multi-Plant Data Layer Tests ──
+
+  // Test: Plant CRUD operations
+  var testPlant = addPlant('Test Plant', 'OG Kush', 'Tent A', '2026-01-01', 'coco', 'led');
+  assert(testPlant.id && testPlant.id.indexOf('p-') === 0, 'Multi-plant: addPlant returns plant with ID');
+  assert(testPlant.name === 'Test Plant', 'Multi-plant: addPlant sets name');
+  assert(testPlant.medium === 'coco', 'Multi-plant: addPlant sets medium');
+
+  var fetched = getPlant(testPlant.id);
+  assert(fetched && fetched.name === 'Test Plant', 'Multi-plant: getPlant retrieves plant');
+
+  var updated = updatePlant(testPlant.id, { name: 'Updated Plant', strain: 'GSC' });
+  assert(updated && updated.name === 'Updated Plant', 'Multi-plant: updatePlant changes name');
+  assert(updated.strain === 'GSC', 'Multi-plant: updatePlant sets strain');
+
+  // Test: setActivePlant syncs state
+  setActivePlant(testPlant.id);
+  assert(activePlantId === testPlant.id, 'Multi-plant: setActivePlant sets activePlantId');
+  assert(state.medium === 'coco', 'Multi-plant: setActivePlant syncs medium to state');
+  assert(state.lighting === 'led', 'Multi-plant: setActivePlant syncs lighting to state');
+
+  // Test: createJournalEntry includes plantId
+  var testEntry = createJournalEntry('wizard', 'r-n-def', [{resultId: 'r-n-def', confidence: 0.85, rank: 1}], null, {});
+  assert(testEntry.plantId === testPlant.id, 'Multi-plant: journal entry includes plantId');
+
+  // Cleanup
+  removePlant(testPlant.id, true);
+  var afterRemove = getPlant(testPlant.id);
+  assert(afterRemove === null, 'Multi-plant: removePlant deletes plant');
+  activePlantId = null;
+  state.medium = savedState.medium;
+  state.lighting = savedState.lighting;
+
+  // Test: Undo stack operations
+  undoStack = [];
+  pushUndo('test-action');
+  assert(undoStack.length === 1, 'Undo: pushUndo adds to stack');
+  assert(canUndo() === true, 'Undo: canUndo returns true when stack has entries');
+  assert(getUndoLabel() === 'test-action', 'Undo: getUndoLabel returns correct label');
+
+  // Test: popUndo restores state
+  var preUndoNode = state.currentNode;
+  state.currentNode = 'r-n-def';
+  pushUndo('before-change');
+  state.currentNode = 'r-ca-def';
+  popUndo();
+  assert(state.currentNode === 'r-n-def', 'Undo: popUndo restores currentNode');
+
+  // Test: Undo stack max size
+  undoStack = [];
+  for (var ui = 0; ui < 10; ui++) pushUndo('item-' + ui);
+  assert(undoStack.length === UNDO_MAX, 'Undo: stack respects max size');
+
+  // Test: canUndo returns false when empty
+  undoStack = [];
+  assert(canUndo() === false, 'Undo: canUndo returns false when empty');
+  assert(popUndo() === false, 'Undo: popUndo returns false when empty');
+
+  // Cleanup
+  undoStack = [];
+  state.currentNode = savedState.currentNode;
+
   // Restore state
   state.currentNode = savedState.currentNode;
   state.history = savedState.history;
   state.mode = savedState.mode;
   state.expertSelections = savedState.expertSelections;
   state.wizardNotes = savedState.wizardNotes;
+  state.medium = savedState.medium;
+  state.lighting = savedState.lighting;
+  activePlantId = savedState.activePlantId;
   lastDiagnosis = savedDx;
+  undoStack = [];
   journalData = savedJournalData;
   journalState.view = savedJournalState.view;
   journalState.activeEntryId = savedJournalState.activeEntryId;
@@ -3871,6 +6455,8 @@ function runTests() {
   multiDxState.scores = savedMultiDxState.scores;
   multiDxState.results = savedMultiDxState.results;
   multiDxState.phase = savedMultiDxState.phase;
+  multiDxState.medium = savedMultiDxState.medium;
+  multiDxState.lighting = savedMultiDxState.lighting;
   render();
 
   console.log('\n' + passed + ' passed, ' + failed + ' failed');

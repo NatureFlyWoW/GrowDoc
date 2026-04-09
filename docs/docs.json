@@ -1,113 +1,73 @@
 [
   {
-    "id": "citron-givre-14-day",
-    "title": "Citron Givré — 14-Day Playbook",
-    "subtitle": "Day-by-day care protocol for the Birthday Cut clone",
-    "icon": "📅",
-    "status": "IN REVIEW",
-    "category": "botanical",
-    "priority": 1,
-    "file": "citron-givre-14-day-guide.html"
-  },
-  {
-    "id": "citron-givre-care",
-    "title": "Citron Givré — Illustrated Care",
-    "subtitle": "Visual care guide for the active grow",
-    "icon": "🩺",
-    "status": "IN REVIEW",
-    "category": "botanical",
-    "priority": 1,
-    "file": "citron-givre-care-guide.html"
-  },
-  {
     "id": "citron-givre",
-    "title": "Citron Givré Guide",
-    "subtitle": "Complete Indoor Growing Guide",
+    "title": "Citron Givré — Complete Guide",
+    "subtitle": "Flagship reference: Phase 0 survival playbook, full veg & flower protocol, expert-reviewed corrections, all SVG illustrations",
     "icon": "🍋",
-    "status": "IN REVIEW",
+    "status": "DONE",
     "category": "botanical",
-    "priority": 2,
+    "priority": 1,
     "file": "citron-givre-guide.html"
   },
   {
-    "id": "equipment",
-    "title": "Equipment Tracker",
-    "subtitle": "Inventory, Budget & Gear Status — Citron Givré Run",
-    "icon": "📋",
-    "status": "IN REVIEW",
+    "id": "setup-equipment",
+    "title": "Setup, Equipment & Room Build",
+    "subtitle": "Hardware inventory, ventilation, electrical, room analysis & build checklist",
+    "icon": "🔧",
+    "status": "DONE",
     "category": "planning",
     "priority": 2,
-    "file": "equipment.html"
+    "file": "setup-equipment.html"
   },
   {
     "id": "bellaflora",
-    "title": "Bellaflora Shopping Guide",
+    "title": "Bellaflora Stealth Shopping Guide",
     "subtitle": "Living-Soil Sourcing at Austria's Garden Center — Stealth & Legal",
     "icon": "🛒",
-    "status": "IN REVIEW",
+    "status": "DONE",
     "category": "planning",
     "priority": 2,
     "file": "bellaflora-guide.html"
   },
   {
-    "id": "setup-review",
-    "title": "Setup Review & Construction",
-    "subtitle": "Citron Givré — Ventilation & AKF Construction Guide",
-    "icon": "🔧",
-    "status": "IN REVIEW",
-    "category": "planning",
-    "priority": 2,
-    "file": "setup-review.html"
+    "id": "strain-library",
+    "title": "Strain Research Library",
+    "subtitle": "Genetics, Terpenes & Phenotype Intelligence — six cultivar deep dives, terpene-first methodology, corrected lineages",
+    "icon": "🌳",
+    "status": "DONE",
+    "category": "botanical",
+    "priority": 3,
+    "file": "strain-library.html"
   },
   {
     "id": "phenohunting-guide",
     "title": "Phenohunting — Definitive Guide",
-    "subtitle": "From seed to confirmed keeper — genetics, methodology, craft",
+    "subtitle": "Population genetics to practical selection — staged elimination pipeline, morphological markers, academic caveats",
     "icon": "🔬",
-    "status": "IN REVIEW",
+    "status": "DONE",
     "category": "botanical",
     "priority": 3,
     "file": "phenohunting-guide.html"
   },
   {
-    "id": "strain-guide",
-    "title": "Strain Genealogy",
-    "subtitle": "Cannabis Landraces & Phenotype Guide",
-    "icon": "🌳",
-    "status": "IN REVIEW",
+    "id": "glossary",
+    "title": "Grow Glossar",
+    "subtitle": "Illustriertes Nachschlagewerk für Indoor-Grow Begriffe — mit Forschungsreferenzen",
+    "icon": "📖",
+    "status": "DONE",
     "category": "botanical",
-    "priority": 3,
-    "file": "strain-guide.html"
-  },
-  {
-    "id": "strain-selection",
-    "title": "Terpene Strain Selection",
-    "subtitle": "10 European Feminized Cultivars — Calm & Clear-Headed",
-    "icon": "🧪",
-    "status": "IN REVIEW",
-    "category": "botanical",
-    "priority": 3,
-    "file": "strain-selection-guide.html"
+    "priority": 4,
+    "file": "glossary.html"
   },
   {
     "id": "le-male-cannabis",
     "title": "Le Male × Cannabis",
-    "subtitle": "Terpene Breeding Feasibility Study",
+    "subtitle": "Terpene Breeding Feasibility Study — evidence-rated, corrected citations",
     "icon": "🧫",
-    "status": "IN REVIEW",
-    "category": "botanical",
-    "priority": 3,
-    "file": "le-male-cannabis.html"
-  },
-  {
-    "id": "glossary",
-    "title": "Grow Glossar",
-    "subtitle": "Illustriertes Nachschlagewerk für Indoor-Grow Begriffe",
-    "icon": "📖",
-    "status": "IN REVIEW",
+    "status": "DONE",
     "category": "botanical",
     "priority": 4,
-    "file": "glossary.html"
+    "file": "le-male-cannabis.html"
   },
   {
     "id": "plant-doctor",

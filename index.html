@@ -2,44 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GrowDoc — Grow Planning Docs</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GrowDoc Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/onboarding.css">
+  <link rel="stylesheet" href="/css/timeline.css">
+  <link rel="stylesheet" href="/css/tasks.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/knowledge.css">
 </head>
 <body>
-  <div class="app">
-    <header class="header">
-      <div class="header-main">
-        <h1>🌿 GrowDoc</h1>
-        <p>Planning docs for the 80×80 grow project</p>
-      </div>
-      <a href="admin.html" class="admin-link">⚙ Admin</a>
-    </header>
-
-    <div class="mobile-nav" id="mobile-nav"></div>
-
-    <div class="main">
-      <nav class="sidebar" aria-label="Documents by Priority">
-        <div class="sidebar-label">Filter by status</div>
-        <div class="filter-bar" id="filter-bar"></div>
-        <div class="sidebar-label" style="margin-top:18px">Documents by Priority</div>
-        <div id="nav-list"></div>
-      </nav>
-
-      <div class="viewer">
-        <h2 class="viewer-title" id="viewer-title"></h2>
-        <div class="viewer-meta" id="viewer-meta"></div>
-        <div class="viewer-frame">
-          <iframe id="viewer-iframe" title="Document viewer"></iframe>
-        </div>
-      </div>
-    </div>
-
-    <footer class="footer">
-      GrowDoc · Shared planning docs
-    </footer>
+  <div class="app-shell" id="app-shell">
+    <nav id="sidebar" aria-label="Main navigation"></nav>
+    <main id="content"></main>
   </div>
-
-  <script src="app.js"></script>
+  <script type="module" src="/js/main.js"></script>
 </body>
 </html>
