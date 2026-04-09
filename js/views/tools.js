@@ -1,6 +1,7 @@
 // GrowDoc Companion — Tools Section View
 
 import { renderPlantDoctor } from '../plant-doctor/doctor-ui.js';
+import { renderCalculators } from './calculators.js';
 
 /**
  * renderToolsView(container, store, toolId) — Tools section hub.
@@ -18,6 +19,11 @@ export function renderToolsView(container, store, toolId) {
     return;
   }
 
+  if (toolId === 'calculators') {
+    renderCalculators(container, store);
+    return;
+  }
+
   // Tools hub
   const h1 = document.createElement('h1');
   h1.textContent = 'Tools';
@@ -26,6 +32,7 @@ export function renderToolsView(container, store, toolId) {
   const tools = [
     { id: 'doctor', name: 'Plant Doctor', desc: 'Diagnose plant problems with symptom-based scoring', route: '/tools/doctor' },
     { id: 'stealth', name: 'Stealth Audit', desc: 'Assess and improve your operational security', route: '/tools/stealth' },
+    { id: 'calculators', name: 'Grow Calculators', desc: 'VPD, DLI, EC/pH, PPM converter — with save to profile', route: '/tools/calculators' },
   ];
 
   for (const tool of tools) {

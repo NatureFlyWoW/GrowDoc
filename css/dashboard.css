@@ -249,6 +249,53 @@
 .edit-field .input { max-width: 300px; }
 .edit-days-group { display: flex; align-items: center; gap: var(--space-2); }
 
+/* Calculator tools */
+.calc-section {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.calc-section h3 { margin: 0 0 var(--space-2) 0; }
+
+.calc-target-info {
+  background: var(--bg-elevated);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.calc-input-row {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.calc-result { margin-top: var(--space-3); }
+.calc-result-main { font-size: 1.05rem; }
+.calc-result-sub { font-size: 0.82rem; color: var(--text-muted); margin-top: var(--space-1); }
+
+/* Tool cards */
+.tool-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+  border-left: 3px solid var(--bg-elevated);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.tool-card:hover {
+  border-left-color: var(--accent-green);
+  box-shadow: var(--shadow-md);
+}
+
+.tool-name { font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-1); }
+
 /* Charts */
 .trend-chart { max-width: 100%; margin: var(--space-3) 0; }
 .chart-empty { padding: var(--space-4); text-align: center; }

@@ -16,6 +16,7 @@ import { renderHarvestView } from './views/harvest.js';
 import { renderPlantDoctor } from './plant-doctor/doctor-ui.js';
 import { renderKnowledgeView, renderMythsView } from './views/knowledge.js';
 import { renderToolsView } from './views/tools.js';
+import { renderCalculators } from './views/calculators.js';
 import { renderSettingsView } from './views/settings.js';
 import { runMigration } from './migration.js';
 
@@ -67,6 +68,7 @@ const viewMap = {
   'myths': (container) => renderMythsView(container),
   'tools': (container, params) => renderToolsView(container, window.__growdocStore, params?.id),
   'stealth': (container) => renderToolsView(container, window.__growdocStore, 'stealth'),
+  'calculators': (container) => renderCalculators(container, window.__growdocStore),
   'settings': (container) => renderSettingsView(container, window.__growdocStore),
 };
 

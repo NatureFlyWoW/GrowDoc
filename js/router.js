@@ -14,6 +14,7 @@ const ROUTES = [
   { path: '/grow/dry-cure',     view: 'dry-cure',     auth: true  },
   { path: '/tools/doctor',      view: 'doctor',       auth: false },
   { path: '/tools/stealth',     view: 'stealth',      auth: false },
+  { path: '/tools/calculators', view: 'calculators',  auth: false },
   { path: '/knowledge',         view: 'knowledge',    auth: false },
   { path: '/knowledge/myths',   view: 'myths',        auth: false },
   { path: '/settings',          view: 'settings',     auth: true  },
