@@ -129,6 +129,29 @@ let _wizardState = _defaultState();
 
 export function renderOnboarding(container, store) {
   _store = store || window.__growdocStore;
+
+  // Section 10: existing-user migration guard. If a profile already
+  // exists with onboardingComplete (or any meaningful data), skip the
+  // wizard entirely and route to dashboard. The user can still re-run
+  // the wizard explicitly via /setup if they want.
+  try {
+    const existing = _store?.state?.profile || {};
+    if (existing && (existing.onboardingComplete === true ||
+                     existing.medium || existing.experience)) {
+      // Hash-based hint that the user opted in to re-onboarding
+      if (!window.location.search.includes('reonboard=1')) {
+        // Use the router via global to avoid a circular import
+        if (window.history && window.location) {
+          window.history.replaceState(null, '', '/dashboard');
+          window.dispatchEvent(new PopStateEvent('popstate'));
+          return;
+        }
+      }
+    }
+  } catch {
+    // If anything fails, fall through and run the wizard
+  }
+
   _wizardState = _defaultState();
   _renderWizard(container);
 }

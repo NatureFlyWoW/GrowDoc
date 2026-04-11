@@ -12,6 +12,12 @@
   <meta name="apple-mobile-web-app-title" content="GrowDoc">
   <link rel="apple-touch-icon" href="/icon-192.svg">
   <link rel="icon" type="image/svg+xml" href="/icon-192.svg">
+  <!-- Section 10: modulepreload critical-path JS so the parser can
+       fetch them in parallel with the main HTML parse -->
+  <link rel="modulepreload" href="/js/main.js">
+  <link rel="modulepreload" href="/js/store.js">
+  <link rel="modulepreload" href="/js/router.js">
+  <link rel="modulepreload" href="/js/storage.js">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&display=swap" rel="stylesheet">

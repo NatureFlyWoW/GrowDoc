@@ -64,6 +64,11 @@ let _store = null;
 let _activeRoute = null;
 let _hasActiveGrow = false;
 
+// Section 10: responsive breakpoint
+const MOBILE_BREAKPOINT = 768;
+let _lastMode = null; // 'mobile' | 'desktop'
+let _resizeBound = false;
+
 /** Render the sidebar into the given container. */
 export function renderSidebar(container, store) {
   _container = container;
@@ -96,6 +101,26 @@ export function renderSidebar(container, store) {
   window.addEventListener('routechange', (e) => {
     updateActiveItem(e.detail.path);
   });
+
+  // Section 10: re-render on breakpoint crossing (debounced 250ms).
+  // Only triggers when crossing the 768px breakpoint, not on every
+  // resize tick — avoids wiping focus/scroll state on desktop window
+  // resizes.
+  if (!_resizeBound && typeof window !== 'undefined') {
+    let resizeTimer = null;
+    _lastMode = (typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT) ? 'mobile' : 'desktop';
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const mode = window.innerWidth < MOBILE_BREAKPOINT ? 'mobile' : 'desktop';
+        if (mode !== _lastMode) {
+          _lastMode = mode;
+          _render();
+        }
+      }, 250);
+    });
+    _resizeBound = true;
+  }
 }
 
 /** Update the active nav item based on the current route. */
@@ -139,6 +164,13 @@ function _isGroupActive(item) {
 
 function _render() {
   if (!_container) return;
+
+  // Section 10: render bottom nav on mobile, sidebar on desktop.
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT;
+  if (isMobile) {
+    _renderBottomNav();
+    return;
+  }
 
   const nav = document.createElement('div');
   nav.className = 'sidebar-inner';
@@ -226,6 +258,77 @@ function _render() {
   nav.appendChild(toggleBtn);
 
   _container.innerHTML = '';
+  _container.appendChild(nav);
+}
+
+// Section 10: bottom nav for mobile (<768px). 5 tabs, fixed bottom,
+// safe-area aware. Active route is highlighted by prefix match.
+const BOTTOM_NAV_TABS = [
+  { id: 'today',     label: 'Today',     emoji: '🏠', path: '/dashboard',    matchPaths: ['/', '/dashboard'] },
+  { id: 'plants',    label: 'Plants',    emoji: '🌿', path: '/grow',         matchPaths: ['/grow'] },
+  { id: 'journal',   label: 'Journal',   emoji: '📓', path: '/grow/journal', matchPaths: ['/grow/journal'] },
+  { id: 'knowledge', label: 'Knowledge', emoji: '📚', path: '/knowledge',    matchPaths: ['/knowledge', '/tools'] },
+  { id: 'settings',  label: 'Settings',  emoji: '⚙️', path: '/settings',     matchPaths: ['/settings'] },
+];
+
+function _isBottomTabActive(tab) {
+  if (!_activeRoute) return false;
+  for (const m of tab.matchPaths) {
+    if (_activeRoute === m) return true;
+    if (m !== '/' && _activeRoute.startsWith(m + '/')) return true;
+  }
+  return false;
+}
+
+function _renderBottomNav() {
+  // The container is a <nav id="sidebar"> element. Replace its content
+  // and apply a 'bottom-nav' class so CSS knows which mode we're in.
+  _container.innerHTML = '';
+  _container.classList.add('bottom-nav-mode');
+  _container.classList.remove('sidebar-collapsed');
+
+  const nav = document.createElement('div');
+  nav.className = 'bottom-nav';
+
+  for (const tab of BOTTOM_NAV_TABS) {
+    const btn = document.createElement('button');
+    btn.className = 'bottom-nav__tab' + (_isBottomTabActive(tab) ? ' is-active' : '');
+    btn.dataset.tabId = tab.id;
+    btn.style.flex = '1';
+    btn.style.minHeight = '44px';
+    btn.style.minWidth = '44px';
+    btn.style.background = 'transparent';
+    btn.style.border = 'none';
+    btn.style.cursor = 'pointer';
+    btn.style.touchAction = 'manipulation';
+    btn.style.padding = '6px 4px';
+    btn.style.display = 'flex';
+    btn.style.flexDirection = 'column';
+    btn.style.alignItems = 'center';
+    btn.style.gap = '2px';
+    btn.style.fontSize = '0.7rem';
+
+    const icon = document.createElement('span');
+    icon.style.fontSize = '1.4rem';
+    icon.style.lineHeight = '1';
+    icon.textContent = tab.emoji;
+    btn.appendChild(icon);
+
+    const label = document.createElement('span');
+    label.textContent = tab.label;
+    btn.appendChild(label);
+
+    if (_isBottomTabActive(tab)) {
+      btn.style.color = 'var(--color-primary, #2d5016)';
+      btn.style.fontWeight = '600';
+    } else {
+      btn.style.color = 'var(--text-muted, #666)';
+    }
+
+    btn.addEventListener('click', () => navigate(tab.path));
+    nav.appendChild(btn);
+  }
+
   _container.appendChild(nav);
 }
 
