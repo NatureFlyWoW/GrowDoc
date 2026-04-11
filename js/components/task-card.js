@@ -1,6 +1,8 @@
 // GrowDoc Companion — Task Card UI Component
 
 import { getExperienceDetail, TASK_KNOWLEDGE_MAP } from './task-engine.js';
+import { mountSeverityChip } from './severity-chip.js';
+import { mountParsedSignalStrip } from './parsed-signal-strip.js';
 
 const PRIORITY_COLORS = { urgent: 'var(--status-urgent)', recommended: 'var(--status-action)', optional: 'var(--status-good)' };
 const EVIDENCE_COLORS = { established: 'var(--evidence-strong)', promising: 'var(--evidence-moderate)', speculative: 'var(--evidence-emerging)', practitioner: 'var(--evidence-anecdotal)' };
@@ -147,6 +149,21 @@ function _toggleNotesInput(expandable, task, onNotes) {
   input.rows = 2;
   input.value = task.notes || '';
   input.placeholder = 'Add a note...';
+  group.appendChild(input);
+
+  // Note contextualizer: severity chip + parsed-signal placeholder strip.
+  // Chip writes the legacy enum to task.details.severity (new slot); full
+  // override/quoted-note UI lands in section-07.
+  if (!task.details) task.details = {};
+  const ncHolder = document.createElement('div');
+  group.appendChild(ncHolder);
+  mountSeverityChip(ncHolder, {
+    target: task.details,
+    targetKey: 'severity',
+    initial: task.details.severity || null,
+    autoInferFrom: input,
+  });
+  mountParsedSignalStrip(ncHolder);
 
   const saveBtn = document.createElement('button');
   saveBtn.className = 'btn btn-primary btn-sm';
@@ -154,10 +171,10 @@ function _toggleNotesInput(expandable, task, onNotes) {
   saveBtn.addEventListener('click', () => {
     const raw = input.value;
     task.notes = raw;
-    if (onNotes) onNotes(task.id, raw);
+    const sev = task.details ? task.details.severity : null;
+    if (onNotes) onNotes(task.id, raw, sev);
   });
 
-  group.appendChild(input);
   group.appendChild(saveBtn);
   expandable.appendChild(group);
   input.focus();

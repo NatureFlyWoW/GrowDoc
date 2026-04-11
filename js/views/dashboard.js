@@ -208,7 +208,7 @@ export function renderTaskList(container, tasks, store) {
         onDone: (id) => _updateTask(store, id, 'done'),
         onDismiss: (id) => _updateTask(store, id, 'dismissed'),
         onSnooze: (id, until) => _snoozeTask(store, id, until),
-        onNotes: (id, notes) => _saveNotes(store, id, notes),
+        onNotes: (id, notes, severity) => _saveNotes(store, id, notes, severity),
       });
     }
   }
@@ -341,11 +341,17 @@ function _snoozeTask(store, taskId, until) {
   }
 }
 
-function _saveNotes(store, taskId, notes) {
+function _saveNotes(store, taskId, notes, severity) {
   const grow = store.getSnapshot().grow;
   const task = (grow.tasks || []).find(t => t.id === taskId);
   if (task) {
     task.notes = notes;
+    if (severity === 'urgent' || severity === 'concern') {
+      task.details = task.details || {};
+      task.details.severity = severity;
+    } else if (severity === null && task.details) {
+      task.details.severity = null;
+    }
     store.commit('grow', grow);
   }
 }

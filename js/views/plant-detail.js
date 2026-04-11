@@ -8,6 +8,8 @@ import { POT_SIZES } from '../data/constants.js';
 import { daysSinceLog as _daysSince } from '../utils.js';
 import { loadPhoto } from '../photos.js';
 import { navigate } from '../router.js';
+import { mountSeverityChip } from '../components/severity-chip.js';
+import { mountParsedSignalStrip } from '../components/parsed-signal-strip.js';
 
 /**
  * renderPlantDetail(container, store, plantId) — Single plant detail view.
@@ -543,6 +545,27 @@ function _renderEditTab(container, plant, store, pageContainer, plantId) {
   notesArea.className = 'input';
   notesArea.rows = 3;
   notesArea.value = plant.notes || '';
+
+  // Local severity state, persisted to plant.details.severity on blur.
+  const notesSeverityState = { severity: (plant.details && plant.details.severity) || null };
+
+  notesGroup.appendChild(notesHint);
+  notesGroup.appendChild(notesArea);
+
+  // Note contextualizer scaffolding — chip + placeholder strip.
+  // MUST be mounted BEFORE the notes blur listener below so that the
+  // chip's autoInferFrom handler fires first on textarea blur and the
+  // subsequent store commit captures the freshly-inferred severity.
+  const ncHolder = document.createElement('div');
+  notesGroup.appendChild(ncHolder);
+  mountSeverityChip(ncHolder, {
+    target: notesSeverityState,
+    targetKey: 'severity',
+    initial: notesSeverityState.severity,
+    autoInferFrom: notesArea,
+  });
+  mountParsedSignalStrip(ncHolder);
+
   notesArea.addEventListener('blur', () => {
     const raw = notesArea.value;
     const growSnap = store.getSnapshot().grow;
@@ -550,12 +573,13 @@ function _renderEditTab(container, plant, store, pageContainer, plantId) {
     if (p) {
       p.notes = raw;
       p.context = parseProfileNotes({ plant: raw });
+      if (!p.details) p.details = {};
+      p.details.severity = notesSeverityState.severity;
       store.commit('grow', growSnap);
       flashSaved(notesArea);
     }
   });
-  notesGroup.appendChild(notesHint);
-  notesGroup.appendChild(notesArea);
+
   container.appendChild(notesGroup);
 }
 

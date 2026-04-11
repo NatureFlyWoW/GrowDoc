@@ -318,6 +318,7 @@ async function renderTestRunner(container) {
     { name: 'stage-timeline', path: './tests/stage-timeline.test.js' },
     { name: 'task-engine', path: './tests/task-engine.test.js' },
     { name: 'note-contextualizer', path: './tests/note-contextualizer.test.js' },
+    { name: 'severity-chip', path: './tests/severity-chip.test.js' },
     { name: 'dashboard', path: './views/dashboard.js' },
     { name: 'vpd-widget', path: './components/vpd-widget.js' },
     { name: 'feeding-calculator', path: './data/feeding-calculator.js' },

@@ -1,6 +1,8 @@
 // GrowDoc Companion — Quick Log Form Component
 
 import { generateId } from '../utils.js';
+import { mountSeverityChip } from './severity-chip.js';
+import { mountParsedSignalStrip } from './parsed-signal-strip.js';
 
 const LOG_TYPES = [
   { id: 'water', label: 'Water', icon: '💧' },
@@ -19,6 +21,9 @@ export function renderLogForm(container, options) {
   form.className = 'log-form';
 
   let selectedType = logType;
+  // Note contextualizer: captured across _renderDetails re-renders so the
+  // severity chip survives a log-type change and _buildEntry can read it.
+  const formState = { severity: null };
 
   // Type selector
   const typeBar = document.createElement('div');
@@ -29,7 +34,7 @@ export function renderLogForm(container, options) {
     btn.textContent = `${lt.icon} ${lt.label}`;
     btn.addEventListener('click', () => {
       selectedType = lt.id;
-      _renderDetails(detailArea, selectedType, plantId, store);
+      _renderDetails(detailArea, selectedType, plantId, store, formState);
       typeBar.querySelectorAll('.btn').forEach(b => b.classList.remove('btn-primary'));
       btn.classList.add('btn-primary');
     });
@@ -40,7 +45,7 @@ export function renderLogForm(container, options) {
   // Detail area (expandable)
   const detailArea = document.createElement('div');
   detailArea.className = 'log-details';
-  if (selectedType) _renderDetails(detailArea, selectedType, plantId, store);
+  if (selectedType) _renderDetails(detailArea, selectedType, plantId, store, formState);
   form.appendChild(detailArea);
 
   // Action buttons
@@ -52,7 +57,7 @@ export function renderLogForm(container, options) {
   logBtn.textContent = 'Log it';
   logBtn.addEventListener('click', () => {
     if (!selectedType) return;
-    const entry = _buildEntry(selectedType, detailArea, taskRef);
+    const entry = _buildEntry(selectedType, detailArea, taskRef, formState);
     if (onSubmit) onSubmit(entry);
   });
 
@@ -68,7 +73,7 @@ export function renderLogForm(container, options) {
   container.appendChild(form);
 }
 
-function _renderDetails(container, type, plantId, store) {
+function _renderDetails(container, type, plantId, store, formState) {
   container.innerHTML = '';
   const expand = document.createElement('details');
   const summary = document.createElement('summary');
@@ -128,9 +133,23 @@ function _renderDetails(container, type, plantId, store) {
   fields.appendChild(_textareaField('log-notes', 'Notes'));
   expand.appendChild(fields);
   container.appendChild(expand);
+
+  // Note contextualizer scaffolding — mount chip + parsed strip under notes.
+  const notesField = fields.querySelector('#log-notes');
+  if (notesField) {
+    const chipHolder = document.createElement('div');
+    notesField.parentNode.insertBefore(chipHolder, notesField.nextSibling);
+    mountSeverityChip(chipHolder, {
+      target: formState || {},
+      targetKey: 'severity',
+      initial: (formState && formState.severity) || null,
+      autoInferFrom: notesField,
+    });
+    mountParsedSignalStrip(chipHolder);
+  }
 }
 
-function _buildEntry(type, detailArea, taskRef) {
+function _buildEntry(type, detailArea, taskRef, formState) {
   const details = {};
   const phEl = detailArea.querySelector('#log-ph');
   const ecEl = detailArea.querySelector('#log-ec');
@@ -147,6 +166,9 @@ function _buildEntry(type, detailArea, taskRef) {
   if (actionEl?.value) details.action = actionEl.value;
   if (condEl?.value) details.condition = condEl.value;
   if (nutrEl?.value) details.nutrients = nutrEl.value;
+  if (formState && (formState.severity === 'urgent' || formState.severity === 'concern')) {
+    details.severity = formState.severity;
+  }
 
   return {
     id: generateId(),
