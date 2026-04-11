@@ -5,6 +5,30 @@ import { WATERING_FREQUENCY, VPD_TARGETS, DLI_TARGETS, NUTRIENT_TARGETS } from '
 import { STAGE_TRANSITIONS, STAGES, getDaysInStage, shouldAutoAdvance, getCureBurpSchedule } from '../data/stage-rules.js';
 import { getLearnedInterval } from '../data/pattern-tracker.js';
 import { generateId } from '../utils.js';
+import { collectObservations, parseAllObservations } from '../data/note-contextualizer/index.js';
+import { checkRedundancy, checkContradiction, inferAlertTrigger, overrideSuppression as _overrideSuppressionImpl, TASK_WINDOW_HOURS } from './task-engine-note-guards.js';
+
+// Re-export so task-card.js can import from './task-engine.js'.
+export { TASK_WINDOW_HOURS };
+export function overrideSuppression(store, taskId, plantId, taskType) {
+  return _overrideSuppressionImpl(store, taskId, plantId, taskType);
+}
+
+function _collectPlantObservations(grow, profile) {
+  try {
+    const since = new Date(Date.now() - 14 * 86400000).toISOString();
+    const all = parseAllObservations(collectObservations(grow, profile, { since }));
+    const byPlant = {};
+    for (const obs of all) {
+      if (!obs || !obs.plantId) continue;
+      if (!byPlant[obs.plantId]) byPlant[obs.plantId] = [];
+      byPlant[obs.plantId].push(obs);
+    }
+    return byPlant;
+  } catch (_err) {
+    return {};
+  }
+}
 
 /**
  * generateTasks(store) — Main entry point. Evaluates all triggers, deduplicates, returns new tasks.
@@ -20,20 +44,25 @@ export function generateTasks(store) {
   const existingTasks = grow.tasks || [];
   const newTasks = [];
 
+  // Section-07: collect + parse observations once at entry, bucketed per plant.
+  const obsByPlant = _collectPlantObservations(grow, profile);
+
   for (const plant of grow.plants) {
     // Skip plants whose stage blocks task generation (e.g. 'done').
     const stageDef = STAGES.find(s => s.id === plant.stage);
     if (stageDef && stageDef.blocksTaskGeneration) continue;
 
-    newTasks.push(...evaluateTimeTriggers(plant, profile, existingTasks));
+    const plantObs = obsByPlant[plant.id] || [];
+
+    newTasks.push(...evaluateTimeTriggers(plant, profile, existingTasks, plantObs));
     newTasks.push(...evaluateStageTriggers(plant, profile, existingTasks));
     newTasks.push(...evaluateTrainingTriggers(plant, existingTasks));
     newTasks.push(...evaluateDiagnosisTriggers(plant, existingTasks));
     newTasks.push(...evaluateIPMTriggers(plant, profile, existingTasks));
-    newTasks.push(...evaluateDiagnoseTaskTriggers(plant, existingTasks));
+    newTasks.push(...evaluateDiagnoseTaskTriggers(plant, existingTasks, plantObs));
   }
 
-  newTasks.push(...evaluateEnvironmentTriggers(envData.readings || [], profile, existingTasks));
+  newTasks.push(...evaluateEnvironmentTriggers(envData.readings || [], profile, existingTasks, obsByPlant));
 
   // Final dedup pass
   return newTasks.filter(t => !isDuplicate(t, existingTasks));
@@ -41,7 +70,7 @@ export function generateTasks(store) {
 
 // ── Time-Based Triggers ──────────────────────────────────────────────
 
-export function evaluateTimeTriggers(plant, profile, existingTasks) {
+export function evaluateTimeTriggers(plant, profile, existingTasks, plantObservations = []) {
   const tasks = [];
   const medium = plant.mediumOverride || profile.medium || 'soil';
   const potSize = _potSizeCategory(plant.potSize);
@@ -105,6 +134,22 @@ export function evaluateTimeTriggers(plant, profile, existingTasks) {
   if ((lastAnyLog !== null && lastAnyLog >= 3) || (lastAnyLog === null && days >= 3)) {
     tasks.push(_createTask(plant.id, 'check', 'urgent', `Check ${plant.name}`,
       _simpleDetail(`No activity logged for ${plant.name} in ${lastAnyLog ?? days}+ days. Check your plants!`)));
+  }
+
+  // Section-07: anti-redundancy suppression. For any emitted task whose type
+  // has a canonical window, check if the user's notes already recorded an
+  // action inside that window. If so, mark suppressedBy + suppressedNoteRef.
+  // We do NOT remove the task — task-card.js renders the suppressed state
+  // with an Override button.
+  if (Array.isArray(plantObservations) && plantObservations.length > 0) {
+    for (const t of tasks) {
+      if (!t || !t.type || !TASK_WINDOW_HOURS[t.type]) continue;
+      const check = checkRedundancy(t.type, plantObservations);
+      if (check.suppressed) {
+        t.suppressedBy = check.obsIds;
+        t.suppressedNoteRef = check.noteRef;
+      }
+    }
   }
 
   return tasks.filter(t => !isDuplicate(t, existingTasks));
@@ -255,7 +300,7 @@ export function evaluateDiagnoseTriggers(plant, stageDurations, now = Date.now()
   return { shouldCreate: false };
 }
 
-function evaluateDiagnoseTaskTriggers(plant, existingTasks) {
+function evaluateDiagnoseTaskTriggers(plant, existingTasks, plantObservations = []) {
   const tasks = [];
   // Skip if a pending diagnose task already exists for this plant
   const alreadyHasDiagnose = (existingTasks || []).some(t =>
@@ -266,20 +311,27 @@ function evaluateDiagnoseTaskTriggers(plant, existingTasks) {
   const stageDurMap = {};
   for (const s of STAGES) stageDurMap[s.id] = { typicalDays: s.typicalDays };
 
+  // Section-07: fire diagnose on alert severity OR worsening keyword in recent notes.
+  const alertTrigger = inferAlertTrigger(plantObservations);
   const result = evaluateDiagnoseTriggers(plant, stageDurMap);
-  if (!result.shouldCreate) return tasks;
 
-  const reasonMessage = {
-    'urgent-observe': 'Plant flagged urgent in your journal. Run a diagnostic to identify the issue.',
-    'concern-observe': 'Concerning observation logged. Run a diagnostic to confirm or rule out problems.',
-    'stuck-stage': `${plant.name} has been in ${plant.stage} longer than expected. Run a diagnostic to check for issues.`,
-  }[result.reason] || 'Diagnostic check recommended.';
+  if (!result.shouldCreate && !alertTrigger.trigger) return tasks;
 
-  tasks.push(_createTask(plant.id, 'diagnose', 'recommended', `Diagnose ${plant.name}`, {
+  const reasonMessage = alertTrigger.trigger
+    ? `Recent note flagged alert severity for ${plant.name}. Run a diagnostic to identify the issue.`
+    : {
+        'urgent-observe': 'Plant flagged urgent in your journal. Run a diagnostic to identify the issue.',
+        'concern-observe': 'Concerning observation logged. Run a diagnostic to confirm or rule out problems.',
+        'stuck-stage': `${plant.name} has been in ${plant.stage} longer than expected. Run a diagnostic to check for issues.`,
+      }[result.reason] || 'Diagnostic check recommended.';
+
+  const task = _createTask(plant.id, 'diagnose', 'recommended', `Diagnose ${plant.name}`, {
     beginner: reasonMessage,
     intermediate: reasonMessage,
     expert: reasonMessage,
-  }));
+  });
+  if (alertTrigger.trigger) task.triggeredBy = alertTrigger.obsIds;
+  tasks.push(task);
   return tasks.filter(t => !isDuplicate(t, existingTasks));
 }
 
@@ -361,7 +413,7 @@ export function evaluateDiagnosisTriggers(plant, existingTasks) {
 
 // ── Environment Triggers ─────────────────────────────────────────────
 
-export function evaluateEnvironmentTriggers(readings, profile, existingTasks) {
+export function evaluateEnvironmentTriggers(readings, profile, existingTasks, obsByPlant = {}) {
   const tasks = [];
   if (!readings || readings.length === 0) return tasks;
 
@@ -371,12 +423,30 @@ export function evaluateEnvironmentTriggers(readings, profile, existingTasks) {
   if (!targets || !latest.vpd) return tasks;
 
   const vpd = latest.vpd;
+  const vpdInRange = vpd >= targets.vpdRange.min && vpd <= targets.vpdRange.max;
   if (vpd < targets.vpdRange.min) {
     tasks.push(_createTask('env', 'check', 'recommended', 'VPD too low',
       _simpleDetail(`VPD is ${vpd} kPa — below target ${targets.vpdRange.min}-${targets.vpdRange.max} kPa. Raise temperature or lower humidity.`)));
   } else if (vpd > targets.vpdRange.max) {
     tasks.push(_createTask('env', 'check', 'recommended', 'VPD too high',
       _simpleDetail(`VPD is ${vpd} kPa — above target ${targets.vpdRange.min}-${targets.vpdRange.max} kPa. Lower temperature or raise humidity.`)));
+  }
+
+  // Section-07: env-discrepancy task. Fires when the sensor says in-range
+  // but the grower's note flagged an alert environment issue within 48h.
+  // Iterates per plant so the citation and suppression trail is accurate.
+  if (vpdInRange && obsByPlant && typeof obsByPlant === 'object') {
+    const envSnapshot = { temp: true, rh: true, vpd: true };
+    for (const [plantId, plantObs] of Object.entries(obsByPlant)) {
+      const conflict = checkContradiction(envSnapshot, plantObs);
+      if (conflict.conflict) {
+        const task = _createTask(plantId, 'env-discrepancy', 'recommended',
+          'Sensor disagrees with your note',
+          _simpleDetail(`Your recent note flagged an environment alert, but the sensor reads in-range. Check for a stuck probe or a localized issue.`));
+        task.citedObsId = conflict.obsId;
+        tasks.push(task);
+      }
+    }
   }
 
   return tasks.filter(t => !isDuplicate(t, existingTasks));

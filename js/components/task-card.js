@@ -1,8 +1,28 @@
 // GrowDoc Companion — Task Card UI Component
 
-import { getExperienceDetail, TASK_KNOWLEDGE_MAP } from './task-engine.js';
+import { getExperienceDetail, TASK_KNOWLEDGE_MAP, TASK_WINDOW_HOURS, overrideSuppression } from './task-engine.js';
 import { mountSeverityChip } from './severity-chip.js';
 import { mountParsedSignalStrip } from './parsed-signal-strip.js';
+
+const OVERRIDE_LABELS = {
+  water: 'Water now (re-blocks for 12h)',
+  feed: 'Feed now (re-blocks for 24h)',
+  flush: 'Flush now (re-blocks for 48h)',
+  ipm: 'IPM sweep now (re-blocks for 72h)',
+  defoliate: 'Defoliate now (re-blocks for 7d)',
+  top: 'Top now (re-blocks for 14d)',
+};
+
+function _relativeFromIso(iso) {
+  if (!iso) return '';
+  const ms = Date.parse(iso);
+  if (Number.isNaN(ms)) return '';
+  const diff = Date.now() - ms;
+  if (diff < 60_000) return 'just now';
+  if (diff < 3_600_000) return `${Math.floor(diff / 60_000)}m ago`;
+  if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)}h ago`;
+  return `${Math.floor(diff / 86_400_000)}d ago`;
+}
 
 const PRIORITY_COLORS = { urgent: 'var(--status-urgent)', recommended: 'var(--status-action)', optional: 'var(--status-good)' };
 const EVIDENCE_COLORS = { established: 'var(--evidence-strong)', promising: 'var(--evidence-moderate)', speculative: 'var(--evidence-emerging)', practitioner: 'var(--evidence-anecdotal)' };
@@ -21,6 +41,9 @@ export function renderTaskCard(container, task, options = {}) {
 
   const card = document.createElement('div');
   card.className = 'task-card';
+  if (Array.isArray(task.suppressedBy) && task.suppressedBy.length > 0) {
+    card.classList.add('task-card--suppressed');
+  }
   card.dataset.taskId = task.id;
   card.dataset.priority = task.priority;
 
@@ -51,6 +74,36 @@ export function renderTaskCard(container, task, options = {}) {
   detail.className = 'task-detail';
   detail.textContent = getExperienceDetail(task, experienceLevel);
   card.appendChild(detail);
+
+  // Section-07: suppressed-state banner with Override button.
+  if (Array.isArray(task.suppressedBy) && task.suppressedBy.length > 0 && task.suppressedNoteRef) {
+    const banner = document.createElement('div');
+    banner.className = 'nc-suppressed-banner';
+
+    const quote = document.createElement('blockquote');
+    quote.className = 'nc-suppressed-quote';
+    quote.textContent = task.suppressedNoteRef.rawText || '';
+    banner.appendChild(quote);
+
+    const relTs = document.createElement('span');
+    relTs.className = 'nc-suppressed-timestamp';
+    relTs.textContent = _relativeFromIso(task.suppressedNoteRef.observedAt);
+    banner.appendChild(relTs);
+
+    const overrideBtn = document.createElement('button');
+    overrideBtn.type = 'button';
+    overrideBtn.className = 'nc-override-btn';
+    overrideBtn.textContent = OVERRIDE_LABELS[task.type] || `Override ${task.type}`;
+    overrideBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (options.store) {
+        overrideSuppression(options.store, task.id, task.plantId, task.type);
+      }
+    });
+    banner.appendChild(overrideBtn);
+
+    card.appendChild(banner);
+  }
 
   // Expandable Layer 2
   const expandable = document.createElement('div');

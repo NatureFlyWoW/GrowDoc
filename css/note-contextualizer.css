@@ -87,3 +87,54 @@
   color: var(--text-primary);
 }
 
+/* Section-07 — suppressed task state */
+
+.task-card--suppressed {
+  opacity: 0.72;
+  border-left: 3px solid var(--text-muted);
+}
+
+.nc-suppressed-banner {
+  margin: var(--space-2) 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.nc-suppressed-quote {
+  margin: 0;
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--text-muted);
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.nc-suppressed-timestamp {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.nc-override-btn {
+  appearance: none;
+  align-self: flex-start;
+  background: transparent;
+  border: 1px solid var(--status-action);
+  color: var(--status-action);
+  border-radius: var(--radius-md);
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.nc-override-btn:hover {
+  background: var(--status-action);
+  color: var(--bg-primary);
+}
+
