@@ -395,5 +395,140 @@ export async function runTests() {
     assert(idxAfter.all.length === 0, '__resetForTests clears cache');
   }
 
+  // ── Section-09 — cure tracker walker ─────────────────────────────
+  const seedCure = (state) => { try { localStorage.setItem('growdoc-cure-tracker', JSON.stringify(state)); } catch {} };
+  const clearCure = () => { try { localStorage.removeItem('growdoc-cure-tracker'); } catch {} };
+
+  // S09-1 — empty/missing localStorage produces zero cure observations
+  {
+    __resetForTests();
+    clearCure();
+    const out = collectObservations({}, {});
+    const cureObs = out.filter(o => o.source === 'cure');
+    assert(cureObs.length === 0, 'S09: empty localStorage → no cure obs');
+  }
+
+  // S09-2 — seeded curingLog emits one Observation per non-empty note
+  {
+    __resetForTests();
+    seedCure({
+      curingLogs: [
+        { weekNumber: 1, date: daysAgo(3), burped: true, duration: 10, rhJar: 62, smell: 'Hay/Grass', notes: 'first burp, hay smell fading' },
+        { weekNumber: 2, date: daysAgo(1), burped: true, duration: 5, rhJar: 62, smell: 'Complex/Rich', notes: '' }, // empty skipped
+      ],
+      dryingLogs: [],
+    });
+    const out = collectObservations({}, {});
+    const cureObs = out.filter(o => o.source === 'cure');
+    assert(cureObs.length === 1, 'S09: one obs per non-empty cure note');
+    assert(cureObs[0].domains.includes('cure-burp'), 'S09: cure-burp domain set');
+    assert(cureObs[0].plantId === undefined, 'S09: cure obs is grow-wide (no plantId)');
+    clearCure();
+  }
+
+  // S09-3 — cure observation observedAt uses the entry date
+  {
+    __resetForTests();
+    const entryDate = daysAgo(2);
+    seedCure({ curingLogs: [{ weekNumber: 1, date: entryDate, burped: true, rhJar: 60, smell: 'Hay/Grass', notes: 'normal' }], dryingLogs: [] });
+    const out = collectObservations({}, {});
+    const cureObs = out.find(o => o.source === 'cure');
+    assert(cureObs && cureObs.observedAt === entryDate, 'S09: observedAt === entry.date');
+    clearCure();
+  }
+
+  // S09-4 — deterministic id across two collectObservations calls
+  {
+    __resetForTests();
+    seedCure({ curingLogs: [{ weekNumber: 1, date: '2026-03-01T00:00:00Z', burped: true, rhJar: 60, smell: 'Hay/Grass', notes: 'same text' }], dryingLogs: [] });
+    const a = collectObservations({}, {}).find(o => o.source === 'cure');
+    const b = collectObservations({}, {}).find(o => o.source === 'cure');
+    assert(a && b && a.id === b.id, 'S09: cure obs id deterministic');
+    clearCure();
+  }
+
+  // S09-5 — smell:'Ammonia' auto-infers severity alert
+  {
+    __resetForTests();
+    seedCure({ curingLogs: [{ weekNumber: 2, date: daysAgo(1), rhJar: 62, smell: 'Ammonia', notes: 'jar smells awful' }], dryingLogs: [] });
+    const out = collectObservations({}, {});
+    const obs = out.find(o => o.source === 'cure');
+    assert(obs && obs.severityRaw === 'urgent' && obs.severity === 'alert', 'S09: ammonia → urgent/alert');
+    assert(obs.severityAutoInferred === true, 'S09: ammonia severity auto-inferred');
+    clearCure();
+  }
+
+  // S09-6 — rhJar > 70 auto-infers alert
+  {
+    __resetForTests();
+    seedCure({ curingLogs: [{ weekNumber: 2, date: daysAgo(1), rhJar: 75, smell: 'Hay/Grass', notes: 'too wet' }], dryingLogs: [] });
+    const out = collectObservations({}, {});
+    const obs = out.find(o => o.source === 'cure');
+    assert(obs && obs.severity === 'alert', 'S09: rhJar > 70 → alert');
+    clearCure();
+  }
+
+  // S09-7 — rhJar < 55 auto-infers watch
+  {
+    __resetForTests();
+    seedCure({ curingLogs: [{ weekNumber: 2, date: daysAgo(1), rhJar: 52, smell: 'Hay/Grass', notes: 'too dry' }], dryingLogs: [] });
+    const out = collectObservations({}, {});
+    const obs = out.find(o => o.source === 'cure');
+    assert(obs && obs.severityRaw === 'concern' && obs.severity === 'watch', 'S09: rhJar < 55 → concern/watch');
+    clearCure();
+  }
+
+  // S09-8 — neutral values → info
+  {
+    __resetForTests();
+    seedCure({ curingLogs: [{ weekNumber: 2, date: daysAgo(1), rhJar: 62, smell: 'Complex/Rich', notes: 'nice' }], dryingLogs: [] });
+    const out = collectObservations({}, {});
+    const obs = out.find(o => o.source === 'cure');
+    assert(obs && obs.severityRaw === null && obs.severity === 'info', 'S09: neutral → info');
+    clearCure();
+  }
+
+  // S09-9 — drying note emits cure-dry domain
+  {
+    __resetForTests();
+    seedCure({ curingLogs: [], dryingLogs: [{ day: 3, date: daysAgo(1), tempC: 19, rhPercent: 58, done: false, notes: 'rh climbing' }] });
+    const out = collectObservations({}, {});
+    const obs = out.find(o => o.source === 'cure');
+    assert(obs && obs.domains.includes('cure-dry'), 'S09: drying note → cure-dry domain');
+    clearCure();
+  }
+
+  // S09-10 — opts.plantId filter EXCLUDES cure obs (no plantId)
+  {
+    __resetForTests();
+    seedCure({ curingLogs: [{ weekNumber: 1, date: daysAgo(1), rhJar: 62, notes: 'test' }], dryingLogs: [] });
+    const out = collectObservations({ plants: [{ id: 'p1', notes: 'regular' }] }, {}, { plantId: 'p1' });
+    const cureObs = out.filter(o => o.source === 'cure');
+    assert(cureObs.length === 0, 'S09: plantId filter excludes cure obs (cure is grow-wide)');
+    clearCure();
+  }
+
+  // S09-11 — malformed JSON produces zero cure observations, no errors
+  {
+    __resetForTests();
+    try { localStorage.setItem('growdoc-cure-tracker', 'not-json-{{{'); } catch {}
+    let threw = false;
+    let out;
+    try { out = collectObservations({}, {}); } catch { threw = true; }
+    assert(!threw, 'S09: malformed JSON does not throw');
+    assert(Array.isArray(out) && out.filter(o => o.source === 'cure').length === 0, 'S09: malformed JSON → zero cure obs');
+    clearCure();
+  }
+
+  // S09-12 — explicit severityRaw from entry beats heuristic
+  {
+    __resetForTests();
+    seedCure({ curingLogs: [{ weekNumber: 2, date: daysAgo(1), rhJar: 75, smell: 'Ammonia', severityRaw: null, notes: 'ignore heuristic' }], dryingLogs: [] });
+    const out = collectObservations({}, {});
+    const obs = out.find(o => o.source === 'cure');
+    assert(obs && obs.severityRaw === null && obs.severityAutoInferred === false, 'S09: explicit severityRaw=null overrides heuristics');
+    clearCure();
+  }
+
   return results;
 }

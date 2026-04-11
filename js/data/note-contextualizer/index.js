@@ -407,6 +407,15 @@ export function collectObservations(grow, profile, opts = {}) {
     });
   }
 
+  // Section-09: walk cure-tracker localStorage. Standalone HTML tool
+  // persists burp + drying sessions under 'growdoc-cure-tracker'. Cure
+  // observations are grow-wide (no plantId) and carry source:'cure'.
+  try {
+    _walkCureTracker(out, createdAt);
+  } catch (_err) {
+    // Malformed localStorage → skip silently, never break projection.
+  }
+
   // Apply opts filters (domains/minSeverity pass-through in section-01)
   let filtered = out;
   if (opts.plantId) {
@@ -430,6 +439,76 @@ export function collectObservations(grow, profile, opts = {}) {
   return filtered;
 }
 
+// ── Section-09: cure-tracker walker ───────────────────────────────
+//
+// Walks localStorage['growdoc-cure-tracker'] and appends one Observation
+// per burp/drying entry with a non-empty `notes` string. Cure obs are
+// grow-wide (no plantId) and carry `source: 'cure'` with domain
+// `cure-burp` or `cure-dry`. Severity is read directly from the entry
+// when present, otherwise heuristically inferred (ammonia smell, high
+// or low jar RH). Deterministic `sourceRefId` makes re-walks idempotent.
+function _walkCureTracker(out, createdAt) {
+  if (typeof localStorage === 'undefined') return;
+  let raw;
+  try { raw = localStorage.getItem('growdoc-cure-tracker'); } catch { return; }
+  if (!raw) return;
+  let state;
+  try { state = JSON.parse(raw); } catch { return; }
+  if (!state || typeof state !== 'object') return;
+
+  const curingLogs = Array.isArray(state.curingLogs) ? state.curingLogs : [];
+  const dryingLogs = Array.isArray(state.dryingLogs) ? state.dryingLogs : [];
+
+  for (const entry of curingLogs) {
+    if (!entry || !isNonEmpty(entry.notes)) continue;
+    out.push(_buildCureObservation(entry, 'burp', createdAt));
+  }
+  for (const entry of dryingLogs) {
+    if (!entry || !isNonEmpty(entry.notes)) continue;
+    out.push(_buildCureObservation(entry, 'dry', createdAt));
+  }
+}
+
+function _buildCureObservation(entry, kind, createdAt) {
+  const weekOrDay = kind === 'burp' ? (entry.weekNumber ?? '?') : (entry.day ?? '?');
+  const date = entry.date || createdAt;
+  const sourceRefId = `cure:${kind}:${weekOrDay}:${date}`;
+  const rawText = String(entry.notes).slice(0, 500);
+  const { severityRaw, severityAutoInferred } = _inferCureSeverity(entry);
+  const severity = severityRaw === 'urgent' ? 'alert'
+                 : severityRaw === 'concern' ? 'watch'
+                 : 'info';
+  return {
+    id: makeObservationId('cure', sourceRefId, rawText),
+    createdAt,
+    observedAt: date,
+    source: 'cure',
+    sourceRefId,
+    domains: [kind === 'burp' ? 'cure-burp' : 'cure-dry'],
+    severityRaw,
+    severity,
+    severityAutoInferred,
+    rawText,
+    parsed: null,
+    tags: [],
+  };
+}
+
+function _inferCureSeverity(entry) {
+  // Explicit severity from chip beats heuristic.
+  if (entry.severityRaw === 'urgent' || entry.severityRaw === 'concern' || entry.severityRaw === null) {
+    return { severityRaw: entry.severityRaw, severityAutoInferred: false };
+  }
+  if (entry.severity === 'urgent' || entry.severity === 'concern') {
+    return { severityRaw: entry.severity, severityAutoInferred: false };
+  }
+  // Heuristics for legacy entries written before the chip shipped.
+  if (entry.smell === 'Ammonia') return { severityRaw: 'urgent', severityAutoInferred: true };
+  if (typeof entry.rhJar === 'number' && entry.rhJar > 70) return { severityRaw: 'urgent', severityAutoInferred: true };
+  if (typeof entry.rhJar === 'number' && entry.rhJar < 55) return { severityRaw: 'concern', severityAutoInferred: true };
+  return { severityRaw: null, severityAutoInferred: true };
+}
+
 // ── Cheap composite hash for staleness detection ──────────────────
 function computeHash(grow, profile) {
   const plantCount = (grow && Array.isArray(grow.plants)) ? grow.plants.length : 0;
@@ -446,6 +525,16 @@ function computeHash(grow, profile) {
   const profileJson = (() => {
     try { return JSON.stringify(profile); } catch { return ''; }
   })();
+  // Section-09: cure-tracker state participates in the hash so cure-only
+  // edits invalidate the cache even though the cure tracker has no store
+  // subscriber.
+  let cureDigest = '';
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem('growdoc-cure-tracker') || '';
+      cureDigest = raw.length + ':' + stringHash(raw);
+    }
+  } catch { /* ignore */ }
   return [
     plantCount,
     taskCount,
@@ -455,6 +544,7 @@ function computeHash(grow, profile) {
     profile && profile.updatedAt,
     stringHash(growJson),
     stringHash(profileJson),
+    cureDigest,
   ].join('|');
 }
 
