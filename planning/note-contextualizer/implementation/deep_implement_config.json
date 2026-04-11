@@ -1,0 +1,72 @@
+{
+  "plugin_root": "C:\\Users\\Caus\\.claude\\plugins\\cache\\piercelamb-plugins\\deep-implement\\0.2.1",
+  "sections_dir": "C:\\GrowDoc\\planning\\note-contextualizer\\sections",
+  "target_dir": "C:\\GrowDoc",
+  "state_dir": "C:\\GrowDoc\\planning\\note-contextualizer\\implementation",
+  "git_root": "C:\\GrowDoc",
+  "commit_style": "simple",
+  "test_command": "uv run pytest",
+  "sections": [
+    "section-01-schema-projection",
+    "section-02-ui-scaffolding",
+    "section-03-rules-keywords",
+    "section-04-merge-weighting",
+    "section-05-plant-doctor",
+    "section-06-advisors",
+    "section-07-task-engine",
+    "section-08-ui-finalization",
+    "section-09-cure-notes",
+    "section-10-traceability-deploy"
+  ],
+  "sections_state": {
+    "section-01-schema-projection": {
+      "status": "complete",
+      "commit_hash": "49cf0a7"
+    },
+    "section-02-ui-scaffolding": {
+      "status": "complete",
+      "commit_hash": "e11c09d"
+    },
+    "section-03-rules-keywords": {
+      "status": "complete",
+      "commit_hash": "a00f0b0"
+    },
+    "section-04-merge-weighting": {
+      "status": "complete",
+      "commit_hash": "a00f0b0"
+    },
+    "section-05-plant-doctor": {
+      "status": "complete",
+      "commit_hash": "e917b7f"
+    },
+    "section-06-advisors": {
+      "status": "complete",
+      "commit_hash": "e917b7f"
+    },
+    "section-07-task-engine": {
+      "status": "complete",
+      "commit_hash": "661b1b5"
+    },
+    "section-09-cure-notes": {
+      "status": "complete",
+      "commit_hash": "f2e145b"
+    },
+    "section-08-ui-finalization": {
+      "status": "complete",
+      "commit_hash": "38d12bf"
+    },
+    "section-10-traceability-deploy": {
+      "status": "complete",
+      "commit_hash": "8951ba5"
+    }
+  },
+  "pre_commit": {
+    "present": false,
+    "type": "none",
+    "config_file": null,
+    "native_hook": null,
+    "may_modify_files": false,
+    "detected_formatters": []
+  },
+  "created_at": "2026-04-11T18:05:02.566132+00:00"
+}
