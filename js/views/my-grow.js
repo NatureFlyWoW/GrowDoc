@@ -4,6 +4,7 @@ import { getDaysInStage, STAGES } from '../data/stage-rules.js';
 import { TRAINING_METHODS, generateMilestones } from '../data/training-protocols.js';
 import { POT_SIZES } from '../data/constants.js';
 import { generateId, daysSinceLog as _daysSince } from '../utils.js';
+import { openCameraModal } from '../photos.js';
 import { navigate } from '../router.js';
 
 /**
@@ -98,6 +99,24 @@ function _renderPlantCard(plant, store) {
     });
     actions.appendChild(btn);
   }
+  // Photo button — captures via camera modal and attaches to a new
+  // 'observe' log entry. The photo lives in growdoc-photos-v1, the
+  // log only carries the photoId reference.
+  const photoBtn = document.createElement('button');
+  photoBtn.className = 'btn btn-sm';
+  photoBtn.textContent = '📷 Photo';
+  photoBtn.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    try {
+      const photoId = await openCameraModal();
+      if (!photoId) return; // user cancelled
+      _quickLog(store, plant.id, 'observe', photoId);
+      renderMyGrow(card.closest('#content') || card.parentElement, store);
+    } catch (err) {
+      alert(err.message || 'Photo capture failed');
+    }
+  });
+  actions.appendChild(photoBtn);
   card.appendChild(actions);
 
   // Remove button
@@ -271,7 +290,7 @@ function _addFormField(container, label, type, placeholder) {
   return input;
 }
 
-function _quickLog(store, plantId, type) {
+function _quickLog(store, plantId, type, photoId = null) {
   const growSnap = store.getSnapshot().grow;
   const plant = growSnap.plants.find(p => p.id === plantId);
   if (!plant) return;
@@ -284,7 +303,7 @@ function _quickLog(store, plantId, type) {
     timestamp: new Date().toISOString(),
     type,
     details: {},
-    photoId: null, // Section 08 forward-compat
+    photoId: photoId, // Section 08
   };
   plant.logs.push(logEntry);
 

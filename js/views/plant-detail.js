@@ -6,6 +6,7 @@ import { parseProfileNotes } from '../data/profile-context-rules.js';
 import { renderTimeline, advancePlantStage } from '../components/timeline-bar.js';
 import { POT_SIZES } from '../data/constants.js';
 import { daysSinceLog as _daysSince } from '../utils.js';
+import { loadPhoto } from '../photos.js';
 import { navigate } from '../router.js';
 
 /**
@@ -72,9 +73,9 @@ export function renderPlantDetail(container, store, plantId, initialTab) {
   container.appendChild(timelineSection);
 
   // Tabs — check for pre-selected tab (from hash or parameter)
-  const tabs = ['Overview', 'Log History', 'Diagnoses', 'Training', 'Edit'];
+  const tabs = ['Overview', 'Log History', 'Photos', 'Diagnoses', 'Training', 'Edit'];
   const hashTab = initialTab || window.location.hash.replace('#', '');
-  let activeTab = hashTab === 'edit' ? 'Edit' : hashTab === 'training' ? 'Training' : hashTab === 'logs' ? 'Log History' : 'Overview';
+  let activeTab = hashTab === 'edit' ? 'Edit' : hashTab === 'training' ? 'Training' : hashTab === 'logs' ? 'Log History' : hashTab === 'photos' ? 'Photos' : 'Overview';
 
   const tabBar = document.createElement('div');
   tabBar.className = 'tab-bar';
@@ -94,6 +95,7 @@ export function renderPlantDetail(container, store, plantId, initialTab) {
     tabContent.innerHTML = '';
     if (name === 'Overview') _renderOverview(tabContent, plant, store);
     else if (name === 'Log History') _renderLogHistory(tabContent, plant);
+    else if (name === 'Photos') _renderPhotosTab(tabContent, plant);
     else if (name === 'Diagnoses') _renderDiagnoses(tabContent, plant);
     else if (name === 'Training') _renderTraining(tabContent, plant);
     else if (name === 'Edit') _renderEditTab(tabContent, plant, store, container, plantId);
@@ -208,6 +210,105 @@ function _renderLogHistory(container, plant) {
 
   container.appendChild(filterBar);
   renderLogs();
+}
+
+function _renderPhotosTab(container, plant) {
+  const photoLogs = (plant.logs || []).filter(l => l.photoId);
+  if (photoLogs.length === 0) {
+    container.innerHTML = '<p class="text-muted">No photos yet. Tap 📷 Photo on a plant card to capture one.</p>';
+    return;
+  }
+
+  // Reverse-chronological grid
+  photoLogs.sort((a, b) => new Date(b.timestamp || b.date) - new Date(a.timestamp || a.date));
+
+  const grid = document.createElement('div');
+  grid.style.display = 'grid';
+  grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(140px, 1fr))';
+  grid.style.gap = '12px';
+  grid.style.marginTop = '12px';
+
+  for (const log of photoLogs) {
+    const dataUrl = loadPhoto(log.photoId);
+    const tile = document.createElement('div');
+    tile.style.position = 'relative';
+    tile.style.cursor = 'pointer';
+    tile.style.borderRadius = '6px';
+    tile.style.overflow = 'hidden';
+    tile.style.background = 'var(--bg-elevated, #fafafa)';
+    tile.style.aspectRatio = '1';
+
+    if (dataUrl) {
+      const img = document.createElement('img');
+      img.src = dataUrl;
+      img.loading = 'lazy';
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+      img.alt = `${plant.name} photo`;
+      tile.appendChild(img);
+      tile.addEventListener('click', () => _openLightbox(dataUrl, log, plant));
+    } else {
+      // Photo was pruned or storage cleared
+      const placeholder = document.createElement('div');
+      placeholder.style.width = '100%';
+      placeholder.style.height = '100%';
+      placeholder.style.display = 'flex';
+      placeholder.style.alignItems = 'center';
+      placeholder.style.justifyContent = 'center';
+      placeholder.style.fontSize = '0.75rem';
+      placeholder.style.color = 'var(--text-muted)';
+      placeholder.textContent = 'photo removed';
+      tile.appendChild(placeholder);
+    }
+
+    const dateLabel = document.createElement('div');
+    dateLabel.style.position = 'absolute';
+    dateLabel.style.bottom = '0';
+    dateLabel.style.left = '0';
+    dateLabel.style.right = '0';
+    dateLabel.style.background = 'rgba(0,0,0,0.6)';
+    dateLabel.style.color = '#fff';
+    dateLabel.style.fontSize = '0.7rem';
+    dateLabel.style.padding = '2px 6px';
+    dateLabel.textContent = new Date(log.timestamp || log.date).toLocaleDateString();
+    tile.appendChild(dateLabel);
+
+    grid.appendChild(tile);
+  }
+
+  container.appendChild(grid);
+}
+
+function _openLightbox(dataUrl, log, plant) {
+  const overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.inset = '0';
+  overlay.style.background = 'rgba(0,0,0,0.9)';
+  overlay.style.display = 'flex';
+  overlay.style.flexDirection = 'column';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = '10001';
+  overlay.style.padding = '16px';
+  overlay.addEventListener('click', () => overlay.remove());
+
+  const img = document.createElement('img');
+  img.src = dataUrl;
+  img.style.maxWidth = '100%';
+  img.style.maxHeight = '80vh';
+  img.style.objectFit = 'contain';
+  overlay.appendChild(img);
+
+  const caption = document.createElement('div');
+  caption.style.color = '#fff';
+  caption.style.marginTop = '12px';
+  caption.style.textAlign = 'center';
+  caption.style.fontSize = '0.85rem';
+  caption.textContent = `${plant.name} — ${new Date(log.timestamp || log.date).toLocaleString()} · ${plant.stage}`;
+  overlay.appendChild(caption);
+
+  document.body.appendChild(overlay);
 }
 
 function _renderDiagnoses(container, plant) {
