@@ -36,21 +36,32 @@ export function renderDashboard(container, store) {
   // Zone 1: Status Banner
   renderStatusBanner(wrapper, store);
 
-  // Prune stale completed/dismissed tasks (keeps localStorage bounded and
-  // extracts interval data for the pattern tracker) then generate and
-  // merge new tasks.
+  // Prune stale completed/dismissed tasks, then generate new ones.
+  // generateTasks is async (edge-case suppression resolves the engine) so we
+  // commit the pruning immediately, kick off task generation, and re-render
+  // the dashboard once new tasks land. The isDuplicate guard inside
+  // generateTasks prevents an infinite re-render loop.
   const growSnap = store.getSnapshot().grow;
   const beforeCount = (growSnap.tasks || []).length;
   pruneTasks(growSnap);
-  const newTasks = generateTasks(store);
-  if (newTasks.length > 0) {
-    if (!growSnap.tasks) growSnap.tasks = [];
-    growSnap.tasks.push(...newTasks);
-  }
-  // Commit if pruning or new tasks changed the state
-  if (newTasks.length > 0 || (growSnap.tasks || []).length !== beforeCount) {
+  if ((growSnap.tasks || []).length !== beforeCount) {
     store.commit('grow', growSnap);
   }
+
+  Promise.resolve(generateTasks(store)).then((newTasks) => {
+    if (!Array.isArray(newTasks) || newTasks.length === 0) return;
+    const snap = store.getSnapshot().grow;
+    if (!snap.tasks) snap.tasks = [];
+    snap.tasks.push(...newTasks);
+    store.commit('grow', snap);
+    // Re-render the dashboard so the new tasks appear in the list
+    if (typeof window !== 'undefined' && window.location?.pathname === '/dashboard') {
+      const contentEl = document.getElementById('content');
+      if (contentEl) renderDashboard(contentEl, store);
+    }
+  }).catch((err) => {
+    console.error('generateTasks failed:', err);
+  });
 
   // Layout: tasks + sidebar
   const layout = document.createElement('div');
