@@ -23,6 +23,7 @@ import { renderSettingsView } from './views/settings.js';
 import { renderJournal } from './views/journal.js';
 import { renderFinish } from './views/finish.js';
 import { preInitMigration, postInitMigration } from './migration.js';
+import { initContextualizer } from './data/note-contextualizer/index.js';
 
 /** Initialize reactive store with persisted state. */
 function initStore() {
@@ -140,6 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Make store accessible for other modules
     window.__growdocStore = store;
+
+    // Note Contextualizer: subscribe to grow/profile commits so the
+    // Observation index invalidates on note edits. Idempotent.
+    initContextualizer(store);
 
     // Initialize sidebar
     renderSidebar(sidebar, store);
@@ -312,6 +317,7 @@ async function renderTestRunner(container) {
     { name: 'priority-system', path: './tests/priority-system.test.js' },
     { name: 'stage-timeline', path: './tests/stage-timeline.test.js' },
     { name: 'task-engine', path: './tests/task-engine.test.js' },
+    { name: 'note-contextualizer', path: './tests/note-contextualizer.test.js' },
     { name: 'dashboard', path: './views/dashboard.js' },
     { name: 'vpd-widget', path: './components/vpd-widget.js' },
     { name: 'feeding-calculator', path: './data/feeding-calculator.js' },
