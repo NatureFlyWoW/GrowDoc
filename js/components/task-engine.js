@@ -151,9 +151,9 @@ export function evaluateStageTriggers(plant, profile, existingTasks) {
   // Defoliation — mid flower day 19-23 (day 21 defoliation)
   if (stage === 'mid-flower' && days >= 19 && days <= 23) {
     tasks.push(_createTask(plant.id, 'defoliate', 'recommended', `Day 21 defoliation — ${plant.name}`, {
-      beginner: `Strategic fan leaf removal on ${plant.name}. Remove large fan leaves shading buds. This is the last heavy defoliation before harvest. Focus on opening up airflow.`,
-      intermediate: `Day 21 defol on ${plant.name} — strategic fan leaf removal for airflow and light penetration.`,
-      expert: `Day 21 defol — ${plant.name}`,
+      beginner: `Strategic fan leaf removal on ${plant.name}. Remove large fan leaves shading buds. Focus on opening up airflow. Note: heavy defoliation at this stage is only beneficial under 600+ PPFD. Under lower light levels, removing significant leaf mass reduces photosynthetic capacity during peak bud development — be conservative.`,
+      intermediate: `Day 21 defol on ${plant.name} — strategic fan leaf removal for airflow and light penetration. Caveat: only beneficial at 600+ PPFD; under lower light, defoliate sparingly to avoid sacrificing photosynthetic capacity during peak bud-build.`,
+      expert: `Day 21 defol — ${plant.name}. Light-dependent: 600+ PPFD only, otherwise conservative.`,
     }));
   }
 

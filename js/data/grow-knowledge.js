@@ -32,7 +32,7 @@ export const VPD_TARGETS = {
     nightTemp: { min: 20, max: 24 },
     dayRH:     { min: 55, max: 70 },
     nightRH:   { min: 60, max: 75 },
-    vpdRange:  { min: 0.8, max: 1.1 }
+    vpdRange:  { min: 0.8, max: 1.2 }
   },
   'late-veg': {
     dayTemp:   { min: 24, max: 28 },
@@ -123,12 +123,12 @@ export const DLI_TARGETS = {
     terpenes: { min: 25, optimal: 33, max: 42 }
   },
   'mid-flower': {
-    yield:    { min: 35, optimal: 45, max: 55 },
+    yield:    { min: 35, optimal: 50, max: 65, note: 'Heat stress, not light saturation, is typically the limiting factor. Whole-plant yield scales linearly to at least 1800 PPFD per Rodriguez-Morrison 2021.' },
     quality:  { min: 30, optimal: 40, max: 50 },
     terpenes: { min: 25, optimal: 35, max: 45 }
   },
   'late-flower': {
-    yield:    { min: 30, optimal: 40, max: 50 },
+    yield:    { min: 30, optimal: 42, max: 55, note: 'Heat stress, not light saturation, is typically the limiting factor.' },
     quality:  { min: 28, optimal: 36, max: 45 },
     terpenes: { min: 20, optimal: 26, max: 35 }
   },
@@ -144,12 +144,12 @@ export const DLI_TARGETS = {
 
 const _soilNutrients = {
   seedling:       { ec: { min: 0.4, max: 0.8 }, ph: { min: 6.2, max: 6.8 }, npkRatio: '1-1-1', calmagNote: null, notes: ['Light feed only — seedlings are sensitive', 'Most quality soils have enough for 2-3 weeks', 'Seedlings prefer slightly higher pH floor (6.2) for nutrient availability'] },
-  'early-veg':    { ec: { min: 0.8, max: 1.2 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '3-1-2', calmagNote: null, notes: ['Increase N to support foliage growth', 'Top-dress or liquid feed every other watering'] },
-  'late-veg':     { ec: { min: 1.2, max: 1.6 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '3-1-2', calmagNote: null, notes: ['Peak vegetative demand', 'Watch for N excess (dark waxy leaves)', 'Living soil/organic amendments may show higher runoff EC (1.8-2.0) — this is normal soil release, not overfeeding'] },
-  transition:     { ec: { min: 1.2, max: 1.6 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '2-1-3', calmagNote: null, notes: ['Bridge between veg and bloom nutrients', 'Start reducing N, increasing PK'] },
-  'early-flower': { ec: { min: 1.4, max: 1.8 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '2-2-3', calmagNote: null, notes: ['Transition to bloom nutrients', 'Increase P and K gradually'] },
-  'mid-flower':   { ec: { min: 1.6, max: 2.2 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '1-2-3', calmagNote: null, notes: ['Peak flower demand', 'PK boosters if desired — use conservatively'] },
-  'late-flower':  { ec: { min: 1.2, max: 1.6 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '0-1-2', calmagNote: null, notes: ['Begin reducing feed', 'Reduce nitrogen to near zero'] },
+  'early-veg':    { ec: { min: 0.8, max: 1.2 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '3-1-2', calmagNote: 'Under LED lighting: add CalMag at 0.5-1ml/L. LEDs produce less infrared, reducing transpiration-driven calcium transport. This is the #1 hidden deficiency under LED in soil.', notes: ['Increase N to support foliage growth', 'Top-dress or liquid feed every other watering'] },
+  'late-veg':     { ec: { min: 1.2, max: 1.6 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '3-1-2', calmagNote: 'Under LED lighting: add CalMag at 0.5-1ml/L. LEDs produce less infrared, reducing transpiration-driven calcium transport. This is the #1 hidden deficiency under LED in soil.', notes: ['Peak vegetative demand', 'Watch for N excess (dark waxy leaves)', 'Living soil/organic amendments may show higher runoff EC (1.8-2.0) — this is normal soil release, not overfeeding'] },
+  transition:     { ec: { min: 1.2, max: 1.6 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '2-1-3', calmagNote: 'Under LED lighting: continue CalMag at 0.5-1ml/L. Stretch demand for calcium increases.', notes: ['Bridge between veg and bloom nutrients', 'Start reducing N, increasing PK'] },
+  'early-flower': { ec: { min: 1.4, max: 1.8 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '2-2-3', calmagNote: 'Under LED lighting: add CalMag at 0.5-1ml/L. Bud-site formation pulls calcium from new growth.', notes: ['Transition to bloom nutrients', 'Increase P and K gradually'] },
+  'mid-flower':   { ec: { min: 1.6, max: 2.2 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '1-2-3', calmagNote: 'Under LED lighting: add CalMag at 0.5-1ml/L. Peak Ca demand during bud swell.', notes: ['Peak flower demand', 'PK boosters if desired — use conservatively'] },
+  'late-flower':  { ec: { min: 1.2, max: 1.6 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '0-1-2', calmagNote: 'Under LED lighting: 0.5ml/L CalMag is usually still warranted to prevent late-stage deficiency.', notes: ['Begin reducing feed', 'Reduce nitrogen to near zero'] },
   ripening:       { ec: { min: 0.4, max: 0.8 }, ph: { min: 6.0, max: 6.8 }, npkRatio: '0-0-1', calmagNote: null, notes: ['Minimal feed or plain water', 'Let the plant use stored reserves'] }
 };
 

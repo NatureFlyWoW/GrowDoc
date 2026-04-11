@@ -87,7 +87,7 @@ export const STAGES = [
     maxDays: 21,
     milestones: [
       { id: 'trichome-check', name: 'Trichome check begins', triggerDay: 7, icon: 'magnify' },
-      { id: 'flush-window', name: 'Flush window (if applicable)', triggerDay: 14, icon: 'water' }
+      { id: 'final-feeding-adjust', name: 'Final feeding adjustment (optional)', triggerDay: 14, icon: 'water', note: 'Pre-harvest flushing has no proven benefit (Stemeroff 2017). Reduced feeding in final days is common practice but optional.' }
     ]
   },
   {
@@ -176,15 +176,67 @@ export function getDaysInStage(plant) {
 
 /**
  * Helper: check if a plant should be prompted for auto-advance.
+ *
+ * Consults plant.stageDurationOverrides[stage] first (set by
+ * getStageDurations from strain data), falls back to the default
+ * STAGE_TRANSITIONS triggerDays.
  */
 export function shouldAutoAdvance(plant) {
   const transition = STAGE_TRANSITIONS[plant.stage];
   if (!transition) return null;
   const days = getDaysInStage(plant);
-  if (days >= transition.triggerDays) {
+  const override = plant.stageDurationOverrides?.[plant.stage];
+  const target = override != null ? override : transition.triggerDays;
+  if (days >= target) {
     return { nextStage: transition.next, message: transition.confirmMessage, daysInStage: days };
   }
   return null;
+}
+
+/**
+ * Calculate per-plant stage durations based on strain data and plant traits.
+ * Falls back to STAGES typicalDays when no strain info is provided.
+ *
+ * Autoflower override (plant.isAutoflower === true):
+ *   - early-veg: 12, late-veg: 10, transition: 0 (skipped)
+ *
+ * Photoperiod strain with strainData.flowerWeeks:
+ *   - totalFlowerDays = average(flowerWeeks.min, flowerWeeks.max) * 7
+ *   - early-flower = round(totalFlowerDays * 0.25)
+ *   - mid-flower   = round(totalFlowerDays * 0.50)
+ *   - late-flower  = round(totalFlowerDays * 0.25)
+ *
+ * @param {object} plant - Plant record (may have isAutoflower)
+ * @param {object|null} strainData - Optional entry from strain-database
+ * @returns {Record<string, number>} stageId → days
+ */
+export function getStageDurations(plant, strainData) {
+  // Start from defaults
+  const durations = {};
+  for (const s of STAGES) {
+    durations[s.id] = s.typicalDays;
+  }
+
+  // Autoflower override
+  if (plant && plant.isAutoflower) {
+    durations['early-veg'] = 12;
+    durations['late-veg'] = 10;
+    durations['transition'] = 0;
+    return durations;
+  }
+
+  // Photoperiod with strain data: distribute flower weeks proportionally
+  if (strainData && strainData.flowerWeeks &&
+      typeof strainData.flowerWeeks.min === 'number' &&
+      typeof strainData.flowerWeeks.max === 'number') {
+    const avgWeeks = (strainData.flowerWeeks.min + strainData.flowerWeeks.max) / 2;
+    const totalFlowerDays = avgWeeks * 7;
+    durations['early-flower'] = Math.round(totalFlowerDays * 0.25);
+    durations['mid-flower'] = Math.round(totalFlowerDays * 0.50);
+    durations['late-flower'] = Math.round(totalFlowerDays * 0.25);
+  }
+
+  return durations;
 }
 
 /**

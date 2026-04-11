@@ -3,7 +3,13 @@
 import { VPD_TARGETS } from '../data/grow-knowledge.js';
 import { navigate } from '../router.js';
 
-const LEAF_OFFSETS = { led: -2, hps: -1, cfl: -1, fluorescent: -1 };
+// Leaf temperature offset (°C) added to air temp to estimate canopy temp.
+// LED:  -2  — modern LEDs emit minimal infrared, leaves run cooler than air
+// HPS:   0  — HPS infrared keeps leaves at or slightly above air temp
+//             (close-mounted HPS may be +1; users can adjust manually)
+// CFL:  -1  — minimal IR, slight cooling
+// fluo: -1  — same
+const LEAF_OFFSETS = { led: -2, hps: 0, cfl: -1, fluorescent: -1 };
 
 /**
  * calculateVPD(tempC, rhPercent, lightingType) — Calculates VPD in kPa.

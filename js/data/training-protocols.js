@@ -1,16 +1,21 @@
 // GrowDoc Companion — Training Method Definitions & Milestones
+//
+// Note on terpene impact: aggressive plant manipulation produces stress
+// hormones (jasmonates, salicylates) that compete with secondary
+// metabolite production. Gentle techniques (LST, no training) preserve
+// terpene expression better than heavy techniques (mainline, ScrOG).
 
 export const TRAINING_METHODS = [
   {
     id: 'none', name: 'No Training', difficulty: 0,
     description: 'Let the plant grow naturally. Best for beginners or autoflowers.',
-    impact: { yield: 1, quality: 3, terpenes: 3 },
+    impact: { yield: 1, quality: 3, terpenes: 4 },
     milestones: []
   },
   {
     id: 'lst', name: 'LST (Low Stress Training)', difficulty: 1,
     description: 'Bend and tie branches to create an even canopy. Low risk, high reward.',
-    impact: { yield: 4, quality: 3, terpenes: 3 },
+    impact: { yield: 4, quality: 3, terpenes: 4 },
     milestones: [
       { id: 'lst-start', name: 'Start LST', triggerStage: 'early-veg', triggerDay: 14, taskTitle: 'Start LST — bend main stem 90°', taskDetail: 'Gently bend the main stem and secure with plant ties. Aim for the top to be level with the lower branches.' },
       { id: 'lst-adjust', name: 'Adjust ties', triggerStage: 'late-veg', triggerDay: 7, taskTitle: 'Adjust LST ties', taskDetail: 'Re-tie branches that have grown up. Keep canopy level.' },
@@ -29,7 +34,7 @@ export const TRAINING_METHODS = [
   {
     id: 'mainline', name: 'Mainline (Manifold)', difficulty: 3,
     description: 'Symmetrical manifold creating 8-16 even colas. Requires patience but produces uniform buds.',
-    impact: { yield: 5, quality: 4, terpenes: 3 },
+    impact: { yield: 5, quality: 4, terpenes: 2 },
     milestones: [
       { id: 'main-top1', name: 'First topping', triggerStage: 'early-veg', triggerDay: 14, taskTitle: 'First mainline topping', taskDetail: 'Top above node 3. Remove all growth below. You want only two branches.' },
       { id: 'main-top2', name: 'Second topping', triggerStage: 'late-veg', triggerDay: 7, taskTitle: 'Second mainline topping', taskDetail: 'Top each of the two branches. Now you have 4 mains.' },
@@ -39,7 +44,7 @@ export const TRAINING_METHODS = [
   {
     id: 'scrog', name: 'ScrOG (Screen of Green)', difficulty: 3,
     description: 'Weave branches through a horizontal screen for maximum canopy spread and light utilization.',
-    impact: { yield: 5, quality: 4, terpenes: 3 },
+    impact: { yield: 5, quality: 4, terpenes: 2 },
     milestones: [
       { id: 'scrog-install', name: 'Install screen', triggerStage: 'late-veg', triggerDay: 1, taskTitle: 'Install ScrOG screen', taskDetail: 'Place the screen 20-30cm above the pot. Use 5x5cm grid openings.' },
       { id: 'scrog-tuck', name: 'Begin tucking', triggerStage: 'late-veg', triggerDay: 7, taskTitle: 'Start tucking branches', taskDetail: 'As branches grow through the screen, tuck them under and guide horizontally.' },

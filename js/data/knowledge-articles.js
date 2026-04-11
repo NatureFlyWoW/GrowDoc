@@ -139,7 +139,7 @@ export const KNOWLEDGE_ARTICLES = [
     summary: 'Calcium and magnesium deficiencies are among the most common issues in modern grows, especially under LED and in coco.',
     topic: 'Nutrition',
     tags: ['calcium', 'magnesium', 'coco', 'led', 'deficiency', 'calmag'],
-    layer1: 'Use 1–2 ml/L of a 5% Ca / 1.5% Mg CalMag supplement with every feed in coco. Under LED in soil, dose at 0.5–1 ml/L. Deficiency shows as brown spots on older leaves (Ca) or yellowing between leaf veins starting on young growth (Mg).',
+    layer1: 'Use 1–2 ml/L of a 5% Ca / 1.5% Mg CalMag supplement with every feed in coco. Under LED in soil, dose at 0.5–1 ml/L. Calcium deficiency appears on NEW/UPPER growth as twisted, distorted leaves with brown spots — calcium is xylem-only mobile, so the plant cannot remobilize it from older tissue. Magnesium deficiency appears on OLD/LOWER leaves as interveinal chlorosis (yellow between dark green veins) — magnesium is mobile, so the plant pulls it from older leaves to feed new growth.',
     layer2: 'There are three reasons CalMag deficiencies are epidemic in modern cannabis cultivation. First: coco coir has a cation exchange site chemistry that actively binds calcium ions, removing them from the solution your roots access. This is why you must buffer fresh coco with CalMag before first use — flood the exchange sites so they stop stripping Ca from your feeds. Second: LED lighting delivers more blue spectrum and less infrared than HPS. Blue light drives faster growth which increases calcium demand (calcium is a cell wall building block). The infrared from HPS also warms the canopy which aids calcium mobility within the plant — LED removes this. Third: if you are using reverse osmosis water, your base water has no mineral content at all — you are starting from zero instead of the 50–150 ppm Ca that most tap water contains. Dosing CalMag as insurance is cheap insurance against the most common deficiency in controlled indoor grows.',
     evidence: 'established',
     stages: ['seedling', 'early-veg', 'late-veg', 'transition', 'early-flower', 'mid-flower'],
@@ -546,6 +546,32 @@ export const KNOWLEDGE_ARTICLES = [
     evidence: 'established',
     stages: ['seedling', 'early-veg', 'late-veg', 'transition', 'early-flower', 'mid-flower', 'late-flower', 'ripening'],
     relatedArticles: ['vpd-by-stage', 'ph-by-medium', 'canopy-management', 'harvest-timing'],
+  },
+
+  {
+    id: '13h-photoperiod-yield',
+    title: '13-Hour Photoperiod for Increased Yield',
+    summary: 'A small change to your flower light schedule (13/11 instead of 12/12) can produce a meaningful yield bump with no potency loss.',
+    topic: 'Environment',
+    tags: ['photoperiod', 'flowering', 'light schedule', '13h', 'yield optimization'],
+    layer1: 'Optional optimization: try 13 hours of light during flower instead of the standard 12. Ahrens et al. (2024) tested 10 cultivars and found a roughly 38%+ increase in THC yield at 13h vs 12h, with no loss of potency and all 10 cultivars still triggering and completing flower normally. The extra hour adds DLI without any equipment change.',
+    layer2: 'The "12/12" rule is convention, not biology. Cannabis is a short-day plant — it flowers when nights are long enough — but the actual nighttime threshold is closer to 10–11 hours of uninterrupted darkness, not exactly 12. Ahrens et al. (2024) tested 13/11 across 10 cultivars and found significant yield increases with no cultivars failing to flower and no potency reduction. The mechanism is straightforward: more light hours = more daily light integral (DLI) = more photosynthesis = more bud mass. The extra hour is essentially a free yield boost requiring zero equipment changes — just a timer adjustment. Caveats: only one published study so far, results may vary by genetics not tested, and you should monitor your specific plants for flowering signs the first time you try this. Some growers report best results gradually shortening over the flower cycle (start at 13h, drop to 12h late, drop to 11h for ripening) — this is an even more recent practitioner experiment without published data yet. Worth trying on a single plant first if you are conservative.',
+    evidence: 'promising',
+    stages: ['transition', 'early-flower', 'mid-flower', 'late-flower'],
+    relatedArticles: ['dli-guide', 'led-vs-hps'],
+  },
+
+  {
+    id: 'drought-stress-week-7',
+    title: 'Controlled Drought Stress in Late Flower',
+    summary: 'Caplan et al. (2019) showed that targeted drought stress in week 7 of flower produced +12% THCA, +13% CBDA, and +43% total yield with no biomass loss.',
+    topic: 'Nutrition',
+    tags: ['drought stress', 'late flower', 'thca', 'cbda', 'yield', 'advanced'],
+    layer1: 'Advanced technique: in week 7 of flower, withhold water until substrate moisture potential reaches approximately -1.5 MPa (deeply dry but not wilted). Caplan et al. (2019) found this protocol increased THCA by 12%, CBDA by 13%, and total yield by 43% versus normal watering — with no biomass loss. Requires substrate moisture monitoring (tensiometer or scale) — do NOT attempt by visual inspection alone.',
+    layer2: 'This is one of the highest-ROI interventions backed by published cannabis research, but it is also one of the easiest to do wrong. The mechanism: drought stress triggers secondary metabolite production as a defensive response. The plant pulls resources from leaves into reproductive tissues (buds), and produces more cannabinoids and terpenes per gram of biomass. The Caplan study targeted -1.5 MPa specifically — this is "really dry but not visibly wilting." Push past that and you damage the plant; stop short and you get no benefit. The reason this requires a tensiometer or precision scale is that visual cues are not reliable indicators of substrate water potential — by the time leaves visibly droop, you are already past optimal stress and into damage. Practical implementation: weigh your pots when freshly watered, weigh them every 12 hours during week 7, and time your final feed before flush so the substrate hits the target dryness over 48–72 hours. Resume normal watering after the target is hit. Beginners should not attempt this — get a few normal grows under your belt first.',
+    evidence: 'promising',
+    stages: ['late-flower', 'ripening'],
+    relatedArticles: ['watering-technique', 'harvest-timing'],
   },
 
 ];

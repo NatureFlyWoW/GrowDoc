@@ -10,7 +10,8 @@ export const MYTHS = [
     verdict: 'Busted',
     explanation: 'Multiple controlled studies show no significant difference in taste, smoothness, or chemical composition between flushed and non-flushed cannabis. A proper dry and cure has far more impact on final quality than pre-harvest flushing. The perceived improvement growers report after flushing is more plausibly explained by the extra 1–2 weeks of maturation time the flush window adds, not the absence of nutrients. If you have been feeding at reasonable salt levels throughout the grow, there is nothing to flush.',
     sources: [
-      'Caplan et al. (2022) — Front. Plant Sci.',
+      'Stemeroff (2017, MSc thesis, University of Guelph) — primary cannabis flushing study',
+      'RX Green Technologies (2020) — replication study, no flush benefit',
       'RX Green Technologies flush study (2020)',
       'Multiple blind taste panel studies — no significant difference detected',
     ],
@@ -54,11 +55,12 @@ export const MYTHS = [
     id: 'uv-increases-thc',
     claim: 'UV-B light significantly increases THC production',
     verdict: 'Partially True',
-    explanation: 'Some studies show modest THC increases (5–15%) with supplemental UV-B, likely as a plant stress response — THCA biosynthesis may function partly as a UV-B absorber to protect plant tissue. However, the effect is small compared to the influence of genetics and overall growing conditions. UV-B also poses real risks: it causes skin and eye damage to growers, can bleach and degrade terpenes with overexposure, and can stress plants if overdone. Practical implementation requires careful timing (2–4 hours of UV-B per day, not all-day exposure) and appropriate UV-blocking eye protection during inspection. For most growers the cost-benefit is unfavourable compared to simply dialling in VPD, DLI, and genetics.',
+    explanation: 'Some early studies show modest THC increases (5–15%) with supplemental UV-B, likely as a plant stress response — THCA biosynthesis may function partly as a UV-B absorber to protect plant tissue. However, the most recent controlled studies (Rodriguez-Morrison et al. 2021 and Llewellyn et al. 2022) found no significant cannabinoid benefit from UV supplementation, and one Llewellyn study showed UV decreased total terpenes. The effect is small compared to the influence of genetics and overall growing conditions. UV-B also poses real risks: it causes skin and eye damage to growers, can bleach and degrade terpenes with overexposure, and can stress plants if overdone. Practical implementation requires careful timing (2–4 hours of UV-B per day, not all-day exposure) and appropriate UV-blocking eye protection during inspection. For most growers the cost-benefit is unfavourable compared to simply dialling in VPD, DLI, and genetics.',
     sources: [
-      'Lydon et al. (1987) — Photochemistry and Photobiology',
+      'Lydon et al. (1987) — Photochemistry and Photobiology — early UV-B THC effects',
       'Magagnini et al. (2018) — Photochemical & Photobiological Sciences',
-      'Rodriguez-Morrison et al. (2021) — Front. Plant Sci. — limited THC effect vs terpene impact',
+      'Rodriguez-Morrison et al. (2021) — Frontiers in Plant Sci. — no cannabinoid benefit from UV supplementation',
+      'Llewellyn et al. (2022) — no cannabinoid benefit; reduced total terpenes',
     ],
   },
 
@@ -89,12 +91,12 @@ export const MYTHS = [
   {
     id: 'more-light-more-yield',
     claim: 'The more light you give a cannabis plant, the more it will yield',
-    verdict: 'Partially True',
-    explanation: 'Cannabis has a light saturation point — the PPFD level beyond which additional photons produce no further increase in photosynthesis and actually begin to cause photoinhibition (damage to the photosystem). For most cannabis varieties this saturation point is approximately 1200–1500 µmol/m²/s PPFD under ambient CO2. Above this level with normal CO2, additional light causes stress rather than growth. DLI above 45–50 mol/m²/day shows diminishing and eventually negative returns in standard growing conditions. The relationship between light and yield is real up to that point — more light in the 200–1000 PPFD range does produce more photosynthesis and yield. But "more is always better" stops being true at moderate to high intensities. With supplemental CO2 at 1200–1500 ppm, the saturation point shifts upward to approximately 1800–2000 PPFD — which is why CO2 supplementation only makes sense when you are already at high light intensity.',
+    verdict: 'Mostly True',
+    explanation: 'Whole-plant cannabis yield scales linearly with PPFD up to at least 1800 µmol/m²/s under ambient CO2 — the highest level Rodriguez-Morrison et al. (2021, Frontiers in Plant Science) tested. Across the 120–1800 PPFD range there was no observed saturation point for whole-plant yield: 1800 PPFD produced roughly 4.5x the yield of 120 PPFD with no sign of diminishing returns. Important nuance: leaf-level photosynthesis DOES saturate earlier (Chandra et al. measured this around 1200–1500 PPFD), but leaf-level saturation does NOT predict whole-plant yield because the plant has many leaves at varying angles and depths. The earlier "saturation" claim conflates these two phenomena. Practical limits in real grow rooms are heat management and electricity cost, not biological saturation. Diminishing economic returns kick in long before biological returns do — past ~1200 PPFD each additional 100 PPFD costs the same wattage but yields proportionally less profit because heat extraction and cooling become the bottleneck. With supplemental CO2 the heat tolerance window widens further.',
     sources: [
-      'Chandra et al. (2015) — Physiologia Plantarum — cannabis light saturation',
+      'Rodriguez-Morrison et al. (2021) — Frontiers in Plant Science — whole-plant cannabis yield linear to 1800 PPFD',
+      'Chandra et al. (2008, 2011) — Physiology & Molecular Biology of Plants — leaf-level photosynthesis saturation',
       'Sager & McFarlane (1997) — Radiation management in controlled environments',
-      'Rodriguez-Morrison et al. (2021) — Front. Plant Sci.',
     ],
   },
 

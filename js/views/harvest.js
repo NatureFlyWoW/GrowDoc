@@ -27,6 +27,24 @@ export function renderHarvestView(container, store) {
   sliderTitle.textContent = 'Trichome Assessment';
   sliderSection.appendChild(sliderTitle);
 
+  // Critical practitioner warning: where to look
+  const warning = document.createElement('div');
+  warning.className = 'trichome-warning callout callout-warning';
+  warning.style.padding = '12px';
+  warning.style.margin = '0 0 16px 0';
+  warning.style.borderLeft = '4px solid var(--status-action, #d97706)';
+  warning.style.background = 'var(--bg-warning, rgba(217, 119, 6, 0.1))';
+  warning.style.borderRadius = '4px';
+  const warningTitle = document.createElement('strong');
+  warningTitle.textContent = '⚠ Important: Check trichomes on CALYXES, not sugar leaves';
+  const warningBody = document.createElement('div');
+  warningBody.style.marginTop = '6px';
+  warningBody.style.fontSize = '0.9rem';
+  warningBody.textContent = 'Sugar leaf trichomes mature 1-2 weeks ahead of calyx trichomes. Checking sugar leaves leads to premature harvest. Use a jeweler\'s loupe or USB microscope on the actual buds (calyxes), not the surrounding leaves.';
+  warning.appendChild(warningTitle);
+  warning.appendChild(warningBody);
+  sliderSection.appendChild(warning);
+
   const resultEl = document.createElement('div');
   resultEl.className = 'harvest-result';
 
