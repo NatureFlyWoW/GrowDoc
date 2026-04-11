@@ -138,3 +138,150 @@
   color: var(--bg-primary);
 }
 
+/* Section-08 — parsed keyword chips + recent observations + debug waterfall */
+
+.nc-keyword-chip {
+  display: inline-block;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--text-muted);
+  border-radius: var(--radius-sm);
+  padding: 1px 8px;
+  margin-right: 4px;
+  font-size: 0.72rem;
+}
+
+.nc-domain-chip {
+  display: inline-block;
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  padding: 1px 6px;
+  margin-right: 4px;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.nc-severity-chip-display {
+  display: inline-block;
+  border-radius: var(--radius-sm);
+  padding: 1px 6px;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.nc-severity-chip-display.nc-severity-chip-alert { color: var(--status-urgent); border: 1px solid var(--status-urgent); }
+.nc-severity-chip-display.nc-severity-chip-watch { color: var(--status-action); border: 1px solid var(--status-action); }
+.nc-severity-chip-display.nc-severity-chip-info  { color: var(--status-good); border: 1px solid var(--status-good); }
+
+.nc-recent-observations-widget {
+  margin: var(--space-3) 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--text-muted);
+}
+
+.nc-recent-summary {
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: var(--space-1) 0;
+}
+
+.nc-recent-list {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.nc-recent-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background: var(--bg-surface);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  color: var(--text-primary);
+}
+
+.nc-recent-text {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-secondary);
+}
+
+.nc-recent-empty {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.8rem;
+  padding: var(--space-2) 0;
+}
+
+#nc-debug-waterfall-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 40vh;
+  overflow: auto;
+  background: var(--bg-surface);
+  border-top: 2px solid var(--status-action);
+  z-index: 9999;
+  padding: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.nc-waterfall-close {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-3);
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.nc-waterfall-title {
+  color: var(--status-action);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+}
+
+.nc-waterfall {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.nc-waterfall th,
+.nc-waterfall td {
+  text-align: left;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--text-muted);
+  vertical-align: top;
+}
+
+.nc-waterfall th {
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.68rem;
+}
+
+.nc-waterfall td {
+  color: var(--text-secondary);
+  max-width: 280px;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+

@@ -145,7 +145,7 @@ function _renderDetails(container, type, plantId, store, formState) {
       initial: (formState && formState.severity) || null,
       autoInferFrom: notesField,
     });
-    mountParsedSignalStrip(chipHolder);
+    mountParsedSignalStrip(chipHolder, { textarea: notesField });
   }
 }
 

@@ -10,6 +10,7 @@ import { loadPhoto } from '../photos.js';
 import { navigate } from '../router.js';
 import { mountSeverityChip } from '../components/severity-chip.js';
 import { mountParsedSignalStrip } from '../components/parsed-signal-strip.js';
+import { mountRecentObservationsWidget } from '../components/recent-observations-widget.js';
 
 /**
  * renderPlantDetail(container, store, plantId) — Single plant detail view.
@@ -576,7 +577,13 @@ function _renderEditTab(container, plant, store, pageContainer, plantId) {
     initial: notesSeverityState.severity,
     autoInferFrom: notesArea,
   });
-  mountParsedSignalStrip(ncHolder);
+  mountParsedSignalStrip(ncHolder, { textarea: notesArea });
+
+  // Section-08: Recent Observations widget mounts above the notes section.
+  const recentHolder = document.createElement('div');
+  recentHolder.className = 'nc-recent-holder';
+  notesGroup.parentNode.insertBefore(recentHolder, notesGroup);
+  mountRecentObservationsWidget(recentHolder, plant.id);
 
   notesArea.addEventListener('blur', () => {
     const raw = notesArea.value;

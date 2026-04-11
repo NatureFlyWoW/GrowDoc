@@ -146,6 +146,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // Observation index invalidates on note edits. Idempotent.
     initContextualizer(store);
 
+    // Section-08: debug waterfall hook. `?debugNotes=1` in the URL flips
+    // a sessionStorage flag; subsequent navigations persist the panel.
+    try {
+      const search = new URLSearchParams(location.search);
+      if (search.get('debugNotes') === '1') {
+        sessionStorage.setItem('growdoc-debug-notes', '1');
+      }
+      if (sessionStorage.getItem('growdoc-debug-notes') === '1') {
+        import('./components/debug-waterfall.js').then(({ renderDebugWaterfall }) => {
+          let panel = document.getElementById('nc-debug-waterfall-panel');
+          if (!panel) {
+            panel = document.createElement('div');
+            panel.id = 'nc-debug-waterfall-panel';
+            document.body.appendChild(panel);
+          }
+          renderDebugWaterfall(panel);
+        }).catch(err => console.warn('debug waterfall load failed:', err));
+      }
+    } catch (err) {
+      console.warn('debug waterfall hook failed:', err);
+    }
+
     // Initialize sidebar
     renderSidebar(sidebar, store);
 
@@ -326,6 +348,7 @@ async function renderTestRunner(container) {
     { name: 'note-contextualizer-rules', path: './tests/note-contextualizer-rules.test.js' },
     { name: 'doctor-engine', path: './tests/doctor-engine.test.js' },
     { name: 'severity-chip', path: './tests/severity-chip.test.js' },
+    { name: 'ui-note-contextualizer', path: './tests/ui-note-contextualizer.test.js' },
     { name: 'dashboard', path: './views/dashboard.js' },
     { name: 'vpd-widget', path: './components/vpd-widget.js' },
     { name: 'feeding-calculator', path: './data/feeding-calculator.js' },

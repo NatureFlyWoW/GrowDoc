@@ -1,22 +1,27 @@
-// GrowDoc Companion — Parsed Signal Strip (section-02 placeholder)
+// GrowDoc Companion — Parsed Signal Strip (section-08 upgrade)
 //
-// Section-02 ships the scaffold and the literal placeholder "[parsing soon…]".
-// Section-08 upgrades `refresh()` to render real parsed keyword chips from
-// the observation index. Section-08 has a regression test asserting the
-// placeholder string is gone — do NOT remove the canary in section-02 tests.
+// Upgraded from the section-02 placeholder to render real parsed keyword
+// chips. The strip binds to an optional source textarea and refreshes on
+// blur (not keystroke) by running the draft text through a synthetic
+// Observation and calling parseObservation from the contextualizer.
 //
-// This module deliberately does NOT import from js/data/note-contextualizer/*
-// or js/data/observation-schema.js. Section-01 may ship in parallel, and the
-// strip must not care whether the schema module has landed yet.
+// The regression canary: an empty draft renders nothing, a non-empty draft
+// NEVER renders the literal '[parsing soon…]' string. Section-02's test
+// still verifies the placeholder string lives at mount time to catch
+// accidental reversals.
+
+import { parseObservation } from '../data/note-contextualizer/index.js';
+
+const MAX_CHIPS = 3;
 
 /**
  * Mount a parsed-signal strip immediately after the anchor element.
  *
  * @param {HTMLElement} anchor    Element to insert the strip after.
- * @param {Object}       [_options] Reserved for section-08.
- * @returns {{ element: HTMLElement, refresh: () => void, destroy: () => void }}
+ * @param {{ textarea?: HTMLTextAreaElement|HTMLInputElement }} [options]
+ * @returns {{ element: HTMLElement, refresh: (draftText?:string) => void, destroy: () => void }}
  */
-export function mountParsedSignalStrip(anchor, _options = {}) {
+export function mountParsedSignalStrip(anchor, options = {}) {
   const strip = document.createElement('div');
   strip.className = 'nc-parsed-strip';
   strip.dataset.placeholder = 'true';
@@ -26,9 +31,58 @@ export function mountParsedSignalStrip(anchor, _options = {}) {
     anchor.parentNode.insertBefore(strip, anchor.nextSibling);
   }
 
-  function refresh() {
-    // No-op until section-08. Keeping the stable export surface so
-    // callers can install once at mount time and never check versions.
+  function renderChips(keywords) {
+    strip.innerHTML = '';
+    if (!Array.isArray(keywords) || keywords.length === 0) {
+      delete strip.dataset.placeholder;
+      return;
+    }
+    delete strip.dataset.placeholder;
+    const top = keywords.slice(0, MAX_CHIPS);
+    for (const kw of top) {
+      const chip = document.createElement('span');
+      chip.className = 'nc-keyword-chip';
+      chip.textContent = kw;
+      strip.appendChild(chip);
+    }
+  }
+
+  function refresh(draftText) {
+    const text = typeof draftText === 'string'
+      ? draftText
+      : (options.textarea && options.textarea.value) || '';
+    if (!text.trim()) {
+      strip.innerHTML = '';
+      delete strip.dataset.placeholder;
+      return;
+    }
+    const obs = {
+      id: 'draft',
+      createdAt: new Date().toISOString(),
+      observedAt: new Date().toISOString(),
+      source: 'log',
+      sourceRefId: 'draft',
+      domains: [],
+      severityRaw: null,
+      severity: 'info',
+      severityAutoInferred: false,
+      rawText: text,
+      parsed: null,
+      tags: [],
+    };
+    try {
+      parseObservation(obs);
+      const kws = (obs.parsed && Array.isArray(obs.parsed.keywords)) ? obs.parsed.keywords : [];
+      renderChips(kws);
+    } catch (_err) {
+      strip.innerHTML = '';
+      delete strip.dataset.placeholder;
+    }
+  }
+
+  // If a source textarea was provided, refresh on blur (not keystroke).
+  if (options.textarea && typeof options.textarea.addEventListener === 'function') {
+    options.textarea.addEventListener('blur', () => refresh());
   }
 
   function destroy() {

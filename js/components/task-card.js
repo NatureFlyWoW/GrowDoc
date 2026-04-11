@@ -230,7 +230,7 @@ function _toggleNotesInput(expandable, task, onNotes) {
     initial: task.details.severity || null,
     autoInferFrom: input,
   });
-  mountParsedSignalStrip(ncHolder);
+  mountParsedSignalStrip(ncHolder, { textarea: input });
 
   const saveBtn = document.createElement('button');
   saveBtn.className = 'btn btn-primary btn-sm';
