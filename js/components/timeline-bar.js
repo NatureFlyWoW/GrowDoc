@@ -2,6 +2,7 @@
 
 import { STAGES, STAGE_TRANSITIONS, getDaysInStage, getStageById, getStageIndex, getCureBurpSchedule, DRYING_TARGETS, CURING_TARGETS, SMELL_OPTIONS_DRYING, SMELL_OPTIONS_CURING } from '../data/stage-rules.js';
 import { generateId } from '../utils.js';
+import { navigate } from '../router.js';
 
 /**
  * renderTimeline(container, options) — Renders a horizontal progress bar timeline.
@@ -437,8 +438,10 @@ function _renderCuringForm(container, store, plant) {
     finishBtn.addEventListener('click', () => {
       const note = cureNotesInput.value.trim();
       if (note) _logDecisionNote(plant.id, 'cure-complete', `Finished curing after ${days} days`, note, store);
-      advancePlantStage(store, plant.id, 'done');
-      renderDryCureView(container.closest('#content') || container.parentElement, store);
+      // Section 07: route to harvest outcome form instead of advancing
+      // directly to 'done'. The finish view captures yield/quality/notes
+      // and sets stage='done' on submit.
+      navigate(`/finish?plantId=${encodeURIComponent(plant.id)}`);
     });
     completionPrompt.appendChild(finishBtn);
     form.appendChild(completionPrompt);

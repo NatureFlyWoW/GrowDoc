@@ -30,10 +30,95 @@ export function renderSettingsView(container, store) {
   // Data management
   _renderDataManagement(container, store);
 
+  // Past Grows (Section 07)
+  _renderPastGrows(container, store);
+
   // Finish Grow
   if (store.state.grow?.active) {
     _renderFinishGrow(container, store);
   }
+}
+
+function _renderPastGrows(container, store) {
+  const grow = store.state.grow;
+  const donePlants = (grow?.plants || []).filter(p => p.stage === 'done');
+  if (donePlants.length === 0) return;
+
+  // Sort by finishedDate descending (newest first)
+  donePlants.sort((a, b) => {
+    const da = new Date(a.finishedDate || 0).getTime();
+    const db = new Date(b.finishedDate || 0).getTime();
+    return db - da;
+  });
+
+  const section = document.createElement('div');
+  section.className = 'settings-section';
+  const h3 = document.createElement('h3');
+  h3.textContent = `Past Grows (${donePlants.length})`;
+  section.appendChild(h3);
+
+  for (const plant of donePlants) {
+    const row = document.createElement('details');
+    row.style.marginBottom = '8px';
+    row.style.padding = '8px 12px';
+    row.style.background = 'var(--bg-elevated, #fafafa)';
+    row.style.borderRadius = '6px';
+
+    const summary = document.createElement('summary');
+    summary.style.cursor = 'pointer';
+    summary.style.fontWeight = '600';
+    const strainName = plant.strainCustom?.name || plant.name;
+    const yieldStr = plant.outcome?.dryYieldGrams != null ? `${plant.outcome.dryYieldGrams}g` : 'no yield recorded';
+    const qualityStr = plant.outcome?.qualityRating != null ? `${plant.outcome.qualityRating}/10` : '';
+    const dateStr = plant.finishedDate || '';
+    summary.textContent = `${strainName} — ${yieldStr}${qualityStr ? ' · ' + qualityStr : ''}${dateStr ? ' · ' + dateStr : ''}`;
+    row.appendChild(summary);
+
+    const body = document.createElement('div');
+    body.style.marginTop = '8px';
+    body.style.fontSize = '0.9rem';
+    body.style.color = 'var(--text-muted)';
+
+    if (plant.outcome?.terpeneNotes) {
+      const t = document.createElement('div');
+      t.innerHTML = '<strong>Terpenes:</strong> ';
+      t.appendChild(document.createTextNode(plant.outcome.terpeneNotes));
+      body.appendChild(t);
+    }
+    if (plant.outcome?.effectNotes) {
+      const e = document.createElement('div');
+      e.innerHTML = '<strong>Effects:</strong> ';
+      e.appendChild(document.createTextNode(plant.outcome.effectNotes));
+      body.appendChild(e);
+    }
+    if (plant.outcome?.growAgain) {
+      const g = document.createElement('div');
+      g.innerHTML = '<strong>Would grow again:</strong> ';
+      g.appendChild(document.createTextNode(plant.outcome.growAgain));
+      body.appendChild(g);
+    }
+    if (plant.outcome?.lessonsLearned) {
+      const l = document.createElement('div');
+      l.innerHTML = '<strong>Lessons:</strong> ';
+      l.appendChild(document.createTextNode(plant.outcome.lessonsLearned));
+      body.appendChild(l);
+    }
+
+    const logCount = (plant.logs || []).length;
+    const dxCount = (plant.diagnoses || []).length;
+    if (logCount > 0 || dxCount > 0) {
+      const meta = document.createElement('div');
+      meta.style.marginTop = '6px';
+      meta.style.fontSize = '0.8rem';
+      meta.textContent = `${logCount} log entries, ${dxCount} diagnoses`;
+      body.appendChild(meta);
+    }
+
+    row.appendChild(body);
+    section.appendChild(row);
+  }
+
+  container.appendChild(section);
 }
 
 function _renderProfileEditor(container, store) {

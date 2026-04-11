@@ -21,6 +21,7 @@ import { renderToolsView } from './views/tools.js';
 import { renderCalculators } from './views/calculators.js';
 import { renderSettingsView } from './views/settings.js';
 import { renderJournal } from './views/journal.js';
+import { renderFinish } from './views/finish.js';
 import { preInitMigration, postInitMigration } from './migration.js';
 
 /** Initialize reactive store with persisted state. */
@@ -102,6 +103,7 @@ const viewMap = {
   'calculators': (container) => renderCalculators(container, window.__growdocStore),
   'settings': (container) => renderSettingsView(container, window.__growdocStore),
   'journal': (container) => renderJournal(container, window.__growdocStore),
+  'finish': (container) => renderFinish(container, window.__growdocStore),
 };
 
 document.addEventListener('DOMContentLoaded', () => {

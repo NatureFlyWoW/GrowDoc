@@ -227,6 +227,10 @@ export function renderSidebarWidgets(container, store) {
   const grow = store.state.grow;
   const plants = grow.plants || [];
 
+  // Weekly summary (Section 07)
+  const weekly = _renderWeeklySummary(grow);
+  if (weekly) container.appendChild(weekly);
+
   // Timeline snapshot
   const firstPlant = plants[0];
   if (firstPlant) {
@@ -344,6 +348,68 @@ function _saveNotes(store, taskId, notes) {
     task.notes = notes;
     store.commit('grow', grow);
   }
+}
+
+function _renderWeeklySummary(grow) {
+  const stats = grow?.taskStats;
+  if (!stats || !Array.isArray(stats.weeklyHistory) || stats.weeklyHistory.length === 0) {
+    // Show motivational empty state if at least one task has been completed historically
+    if (stats && stats.totalCompleted > 0) {
+      const widget = document.createElement('div');
+      widget.className = 'sidebar-widget';
+      const title = document.createElement('h4');
+      title.textContent = 'This Week';
+      widget.appendChild(title);
+      const p = document.createElement('p');
+      p.className = 'text-muted';
+      p.textContent = `Total completed: ${stats.totalCompleted}`;
+      widget.appendChild(p);
+      return widget;
+    }
+    return null;
+  }
+
+  const widget = document.createElement('div');
+  widget.className = 'sidebar-widget';
+  const title = document.createElement('h4');
+  title.textContent = 'This Week';
+  widget.appendChild(title);
+
+  // Find current ISO week entry, or use the most recent
+  const current = stats.weeklyHistory[stats.weeklyHistory.length - 1];
+  const completed = current?.completed || 0;
+  const summary = document.createElement('div');
+  summary.style.fontSize = '0.95rem';
+  summary.style.fontWeight = '600';
+  summary.textContent = `${completed} task${completed === 1 ? '' : 's'} completed`;
+  widget.appendChild(summary);
+
+  // Streak counters (any > 0)
+  const streaks = stats.streaks || {};
+  const streakLines = [];
+  if (streaks.water > 1) streakLines.push(`💧 ${streaks.water}-day water streak`);
+  if (streaks.feed > 1) streakLines.push(`🧪 ${streaks.feed}-day feed streak`);
+  if (streaks.ipm > 1) streakLines.push(`🔍 ${streaks.ipm}-week IPM streak`);
+  for (const line of streakLines) {
+    const el = document.createElement('div');
+    el.style.fontSize = '0.85rem';
+    el.style.color = 'var(--text-muted)';
+    el.style.marginTop = '4px';
+    el.textContent = line;
+    widget.appendChild(el);
+  }
+
+  // All-time total
+  if (stats.totalCompleted > completed) {
+    const total = document.createElement('div');
+    total.style.fontSize = '0.75rem';
+    total.style.color = 'var(--text-muted)';
+    total.style.marginTop = '8px';
+    total.textContent = `All time: ${stats.totalCompleted} completed`;
+    widget.appendChild(total);
+  }
+
+  return widget;
 }
 
 function _daysSinceDate(dateStr) {
