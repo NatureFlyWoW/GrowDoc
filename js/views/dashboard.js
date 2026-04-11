@@ -94,7 +94,6 @@ export function renderStatusBanner(container, store) {
   const firstPlant = plants[0];
   const days = firstPlant ? getDaysInStage(firstPlant) : 0;
   const stageName = firstPlant ? firstPlant.stage : '';
-  const overallDay = grow.startDate ? Math.floor((Date.now() - new Date(grow.startDate)) / 86400000) : 0;
 
   if (urgentTasks.length > 0) {
     status = 'red';
@@ -103,7 +102,7 @@ export function renderStatusBanner(container, store) {
     status = 'gold';
     text = `Action needed — ${recommendedTasks[0].title}`;
   } else {
-    text = `All good — Day ${overallDay}, ${stageName.replace(/-/g, ' ')}`;
+    text = `All good — Day ${days}, ${stageName.replace(/-/g, ' ')}`;
   }
 
   const banner = document.createElement('div');
