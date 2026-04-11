@@ -3,7 +3,6 @@
 import { renderStarRating, renderPriorityDisplay } from '../components/star-rating.js';
 import { calculateWeights } from '../data/priority-engine.js';
 import { parseProfileNotes, NOTE_PLACEHOLDERS } from '../data/profile-context-rules.js';
-import { escapeHtml } from '../utils.js';
 import { navigate } from '../router.js';
 
 /**
@@ -166,7 +165,7 @@ function _renderNotesEditor(container, store) {
     textarea.addEventListener('change', () => {
       const profileSnap = store.getSnapshot().profile || {};
       if (!profileSnap.notes) profileSnap.notes = {};
-      profileSnap.notes[step] = escapeHtml(textarea.value);
+      profileSnap.notes[step] = textarea.value;
       profileSnap.context = parseProfileNotes(profileSnap.notes);
       store.commit('profile', profileSnap);
       store.publish('context:changed', { step });

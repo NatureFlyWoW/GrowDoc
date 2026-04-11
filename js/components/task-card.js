@@ -1,6 +1,5 @@
 // GrowDoc Companion — Task Card UI Component
 
-import { escapeHtml } from '../utils.js';
 import { getExperienceDetail } from './task-engine.js';
 
 const PRIORITY_COLORS = { urgent: 'var(--status-urgent)', recommended: 'var(--status-action)', optional: 'var(--status-good)' };
@@ -124,9 +123,9 @@ function _toggleNotesInput(expandable, task, onNotes) {
   saveBtn.className = 'btn btn-primary btn-sm';
   saveBtn.textContent = 'Save';
   saveBtn.addEventListener('click', () => {
-    const sanitized = escapeHtml(input.value);
-    task.notes = sanitized;
-    if (onNotes) onNotes(task.id, sanitized);
+    const raw = input.value;
+    task.notes = raw;
+    if (onNotes) onNotes(task.id, raw);
   });
 
   group.appendChild(input);
@@ -160,7 +159,7 @@ export function renderCustomTaskForm(container, store) {
   addBtn.className = 'btn btn-primary btn-sm';
   addBtn.textContent = 'Add Task';
   addBtn.addEventListener('click', () => {
-    const text = escapeHtml(titleInput.value.trim());
+    const text = titleInput.value.trim();
     if (!text) return;
     const grow = store.getSnapshot().grow;
     if (!grow.tasks) grow.tasks = [];

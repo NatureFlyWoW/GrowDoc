@@ -2,7 +2,7 @@
 
 import { getDaysInStage, STAGES } from '../data/stage-rules.js';
 import { TRAINING_METHODS, generateMilestones } from '../data/training-protocols.js';
-import { escapeHtml, generateId } from '../utils.js';
+import { generateId } from '../utils.js';
 import { navigate } from '../router.js';
 
 /**
@@ -224,10 +224,10 @@ function _showAddPlantForm(container, store) {
   saveBtn.textContent = 'Add Plant';
   saveBtn.style.marginTop = 'var(--space-3)';
   saveBtn.addEventListener('click', () => {
-    const plantName = escapeHtml(nameInput.value.trim()) || `Plant ${(store.state.grow.plants || []).length + 1}`;
+    const plantName = nameInput.value.trim() || `Plant ${(store.state.grow.plants || []).length + 1}`;
     const days = parseInt(daysInput.value, 10) || 0;
-    const strainName = escapeHtml(strainInput.value.trim());
-    const notes = escapeHtml(notesArea.value);
+    const strainName = strainInput.value.trim();
+    const notes = notesArea.value;
 
     const growSnap = store.getSnapshot().grow;
     growSnap.plants.push({

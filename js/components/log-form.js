@@ -1,6 +1,6 @@
 // GrowDoc Companion — Quick Log Form Component
 
-import { escapeHtml, generateId } from '../utils.js';
+import { generateId } from '../utils.js';
 
 const LOG_TYPES = [
   { id: 'water', label: 'Water', icon: '💧' },
@@ -143,10 +143,10 @@ function _buildEntry(type, detailArea, taskRef) {
   if (phEl?.value) details.pH = parseFloat(phEl.value);
   if (ecEl?.value) details.ec = parseFloat(ecEl.value);
   if (volEl?.value) details.volume = parseFloat(volEl.value);
-  if (notesEl?.value) details.notes = escapeHtml(notesEl.value);
+  if (notesEl?.value) details.notes = notesEl.value;
   if (actionEl?.value) details.action = actionEl.value;
   if (condEl?.value) details.condition = condEl.value;
-  if (nutrEl?.value) details.nutrients = escapeHtml(nutrEl.value);
+  if (nutrEl?.value) details.nutrients = nutrEl.value;
 
   return {
     id: generateId(),

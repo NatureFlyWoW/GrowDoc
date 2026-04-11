@@ -4,7 +4,6 @@ import { getDaysInStage, STAGES } from '../data/stage-rules.js';
 import { TRAINING_METHODS, generateMilestones } from '../data/training-protocols.js';
 import { parseProfileNotes } from '../data/profile-context-rules.js';
 import { renderTimeline, advancePlantStage } from '../components/timeline-bar.js';
-import { escapeHtml } from '../utils.js';
 import { navigate } from '../router.js';
 
 /**
@@ -104,10 +103,10 @@ export function renderPlantDetail(container, store, plantId, initialTab) {
 }
 
 function _saveName(store, plant, newName, container, plantId) {
-  const sanitized = escapeHtml(newName.trim()) || plant.name;
+  const trimmed = newName.trim() || plant.name;
   const growSnap = store.getSnapshot().grow;
   const p = growSnap.plants.find(pp => pp.id === plant.id);
-  if (p) { p.name = sanitized; store.commit('grow', growSnap); }
+  if (p) { p.name = trimmed; store.commit('grow', growSnap); }
   renderPlantDetail(container, store, plantId);
 }
 
@@ -250,7 +249,7 @@ function _renderEditTab(container, plant, store, pageContainer, plantId) {
   nameInput.className = 'input';
   nameInput.value = plant.name;
   nameInput.addEventListener('blur', () => {
-    const val = escapeHtml(nameInput.value.trim()) || plant.name;
+    const val = nameInput.value.trim() || plant.name;
     saveField('name', val);
     flashSaved(nameInput);
   });
@@ -265,7 +264,7 @@ function _renderEditTab(container, plant, store, pageContainer, plantId) {
   strainInput.placeholder = 'Strain name or "Unknown"';
   strainInput.value = plant.strainCustom?.name || '';
   strainInput.addEventListener('blur', () => {
-    const val = escapeHtml(strainInput.value.trim());
+    const val = strainInput.value.trim();
     saveField('strainCustom', val ? { name: val } : null);
     flashSaved(strainInput);
   });
@@ -425,12 +424,12 @@ function _renderEditTab(container, plant, store, pageContainer, plantId) {
   notesArea.rows = 3;
   notesArea.value = plant.notes || '';
   notesArea.addEventListener('blur', () => {
-    const sanitized = escapeHtml(notesArea.value);
+    const raw = notesArea.value;
     const growSnap = store.getSnapshot().grow;
     const p = growSnap.plants.find(pp => pp.id === plant.id);
     if (p) {
-      p.notes = sanitized;
-      p.context = parseProfileNotes({ plant: sanitized });
+      p.notes = raw;
+      p.context = parseProfileNotes({ plant: raw });
       store.commit('grow', growSnap);
       flashSaved(notesArea);
     }

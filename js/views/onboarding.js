@@ -1,7 +1,7 @@
 // GrowDoc Companion — Landing Page & Onboarding Wizard
 
 import { navigate } from '../router.js';
-import { escapeHtml, generateId } from '../utils.js';
+import { generateId } from '../utils.js';
 import { renderStarRating, renderEffectSelector } from '../components/star-rating.js';
 import { parseProfileNotes, NOTE_PLACEHOLDERS } from '../data/profile-context-rules.js';
 
@@ -656,11 +656,12 @@ function _completeOnboarding({ skipNavigate = false } = {}) {
   const w = _wizardState;
 
   // 1. Create profile with parsed context notes
-  const sanitizedNotes = {};
+  // Raw text — escaping happens at innerHTML insertion points, not storage.
+  const rawNotes = {};
   for (const [key, val] of Object.entries(w.notes)) {
-    sanitizedNotes[key] = escapeHtml(val || '');
+    rawNotes[key] = val || '';
   }
-  const context = parseProfileNotes(sanitizedNotes);
+  const context = parseProfileNotes(rawNotes);
 
   const profile = {
     version: 1,
@@ -673,7 +674,7 @@ function _completeOnboarding({ skipNavigate = false } = {}) {
     experience: w.experience,
     priorities: { ...w.priorities },
     targetEffect: w.targetEffect,
-    notes: sanitizedNotes,
+    notes: rawNotes,
     context,
   };
   store.commit('profile', profile);
