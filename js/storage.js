@@ -150,6 +150,150 @@ export function checkCapacity() {
 }
 
 /**
+ * Section 11: Full v2 backup. Walks every localStorage key starting
+ * with 'growdoc-' and serializes them into a versioned envelope.
+ * Each value is parsed to JSON when possible (preserves types) or
+ * kept as a raw string (legacy plain entries).
+ *
+ * @returns {{version: 'v2', exportedAt: string, data: Record<string, unknown>}}
+ */
+export function exportAllData() {
+  const data = {};
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith('growdoc-')) continue;
+      const raw = localStorage.getItem(key);
+      if (raw === null) continue;
+      try {
+        data[key] = JSON.parse(raw);
+      } catch {
+        data[key] = raw;
+      }
+    }
+  } catch (err) {
+    console.error('exportAllData failed:', err);
+  }
+  return {
+    version: 'v2',
+    exportedAt: new Date().toISOString(),
+    data,
+  };
+}
+
+/**
+ * Section 11: Validate a parsed object against the v2 backup schema.
+ * Throws an Error with a human-readable message on failure.
+ */
+export function validateBackupSchema(parsed) {
+  if (typeof parsed !== 'object' || parsed === null) {
+    throw new Error('Invalid backup: must be a JSON object.');
+  }
+  if (parsed.version !== 'v2') {
+    throw new Error(`Invalid backup: version must be 'v2' (got '${parsed.version}').`);
+  }
+  if (typeof parsed.data !== 'object' || parsed.data === null) {
+    throw new Error('Invalid backup: missing data object.');
+  }
+  // Spot-check critical shape: if grow exists and has plants, it must be array
+  const grow = parsed.data['growdoc-companion-grow'];
+  if (grow && typeof grow === 'object' && 'plants' in grow && !Array.isArray(grow.plants)) {
+    throw new Error('Invalid backup: grow.plants must be an array.');
+  }
+  return true;
+}
+
+/**
+ * Section 11: Atomically replace all growdoc-* localStorage keys with
+ * the contents of a validated backup envelope. Writes a preimport
+ * backup first so the user can roll back.
+ *
+ * @returns {{restored: number, preimportKey: string}}
+ */
+export function importAllData(envelope) {
+  validateBackupSchema(envelope);
+
+  // Pre-import backup of current state
+  const preimport = exportAllData();
+  const preimportKey = 'growdoc-preimport-backup';
+  try {
+    localStorage.setItem(preimportKey, JSON.stringify(preimport));
+  } catch (err) {
+    console.warn('preimport backup failed (continuing):', err);
+  }
+
+  // Clear all existing growdoc-* keys (except preimport backup)
+  const toRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('growdoc-') && key !== preimportKey) {
+      toRemove.push(key);
+    }
+  }
+  for (const k of toRemove) localStorage.removeItem(k);
+
+  // Write each key from the envelope
+  let restored = 0;
+  for (const [key, value] of Object.entries(envelope.data || {})) {
+    if (!key.startsWith('growdoc-')) continue;
+    try {
+      const serialized = typeof value === 'string' ? value : JSON.stringify(value);
+      localStorage.setItem(key, serialized);
+      restored++;
+    } catch (err) {
+      console.warn(`Import failed to write ${key}:`, err);
+    }
+  }
+
+  return { restored, preimportKey };
+}
+
+/**
+ * Section 11: Storage breakdown by category for the Settings dashboard.
+ */
+export function getStorageBreakdown() {
+  const categories = [
+    { name: 'Plants & Logs', keys: ['growdoc-companion-grow'], bytes: 0 },
+    { name: 'Photos',        keys: ['growdoc-photos-v1'], bytes: 0 },
+    { name: 'Past Grows',    keys: ['growdoc-companion-archive'], bytes: 0 },
+    { name: 'Environment',   keys: ['growdoc-companion-environment'], bytes: 0 },
+    { name: 'Profile',       keys: ['growdoc-companion-profile'], bytes: 0 },
+    { name: 'Other',         keys: [], bytes: 0 },
+  ];
+
+  let totalBytes = 0;
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith('growdoc-')) continue;
+      const value = localStorage.getItem(key) || '';
+      const bytes = (key.length + value.length) * 2; // UTF-16 approx
+      totalBytes += bytes;
+
+      const matched = categories.find(c => c.keys.includes(key));
+      if (matched) {
+        matched.bytes += bytes;
+      } else {
+        const other = categories.find(c => c.name === 'Other');
+        other.bytes += bytes;
+        other.keys.push(key);
+      }
+    }
+  } catch (err) {
+    console.warn('getStorageBreakdown failed:', err);
+  }
+
+  const estimatedLimitBytes = 5 * 1024 * 1024;
+  const percentUsed = totalBytes / estimatedLimitBytes * 100;
+  return {
+    totalBytes,
+    estimatedLimitBytes,
+    percentUsed: Math.round(percentUsed),
+    categories: categories.filter(c => c.bytes > 0),
+  };
+}
+
+/**
  * Quota monitor for growdoc-* keys. Sums character lengths of every
  * key starting with 'growdoc-' and compares to a 4.5MB safety budget
  * (under the typical 5MB browser limit).

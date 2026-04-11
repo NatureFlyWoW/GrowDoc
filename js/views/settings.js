@@ -3,6 +3,7 @@
 import { renderStarRating, renderPriorityDisplay } from '../components/star-rating.js';
 import { calculateWeights } from '../data/priority-engine.js';
 import { parseProfileNotes, NOTE_PLACEHOLDERS } from '../data/profile-context-rules.js';
+import { exportAllData, importAllData, validateBackupSchema, getStorageBreakdown } from '../storage.js';
 import { navigate } from '../router.js';
 
 /**
@@ -270,34 +271,52 @@ function _renderStorageUsage(container) {
   h3.textContent = 'Storage';
   section.appendChild(h3);
 
-  let usedBytes = 0;
-  try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith('growdoc-companion')) {
-        usedBytes += (localStorage.getItem(key) || '').length * 2; // UTF-16
-      }
-    }
-  } catch { /* ignore */ }
+  // Section 11: full per-category breakdown
+  const breakdown = getStorageBreakdown();
 
-  const maxBytes = 5 * 1024 * 1024; // 5MB
-  const pct = Math.round((usedBytes / maxBytes) * 100);
+  const totalLabel = document.createElement('div');
+  totalLabel.style.fontWeight = '600';
+  totalLabel.textContent = `${(breakdown.totalBytes / 1024).toFixed(1)} KB of ~5 MB used (${breakdown.percentUsed}%)`;
+  section.appendChild(totalLabel);
 
   const bar = document.createElement('div');
   bar.className = 'storage-bar';
+  bar.style.background = 'var(--bg-elevated, #eee)';
+  bar.style.borderRadius = '4px';
+  bar.style.height = '8px';
+  bar.style.margin = '8px 0 16px';
+  bar.style.overflow = 'hidden';
   const fill = document.createElement('div');
   fill.className = 'storage-fill';
-  fill.style.width = `${Math.min(pct, 100)}%`;
-  if (pct > 80) fill.style.background = 'var(--status-action)';
+  fill.style.height = '100%';
+  fill.style.width = `${Math.min(breakdown.percentUsed, 100)}%`;
+  fill.style.background = breakdown.percentUsed >= 95 ? 'var(--status-urgent, #d93)' :
+                          breakdown.percentUsed >= 80 ? 'var(--status-action, #d97706)' :
+                          'var(--color-primary, #2d5016)';
+  fill.style.transition = 'width 0.3s';
   bar.appendChild(fill);
   section.appendChild(bar);
 
-  const label = document.createElement('div');
-  label.className = 'text-muted';
-  label.style.fontSize = '0.78rem';
-  label.textContent = `Using ${(usedBytes / 1024).toFixed(1)} KB of ~5 MB (${pct}%)`;
-  if (pct > 80) label.style.color = 'var(--status-action)';
-  section.appendChild(label);
+  // Per-category list
+  for (const cat of breakdown.categories) {
+    const row = document.createElement('div');
+    row.style.display = 'flex';
+    row.style.justifyContent = 'space-between';
+    row.style.padding = '4px 0';
+    row.style.fontSize = '0.85rem';
+
+    const name = document.createElement('span');
+    name.textContent = cat.name;
+    row.appendChild(name);
+
+    const size = document.createElement('span');
+    size.style.color = 'var(--text-muted)';
+    const kb = (cat.bytes / 1024).toFixed(1);
+    size.textContent = `${kb} KB`;
+    row.appendChild(size);
+
+    section.appendChild(row);
+  }
 
   container.appendChild(section);
 }
@@ -306,25 +325,108 @@ function _renderDataManagement(container, store) {
   const section = document.createElement('div');
   section.className = 'settings-section';
   const h3 = document.createElement('h3');
-  h3.textContent = 'Data Management';
+  h3.textContent = 'Backup & Restore';
   section.appendChild(h3);
 
+  const help = document.createElement('p');
+  help.className = 'text-muted';
+  help.style.fontSize = '0.85rem';
+  help.textContent = 'Export downloads a complete backup including plants, logs, photos, past grows, and settings. Import replaces all current data — back up first.';
+  section.appendChild(help);
+
+  const buttonRow = document.createElement('div');
+  buttonRow.style.display = 'flex';
+  buttonRow.style.gap = '8px';
+  buttonRow.style.flexWrap = 'wrap';
+
+  // Export button — Section 11 v2 envelope
   const exportBtn = document.createElement('button');
-  exportBtn.className = 'btn';
-  exportBtn.textContent = 'Export All Data';
+  exportBtn.className = 'btn btn-primary';
+  exportBtn.textContent = '⬇ Export backup';
   exportBtn.addEventListener('click', () => {
-    const data = store.getSnapshot();
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const payload = exportAllData();
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `growdoc-export-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `growdoc-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
   });
-  section.appendChild(exportBtn);
+  buttonRow.appendChild(exportBtn);
+
+  // Import button
+  const importBtn = document.createElement('button');
+  importBtn.className = 'btn';
+  importBtn.textContent = '⬆ Import backup';
+  importBtn.addEventListener('click', () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json';
+    input.addEventListener('change', () => {
+      const file = input.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          validateBackupSchema(parsed);
+          const summary = _summarizeBackup(parsed);
+          if (!confirm(`This will replace ALL current data with the backup contents:\n\n${summary}\n\nA pre-import backup will be saved automatically. Continue?`)) {
+            return;
+          }
+          const result = importAllData(parsed);
+          alert(`Imported ${result.restored} keys. The page will reload.`);
+          location.reload();
+        } catch (err) {
+          alert(`Import failed: ${err.message}`);
+        }
+      };
+      reader.readAsText(file);
+    });
+    input.click();
+  });
+  buttonRow.appendChild(importBtn);
+
+  section.appendChild(buttonRow);
+
+  // Pre-import restore link if available
+  if (localStorage.getItem('growdoc-preimport-backup')) {
+    const restoreLink = document.createElement('button');
+    restoreLink.className = 'btn btn-link';
+    restoreLink.style.fontSize = '0.85rem';
+    restoreLink.style.marginTop = '8px';
+    restoreLink.style.color = 'var(--text-muted)';
+    restoreLink.textContent = '↩ Restore previous (pre-import) state';
+    restoreLink.addEventListener('click', () => {
+      try {
+        const raw = localStorage.getItem('growdoc-preimport-backup');
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (!confirm('Restore the state from before your last import? Current data will be replaced.')) return;
+        importAllData(parsed);
+        alert('Pre-import state restored. The page will reload.');
+        location.reload();
+      } catch (err) {
+        alert(`Restore failed: ${err.message}`);
+      }
+    });
+    section.appendChild(restoreLink);
+  }
 
   container.appendChild(section);
+}
+
+function _summarizeBackup(parsed) {
+  const data = parsed?.data || {};
+  const grow = data['growdoc-companion-grow'];
+  const plants = grow?.plants?.length || 0;
+  const photos = data['growdoc-photos-v1'] ? Object.keys(data['growdoc-photos-v1']).length : 0;
+  const archive = Array.isArray(data['growdoc-companion-archive']) ? data['growdoc-companion-archive'].length : 0;
+  const exported = parsed.exportedAt ? new Date(parsed.exportedAt).toLocaleString() : 'unknown';
+  return `Exported: ${exported}\nPlants: ${plants}\nPhotos: ${photos}\nPast grows: ${archive}`;
 }
 
 function _renderFinishGrow(container, store) {
