@@ -4,6 +4,10 @@
 // with filters for plant, type, and date range. The router has the
 // /grow/journal route already; this is the missing view handler.
 
+import { navigate } from '../router.js';
+import { markQuestionAnswered, dismissQuestion } from '../data/note-contextualizer/stage-sources.js';
+import { getStageById } from '../data/stage-rules.js';
+
 const TYPE_LABELS = {
   water: '💧 Water',
   feed: '🧪 Feed',
@@ -22,6 +26,9 @@ const PLANT_COLORS = [
   'var(--color-accent-5, #047857)',
   'var(--color-accent-6, #7c3aed)',
 ];
+
+// Active filter for the "All observations" feed — module-level, persists across re-renders
+let _activeFilter = 'all';
 
 // Local state for filters — kept module-level since journal is a single view
 let _filterState = {
@@ -46,6 +53,10 @@ export function renderJournal(container, store) {
     container.appendChild(p);
     return;
   }
+
+  // ── "All observations" aggregated notes feed ─────────────────────
+  const feedSection = _renderNotesFeed(store);
+  container.appendChild(feedSection);
 
   // Build a unified, plant-tagged log feed
   const allLogs = _collectLogs(grow);
@@ -308,4 +319,298 @@ function _formatDate(iso) {
   // Local short date + time
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
     ' ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+}
+
+// ── "All observations" notes feed ────────────────────────────────────
+
+/**
+ * Relative time formatter. Returns "just now", "5m ago", "2h ago",
+ * "3d ago", "2w ago", "1mo ago". No deps.
+ *
+ * @param {string} iso
+ * @returns {string}
+ */
+function _relativeTime(iso) {
+  if (!iso) return '';
+  const ms = Date.now() - new Date(iso).getTime();
+  if (ms < 0 || isNaN(ms)) return '';
+  if (ms < 60_000) return 'just now';
+  if (ms < 3_600_000) return `${Math.floor(ms / 60_000)}m ago`;
+  if (ms < 86_400_000) return `${Math.floor(ms / 3_600_000)}h ago`;
+  if (ms < 7 * 86_400_000) return `${Math.floor(ms / 86_400_000)}d ago`;
+  if (ms < 30 * 86_400_000) return `${Math.floor(ms / (7 * 86_400_000))}w ago`;
+  return `${Math.floor(ms / (30 * 86_400_000))}mo ago`;
+}
+
+/**
+ * Walk all store sources and return a flat, sorted-desc array of
+ * note-bearing entries.
+ *
+ * @param {Object} store
+ * @returns {Array}
+ */
+function _aggregateNotes(store) {
+  const grow = store.state.grow;
+  const profile = store.state.profile;
+  const entries = [];
+
+  // 1. Plant logs (stage-note, stage-question, decision, any log with details.notes)
+  for (const plant of (grow && grow.plants) || []) {
+    for (const log of plant.logs || []) {
+      if (!log || !log.details || !log.details.notes) continue;
+      const text = typeof log.details.notes === 'string' ? log.details.notes.trim() : '';
+      if (!text) continue;
+      entries.push({
+        id: log.id,
+        plantId: plant.id,
+        plantName: plant.name || plant.id,
+        stageId: log.details.stageId || plant.stage || null,
+        timestamp: log.timestamp || log.date || null,
+        source: log.type === 'stage-note'     ? 'stage-note'
+              : log.type === 'stage-question' ? 'question'
+              : log.type === 'decision'       ? 'decision'
+              : 'log',
+        body: text,
+        questionStatus: (log.type === 'stage-question') ? (log.details.status || 'open') : null,
+        milestoneId: log.details.milestoneId || null,
+        raw: log,
+      });
+    }
+    // 2. Plant-level diagnoses with free text
+    for (const dx of plant.diagnoses || []) {
+      if (!dx) continue;
+      const body = (typeof dx.notes === 'string' ? dx.notes.trim() : '')
+                || (typeof dx.body  === 'string' ? dx.body.trim()  : '');
+      if (!body) continue;
+      entries.push({
+        id: dx.id || `dx-${plant.id}-${dx.timestamp || ''}`,
+        plantId: plant.id,
+        plantName: plant.name || plant.id,
+        stageId: dx.stageId || plant.stage || null,
+        timestamp: dx.timestamp || dx.date || null,
+        source: 'diagnosis',
+        body,
+        questionStatus: null,
+        milestoneId: null,
+        raw: dx,
+      });
+    }
+  }
+
+  // 3. Profile wizard context notes
+  if (profile && profile.notes && typeof profile.notes === 'object') {
+    for (const [key, text] of Object.entries(profile.notes)) {
+      if (!text || typeof text !== 'string' || !text.trim()) continue;
+      entries.push({
+        id: `wizard-${key}`,
+        plantId: null,
+        plantName: null,
+        stageId: null,
+        timestamp: profile.updatedAt || profile.createdAt || null,
+        source: 'wizard',
+        body: text.trim(),
+        questionStatus: null,
+        milestoneId: null,
+        raw: { key },
+      });
+    }
+  }
+
+  // Sort newest first
+  entries.sort((a, b) => String(b.timestamp || '').localeCompare(String(a.timestamp || '')));
+  return entries;
+}
+
+/** Map a source token to a filter chip category. */
+function _sourceToFilterCategory(source) {
+  if (source === 'stage-note' || source === 'log' || source === 'wizard') return 'observations';
+  if (source === 'question') return 'questions';
+  if (source === 'decision') return 'decisions';
+  if (source === 'diagnosis') return 'diagnoses';
+  return 'observations';
+}
+
+/**
+ * Render the full "All observations" section including header, filters, and list.
+ *
+ * @param {Object} store
+ * @returns {HTMLElement}
+ */
+function _renderNotesFeed(store) {
+  const section = document.createElement('section');
+  section.className = 'journal-notes-feed';
+
+  // Header row
+  const header = document.createElement('div');
+  header.className = 'journal-notes-feed-header';
+
+  const heading = document.createElement('h2');
+  heading.textContent = 'All observations';
+  header.appendChild(heading);
+
+  // Filter chips
+  const filtersRow = document.createElement('div');
+  filtersRow.className = 'journal-notes-feed-filters';
+
+  const filterDefs = [
+    { key: 'all',          label: 'All' },
+    { key: 'observations', label: 'Observations' },
+    { key: 'questions',    label: 'Questions' },
+    { key: 'decisions',    label: 'Decisions' },
+    { key: 'diagnoses',    label: 'Diagnoses' },
+  ];
+
+  // The list UL — created first so filter chips can reference it
+  const list = document.createElement('ul');
+  list.className = 'journal-notes-feed-list';
+
+  function _rebuildList() {
+    list.innerHTML = '';
+    const entries = _aggregateNotes(store);
+    const filtered = _activeFilter === 'all'
+      ? entries
+      : entries.filter(e => _sourceToFilterCategory(e.source) === _activeFilter);
+
+    if (filtered.length === 0) {
+      const empty = document.createElement('li');
+      empty.className = 'journal-notes-empty';
+      empty.textContent = 'No observations yet. Start logging from the dashboard or any plant detail view.';
+      list.appendChild(empty);
+      return;
+    }
+
+    for (const entry of filtered) {
+      list.appendChild(_renderFeedEntry(entry, store, _rebuildList));
+    }
+  }
+
+  for (const def of filterDefs) {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'filter-chip';
+    chip.textContent = def.label;
+    chip.setAttribute('aria-pressed', _activeFilter === def.key ? 'true' : 'false');
+
+    chip.addEventListener('click', () => {
+      _activeFilter = def.key;
+      // Update aria-pressed on all chips in this row
+      filtersRow.querySelectorAll('.filter-chip').forEach(c => {
+        c.setAttribute('aria-pressed', c === chip ? 'true' : 'false');
+      });
+      _rebuildList();
+    });
+    filtersRow.appendChild(chip);
+  }
+
+  header.appendChild(filtersRow);
+  section.appendChild(header);
+  section.appendChild(list);
+
+  // Initial population
+  _rebuildList();
+
+  return section;
+}
+
+/**
+ * Render a single feed entry <li>.
+ *
+ * @param {Object} entry
+ * @param {Object} store
+ * @param {Function} rebuildList - callback to refresh the feed list after mutation
+ * @returns {HTMLLIElement}
+ */
+function _renderFeedEntry(entry, store, rebuildList) {
+  const li = document.createElement('li');
+  li.className = 'journal-note-entry';
+
+  // Meta row
+  const meta = document.createElement('div');
+  meta.className = 'journal-note-meta';
+
+  const time = document.createElement('span');
+  time.className = 'journal-note-time';
+  time.textContent = _relativeTime(entry.timestamp) || _formatDate(entry.timestamp) || 'unknown date';
+  meta.appendChild(time);
+
+  const sourceBadge = document.createElement('span');
+  sourceBadge.className = `journal-note-source-badge journal-note-source-badge--${entry.source}`;
+  sourceBadge.textContent = entry.source;
+  meta.appendChild(sourceBadge);
+
+  if (entry.stageId) {
+    const stageDef = getStageById(entry.stageId);
+    const stageName = stageDef ? stageDef.name : entry.stageId;
+    const stageChip = document.createElement('span');
+    stageChip.className = 'journal-note-stage-chip';
+    stageChip.textContent = stageName;
+    meta.appendChild(stageChip);
+  }
+
+  if (entry.plantName) {
+    const plantChip = document.createElement('span');
+    plantChip.className = 'journal-note-plant-chip';
+    plantChip.textContent = entry.plantName;
+    meta.appendChild(plantChip);
+  }
+
+  li.appendChild(meta);
+
+  // Body
+  const body = document.createElement('div');
+  body.className = 'journal-note-body';
+  body.textContent = entry.body;
+  li.appendChild(body);
+
+  // Actions
+  const actions = document.createElement('div');
+  actions.className = 'journal-note-actions';
+
+  if (entry.source === 'question') {
+    const status = entry.questionStatus || 'open';
+    if (status === 'open') {
+      const answerBtn = document.createElement('button');
+      answerBtn.type = 'button';
+      answerBtn.className = 'btn btn-sm';
+      answerBtn.textContent = 'Mark answered';
+      answerBtn.addEventListener('click', () => {
+        markQuestionAnswered(store, entry.id);
+        rebuildList();
+      });
+      actions.appendChild(answerBtn);
+
+      const dismissBtn = document.createElement('button');
+      dismissBtn.type = 'button';
+      dismissBtn.className = 'btn btn-sm';
+      dismissBtn.textContent = 'Dismiss';
+      dismissBtn.addEventListener('click', () => {
+        dismissQuestion(store, entry.id);
+        rebuildList();
+      });
+      actions.appendChild(dismissBtn);
+    } else {
+      const statusNote = document.createElement('span');
+      statusNote.className = 'journal-note-question-status text-muted';
+      statusNote.textContent = status === 'answered' ? 'Answered' : 'Dismissed';
+      actions.appendChild(statusNote);
+    }
+  } else if (entry.stageId && entry.plantId) {
+    const timelineLink = document.createElement('a');
+    timelineLink.href = '#';
+    timelineLink.className = 'journal-note-timeline-link';
+    timelineLink.textContent = 'View in timeline';
+    timelineLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const ui = { ...(store.state.ui || {}), selectedTimelinePlantId: entry.plantId };
+      store.commit('ui', ui);
+      navigate('/grow/timeline');
+    });
+    actions.appendChild(timelineLink);
+  }
+
+  if (actions.children.length > 0) {
+    li.appendChild(actions);
+  }
+
+  return li;
 }

@@ -13,6 +13,7 @@ import { renderPlantDetail } from './views/plant-detail.js';
 import { renderFeedingView } from './views/feeding.js';
 import { renderDryCureView, renderTimeline as renderTimelineBar, renderStageDetail, advancePlantStage } from './components/timeline-bar.js';
 import { getDaysInStage } from './data/stage-rules.js';
+import { renderPlantPicker } from './components/plant-picker.js';
 import { renderTrainingView } from './views/training.js';
 import { renderHarvestView } from './views/harvest.js';
 import { renderPlantDoctor } from './plant-doctor/doctor-ui.js';
@@ -24,6 +25,17 @@ import { renderJournal } from './views/journal.js';
 import { renderFinish } from './views/finish.js';
 import { preInitMigration, postInitMigration } from './migration.js';
 import { initContextualizer } from './data/note-contextualizer/index.js';
+
+// Attempt to load edge-case engine at module initialisation time.
+// Top-level await is valid in ESM. If the module does not exist the
+// import fails silently and getActiveEdgeCases falls back to a no-op.
+let getActiveEdgeCases = () => [];
+try {
+  const edgeCaseModule = await import('./data/edge-case-engine.js');
+  if (typeof edgeCaseModule.getActiveEdgeCases === 'function') {
+    getActiveEdgeCases = edgeCaseModule.getActiveEdgeCases;
+  }
+} catch { /* engine not ready */ }
 
 /** Initialize reactive store with persisted state. */
 function initStore() {
@@ -68,28 +80,73 @@ const viewMap = {
   'timeline': (container) => {
     const store = window.__growdocStore;
     const grow = store?.state?.grow;
-    const plant = grow?.plants?.[0];
-    if (!plant) { container.innerHTML = '<p class="text-muted">No active grow.</p>'; return; }
+    if (!grow?.plants?.length) {
+      container.innerHTML = '<p class="text-muted">No active grow.</p>';
+      return;
+    }
     container.innerHTML = '';
-    const h1 = document.createElement('h1'); h1.textContent = 'Growth Timeline'; container.appendChild(h1);
+
+    const h1 = document.createElement('h1');
+    h1.textContent = 'Growth Timeline';
+    container.appendChild(h1);
+
+    // Resolve active plant — use persisted ui selection or fall back to first plant
+    const selectedId = store.state.ui?.selectedTimelinePlantId || grow.plants[0].id;
+    const currentPlant = grow.plants.find(p => p.id === selectedId) || grow.plants[0];
+
+    // Plant picker — only rendered when there are multiple plants
+    const pickerContainer = document.createElement('div');
+    container.appendChild(pickerContainer);
+    if (grow.plants.length > 1) {
+      renderPlantPicker(pickerContainer, {
+        plants: grow.plants,
+        selectedPlantId: currentPlant.id,
+        showAll: false,
+        onSelect: (plantId) => {
+          const ui = { ...store.state.ui, selectedTimelinePlantId: plantId };
+          store.commit('ui', ui);
+          navigate('/grow/timeline');
+        },
+      });
+    }
+
+    // Compute edge cases if the engine is available (loaded at module init time)
+    let edgeCases = [];
+    try {
+      edgeCases = getActiveEdgeCases({ plant: currentPlant, grow });
+    } catch { /* engine not ready */ }
+
+    // Stage detail panel target — populated by showDetail()
     const detailTarget = document.createElement('div');
     detailTarget.className = 'stage-detail-target';
+
     const showDetail = (stageId) => {
       detailTarget.innerHTML = '';
       renderStageDetail(detailTarget, stageId, {
-        currentStage: plant.stage,
-        onAdvance: (nextId) => { advancePlantStage(store, plant.id, nextId); navigate('/grow/timeline'); },
-        onStageChange: (newId) => { advancePlantStage(store, plant.id, newId); navigate('/grow/timeline'); },
+        plant: currentPlant,
+        store,
+        currentStage: currentPlant.stage,
+        edgeCases,
+        onAdvance: (nextId) => { advancePlantStage(store, currentPlant.id, nextId); navigate('/grow/timeline'); },
+        onStageChange: (newId) => { advancePlantStage(store, currentPlant.id, newId); navigate('/grow/timeline'); },
       });
     };
+
     renderTimelineBar(container, {
-      currentStage: plant.stage, daysInStage: getDaysInStage(plant),
-      stageHistory: grow.stageHistory || [], mode: 'full',
+      currentStage: currentPlant.stage,
+      daysInStage: getDaysInStage(currentPlant),
+      stageHistory: grow.stageHistory || [],
+      mode: 'full',
       onStageClick: showDetail,
-      onAdvance: (nextId) => { advancePlantStage(store, plant.id, nextId); navigate('/grow/timeline'); },
-      plantId: plant.id, _store: store,
+      onAdvance: (nextId) => { advancePlantStage(store, currentPlant.id, nextId); navigate('/grow/timeline'); },
+      plantId: currentPlant.id,
+      _store: store,
     });
+
     container.appendChild(detailTarget);
+
+    // Show current stage detail on first render
+    showDetail(currentPlant.stage);
   },
   'plant-detail': (container, params) => renderPlantDetail(container, window.__growdocStore, params?.id, params?._hash),
   'feeding': (container) => renderFeedingView(container, window.__growdocStore),

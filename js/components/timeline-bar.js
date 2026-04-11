@@ -1,8 +1,23 @@
 // GrowDoc Companion — Stage Timeline Bar & Dry/Cure Views
 
 import { STAGES, STAGE_TRANSITIONS, getDaysInStage, getStageById, getStageIndex, getCureBurpSchedule, DRYING_TARGETS, CURING_TARGETS, SMELL_OPTIONS_DRYING, SMELL_OPTIONS_CURING } from '../data/stage-rules.js';
+import { getStageContent, getMilestoneContent } from '../data/stage-content.js';
+import { getRandomPlaceholder } from '../data/stage-note-placeholders.js';
+import { getQuestionStarters } from '../data/stage-question-starters.js';
+import { createStageNote, createStageQuestion, getStageObservations, markQuestionAnswered, dismissQuestion } from '../data/note-contextualizer/stage-sources.js';
+import { getStageDeepDive } from '../data/knowledge-deep-dives.js';
+import { getStrainClassAdjustments, getStrainClass } from '../data/strain-class-adjustments.js';
 import { generateId } from '../utils.js';
 import { navigate } from '../router.js';
+
+// Edge-case engine — may not exist yet; fall back to empty array on load failure
+let getActiveEdgeCases = null;
+try {
+  const mod = await import('../data/edge-case-engine.js');
+  getActiveEdgeCases = mod.getActiveEdgeCases ?? null;
+} catch {
+  // file not yet created — silently skip
+}
 
 /**
  * renderTimeline(container, options) — Renders a horizontal progress bar timeline.
@@ -164,83 +179,713 @@ export function renderTimeline(container, options) {
 }
 
 /**
- * renderStageDetail(container, stageId, options) — Detail panel for a specific stage.
+ * renderStageDetail(container, stageId, options) — Expanded detail panel for a stage.
+ *
+ * @param {HTMLElement} container
+ * @param {string} stageId
+ * @param {object} [options]
+ * @param {object}   [options.plant]         - Full plant object for notes scoping
+ * @param {object}   [options.store]         - Store for commit/publish
+ * @param {string}   [options.currentStage]  - Plant's current stage ID
+ * @param {Function} [options.onAdvance]     - Callback(nextStageId)
+ * @param {Function} [options.onStageChange] - Callback(stageId)
+ * @param {string}   [options.panelState]    - 'past'|'current'|'future' (auto-derived if omitted)
+ * @param {Array}    [options.edgeCases]     - Active edge cases from engine
  */
 export function renderStageDetail(container, stageId, options = {}) {
   const stage = getStageById(stageId);
   if (!stage) return;
 
+  const {
+    plant = null,
+    store = null,
+    currentStage = null,
+    onAdvance = null,
+    onStageChange = null,
+    edgeCases: edgeCasesOpt = null,
+  } = options;
+
+  // ── Derive panel variant ──────────────────────────────────────────
+  let variant = options.panelState || null;
+  if (!variant && currentStage) {
+    const currentIdx = getStageIndex(currentStage);
+    const thisIdx = getStageIndex(stageId);
+    if (thisIdx < currentIdx) variant = 'past';
+    else if (thisIdx === currentIdx) variant = 'current';
+    else variant = 'future';
+  }
+  if (!variant) variant = 'current';
+
+  // ── Content data ──────────────────────────────────────────────────
+  const content = getStageContent(stageId);
+  const deepDive = getStageDeepDive(stageId);
+  const strainClassKey = plant?.strainClass || null;
+  const classEntry = strainClassKey ? getStrainClass(strainClassKey) : null;
+  const classOverride = strainClassKey ? getStrainClassAdjustments(strainClassKey, stageId) : null;
+
+  // Edge cases: use provided or try engine
+  let edgeCases = [];
+  if (Array.isArray(edgeCasesOpt)) {
+    edgeCases = edgeCasesOpt;
+  } else if (getActiveEdgeCases && plant) {
+    try { edgeCases = getActiveEdgeCases(plant) || []; } catch { edgeCases = []; }
+  }
+
+  // Stage history for past variant
+  let completedDate = null;
+  let lastedDays = null;
+  if (variant === 'past' && plant) {
+    const histEntry = (plant.stageHistory || []).find(h => h.stage === stageId && h.endDate);
+    if (histEntry) {
+      completedDate = new Date(histEntry.endDate).toLocaleDateString();
+      const start = new Date(histEntry.startDate);
+      const end = new Date(histEntry.endDate);
+      lastedDays = Math.max(0, Math.round((end - start) / 86400000));
+    }
+  }
+
+  // ── Build panel ───────────────────────────────────────────────────
   const panel = document.createElement('div');
-  panel.className = 'stage-detail-panel';
+  panel.className = `stage-detail-panel stage-detail-panel--${variant}`;
 
-  const title = document.createElement('h3');
-  title.textContent = stage.name;
-  panel.appendChild(title);
+  // ── Header ────────────────────────────────────────────────────────
+  const header = document.createElement('div');
+  header.className = 'stage-detail-header';
 
-  const info = document.createElement('div');
-  info.className = 'stage-detail-info';
-  info.innerHTML = `<div>Typical: ${stage.typicalDays} days (${stage.minDays}-${stage.maxDays})</div>`;
-  panel.appendChild(info);
+  const titleRow = document.createElement('h3');
+  titleRow.className = 'stage-detail-title';
+  titleRow.textContent = stage.name;
 
-  // Milestones
-  if (stage.milestones.length > 0) {
-    const mList = document.createElement('div');
-    mList.className = 'stage-milestones';
-    const mTitle = document.createElement('div');
-    mTitle.className = 'stage-detail-subtitle';
-    mTitle.textContent = 'Milestones';
-    mList.appendChild(mTitle);
-    for (const m of stage.milestones) {
+  if (variant === 'past') {
+    const badge = document.createElement('span');
+    badge.className = 'stage-completed-badge';
+    badge.textContent = 'COMPLETED';
+    titleRow.appendChild(badge);
+  } else if (variant === 'future') {
+    const badge = document.createElement('span');
+    badge.className = 'stage-upcoming-badge';
+    badge.textContent = 'UPCOMING';
+    titleRow.appendChild(badge);
+  }
+  header.appendChild(titleRow);
+
+  const meta = document.createElement('div');
+  meta.className = 'stage-detail-meta';
+  if (variant === 'past' && completedDate) {
+    const completed = document.createElement('span');
+    completed.textContent = `Completed ${completedDate}, lasted ${lastedDays} day${lastedDays === 1 ? '' : 's'}`;
+    meta.appendChild(completed);
+  } else {
+    const typical = document.createElement('span');
+    typical.textContent = `Typical ${stage.typicalDays} days`;
+    meta.appendChild(typical);
+    const range = document.createElement('span');
+    range.textContent = `Range ${stage.minDays}–${stage.maxDays}`;
+    meta.appendChild(range);
+  }
+  header.appendChild(meta);
+  panel.appendChild(header);
+
+  // ── Ready callout (current only) ──────────────────────────────────
+  if (variant === 'current' && content?.readyToAdvance) {
+    const callout = document.createElement('div');
+    callout.className = 'stage-ready-callout';
+    callout.textContent = content.readyToAdvance;
+    panel.appendChild(callout);
+  }
+
+  // ── What's happening paragraph ────────────────────────────────────
+  if (content?.whatsHappening && variant !== 'future') {
+    const desc = document.createElement('div');
+    desc.className = 'stage-whats-happening';
+    desc.textContent = content.whatsHappening;
+    panel.appendChild(desc);
+  } else if (content?.whatsHappening && variant === 'future') {
+    const desc = document.createElement('div');
+    desc.className = 'stage-whats-happening stage-whats-happening--dimmed';
+    desc.textContent = content.whatsHappening;
+    panel.appendChild(desc);
+  }
+
+  // ── Edge case warnings ────────────────────────────────────────────
+  const warningEdges = edgeCases.filter(e => e?.severity === 'urgent' || e?.severity === 'warning' || e?.severity === 'info');
+  if (warningEdges.length > 0) {
+    const edgeWrap = document.createElement('div');
+    edgeWrap.className = 'stage-edge-warnings';
+    for (const ec of warningEdges) {
       const item = document.createElement('div');
-      item.className = 'stage-milestone-item';
-      item.textContent = `Day ${m.triggerDay}: ${m.name}`;
-      mList.appendChild(item);
+      item.className = `stage-edge-warning stage-edge-warning--${ec.severity || 'info'}`;
+      item.textContent = ec.message || ec.label || '';
+      edgeWrap.appendChild(item);
     }
-    panel.appendChild(mList);
+    panel.appendChild(edgeWrap);
   }
 
-  // Move to stage button (if this is the next stage)
-  if (options.currentStage && options.onAdvance) {
-    const transition = STAGE_TRANSITIONS[options.currentStage];
-    if (transition && transition.next === stageId) {
-      const advBtn = document.createElement('button');
-      advBtn.className = 'btn btn-primary';
-      advBtn.style.marginTop = 'var(--space-4)';
-      advBtn.textContent = `Move to ${stage.name}`;
-      advBtn.addEventListener('click', () => options.onAdvance(stageId));
-      panel.appendChild(advBtn);
-    }
-  }
+  // ── Accordions ────────────────────────────────────────────────────
+  if (content && variant !== 'future') {
+    const accordions = document.createElement('div');
+    accordions.className = 'stage-accordions';
 
-  // Manual "Change Stage" control — allows jumping to any stage
-  if (options.currentStage && options.onStageChange) {
-    const changeRow = document.createElement('div');
-    changeRow.className = 'stage-change-row';
-    changeRow.style.marginTop = 'var(--space-4)';
-
-    const select = document.createElement('select');
-    select.className = 'input';
-    select.setAttribute('aria-label', 'Change growth stage');
-    for (const s of STAGES) {
-      const opt = document.createElement('option');
-      opt.value = s.id;
-      opt.textContent = s.name;
-      if (s.id === options.currentStage) opt.selected = true;
-      select.appendChild(opt);
-    }
-
-    const changeBtn = document.createElement('button');
-    changeBtn.className = 'btn btn-sm';
-    changeBtn.textContent = 'Change Stage';
-    changeBtn.addEventListener('click', () => {
-      if (select.value !== options.currentStage) {
-        options.onStageChange(select.value);
+    const whatToDo = classOverride?.replaceWhatToDo ?? content.whatToDo ?? [];
+    if (whatToDo.length > 0) {
+      const det = document.createElement('details');
+      det.className = 'stage-accordion';
+      if (variant === 'current') det.open = true;
+      const sum = document.createElement('summary');
+      sum.textContent = 'What to do';
+      det.appendChild(sum);
+      const ul = document.createElement('ul');
+      ul.className = 'stage-whatToDo-list';
+      for (const item of whatToDo) {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ul.appendChild(li);
       }
+      det.appendChild(ul);
+      accordions.appendChild(det);
+    }
+
+    const watchFor = [...(content.whatToWatch ?? []), ...(classOverride?.addWhatToWatch ?? [])];
+    if (watchFor.length > 0) {
+      const det = document.createElement('details');
+      det.className = 'stage-accordion';
+      const sum = document.createElement('summary');
+      sum.textContent = 'Watch for';
+      det.appendChild(sum);
+      const ul = document.createElement('ul');
+      ul.className = 'stage-watchFor-list';
+      for (const item of watchFor) {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ul.appendChild(li);
+      }
+      det.appendChild(ul);
+      accordions.appendChild(det);
+    }
+
+    const mistakes = content.commonMistakes ?? [];
+    if (mistakes.length > 0) {
+      const det = document.createElement('details');
+      det.className = 'stage-accordion';
+      const sum = document.createElement('summary');
+      sum.textContent = 'Common mistakes';
+      det.appendChild(sum);
+      const ul = document.createElement('ul');
+      ul.className = 'stage-mistakes-list';
+      for (const item of mistakes) {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ul.appendChild(li);
+      }
+      det.appendChild(ul);
+      accordions.appendChild(det);
+    }
+
+    panel.appendChild(accordions);
+  } else if (content && variant === 'future') {
+    // Future: only show "What to avoid" from commonMistakes
+    const mistakes = content.commonMistakes ?? [];
+    if (mistakes.length > 0) {
+      const accordions = document.createElement('div');
+      accordions.className = 'stage-accordions';
+      const det = document.createElement('details');
+      det.className = 'stage-accordion';
+      const sum = document.createElement('summary');
+      sum.textContent = 'What to avoid when you get here';
+      det.appendChild(sum);
+      const ul = document.createElement('ul');
+      ul.className = 'stage-mistakes-list';
+      for (const item of mistakes) {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ul.appendChild(li);
+      }
+      det.appendChild(ul);
+      accordions.appendChild(det);
+      panel.appendChild(accordions);
+    }
+  }
+
+  // ── Milestones ────────────────────────────────────────────────────
+  if (stage.milestones.length > 0) {
+    const milestonesWrap = document.createElement('div');
+    milestonesWrap.className = 'stage-milestones';
+    const mTitle = document.createElement('h4');
+    mTitle.textContent = 'Milestones';
+    milestonesWrap.appendChild(mTitle);
+
+    const ul = document.createElement('ul');
+    ul.className = 'stage-milestone-list';
+
+    let expandedMilestoneId = null;
+
+    for (const m of stage.milestones) {
+      const li = document.createElement('li');
+      li.className = 'stage-milestone-item';
+      li.setAttribute('role', 'button');
+      li.setAttribute('tabindex', '0');
+      li.dataset.milestoneId = m.id;
+
+      const labelRow = document.createElement('div');
+      labelRow.className = 'stage-milestone-label-row';
+      const dayChip = document.createElement('span');
+      dayChip.className = 'stage-milestone-day';
+      dayChip.textContent = `Day ${m.triggerDay}`;
+      const nameSpan = document.createElement('span');
+      nameSpan.textContent = m.name;
+      labelRow.appendChild(dayChip);
+      labelRow.appendChild(nameSpan);
+      li.appendChild(labelRow);
+
+      const milestoneContent = getMilestoneContent(stageId, m.id);
+      if (milestoneContent) {
+        const detail = document.createElement('div');
+        detail.className = 'stage-milestone-detail';
+        detail.hidden = true;
+        const detailText = document.createElement('p');
+        detailText.textContent = milestoneContent.detail;
+        detail.appendChild(detailText);
+        if (milestoneContent.tip) {
+          const tip = document.createElement('div');
+          tip.className = 'stage-milestone-tip';
+          tip.textContent = milestoneContent.tip;
+          detail.appendChild(tip);
+        }
+        li.appendChild(detail);
+
+        const toggleMilestone = (targetLi) => {
+          const isOpen = targetLi.classList.contains('stage-milestone-item--expanded');
+          // Collapse all
+          ul.querySelectorAll('.stage-milestone-item--expanded').forEach(el => {
+            el.classList.remove('stage-milestone-item--expanded');
+            const d = el.querySelector('.stage-milestone-detail');
+            if (d) d.hidden = true;
+          });
+          if (!isOpen) {
+            targetLi.classList.add('stage-milestone-item--expanded');
+            detail.hidden = false;
+          }
+        };
+
+        li.addEventListener('click', () => toggleMilestone(li));
+        li.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMilestone(li); }
+        });
+      }
+
+      ul.appendChild(li);
+    }
+
+    milestonesWrap.appendChild(ul);
+    panel.appendChild(milestonesWrap);
+  }
+
+  // ── Deep Dive ─────────────────────────────────────────────────────
+  if (deepDive) {
+    const ddWrap = document.createElement('div');
+    ddWrap.className = 'stage-deep-dive';
+
+    const ddToggle = document.createElement('button');
+    ddToggle.className = 'btn btn-sm stage-deep-dive-toggle';
+    ddToggle.setAttribute('aria-expanded', 'false');
+    ddToggle.textContent = `Deep dive: ${deepDive.title} (${deepDive.readingTime})`;
+
+    const ddBody = document.createElement('div');
+    ddBody.className = 'stage-deep-dive-body';
+    ddBody.hidden = true;
+
+    // Render body blocks
+    for (const block of (deepDive.body || [])) {
+      if (block.type === 'paragraph') {
+        const p = document.createElement('p');
+        p.textContent = block.text;
+        ddBody.appendChild(p);
+      } else if (block.type === 'heading') {
+        const h = document.createElement('h5');
+        h.textContent = block.text;
+        ddBody.appendChild(h);
+      } else if (block.type === 'bullet-list') {
+        const ul = document.createElement('ul');
+        for (const it of (block.items || [])) {
+          const li = document.createElement('li');
+          li.textContent = it;
+          ul.appendChild(li);
+        }
+        ddBody.appendChild(ul);
+      } else if (block.type === 'callout') {
+        const callout = document.createElement('div');
+        callout.className = `stage-deep-dive-callout stage-deep-dive-callout--${block.kind || 'info'}`;
+        callout.textContent = block.text;
+        ddBody.appendChild(callout);
+      }
+    }
+
+    if (deepDive.sources?.length) {
+      const srcDiv = document.createElement('div');
+      srcDiv.className = 'stage-deep-dive-sources';
+      const srcLabel = document.createElement('span');
+      srcLabel.textContent = 'Sources: ';
+      srcDiv.appendChild(srcLabel);
+      for (const src of deepDive.sources) {
+        const s = document.createElement('span');
+        s.textContent = src.label;
+        srcDiv.appendChild(s);
+      }
+      ddBody.appendChild(srcDiv);
+    }
+
+    ddToggle.addEventListener('click', () => {
+      const isExpanded = ddToggle.getAttribute('aria-expanded') === 'true';
+      ddToggle.setAttribute('aria-expanded', String(!isExpanded));
+      ddBody.hidden = isExpanded;
+      ddWrap.classList.toggle('stage-deep-dive--expanded', !isExpanded);
     });
 
-    changeRow.appendChild(select);
-    changeRow.appendChild(changeBtn);
-    panel.appendChild(changeRow);
+    ddWrap.appendChild(ddToggle);
+    ddWrap.appendChild(ddBody);
+    panel.appendChild(ddWrap);
+  }
+
+  // ── Notes & Questions (hidden for future) ─────────────────────────
+  if (variant !== 'future' && plant && store) {
+    const obsData = getStageObservations(store, { plantId: plant.id, stageId });
+    const notesListId = `stage-notes-list-${stageId}-${plant.id}`;
+    const questionsListId = `stage-open-questions-${stageId}-${plant.id}`;
+
+    const nqSection = document.createElement('section');
+    nqSection.className = 'stage-notes-and-questions';
+
+    // ── Notes lane ────────────────────────────────────────────────
+    const notesLane = document.createElement('div');
+    notesLane.className = 'stage-notes-lane';
+
+    const notesH4 = document.createElement('h4');
+    notesH4.textContent = 'Observations';
+    notesLane.appendChild(notesH4);
+
+    const buildNotesList = (notes) => {
+      const existing = document.getElementById(notesListId);
+      const ul = existing ?? document.createElement('ul');
+      ul.className = 'stage-notes-list';
+      ul.id = notesListId;
+      ul.innerHTML = '';
+      if (notes.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'stage-empty';
+        empty.textContent = 'No observations for this stage yet.';
+        ul.appendChild(empty);
+      } else {
+        for (const note of notes) {
+          const li = document.createElement('li');
+          li.className = 'stage-note-item';
+          const ts = document.createElement('span');
+          ts.className = 'stage-note-timestamp';
+          ts.textContent = new Date(note.timestamp || note.date).toLocaleDateString();
+          li.appendChild(ts);
+          if (note.details?.milestoneId) {
+            const chip = document.createElement('span');
+            chip.className = 'stage-milestone-chip';
+            chip.textContent = note.details.milestoneId;
+            li.appendChild(chip);
+          }
+          const body = document.createElement('div');
+          body.className = 'stage-note-body';
+          body.textContent = note.details?.notes || '';
+          li.appendChild(body);
+          ul.appendChild(li);
+        }
+      }
+      return ul;
+    };
+
+    notesLane.appendChild(buildNotesList(obsData.notes));
+
+    // Add observation form (past: hidden; current: shown)
+    if (variant === 'current') {
+      const addToggle = document.createElement('button');
+      addToggle.className = 'btn btn-sm stage-add-note-toggle';
+      addToggle.textContent = 'Add observation';
+      notesLane.appendChild(addToggle);
+
+      const addForm = document.createElement('div');
+      addForm.className = 'stage-add-note-form';
+      addForm.hidden = true;
+
+      const textarea = document.createElement('textarea');
+      textarea.className = 'input';
+      textarea.rows = 3;
+      textarea.placeholder = getRandomPlaceholder(stageId);
+      addForm.appendChild(textarea);
+
+      const formBtns = document.createElement('div');
+      formBtns.className = 'decision-btn-row';
+
+      const saveBtn = document.createElement('button');
+      saveBtn.className = 'btn btn-primary btn-sm';
+      saveBtn.textContent = 'Save';
+      saveBtn.addEventListener('click', () => {
+        const text = textarea.value.trim();
+        if (!text) return;
+        createStageNote(store, { plantId: plant.id, stageId, text });
+        textarea.value = '';
+        addForm.hidden = true;
+        addToggle.setAttribute('aria-expanded', 'false');
+        // Patch only the notes list
+        const freshObs = getStageObservations(store, { plantId: plant.id, stageId });
+        const oldList = document.getElementById(notesListId);
+        if (oldList) oldList.replaceWith(buildNotesList(freshObs.notes));
+      });
+
+      const cancelNoteBtn = document.createElement('button');
+      cancelNoteBtn.className = 'btn btn-sm';
+      cancelNoteBtn.textContent = 'Cancel';
+      cancelNoteBtn.addEventListener('click', () => {
+        addForm.hidden = true;
+        addToggle.setAttribute('aria-expanded', 'false');
+      });
+
+      formBtns.appendChild(saveBtn);
+      formBtns.appendChild(cancelNoteBtn);
+      addForm.appendChild(formBtns);
+      notesLane.appendChild(addForm);
+
+      addToggle.setAttribute('aria-expanded', 'false');
+      addToggle.addEventListener('click', () => {
+        const open = addForm.hidden;
+        addForm.hidden = !open;
+        addToggle.setAttribute('aria-expanded', String(open));
+        if (open) textarea.focus();
+      });
+    }
+
+    nqSection.appendChild(notesLane);
+
+    // ── Questions lane ────────────────────────────────────────────
+    const qLane = document.createElement('div');
+    qLane.className = 'stage-questions-lane';
+
+    const qH4 = document.createElement('h4');
+    qH4.textContent = 'Open questions';
+    qLane.appendChild(qH4);
+
+    const buildQuestionsList = (openQuestions) => {
+      const existing = document.getElementById(questionsListId);
+      const ul = existing ?? document.createElement('ul');
+      ul.className = 'stage-open-questions';
+      ul.id = questionsListId;
+      ul.innerHTML = '';
+      if (openQuestions.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'stage-empty';
+        empty.textContent = 'No open questions for this stage.';
+        ul.appendChild(empty);
+      } else {
+        for (const q of openQuestions) {
+          const li = document.createElement('li');
+          li.className = 'stage-question-chip';
+          li.dataset.questionId = q.id;
+
+          const qBody = document.createElement('div');
+          qBody.textContent = q.details?.notes || '';
+          li.appendChild(qBody);
+
+          const qMeta = document.createElement('div');
+          qMeta.className = 'stage-question-chip-meta';
+          qMeta.textContent = 'QUEUED FOR NEXT ADVICE RUN';
+          li.appendChild(qMeta);
+
+          const qActions = document.createElement('div');
+          qActions.className = 'stage-question-actions';
+
+          const answerBtn = document.createElement('button');
+          answerBtn.className = 'btn btn-sm';
+          answerBtn.textContent = 'Mark answered';
+          answerBtn.addEventListener('click', () => {
+            markQuestionAnswered(store, q.id);
+            const freshObs = getStageObservations(store, { plantId: plant.id, stageId });
+            const oldList = document.getElementById(questionsListId);
+            if (oldList) oldList.replaceWith(buildQuestionsList(freshObs.openQuestions));
+          });
+
+          const dismissBtn = document.createElement('button');
+          dismissBtn.className = 'btn btn-sm';
+          dismissBtn.textContent = 'Dismiss';
+          dismissBtn.addEventListener('click', () => {
+            dismissQuestion(store, q.id);
+            const freshObs = getStageObservations(store, { plantId: plant.id, stageId });
+            const oldList = document.getElementById(questionsListId);
+            if (oldList) oldList.replaceWith(buildQuestionsList(freshObs.openQuestions));
+          });
+
+          qActions.appendChild(answerBtn);
+          qActions.appendChild(dismissBtn);
+          li.appendChild(qActions);
+          ul.appendChild(li);
+        }
+      }
+      return ul;
+    };
+
+    qLane.appendChild(buildQuestionsList(obsData.openQuestions));
+
+    // Ask question form (current only)
+    if (variant === 'current') {
+      const askToggle = document.createElement('button');
+      askToggle.className = 'btn btn-sm stage-ask-question-toggle';
+      askToggle.setAttribute('aria-expanded', 'false');
+      askToggle.textContent = 'Ask question';
+      qLane.appendChild(askToggle);
+
+      const askForm = document.createElement('div');
+      askForm.className = 'stage-ask-question-form';
+      askForm.hidden = true;
+
+      const qTextarea = document.createElement('textarea');
+      qTextarea.className = 'input';
+      qTextarea.rows = 2;
+      qTextarea.placeholder = 'Type your question...';
+      askForm.appendChild(qTextarea);
+
+      // Starter chips
+      const starters = getQuestionStarters(stageId);
+      if (starters.length > 0) {
+        const startersWrap = document.createElement('div');
+        startersWrap.className = 'stage-question-starters';
+        for (const s of starters.slice(0, 5)) {
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'stage-question-starter';
+          chip.textContent = s.text;
+          chip.addEventListener('click', () => {
+            qTextarea.value = s.text;
+            qTextarea.focus();
+          });
+          startersWrap.appendChild(chip);
+        }
+        askForm.appendChild(startersWrap);
+      }
+
+      const qFormBtns = document.createElement('div');
+      qFormBtns.className = 'decision-btn-row';
+
+      const qSaveBtn = document.createElement('button');
+      qSaveBtn.className = 'btn btn-primary btn-sm';
+      qSaveBtn.textContent = 'Save';
+      qSaveBtn.addEventListener('click', () => {
+        const text = qTextarea.value.trim();
+        if (!text) return;
+        createStageQuestion(store, { plantId: plant.id, stageId, text });
+        qTextarea.value = '';
+        askForm.hidden = true;
+        askToggle.setAttribute('aria-expanded', 'false');
+        const freshObs = getStageObservations(store, { plantId: plant.id, stageId });
+        const oldList = document.getElementById(questionsListId);
+        if (oldList) oldList.replaceWith(buildQuestionsList(freshObs.openQuestions));
+      });
+
+      const qCancelBtn = document.createElement('button');
+      qCancelBtn.className = 'btn btn-sm';
+      qCancelBtn.textContent = 'Cancel';
+      qCancelBtn.addEventListener('click', () => {
+        askForm.hidden = true;
+        askToggle.setAttribute('aria-expanded', 'false');
+      });
+
+      qFormBtns.appendChild(qSaveBtn);
+      qFormBtns.appendChild(qCancelBtn);
+      askForm.appendChild(qFormBtns);
+      qLane.appendChild(askForm);
+
+      askToggle.addEventListener('click', () => {
+        const open = askForm.hidden;
+        askForm.hidden = !open;
+        askToggle.setAttribute('aria-expanded', String(open));
+        if (open) qTextarea.focus();
+      });
+    }
+
+    nqSection.appendChild(qLane);
+    panel.appendChild(nqSection);
+  }
+
+  // ── Strain adjustments callout ────────────────────────────────────
+  if (classEntry && (classOverride || classEntry.globalNotes?.length)) {
+    const saWrap = document.createElement('div');
+    saWrap.className = 'stage-strain-adjustments';
+
+    const saLabel = document.createElement('div');
+    saLabel.className = 'stage-strain-adjustments-label';
+    saLabel.textContent = `${classEntry.label} class adjustments`;
+    saWrap.appendChild(saLabel);
+
+    if (classOverride?.hardWarnings?.length) {
+      for (const w of classOverride.hardWarnings) {
+        const wEl = document.createElement('div');
+        wEl.className = 'stage-edge-warning stage-edge-warning--urgent';
+        wEl.textContent = w;
+        saWrap.appendChild(wEl);
+      }
+    }
+
+    if (classEntry.globalNotes?.length) {
+      const gnDiv = document.createElement('div');
+      gnDiv.className = 'stage-strain-global-notes';
+      for (const note of classEntry.globalNotes) {
+        const p = document.createElement('p');
+        p.textContent = note;
+        gnDiv.appendChild(p);
+      }
+      saWrap.appendChild(gnDiv);
+    }
+
+    panel.appendChild(saWrap);
+  }
+
+  // ── Controls (current + past only) ────────────────────────────────
+  if (variant !== 'future') {
+    // Advance button: current stage and next = this stage
+    if (variant === 'current' && currentStage && onAdvance) {
+      const transition = STAGE_TRANSITIONS[currentStage];
+      if (transition && transition.next === stageId) {
+        const advBtn = document.createElement('button');
+        advBtn.className = 'btn btn-primary';
+        advBtn.style.marginTop = 'var(--space-4)';
+        advBtn.textContent = `Move to ${stage.name}`;
+        advBtn.addEventListener('click', () => onAdvance(stageId));
+        panel.appendChild(advBtn);
+      }
+    }
+
+    // Change stage select
+    if (currentStage && onStageChange) {
+      const changeRow = document.createElement('div');
+      changeRow.className = 'stage-change-row';
+      changeRow.style.marginTop = 'var(--space-4)';
+
+      const select = document.createElement('select');
+      select.className = 'input';
+      select.setAttribute('aria-label', 'Change growth stage');
+      for (const s of STAGES) {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = s.name;
+        if (s.id === currentStage) opt.selected = true;
+        select.appendChild(opt);
+      }
+
+      const changeBtn = document.createElement('button');
+      changeBtn.className = 'btn btn-sm';
+      changeBtn.textContent = 'Change Stage';
+      changeBtn.addEventListener('click', () => {
+        if (select.value !== currentStage) {
+          onStageChange(select.value);
+        }
+      });
+
+      changeRow.appendChild(select);
+      changeRow.appendChild(changeBtn);
+      panel.appendChild(changeRow);
+    }
   }
 
   container.appendChild(panel);

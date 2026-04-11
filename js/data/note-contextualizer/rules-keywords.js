@@ -332,6 +332,12 @@ export const KEYWORD_PATTERNS = [
   { id: 'stage-early-flower', pattern: /\b(?:early\s+flower|just\s+flipped|first\s+weeks?)\b/i, domains: ['timeline'], field: 'stage', value: 'early-flower' },
   { id: 'stage-mid-flower', pattern: /\b(?:mid[\s-]*flower|week\s*[45])\b/i, domains: ['timeline'], field: 'stage', value: 'mid-flower' },
   { id: 'stage-day-count', pattern: /\bday\s*(\d+)\b/i, domains: ['timeline'], extract: 'days' },
+
+  /* ── New Event Keywords (promoted from PROPOSED_NEW_KEYWORDS in edge-case-knowledge.js) ── */
+  { id: 'event-hermie',     pattern: /\b(hermie|herm(ed|ing)?|nanners?|bananas?|male\s+flowers?|pollen\s+sacs?)\b/i, domains: ['health', 'phenotype'], field: 'recentEvent', value: 'hermie' },
+  { id: 'event-bud-rot',   pattern: /\b(bud\s*rot|botrytis|grey\s*mould|grey\s*mold|brown\s+bud)\b/i,              domains: ['health', 'pest'],      field: 'recentEvent', value: 'bud-rot' },
+  { id: 'event-clone-cut', pattern: /\b(took\s+(a\s+)?cut(ting)?|cloned|rooting|in\s+the\s+dome)\b/i,              domains: ['action-taken'],         field: 'recentEvent', value: 'clone-cut' },
+  { id: 'dome-on',         pattern: /\bhumidity\s+dome|dome\s+(on|covered)\b/i,                                     domains: ['environment'],          field: 'envEvent',    value: 'dome-on' },
 ];
 
 /**

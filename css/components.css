@@ -364,3 +364,300 @@ h4 { font-size: 1rem; margin-bottom: var(--space-2); }
   flex-wrap: wrap;
   justify-content: center;
 }
+
+/* ── Plant Picker ─────────────────────────────────────────────────────── */
+
+.plant-picker {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  overflow-x: auto;
+  /* Hide scrollbar on webkit while keeping scroll capability */
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-elevated) transparent;
+  padding-bottom: var(--space-1); /* prevent focus outline clip */
+}
+
+.plant-picker::-webkit-scrollbar {
+  height: 4px;
+}
+
+.plant-picker::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.plant-picker::-webkit-scrollbar-thumb {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-full);
+}
+
+.plant-picker-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--bg-elevated);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.plant-picker-chip:hover {
+  background: var(--bg-elevated);
+  border-color: var(--text-muted);
+}
+
+.plant-picker-chip:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+}
+
+.plant-picker-chip[aria-selected="true"],
+.plant-picker-chip.plant-picker-chip--selected {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: var(--bg-primary);
+}
+
+.plant-picker-chip[aria-selected="true"]:hover,
+.plant-picker-chip.plant-picker-chip--selected:hover {
+  background: #a0c966;
+  border-color: #a0c966;
+}
+
+.plant-picker-chip[aria-selected="true"] .plant-picker-chip-meta,
+.plant-picker-chip.plant-picker-chip--selected .plant-picker-chip-meta {
+  color: var(--bg-primary);
+  opacity: 0.75;
+}
+
+.plant-picker-chip-name {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.plant-picker-chip-meta {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .plant-picker {
+    gap: var(--space-2);
+  }
+
+  .plant-picker-chip {
+    padding: var(--space-2) var(--space-2);
+    font-size: 0.82rem;
+  }
+}
+
+/* ── Journal — "All observations" notes feed ─────────────────────────── */
+
+.journal-notes-feed {
+  margin-bottom: var(--space-8);
+}
+
+.journal-notes-feed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.journal-notes-feed-header h2 {
+  margin-bottom: 0;
+}
+
+.journal-notes-feed-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--bg-elevated);
+  border-radius: var(--radius-full);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.filter-chip:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.filter-chip:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+}
+
+.filter-chip[aria-pressed="true"] {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: var(--bg-primary);
+  font-weight: 600;
+}
+
+.journal-notes-feed-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.journal-note-entry {
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-elevated);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.journal-note-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.journal-note-time {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+/* Source badges — pill per source type */
+.journal-note-source-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+.journal-note-source-badge--stage-note {
+  background: rgba(143, 184, 86, 0.18);
+  color: var(--accent-green);
+}
+
+.journal-note-source-badge--question {
+  background: rgba(92, 107, 192, 0.2);
+  color: var(--priority-effect);
+}
+
+.journal-note-source-badge--decision {
+  background: rgba(212, 168, 67, 0.2);
+  color: var(--priority-quality);
+}
+
+.journal-note-source-badge--diagnosis {
+  background: rgba(192, 57, 43, 0.18);
+  color: var(--status-urgent);
+}
+
+.journal-note-source-badge--wizard {
+  background: rgba(155, 108, 192, 0.2);
+  color: var(--priority-terpenes);
+}
+
+.journal-note-source-badge--log {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+.journal-note-stage-chip,
+.journal-note-plant-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px var(--space-2);
+  border: 1px solid var(--bg-elevated);
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  background: var(--bg-primary);
+}
+
+.journal-note-body {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.journal-note-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.journal-note-actions .btn-sm {
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.78rem;
+  min-height: 28px;
+}
+
+.journal-note-question-status {
+  font-size: 0.78rem;
+  font-style: italic;
+}
+
+.journal-note-timeline-link {
+  font-size: 0.78rem;
+  color: var(--accent-green);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition-fast);
+}
+
+.journal-note-timeline-link:hover {
+  border-bottom-color: var(--accent-green);
+}
+
+.journal-notes-empty {
+  list-style: none;
+  padding: var(--space-4);
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+  text-align: center;
+  background: var(--bg-surface);
+  border: 1px dashed var(--bg-elevated);
+  border-radius: var(--radius-md);
+}
