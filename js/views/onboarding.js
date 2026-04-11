@@ -131,16 +131,17 @@ export function renderOnboarding(container, store) {
   _store = store || window.__growdocStore;
 
   // Section 10: existing-user migration guard. If a profile already
-  // exists with onboardingComplete (or any meaningful data), skip the
-  // wizard entirely and route to dashboard. The user can still re-run
-  // the wizard explicitly via /setup if they want.
+  // exists AND there's an active grow in progress, skip the wizard and
+  // route to the dashboard. Between grows (after archive) we always run
+  // the wizard so the user can set up their new grow's plants/strain/stage.
   try {
     const existing = _store?.state?.profile || {};
-    if (existing && (existing.onboardingComplete === true ||
-                     existing.medium || existing.experience)) {
-      // Hash-based hint that the user opted in to re-onboarding
+    const grow = _store?.state?.grow || {};
+    const hasProfile = existing && (existing.onboardingComplete === true ||
+                                    existing.medium || existing.experience);
+    const hasActiveGrow = grow && grow.active === true;
+    if (hasProfile && hasActiveGrow) {
       if (!window.location.search.includes('reonboard=1')) {
-        // Use the router via global to avoid a circular import
         if (window.history && window.location) {
           window.history.replaceState(null, '', '/dashboard');
           window.dispatchEvent(new PopStateEvent('popstate'));
