@@ -6,7 +6,7 @@ import { renderTimeline } from '../components/timeline-bar.js';
 import { getDaysInStage } from '../data/stage-rules.js';
 import { daysSinceLog as _daysSinceLog } from '../utils.js';
 import { navigate } from '../router.js';
-import { collectObservations, parseObservation, getObservationIndex } from '../data/note-contextualizer/index.js';
+import { collectObservations, parseObservation, getObservationIndex, recordReferencedIn } from '../data/note-contextualizer/index.js';
 import { getRelevantObservations as _filterObs } from '../data/note-contextualizer/merge.js';
 
 /**
@@ -120,6 +120,8 @@ export function renderStatusBanner(container, store) {
     const alertObs = _collectAlertObservations(store, { since, minSeverity: 'alert', limit: 1 });
     if (alertObs.length > 0) {
       const obs = alertObs[0];
+      // Section-10: citation for dashboard banner trail.
+      try { recordReferencedIn([obs.id], 'dashboard:statusBanner'); } catch { /* best-effort */ }
       const noteBanner = document.createElement('div');
       noteBanner.className = 'status-banner-note';
       const raw = typeof obs.rawText === 'string' ? obs.rawText.trim() : '';

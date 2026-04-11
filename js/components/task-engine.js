@@ -5,7 +5,7 @@ import { WATERING_FREQUENCY, VPD_TARGETS, DLI_TARGETS, NUTRIENT_TARGETS } from '
 import { STAGE_TRANSITIONS, STAGES, getDaysInStage, shouldAutoAdvance, getCureBurpSchedule } from '../data/stage-rules.js';
 import { getLearnedInterval } from '../data/pattern-tracker.js';
 import { generateId } from '../utils.js';
-import { collectObservations, parseAllObservations } from '../data/note-contextualizer/index.js';
+import { collectObservations, parseAllObservations, recordReferencedIn } from '../data/note-contextualizer/index.js';
 import { checkRedundancy, checkContradiction, inferAlertTrigger, overrideSuppression as _overrideSuppressionImpl, TASK_WINDOW_HOURS } from './task-engine-note-guards.js';
 
 // Re-export so task-card.js can import from './task-engine.js'.
@@ -148,6 +148,10 @@ export function evaluateTimeTriggers(plant, profile, existingTasks, plantObserva
       if (check.suppressed) {
         t.suppressedBy = check.obsIds;
         t.suppressedNoteRef = check.noteRef;
+        // Section-10: citation for suppressed-task trail.
+        try {
+          recordReferencedIn(check.obsIds, `task-engine:suppress:${t.type}:${t.plantId}`);
+        } catch (_err) { /* best-effort */ }
       }
     }
   }
@@ -330,7 +334,13 @@ function evaluateDiagnoseTaskTriggers(plant, existingTasks, plantObservations = 
     intermediate: reasonMessage,
     expert: reasonMessage,
   });
-  if (alertTrigger.trigger) task.triggeredBy = alertTrigger.obsIds;
+  if (alertTrigger.trigger) {
+    task.triggeredBy = alertTrigger.obsIds;
+    // Section-10: citation for diagnose-trigger trail.
+    try {
+      recordReferencedIn(alertTrigger.obsIds, `task-engine:diagnose-trigger:${plant.id}`);
+    } catch (_err) { /* best-effort */ }
+  }
   tasks.push(task);
   return tasks.filter(t => !isDuplicate(t, existingTasks));
 }
@@ -444,6 +454,10 @@ export function evaluateEnvironmentTriggers(readings, profile, existingTasks, ob
           'Sensor disagrees with your note',
           _simpleDetail(`Your recent note flagged an environment alert, but the sensor reads in-range. Check for a stuck probe or a localized issue.`));
         task.citedObsId = conflict.obsId;
+        // Section-10: citation for env-discrepancy trail.
+        try {
+          recordReferencedIn([conflict.obsId], `task-engine:env-discrepancy:${plantId}`);
+        } catch (_err) { /* best-effort */ }
         tasks.push(task);
       }
     }

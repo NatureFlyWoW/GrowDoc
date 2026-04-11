@@ -5,6 +5,7 @@ import {
   adjustScoresFromNotes,
   getRelevantObservations,
   mergeNoteContext,
+  recordReferencedIn,
 } from '../data/note-contextualizer/index.js';
 
 /**
@@ -61,6 +62,17 @@ export function runDiagnosis(symptoms, context = {}) {
       score: s.score,
     }))
     .sort((a, b) => b.confidence - a.confidence);
+
+  // Section-10: citation trail. When notes influenced the diagnosis,
+  // record the observation IDs that fed into mergeNoteContext.
+  if (context && context.plantId && Array.isArray(context.observations) && context.observations.length > 0) {
+    try {
+      const obsIds = context.observations.map(o => o && o.id).filter(Boolean);
+      if (obsIds.length > 0) {
+        recordReferencedIn(obsIds, `plant-doctor:runDiagnosis:${context.plantId}`);
+      }
+    } catch (_err) { /* citation write is best-effort */ }
+  }
 
   return results.slice(0, 10); // Top 10
 }
