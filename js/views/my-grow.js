@@ -276,14 +276,117 @@ function _quickLog(store, plantId, type) {
   const plant = growSnap.plants.find(p => p.id === plantId);
   if (!plant) return;
   if (!plant.logs) plant.logs = [];
-  plant.logs.push({
-    id: generateId(),
+
+  const logId = generateId();
+  const logEntry = {
+    id: logId,
     date: new Date().toISOString(),
     timestamp: new Date().toISOString(),
     type,
     details: {},
-  });
+    photoId: null, // Section 08 forward-compat
+  };
+  plant.logs.push(logEntry);
+
+  // Auto-complete the SINGLE oldest pending task of the same type for
+  // this plant. Other pending tasks of the same type remain.
+  let autoCompletedTaskId = null;
+  if (Array.isArray(growSnap.tasks)) {
+    const matching = growSnap.tasks.filter(t =>
+      t.plantId === plantId && t.type === type && t.status === 'pending'
+    );
+    matching.sort((a, b) => new Date(a.generatedDate || 0) - new Date(b.generatedDate || 0));
+    if (matching.length > 0) {
+      const target = matching[0];
+      target.status = 'done';
+      target.completedDate = new Date().toISOString();
+      target.stageAtCompletion = plant.stage;
+      autoCompletedTaskId = target.id;
+    }
+  }
+
   store.commit('grow', growSnap);
+
+  // 5-second undo toast — slide in, auto-dismiss
+  _showUndoToast(`${type.charAt(0).toUpperCase() + type.slice(1)} logged for ${plant.name}`, () => {
+    // Undo: remove the log entry and revert the auto-completed task
+    const undoSnap = store.getSnapshot().grow;
+    const undoPlant = undoSnap.plants.find(p => p.id === plantId);
+    if (undoPlant && undoPlant.logs) {
+      undoPlant.logs = undoPlant.logs.filter(l => l.id !== logId);
+    }
+    if (autoCompletedTaskId && Array.isArray(undoSnap.tasks)) {
+      const restored = undoSnap.tasks.find(t => t.id === autoCompletedTaskId);
+      if (restored) {
+        restored.status = 'pending';
+        restored.completedDate = null;
+        delete restored.stageAtCompletion;
+      }
+    }
+    store.commit('grow', undoSnap);
+    // Re-render My Grow if currently mounted
+    const content = document.getElementById('content');
+    if (content) renderMyGrow(content, store);
+  });
+}
+
+/**
+ * Slide-in toast at the bottom of the viewport with a 5-second undo button.
+ * If the user does nothing, the toast auto-dismisses and the action is final.
+ * If the user taps Undo, the supplied callback runs.
+ */
+function _showUndoToast(message, onUndo) {
+  // Remove any existing toast first
+  const existing = document.getElementById('quick-log-toast');
+  if (existing) existing.remove();
+
+  const toast = document.createElement('div');
+  toast.id = 'quick-log-toast';
+  toast.setAttribute('role', 'status');
+  toast.style.position = 'fixed';
+  toast.style.bottom = '24px';
+  toast.style.left = '50%';
+  toast.style.transform = 'translateX(-50%)';
+  toast.style.background = 'var(--bg-elevated, #2d3748)';
+  toast.style.color = 'var(--text-on-elevated, #fff)';
+  toast.style.padding = '12px 20px';
+  toast.style.borderRadius = '8px';
+  toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+  toast.style.display = 'flex';
+  toast.style.alignItems = 'center';
+  toast.style.gap = '16px';
+  toast.style.zIndex = '9999';
+  toast.style.maxWidth = 'calc(100vw - 32px)';
+
+  const text = document.createElement('span');
+  text.textContent = message;
+  toast.appendChild(text);
+
+  const undoBtn = document.createElement('button');
+  undoBtn.textContent = 'Undo';
+  undoBtn.style.background = 'transparent';
+  undoBtn.style.border = '1px solid currentColor';
+  undoBtn.style.color = 'inherit';
+  undoBtn.style.padding = '4px 12px';
+  undoBtn.style.borderRadius = '4px';
+  undoBtn.style.cursor = 'pointer';
+  undoBtn.style.fontSize = '0.85rem';
+  toast.appendChild(undoBtn);
+
+  document.body.appendChild(toast);
+
+  let undone = false;
+  const timer = setTimeout(() => {
+    if (toast.parentNode) toast.parentNode.removeChild(toast);
+  }, 5000);
+
+  undoBtn.addEventListener('click', () => {
+    if (undone) return;
+    undone = true;
+    clearTimeout(timer);
+    if (toast.parentNode) toast.parentNode.removeChild(toast);
+    if (typeof onUndo === 'function') onUndo();
+  });
 }
 
 export function daysSince(plant, logType) {
