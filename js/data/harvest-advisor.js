@@ -83,11 +83,27 @@ export function getHarvestRecommendation(trichomes, priorities, notes = []) {
   // skipped and citedObsIds defaults to []. Output is byte-identical to
   // the pre-section-06 implementation.
   let citedObsIds = [];
+  const citedSet = new Set();
   if (Array.isArray(notes) && notes.length > 0) {
     const merged = mergeNoteContext(notes);
     const ctx = (merged && merged.ctx) || {};
     const keywords = (merged && Array.isArray(merged.keywords)) ? merged.keywords : [];
     const kwSet = new Set(keywords);
+
+    // Helper: find notes whose parsed keywords include any of `targets`
+    // and cite them. Used by every keyword-driven branch below.
+    const citeNotesMatching = (targets) => {
+      for (const obs of notes) {
+        if (!obs || !obs.id) continue;
+        const kws = obs.parsed && Array.isArray(obs.parsed.keywords) ? obs.parsed.keywords : [];
+        for (const t of targets) {
+          if (kws.includes(t) || kws.some(k => typeof k === 'string' && t instanceof RegExp && t.test(k))) {
+            citedSet.add(obs.id);
+            break;
+          }
+        }
+      }
+    };
 
     // Grower intent pulled from merged ctx (set by intent-* or priority-* rules)
     const growerIntent = ctx.growerIntent || null;
@@ -110,20 +126,24 @@ export function getHarvestRecommendation(trichomes, priorities, notes = []) {
       recommendation = 'harvest-now';
       const note = 'Note-derived intent prefers max terpenes — upgrading to harvest now while milky trichomes are at peak.';
       tradeoffNote = tradeoffNote ? `${tradeoffNote} ${note}` : note;
+      citeNotesMatching(['user-wants-max-terps', 'intent-max-terps']);
     } else if (effectiveIntent === 'max-yield' && recommendation === 'harvest-now' && milky >= 40 && amber >= 10 && amber <= 30) {
       // Classic-window branch: downgrade to harvest-soon when the grower
       // explicitly wants max yield (more weight comes from waiting).
       recommendation = 'harvest-soon';
       const note = 'Note-derived intent prefers max yield — downgrading to harvest soon to accumulate more weight.';
       tradeoffNote = tradeoffNote ? `${tradeoffNote} ${note}` : note;
+      citeNotesMatching(['user-wants-max-yield', 'intent-max-yield']);
     }
 
     // Confidence bumps from "user thinks early/late" signals.
     if (kwSet.has('user-thinks-early')) {
       confidence = bumpConfidence(confidence, +1);
+      citeNotesMatching(['user-thinks-early']);
     }
     if (kwSet.has('user-thinks-late')) {
       confidence = bumpConfidence(confidence, -1);
+      citeNotesMatching(['user-thinks-late']);
     }
 
     // Aroma enrichment — never flips recommendation, just enriches tradeoff
@@ -131,18 +151,24 @@ export function getHarvestRecommendation(trichomes, priorities, notes = []) {
     const aromaSignal = keywords.find(k => typeof k === 'string' && (k.startsWith('aroma-') || k === 'aroma-terpene-rich'));
     if (aromaSignal) {
       const sourceObs = notes.find(o => o && o.parsed && Array.isArray(o.parsed.keywords) && o.parsed.keywords.includes(aromaSignal));
-      if (sourceObs && typeof sourceObs.rawText === 'string' && sourceObs.rawText.trim()) {
-        const raw = sourceObs.rawText.trim();
-        const quoted = raw.length > 60 ? raw.slice(0, 57) + '...' : raw;
-        const aromaLine = `Aroma cue noted ("${quoted}") — terpene profile currently expressing.`;
-        tradeoffNote = tradeoffNote ? `${tradeoffNote} ${aromaLine}` : aromaLine;
+      if (sourceObs) {
+        if (sourceObs.id) citedSet.add(sourceObs.id);
+        if (typeof sourceObs.rawText === 'string' && sourceObs.rawText.trim()) {
+          const raw = sourceObs.rawText.trim();
+          const quoted = raw.length > 60 ? raw.slice(0, 57) + '...' : raw;
+          const aromaLine = `Aroma cue noted ("${quoted}") — terpene profile currently expressing.`;
+          tradeoffNote = tradeoffNote ? `${tradeoffNote} ${aromaLine}` : aromaLine;
+        }
       }
     }
 
-    // Collect cited obs ids from the merged _citations map.
+    // Collect cited obs ids: union of scalar-winner citations from the
+    // merge map and the keyword-driven citations we accumulated above.
     const citationMap = (merged && merged._citations) || {};
-    const flattened = Object.values(citationMap).flat();
-    citedObsIds = Array.from(new Set(flattened));
+    for (const flat of Object.values(citationMap)) {
+      if (Array.isArray(flat)) for (const id of flat) if (id) citedSet.add(id);
+    }
+    citedObsIds = Array.from(citedSet);
   }
 
   return {

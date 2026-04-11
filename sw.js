@@ -20,7 +20,7 @@
 // VERSION is intended to be bumped on every deploy. The string below
 // is a placeholder — a build script can sed-replace it pre-deploy.
 
-const VERSION = '2026-04-nc1';
+const VERSION = '2026-04-nc2';
 const STATIC_CACHE = `growdoc-static-${VERSION}`;
 const RUNTIME_CACHE = `growdoc-runtime-${VERSION}`;
 

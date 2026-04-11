@@ -57,7 +57,10 @@ export async function runTests() {
   {
     const ids = STAGES.map(s => s.id);
     assert(ids[0] === 'germination', 'first stage is germination');
-    assert(ids[ids.length - 1] === 'curing', 'last stage is curing');
+    // `done` is a sentinel appended after the real cultivation lifecycle —
+    // the meaningful "last real stage" is curing.
+    const nonSentinel = ids.filter(id => id !== 'done');
+    assert(nonSentinel[nonSentinel.length - 1] === 'curing', 'last real stage is curing');
     assert(ids.indexOf('transition') < ids.indexOf('early-flower'), 'transition before early-flower');
   }
 
