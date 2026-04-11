@@ -281,6 +281,16 @@ async function saveDoc(e) {
   const saveBtn = $('save-btn');
   const errorEl = $('form-error');
   errorEl.textContent = '';
+
+  // Section 09: admin save requires the network. Reduced-scope offline
+  // handling — show a clear message and bail out instead of attempting
+  // a doomed request. No queue, no retry. The grow companion features
+  // continue to work entirely offline via localStorage.
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+    errorEl.textContent = 'Offline — cannot save. Your changes will save when you are back online.';
+    return;
+  }
+
   saveBtn.disabled = true;
   saveBtn.textContent = '⏳ Saving...';
 

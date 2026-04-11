@@ -146,6 +146,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize router with content area and view map
     initRouter(content, viewMap);
+
+    // Section 09: register the service worker for PWA installability
+    // and offline support. Guarded by feature check; failures are
+    // logged but never block app boot.
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((err) => {
+          console.warn('[sw] registration failed', err);
+        });
+      });
+    }
   } catch (err) {
     console.error('App initialization failed:', err);
     showErrorScreen('Something went wrong during startup.');
