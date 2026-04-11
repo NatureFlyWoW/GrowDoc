@@ -1,6 +1,6 @@
 // GrowDoc Companion — Dashboard (Today View)
 
-import { generateTasks, pruneTasks, getExperienceDetail } from '../components/task-engine.js';
+import { generateTasks, pruneTasks, getExperienceDetail, recordTaskCompletion, recordTaskDismissal } from '../components/task-engine.js';
 import { renderTaskCard, renderCustomTaskForm } from '../components/task-card.js';
 import { renderTimeline } from '../components/timeline-bar.js';
 import { getDaysInStage } from '../data/stage-rules.js';
@@ -225,6 +225,17 @@ function _updateTask(store, taskId, status) {
   if (task) {
     task.status = status;
     task.completedDate = new Date().toISOString();
+    // Stamp the stage at completion so the pattern tracker can scope
+    // intervals per (plant, type, stage).
+    const plant = (grow.plants || []).find(p => p.id === task.plantId);
+    if (plant) task.stageAtCompletion = plant.stage;
+
+    if (status === 'done') {
+      recordTaskCompletion(grow, task, plant?.stage || 'unknown');
+    } else if (status === 'dismissed') {
+      recordTaskDismissal(grow);
+    }
+
     store.commit('grow', grow);
     const content = document.getElementById('content');
     if (content) renderDashboard(content, store);

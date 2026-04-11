@@ -1,10 +1,15 @@
 // GrowDoc Companion — Task Card UI Component
 
-import { getExperienceDetail } from './task-engine.js';
+import { getExperienceDetail, TASK_KNOWLEDGE_MAP } from './task-engine.js';
 
 const PRIORITY_COLORS = { urgent: 'var(--status-urgent)', recommended: 'var(--status-action)', optional: 'var(--status-good)' };
 const EVIDENCE_COLORS = { established: 'var(--evidence-strong)', promising: 'var(--evidence-moderate)', speculative: 'var(--evidence-emerging)', practitioner: 'var(--evidence-anecdotal)' };
-const TYPE_ICONS = { water: '💧', feed: '🧪', train: '✂️', defoliate: '🍃', check: '🔍', harvest: '🌾', stage: '📈', custom: '📝' };
+const TYPE_ICONS = {
+  water: '💧', feed: '🧪', train: '✂️', defoliate: '🍃',
+  check: '🔍', harvest: '🌾', stage: '📈', custom: '📝',
+  ipm: '🔍', 'drying-check': '🌬️', 'cure-burp': '🫙',
+  diagnose: '🩺',
+};
 
 /**
  * renderTaskCard(container, task, options) — Renders a task card with actions.
@@ -63,6 +68,30 @@ export function renderTaskCard(container, task, options = {}) {
     notesEl.className = 'task-notes-display';
     notesEl.textContent = task.notes;
     expandable.appendChild(notesEl);
+  }
+
+  // Contextual knowledge link (Section 04). Maps task type to a KB
+  // article via TASK_KNOWLEDGE_MAP. 'diagnose' routes to Plant Doctor
+  // instead of an article.
+  if (task.type === 'diagnose') {
+    const kbLink = document.createElement('a');
+    kbLink.href = `#/tools/doctor`;
+    kbLink.className = 'task-kb-link';
+    kbLink.style.display = 'inline-block';
+    kbLink.style.marginTop = '8px';
+    kbLink.style.fontSize = '0.85rem';
+    kbLink.textContent = 'Run diagnosis →';
+    expandable.appendChild(kbLink);
+  } else if (Object.prototype.hasOwnProperty.call(TASK_KNOWLEDGE_MAP, task.type) && TASK_KNOWLEDGE_MAP[task.type]) {
+    const articleId = TASK_KNOWLEDGE_MAP[task.type];
+    const kbLink = document.createElement('a');
+    kbLink.href = `#/knowledge/${articleId}`;
+    kbLink.className = 'task-kb-link';
+    kbLink.style.display = 'inline-block';
+    kbLink.style.marginTop = '8px';
+    kbLink.style.fontSize = '0.85rem';
+    kbLink.textContent = 'Learn more →';
+    expandable.appendChild(kbLink);
   }
 
   card.appendChild(expandable);

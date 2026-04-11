@@ -3,6 +3,7 @@
 
 import { WATERING_FREQUENCY, VPD_TARGETS, DLI_TARGETS, NUTRIENT_TARGETS } from '../data/grow-knowledge.js';
 import { STAGE_TRANSITIONS, STAGES, getDaysInStage, shouldAutoAdvance, getCureBurpSchedule } from '../data/stage-rules.js';
+import { getLearnedInterval } from '../data/pattern-tracker.js';
 import { generateId } from '../utils.js';
 
 /**
@@ -28,6 +29,7 @@ export function generateTasks(store) {
     newTasks.push(...evaluateStageTriggers(plant, profile, existingTasks));
     newTasks.push(...evaluateTrainingTriggers(plant, existingTasks));
     newTasks.push(...evaluateDiagnosisTriggers(plant, existingTasks));
+    newTasks.push(...evaluateIPMTriggers(plant, profile, existingTasks));
   }
 
   newTasks.push(...evaluateEnvironmentTriggers(envData.readings || [], profile, existingTasks));
@@ -175,15 +177,61 @@ export function evaluateStageTriggers(plant, profile, existingTasks) {
     }));
   }
 
-  // Cure burp reminders
+  // Cure burp reminders — stable title for dedup; cadence comes from schedule.
   if (stage === 'curing') {
     const schedule = getCureBurpSchedule(days);
-    tasks.push(_createTask(plant.id, 'check', 'recommended', `Burp jars — ${plant.name}`, {
+    tasks.push(_createTask(plant.id, 'cure-burp', 'recommended', `Burp curing jars`, {
       beginner: `Burp curing jars for ${plant.name}. Open jars for 10-15 minutes. Schedule: ${schedule.label}. Check for ammonia smell (bad — too moist) or hay smell (normal early cure).`,
       intermediate: `Burp jars for ${plant.name} — ${schedule.label}. Check smell and jar RH.`,
       expert: `Burp — ${plant.name} (${schedule.label})`,
     }));
   }
+
+  // Drying environment check — daily during drying stage. Stable title.
+  if (stage === 'drying') {
+    tasks.push(_createTask(plant.id, 'drying-check', 'recommended', `Check drying conditions`, {
+      beginner: `Check the drying room for ${plant.name}. Target: 15-21°C, 55-65% RH. Gentle airflow (not directly on the buds). For best terpene preservation, aim for the cooler end (15-17°C). Check daily.`,
+      intermediate: `Drying check — ${plant.name}: 15-21°C, 55-65% RH, gentle airflow. Terpene priority: 15-17°C.`,
+      expert: `Drying check — temp/RH/airflow.`,
+    }));
+  }
+
+  return tasks.filter(t => !isDuplicate(t, existingTasks));
+}
+
+// ── IPM (Integrated Pest Management) Triggers ───────────────────────
+// Weekly during veg, bi-weekly during flower. Stable title for dedup.
+
+export function evaluateIPMTriggers(plant, profile, existingTasks) {
+  const tasks = [];
+  const stage = plant.stage;
+  const days = getDaysInStage(plant);
+
+  // Skip stages that don't need pest inspection
+  if (['germination', 'seedling', 'drying', 'curing', 'done'].includes(stage)) {
+    return tasks;
+  }
+
+  const isVeg = stage === 'early-veg' || stage === 'late-veg' || stage === 'transition';
+  const isFlower = stage === 'early-flower' || stage === 'mid-flower' || stage === 'late-flower' || stage === 'ripening';
+
+  let shouldFire = false;
+  if (isVeg && days % 7 === 0 && days > 0) shouldFire = true;
+  if (isFlower && days % 14 === 0 && days > 0) shouldFire = true;
+
+  // Allow re-firing on day 1 of any new veg/flower stage as a baseline
+  if (days === 1 && (isVeg || isFlower)) shouldFire = true;
+
+  if (!shouldFire) return tasks;
+
+  const experience = profile?.experience || 'intermediate';
+  const detail = {
+    beginner: 'Inspect all plants for pests. Look under leaves for tiny white dots (mites), sticky residue (aphids), or small flying insects (fungus gnats). Check soil surface for movement.',
+    intermediate: 'Weekly IPM check: underside of leaves for mites/thrips, stem junctions for aphids, soil surface for fungus gnat larvae. Inspect new growth tips for broad mite damage (glossy, distorted leaves).',
+    expert: 'IPM sweep. Targets: Tetranychidae, Frankliniella, Bradysia. Check hermie signs (nanners, balls at nodes) during flower.',
+  };
+
+  tasks.push(_createTask(plant.id, 'ipm', 'recommended', `Weekly IPM Inspection`, detail));
 
   return tasks.filter(t => !isDuplicate(t, existingTasks));
 }
@@ -248,6 +296,122 @@ export function evaluateEnvironmentTriggers(readings, profile, existingTasks) {
   }
 
   return tasks.filter(t => !isDuplicate(t, existingTasks));
+}
+
+// ── Task → Knowledge Article Map ─────────────────────────────────────
+//
+// Used by task-card.js to render a contextual "Learn more →" link on
+// each task card. `null` means the task type has no associated KB
+// article (or routes elsewhere — e.g. 'diagnose' goes to Plant Doctor).
+
+export const TASK_KNOWLEDGE_MAP = {
+  'water':         'watering-technique',
+  'feed':          'calmag-guide',
+  'feed-soil':     'calmag-guide',
+  'feed-coco':     'calmag-guide',
+  'feed-hydro':    'calmag-guide',
+  'defoliate':     'canopy-management',
+  'lollipop':      'canopy-management',
+  'vpd-check':     'vpd-by-stage',
+  'ipm':           'pest-id',
+  'diagnose':      null, // Routes to Plant Doctor, not KB
+  'harvest':       'trichome-guide',
+  'harvest-check': 'trichome-guide',
+  'drying-check':  'drying-curing',
+  'cure-burp':     'drying-curing',
+};
+
+// ── Task Stats / Completion Tracking ─────────────────────────────────
+
+const STREAKABLE_TYPES = ['water', 'feed', 'ipm', 'log'];
+
+/**
+ * Initialize a fresh taskStats shape.
+ */
+export function seedTaskStats() {
+  return {
+    totalCompleted: 0,
+    totalDismissed: 0,
+    streaks: { water: 0, feed: 0, ipm: 0, log: 0 },
+    intervals: {},
+    weeklyHistory: [],
+    lastCompletedDate: null,
+  };
+}
+
+/**
+ * Get the current ISO week string (YYYY-WW) in local time.
+ * Used for grouping weekly history.
+ */
+function _isoWeek(date = new Date()) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNum = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  return `${d.getUTCFullYear()}-${String(weekNum).padStart(2, '0')}`;
+}
+
+function _localDate(d = new Date()) {
+  return d.toLocaleDateString('en-CA'); // YYYY-MM-DD in user's local timezone
+}
+
+/**
+ * Record a task completion. Mutates the grow object in place.
+ * Updates totalCompleted, intervals, streaks, weeklyHistory,
+ * lastCompletedDate. Caller is responsible for store.commit().
+ *
+ * @param {Object} grow - Mutable grow snapshot
+ * @param {Object} task - The completed task object
+ * @param {string} stage - The stage the plant was in when completed
+ */
+export function recordTaskCompletion(grow, task, stage) {
+  if (!grow) return;
+  if (!grow.taskStats) grow.taskStats = seedTaskStats();
+  const stats = grow.taskStats;
+
+  stats.totalCompleted = (stats.totalCompleted || 0) + 1;
+
+  // Track interval data
+  if (task.plantId && task.type && stage) {
+    if (!stats.intervals[task.plantId]) stats.intervals[task.plantId] = {};
+    if (!stats.intervals[task.plantId][task.type]) stats.intervals[task.plantId][task.type] = {};
+    const arr = stats.intervals[task.plantId][task.type][stage] || [];
+    arr.push(new Date().toISOString());
+    while (arr.length > 30) arr.shift();
+    stats.intervals[task.plantId][task.type][stage] = arr;
+  }
+
+  // Update streaks for streakable types
+  if (STREAKABLE_TYPES.includes(task.type)) {
+    if (!stats.streaks) stats.streaks = { water: 0, feed: 0, ipm: 0, log: 0 };
+    // Streak logic deferred to Section 07; for now just increment
+    // (Section 07 will compare actual interval vs expected)
+    stats.streaks[task.type] = (stats.streaks[task.type] || 0) + 1;
+  }
+
+  // Update weekly history
+  if (!Array.isArray(stats.weeklyHistory)) stats.weeklyHistory = [];
+  const week = _isoWeek();
+  let weekEntry = stats.weeklyHistory.find(w => w.week === week);
+  if (!weekEntry) {
+    weekEntry = { week, completed: 0, total: 0 };
+    stats.weeklyHistory.push(weekEntry);
+    // Cap history at 26 weeks (~6 months)
+    while (stats.weeklyHistory.length > 26) stats.weeklyHistory.shift();
+  }
+  weekEntry.completed++;
+
+  stats.lastCompletedDate = _localDate();
+}
+
+/**
+ * Record a task dismissal. Increments dismissed counter only.
+ */
+export function recordTaskDismissal(grow) {
+  if (!grow) return;
+  if (!grow.taskStats) grow.taskStats = seedTaskStats();
+  grow.taskStats.totalDismissed = (grow.taskStats.totalDismissed || 0) + 1;
 }
 
 // ── Task Pruning ─────────────────────────────────────────────────────
