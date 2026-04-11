@@ -25,6 +25,13 @@ export function renderPlantDetail(container, store, plantId, initialTab) {
     return;
   }
 
+  // Section-05: commit the active plant id BEFORE any Plant Doctor launch
+  // button renders so downstream diagnosis runs against the right plant
+  // even if the user taps "Diagnose" immediately.
+  if (store.state.ui?.activePlantId !== plant.id) {
+    store.commit('ui', { ...store.state.ui, activePlantId: plant.id });
+  }
+
   // Header
   const header = document.createElement('div');
   header.className = 'plant-detail-header';
@@ -127,6 +134,11 @@ function _renderOverview(container, plant, store) {
   diagnoseBtn.style.width = '100%';
   diagnoseBtn.style.padding = '12px';
   diagnoseBtn.addEventListener('click', () => {
+    // Section-05: ensure the doctor opens on THIS plant even when the
+    // user bounced between plants via quick-actions since the last mount.
+    if (store.state.ui?.activePlantId !== plant.id) {
+      store.commit('ui', { ...store.state.ui, activePlantId: plant.id });
+    }
     const profile = store.state.profile || {};
     const url = buildDiagnoseUrl(plant, profile);
     navigate(url);

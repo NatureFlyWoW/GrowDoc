@@ -83,6 +83,20 @@ export function renderTaskCard(container, task, options = {}) {
     kbLink.style.marginTop = '8px';
     kbLink.style.fontSize = '0.85rem';
     kbLink.textContent = 'Run diagnosis →';
+    // Section-05: Plant Doctor must know which plant this diagnose task is
+    // scoped to. Commit activePlantId just before the hash-navigation fires.
+    if (task.plantId && options.store) {
+      kbLink.addEventListener('click', () => {
+        try {
+          const store = options.store;
+          if (store.state.ui?.activePlantId !== task.plantId) {
+            store.commit('ui', { ...store.state.ui, activePlantId: task.plantId });
+          }
+        } catch (_err) {
+          // non-fatal — navigation still proceeds
+        }
+      });
+    }
     expandable.appendChild(kbLink);
   } else if (Object.prototype.hasOwnProperty.call(TASK_KNOWLEDGE_MAP, task.type) && TASK_KNOWLEDGE_MAP[task.type]) {
     const articleId = TASK_KNOWLEDGE_MAP[task.type];

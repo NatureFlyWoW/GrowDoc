@@ -6,6 +6,8 @@ import { renderTimeline } from '../components/timeline-bar.js';
 import { getDaysInStage } from '../data/stage-rules.js';
 import { daysSinceLog as _daysSinceLog } from '../utils.js';
 import { navigate } from '../router.js';
+import { collectObservations, parseObservation, getObservationIndex } from '../data/note-contextualizer/index.js';
+import { getRelevantObservations as _filterObs } from '../data/note-contextualizer/merge.js';
 
 /**
  * renderDashboard(container, store) — Main dashboard view.
@@ -109,6 +111,68 @@ export function renderStatusBanner(container, store) {
   banner.textContent = text;
   banner.dataset.status = status;
   container.appendChild(banner);
+
+  // Section-06: second-line alert-obs banner. Only surfaces when the
+  // primary banner is green (no urgent/recommended tasks) AND a recent
+  // alert-severity observation exists within the 48h window.
+  if (urgentTasks.length === 0 && recommendedTasks.length === 0) {
+    const since = new Date(Date.now() - 48 * 3_600_000).toISOString();
+    const alertObs = _collectAlertObservations(store, { since, minSeverity: 'alert', limit: 1 });
+    if (alertObs.length > 0) {
+      const obs = alertObs[0];
+      const noteBanner = document.createElement('div');
+      noteBanner.className = 'status-banner-note';
+      const raw = typeof obs.rawText === 'string' ? obs.rawText.trim() : '';
+      const truncated = raw.length > 80 ? raw.slice(0, 79) + '…' : raw;
+      noteBanner.textContent = `"${truncated}" · ${_relativeTime(obs.observedAt)}`;
+      if (obs.plantId) noteBanner.dataset.plantId = obs.plantId;
+      noteBanner.style.cursor = 'pointer';
+      noteBanner.addEventListener('click', () => {
+        if (obs.plantId) navigate(`/grow/plants/${obs.plantId}`);
+      });
+      container.appendChild(noteBanner);
+    }
+  }
+}
+
+// ── Section-06 helpers ──────────────────────────────────────────────
+
+/**
+ * Local relativeTime formatter. Returns "just now", "Nm ago", "Nh ago",
+ * or "Nd ago". No libraries.
+ */
+function _relativeTime(iso) {
+  if (!iso) return 'just now';
+  const ms = Date.parse(iso);
+  if (Number.isNaN(ms)) return 'just now';
+  const diff = Date.now() - ms;
+  if (diff < 60_000) return 'just now';
+  if (diff < 3_600_000) return `${Math.floor(diff / 60_000)}m ago`;
+  if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)}h ago`;
+  return `${Math.floor(diff / 86_400_000)}d ago`;
+}
+
+/**
+ * Collects alert-severity observations for the status banner. Uses the
+ * singleton index when available; falls back to a fresh projection +
+ * parse when the contextualizer hasn't been initialized (tests).
+ */
+function _collectAlertObservations(store, opts) {
+  // Try the singleton first — it's already parsed and cached.
+  try {
+    const idx = getObservationIndex();
+    if (idx && Array.isArray(idx.all) && idx.all.length > 0) {
+      return _filterObs(idx.all, opts);
+    }
+  } catch (_) { /* fall through */ }
+
+  // Fallback: project on the fly (tests path).
+  if (!store || !store.state) return [];
+  const grow = store.state.grow;
+  const profile = store.state.profile;
+  const fresh = collectObservations(grow, profile);
+  for (const o of fresh) parseObservation(o);
+  return _filterObs(fresh, opts);
 }
 
 /**

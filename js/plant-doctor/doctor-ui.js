@@ -2,6 +2,7 @@
 
 import { runDiagnosis, getRefineQuestions, buildContext, setDiagnosticData } from './doctor-engine.js';
 import { CORE_SCORING, CORE_REFINE_RULES, SYMPTOM_OPTIONS } from './doctor-data.js';
+import { generateContextualAdvice } from '../data/note-contextualizer/index.js';
 
 /**
  * renderPlantDoctor(container, store) — Plant Doctor diagnostic view.
@@ -134,6 +135,42 @@ function _updateResults(container, symptoms, context, store) {
     }
 
     resultsArea.appendChild(card);
+  }
+
+  // Section-05: Contextual "Your Action Plan" — only render when buildContext
+  // produced a merged note ctx (otherwise fall through silently for backwards
+  // compat with legacy launch sites that didn't carry a plant context).
+  if (context && context.ctx && typeof context.ctx === 'object' && results.length > 0) {
+    const topCondition = results[0];
+    const advice = generateContextualAdvice(context.ctx, topCondition.condition);
+    if (Array.isArray(advice) && advice.length > 0) {
+      const planSection = document.createElement('div');
+      planSection.className = 'doctor-action-plan';
+      planSection.style.marginTop = 'var(--space-4)';
+
+      const planH3 = document.createElement('h3');
+      planH3.textContent = 'Your Action Plan';
+      planSection.appendChild(planH3);
+
+      for (const item of advice) {
+        const row = document.createElement('div');
+        row.className = 'doctor-advice';
+        row.dataset.severity = item.severity || 'info';
+        row.dataset.adviceId = item.id || '';
+        row.dataset.citedObsIds = Array.isArray(item.citedObsIds) ? item.citedObsIds.join(',') : '';
+
+        const h4 = document.createElement('h4');
+        h4.textContent = item.headline || '';
+        row.appendChild(h4);
+
+        const p = document.createElement('p');
+        p.textContent = item.detail || '';
+        row.appendChild(p);
+
+        planSection.appendChild(row);
+      }
+      resultsArea.appendChild(planSection);
+    }
   }
 
   // Refine questions

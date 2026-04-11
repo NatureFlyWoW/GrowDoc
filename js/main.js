@@ -34,7 +34,7 @@ function initStore() {
   const environment = validateShape('environment', migrate('environment', load('environment') || { readings: [] }));
   const archive = validateShape('archive', migrate('archive', load('archive') || []));
   const outcomes = validateShape('outcomes', migrate('outcomes', load('outcomes') || []));
-  const ui = validateShape('ui', migrate('ui', load('ui') || { sidebarCollapsed: false }));
+  const ui = validateShape('ui', migrate('ui', load('ui') || { sidebarCollapsed: false, activePlantId: null }));
 
   const store = createStore({
     profile,
@@ -315,11 +315,16 @@ async function renderTestRunner(container) {
     { name: 'grow-knowledge', path: './tests/grow-knowledge.test.js' },
     { name: 'strain-database', path: './tests/strain-database.test.js' },
     { name: 'priority-system', path: './tests/priority-system.test.js' },
+    { name: 'priority-engine', path: './tests/priority-engine.test.js' },
+    { name: 'harvest-advisor', path: './tests/harvest-advisor.test.js' },
+    { name: 'stage-rules', path: './tests/stage-rules.test.js' },
+    { name: 'dashboard-banner', path: './tests/dashboard-banner.test.js' },
     { name: 'stage-timeline', path: './tests/stage-timeline.test.js' },
     { name: 'task-engine', path: './tests/task-engine.test.js' },
     { name: 'note-contextualizer', path: './tests/note-contextualizer.test.js' },
     { name: 'note-contextualizer-merge', path: './tests/note-contextualizer-merge.test.js' },
     { name: 'note-contextualizer-rules', path: './tests/note-contextualizer-rules.test.js' },
+    { name: 'doctor-engine', path: './tests/doctor-engine.test.js' },
     { name: 'severity-chip', path: './tests/severity-chip.test.js' },
     { name: 'dashboard', path: './views/dashboard.js' },
     { name: 'vpd-widget', path: './components/vpd-widget.js' },

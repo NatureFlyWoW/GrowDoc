@@ -70,3 +70,20 @@
   font-style: italic;
   opacity: 0.65;
 }
+
+/* Section-06 — dashboard second-line banner for recent alert observations. */
+.status-banner-note {
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-elevated);
+  border-left: 3px solid var(--status-urgent);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.status-banner-note:hover {
+  color: var(--text-primary);
+}
+

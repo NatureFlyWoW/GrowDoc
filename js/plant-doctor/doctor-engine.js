@@ -1,8 +1,18 @@
 // GrowDoc Companion — Plant Doctor Unified Diagnostic Engine
 // Adapted from v3 monolithic tool into ES modules.
 
+import {
+  adjustScoresFromNotes,
+  getRelevantObservations,
+  mergeNoteContext,
+} from '../data/note-contextualizer/index.js';
+
 /**
  * runDiagnosis(symptoms, context) — Score all conditions and return ranked results.
+ *
+ * When `context.ctx` is a populated merged-note ctx object, score rules
+ * from `adjustScoresFromNotes` run between tally and normalization so
+ * note-driven conditions can surface and outrank symptom-only matches.
  */
 export function runDiagnosis(symptoms, context = {}) {
   const { SCORING } = _getDataModule();
@@ -27,6 +37,17 @@ export function runDiagnosis(symptoms, context = {}) {
 
       scores[rule.condition].score += weight;
       scores[rule.condition].matches.push(rule.symptom);
+    }
+  }
+
+  // Note-aware score adjustments (section-05): merged ctx from plant notes
+  // can boost or surface conditions. Runs BEFORE normalization so adjustments
+  // factor into the confidence percentage.
+  if (context && context.ctx && typeof context.ctx === 'object') {
+    try {
+      adjustScoresFromNotes(scores, context.ctx);
+    } catch (_err) {
+      // adjustScoresFromNotes is defensive; this catch is insurance only.
     }
   }
 
@@ -67,13 +88,43 @@ export function getRefineQuestions(topConditions) {
 }
 
 /**
- * buildContext(store) — Pre-fill diagnostic context from companion profile.
+ * buildContext(store) — Pre-fill diagnostic context from companion profile
+ * + the currently active plant's merged note context.
+ *
+ * Resolution order for the target plant:
+ *   1. `store.state.ui.activePlantId` (set by plant-detail mount + Plant
+ *      Doctor launch handlers).
+ *   2. `grow.plants[0]` fallback for legacy / non-plant-scoped launches.
+ *
+ * Observations are filtered to the active plant and the last 14 days,
+ * then merged into a ctx scalar map. `runDiagnosis` reads `context.ctx`.
  */
 export function buildContext(store) {
   if (!store) return {};
   const profile = store.state.profile || {};
   const grow = store.state.grow;
-  const plant = grow?.plants?.[0];
+
+  const activeId = store.state.ui?.activePlantId ?? null;
+  const plant =
+    (activeId && grow?.plants?.find(p => p.id === activeId)) ||
+    grow?.plants?.[0] ||
+    null;
+
+  let observations = [];
+  let ctx = {};
+  if (plant && plant.id) {
+    try {
+      observations = getRelevantObservations(store, {
+        plantId: plant.id,
+        since: _daysAgoIso(14),
+      });
+      const merged = mergeNoteContext(observations);
+      ctx = (merged && merged.ctx) || {};
+    } catch (_err) {
+      observations = [];
+      ctx = {};
+    }
+  }
 
   return {
     medium: profile.medium || null,
@@ -81,7 +132,14 @@ export function buildContext(store) {
     stage: plant?.stage || null,
     experience: profile.experience || null,
     recentLogs: _getRecentLogs(plant),
+    plantId: plant?.id || null,
+    ctx,
+    observations, // preserved for section-10 citation wiring
   };
+}
+
+function _daysAgoIso(n) {
+  return new Date(Date.now() - n * 86400000).toISOString();
 }
 
 function _getRecentLogs(plant) {

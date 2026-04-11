@@ -1,5 +1,20 @@
 // GrowDoc Companion — Stage Definitions & Transition Rules
 
+// ── Section-06 note-aware guard constants ────────────────────────────
+// These windows define how long after a recorded stress event we refuse
+// to auto-advance the plant's stage. A freshly transplanted plant can be
+// pushed back into its typical stage clock once >72h have elapsed, and
+// recovery-language guards lift after 48h.
+export const POST_TRANSPLANT_BLOCK_HOURS = 72;
+export const RECOVERY_BLOCK_HOURS = 48;
+
+const RECOVERY_KEYWORDS = new Set([
+  'recovering',
+  'bouncing-back',
+  'still-stressed',
+  'recovery',
+]);
+
 /**
  * STAGES — Ordered array of growth stage definitions.
  * Each stage has typical duration range, milestones, and display info.
@@ -181,7 +196,33 @@ export function getDaysInStage(plant) {
  * getStageDurations from strain data), falls back to the default
  * STAGE_TRANSITIONS triggerDays.
  */
-export function shouldAutoAdvance(plant) {
+export function shouldAutoAdvance(plant, notes = []) {
+  // Section-06: block auto-advance when a recent note on THIS plant
+  // indicates a fresh transplant (<72h) or active recovery (<48h).
+  // Backwards compat: when `notes` is empty/omitted the guard block is
+  // skipped and behavior is byte-identical.
+  if (Array.isArray(notes) && notes.length > 0 && plant && plant.id) {
+    const nowMs = Date.now();
+    for (const obs of notes) {
+      if (!obs || obs.plantId !== plant.id) continue;
+      const parsed = obs.parsed;
+      if (!parsed || !Array.isArray(parsed.keywords)) continue;
+      const obsMs = obs.observedAt ? Date.parse(obs.observedAt) : NaN;
+      if (Number.isNaN(obsMs)) continue;
+      const ageHours = (nowMs - obsMs) / 3_600_000;
+      if (ageHours < 0) continue;
+
+      if (parsed.keywords.includes('action-taken:transplanted') && ageHours < POST_TRANSPLANT_BLOCK_HOURS) {
+        return null;
+      }
+      for (const k of parsed.keywords) {
+        if (RECOVERY_KEYWORDS.has(k) && ageHours < RECOVERY_BLOCK_HOURS) {
+          return null;
+        }
+      }
+    }
+  }
+
   const transition = STAGE_TRANSITIONS[plant.stage];
   if (!transition) return null;
   const days = getDaysInStage(plant);

@@ -14,6 +14,14 @@ import {
   findActionsTakenSince as _findActionsTakenSince,
 } from './merge.js';
 import {
+  adjustScoresFromNotes as _adjustScoresFromNotes,
+  SCORE_ADJUSTMENTS as _SCORE_ADJUSTMENTS,
+} from './rules-score.js';
+import {
+  generateContextualAdvice as _generateContextualAdvice,
+  ADVICE_RULES as _ADVICE_RULES,
+} from './rules-advice.js';
+import {
   KEYWORD_PATTERNS,
   DOMAIN_BY_RULE_ID,
   FRANCO_OVERRIDE_RULE_IDS,
@@ -565,6 +573,22 @@ export function mergeNoteContext(observations) {
 export function findActionsTakenSince(observations, taskType, sinceHours) {
   return _findActionsTakenSince(observations, taskType, sinceHours);
 }
+
+// ── Section-05: Plant Doctor note-awareness re-exports ────────────
+//
+// These live in `rules-score.js` / `rules-advice.js` but are re-exported
+// here so callers import everything from the contextualizer's public
+// surface (`data/note-contextualizer/index.js`).
+
+export function adjustScoresFromNotes(scoresMap, ctx) {
+  return _adjustScoresFromNotes(scoresMap, ctx);
+}
+
+export function generateContextualAdvice(ctx, conditionName) {
+  return _generateContextualAdvice(ctx, conditionName);
+}
+
+export { _SCORE_ADJUSTMENTS as SCORE_ADJUSTMENTS, _ADVICE_RULES as ADVICE_RULES };
 
 // ── Sidecar citations ─────────────────────────────────────────────
 
