@@ -155,45 +155,51 @@ function _updateResults(container, symptoms, context, store) {
   }
 }
 
-// Try to load the full v3 Plant Doctor data at runtime
+// Try to load the full v3 Plant Doctor data at runtime.
+// The v3 data lives at /docs/plant-doctor-data.js — now an ES module
+// exporting SYMPTOMS (obj), SCORING (obj), REFINE_RULES (array).
 let _v3Loaded = false;
 async function _tryLoadV3Data() {
   if (_v3Loaded) return;
   try {
-    // The v3 data uses global var declarations — load via fetch + eval in a controlled scope
-    const resp = await fetch('/docs/plant-doctor-data.js');
-    if (!resp.ok) return;
-    const text = await resp.text();
+    const mod = await import('/docs/plant-doctor-data.js');
+    const { SCORING, REFINE_RULES } = mod;
 
-    // Extract SCORING_RULES array from the v3 data
-    // The v3 file sets global vars: SYMPTOMS, SCORING_RULES, REFINE_RULES
-    const scope = {};
-    const wrappedCode = `(function() { ${text}; return { SYMPTOMS: typeof SYMPTOMS !== 'undefined' ? SYMPTOMS : null, SCORING_RULES: typeof SCORING_RULES !== 'undefined' ? SCORING_RULES : null, REFINE_RULES: typeof REFINE_RULES !== 'undefined' ? REFINE_RULES : null }; })()`;
-    const v3Data = eval(wrappedCode);
+    // SCORING is an object keyed by diagnosis id (e.g. 'r-n-def') with
+    // { symptoms, stage_modifier?, medium_modifier?, lighting_modifier?, base_confidence }.
+    // Flatten to the [{ condition, symptom, weight, contextBoost }] shape
+    // the companion's scoring engine expects.
+    if (!SCORING || typeof SCORING !== 'object') return;
 
-    if (v3Data.SCORING_RULES && Array.isArray(v3Data.SCORING_RULES)) {
-      // Convert v3 SCORING_RULES format to our format
-      const scoring = v3Data.SCORING_RULES.map(r => ({
-        condition: r.resultLabel || r.resultId || 'Unknown',
-        symptom: r.symptomId || '',
-        weight: r.weight || 1,
-        contextBoost: r.contextBoost || null,
+    const scoring = [];
+    for (const diagId in SCORING) {
+      if (!Object.prototype.hasOwnProperty.call(SCORING, diagId)) continue;
+      const entry = SCORING[diagId];
+      if (!entry || !entry.symptoms) continue;
+      for (const symptomId in entry.symptoms) {
+        if (!Object.prototype.hasOwnProperty.call(entry.symptoms, symptomId)) continue;
+        scoring.push({
+          condition: diagId,
+          symptom: symptomId,
+          weight: entry.symptoms[symptomId],
+          contextBoost: null,
+        });
+      }
+    }
+
+    const refineRules = (REFINE_RULES || [])
+      .filter(r => r && r.question)
+      .map(r => ({
+        condition: r.id || 'refine',
+        question: r.question,
+        yesBoost: 15,
+        noBoost: -10,
       }));
 
-      const refineRules = (v3Data.REFINE_RULES || [])
-        .filter(r => r.question)
-        .map(r => ({
-          condition: r.resultLabel || r.resultId || 'Unknown',
-          question: r.question,
-          yesBoost: r.yesBoost || 15,
-          noBoost: r.noBoost || -10,
-        }));
-
-      if (scoring.length > 0) {
-        setDiagnosticData(scoring, refineRules.length > 0 ? refineRules : CORE_REFINE_RULES);
-        _v3Loaded = true;
-        console.log(`Plant Doctor: loaded ${scoring.length} v3 scoring rules`);
-      }
+    if (scoring.length > 0) {
+      setDiagnosticData(scoring, refineRules.length > 0 ? refineRules : CORE_REFINE_RULES);
+      _v3Loaded = true;
+      console.log(`Plant Doctor: loaded ${scoring.length} v3 scoring rules`);
     }
   } catch (err) {
     // Silently fall back to core data — v3 data is optional

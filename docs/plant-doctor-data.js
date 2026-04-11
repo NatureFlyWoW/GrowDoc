@@ -1,6 +1,10 @@
 /* ═══════════════════════════════════════════════════════════ */
 /* Plant Doctor v2 — Knowledge Base Data                      */
-/* Loaded before inline script via <script src>               */
+/* Dual-mode: ES module (for grow companion via import())     */
+/*            AND window globals (for standalone tool).       */
+/* Loaded by standalone tool-plant-doctor.html via            */
+/*   <script type="module" src="plant-doctor-data.js">        */
+/* Loaded by grow companion via dynamic import()              */
 /* ═══════════════════════════════════════════════════════════ */
 
 /* ── Helper: condition factory for REFINE_RULES ── */
@@ -594,3 +598,21 @@ var REFINE_RULES = [
     ]
   }
 ];
+
+/* ═══════════════════════════════════════════════════════════ */
+/* Dual-mode exports                                           */
+/*                                                             */
+/* ES module exports for grow companion (import()).            */
+/* window.* assignments so the standalone tool-plant-doctor    */
+/* .html keeps working when this file is loaded as a module    */
+/* (module-scoped `var` no longer auto-creates globals).       */
+/* ═══════════════════════════════════════════════════════════ */
+
+if (typeof window !== 'undefined') {
+  window.SYMPTOMS = SYMPTOMS;
+  window.SCORING = SCORING;
+  window.REFINE_RULES = REFINE_RULES;
+  window.diagnosesInclude = diagnosesInclude;
+}
+
+export { SYMPTOMS, SCORING, REFINE_RULES, diagnosesInclude };

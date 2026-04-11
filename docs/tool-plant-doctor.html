@@ -1146,7 +1146,7 @@ h1 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-
   </div><!-- /.plant-main -->
 </div><!-- /.app-layout -->
 
-<script src="plant-doctor-data.js"></script>
+<script type="module" src="plant-doctor-data.js"></script>
 <script src="note-context-rules.js"></script>
 <script>
 /* ── Helpers ── */
@@ -4937,7 +4937,14 @@ function init() {
   }
 }
 
-init();
+// Wait for DOMContentLoaded — this guarantees the module-loaded
+// plant-doctor-data.js has finished executing (all deferred module
+// scripts run before DOMContentLoaded fires).
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 
 /* ── Undo Keyboard Shortcut ── */
 document.addEventListener('keydown', function(e) {
