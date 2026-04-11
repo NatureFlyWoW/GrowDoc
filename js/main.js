@@ -164,7 +164,7 @@ const viewMap = {
   'finish': (container) => renderFinish(container, window.__growdocStore),
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+function boot() {
   const sidebar = document.getElementById('sidebar');
   const content = document.getElementById('content');
 
@@ -245,7 +245,17 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('App initialization failed:', err);
     showErrorScreen('Something went wrong during startup.');
   }
-});
+}
+
+// The top-level `await import('./data/edge-case-engine.js')` above delays
+// this module's evaluation past DOMContentLoaded in most browsers. Guard the
+// listener so we run boot() immediately if the event already fired, or wire
+// up a listener if it's still pending.
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot);
+} else {
+  boot();
+}
 
 // Global error handler
 window.addEventListener('error', (event) => {
