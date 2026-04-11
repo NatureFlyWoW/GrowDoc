@@ -13,6 +13,19 @@ import {
   getRelevantObservations as _getRelevantObservations,
   findActionsTakenSince as _findActionsTakenSince,
 } from './merge.js';
+import {
+  KEYWORD_PATTERNS,
+  DOMAIN_BY_RULE_ID,
+  FRANCO_OVERRIDE_RULE_IDS,
+  SEVERITY_HEURISTICS,
+  ACTION_TAKEN_PATTERNS,
+  applyLegacyRule,
+} from './rules-keywords.js';
+import { NOTE_PLACEHOLDERS } from './placeholders.js';
+
+// Re-export placeholders so callers can migrate their imports to the
+// contextualizer package without touching presentation code.
+export { NOTE_PLACEHOLDERS };
 
 const INDEX_VERSION = 1;
 
@@ -57,31 +70,217 @@ function isNonEmpty(s) {
   return typeof s === 'string' && s.trim().length > 0;
 }
 
-// ── Stub parseObservation (real impl in section-03) ───────────────
+// ── parseObservation (section-03) ────────────────────────────────
 
 /**
- * STUB (section-01). Assigns an empty `ParsedNote` to `obs.parsed`.
- * Real KEYWORD_PATTERNS matching arrives in section-03. Must not throw.
- * Mutates `obs` in place and returns the same reference.
+ * Fresh ctx object with every §4a field pre-populated with its default
+ * (null or []). Legacy ported rules write to additional keys (temp, ph,
+ * rh, ec, stage, timeline, wateringPattern, previousTreatment, …) which
+ * are left undefined here and appear on first write.
+ *
+ * @returns {Object}
+ */
+function emptyCtx() {
+  return {
+    // §4a scalars
+    plantType: null,
+    medium: null,
+    waterSource: null,
+    lighting: null,
+    phExtracted: null,
+    ecExtracted: null,
+    tempExtracted: null,
+    rhExtracted: null,
+    vpdExtracted: null,
+    severity: null,
+    rootHealth: null,
+    growerIntent: null,
+    timelineDays: null,
+    // §4a arrays
+    amendments: [],
+    previousProblems: [],
+    actions: [],
+  };
+}
+
+/**
+ * Map legacy severity heuristic labels → (severityRaw, severity) pair
+ * in the on-disk / display enums.
+ *   'alert' → raw:'urgent',  display:'alert'
+ *   'watch' → raw:'concern', display:'watch'
+ *   'info'  → raw:null,      display:'info'
+ */
+function severityFromHeuristic(label) {
+  if (label === 'alert') return { severityRaw: 'urgent', severity: 'alert' };
+  if (label === 'watch') return { severityRaw: 'concern', severity: 'watch' };
+  if (label === 'info')  return { severityRaw: null,     severity: 'info'  };
+  return null;
+}
+
+/**
+ * Parse a single Observation in place.
+ *
+ * Pipeline:
+ *   1. Idempotent — if `obs.parsed != null`, return early.
+ *   2. Run every KEYWORD_PATTERNS entry against `obs.rawText`, pushing
+ *      matched rule ids into `parsed.keywords` in declaration order.
+ *      Dispatch to `applyLegacyRule` (non-wizard rules only — wizard
+ *      rules are skipped here; they're handled by `parseProfileText`).
+ *   3. Populate `parsed.frankoOverrides` = matched keywords ∩ Franco set.
+ *   4. Populate `obs.domains` from DOMAIN_BY_RULE_ID (+ 'action-taken'
+ *      when an ACTION_TAKEN_PATTERNS entry fires). Deduped.
+ *   5. Run ACTION_TAKEN_PATTERNS — push {type,value} into actionsTaken.
+ *   6. Extract `?`/`is|does|should|can` sentences into `parsed.questions`.
+ *   7. If `obs.severityRaw` was null and not already auto-inferred, run
+ *      SEVERITY_HEURISTICS and set severity + severityAutoInferred=true
+ *      on first match.
+ *
+ * Never throws. Rule-closure errors are absorbed and pushed into
+ * `obs.parsed.ruleErrors` (see section-01 index-level ruleErrors).
+ *
  * @param {import('../observation-schema.js').Observation} obs
  * @returns {import('../observation-schema.js').Observation}
  */
 export function parseObservation(obs) {
   if (!obs) return obs;
-  obs.parsed = {
-    ctx: {},
+  if (obs.parsed != null) return obs;
+
+  const rawText = typeof obs.rawText === 'string' ? obs.rawText : '';
+  const parsed = {
+    ctx: emptyCtx(),
     observations: [],
     actionsTaken: [],
     questions: [],
     keywords: [],
     frankoOverrides: [],
+    ruleErrors: [],
   };
+
+  // Wizard notes keep their own (empty) parsed shell — wizard rules are
+  // handled out-of-band by `parseProfileText`. Early-return preserves
+  // the default ctx shape.
+  if (obs.source === 'profile') {
+    obs.parsed = parsed;
+    return obs;
+  }
+
+  if (rawText === '') {
+    obs.parsed = parsed;
+    return obs;
+  }
+
+  const domainSet = new Set(Array.isArray(obs.domains) ? obs.domains : []);
+
+  // 1. Run KEYWORD_PATTERNS in declaration order. Skip wizard-scoped
+  //    rules — they're only meaningful in the profile/wizard shim.
+  for (const rule of KEYWORD_PATTERNS) {
+    if (rule.wizardStep) continue;
+    try {
+      const match = rawText.match(rule.pattern);
+      if (!match) continue;
+
+      applyLegacyRule(rule, match, parsed.ctx);
+      parsed.keywords.push(rule.id);
+
+      // Merge rule domains into the observation's domain set.
+      const ruleDomains = DOMAIN_BY_RULE_ID[rule.id];
+      if (Array.isArray(ruleDomains)) {
+        for (const d of ruleDomains) domainSet.add(d);
+      }
+    } catch (err) {
+      parsed.ruleErrors.push({
+        ruleId: rule.id,
+        error: err && err.message ? err.message : String(err),
+        timestamp: nowIso(),
+      });
+    }
+  }
+
+  // 2. Franco overrides = intersection of matched keywords with the
+  //    override set.
+  for (const id of parsed.keywords) {
+    if (FRANCO_OVERRIDE_RULE_IDS.has(id)) {
+      parsed.frankoOverrides.push(id);
+    }
+  }
+
+  // 3. Action-taken detection. ACTION_TAKEN_PATTERNS is an object
+  //    keyed by taskType → RegExp (shape required by merge.js).
+  let anyActionFired = false;
+  for (const taskType of Object.keys(ACTION_TAKEN_PATTERNS)) {
+    const pattern = ACTION_TAKEN_PATTERNS[taskType];
+    if (!(pattern instanceof RegExp)) continue;
+    try {
+      if (pattern.test(rawText)) {
+        parsed.actionsTaken.push({ type: taskType, value: taskType });
+        if (!parsed.ctx.actions.includes(taskType)) {
+          parsed.ctx.actions.push(taskType);
+        }
+        anyActionFired = true;
+      }
+    } catch (err) {
+      parsed.ruleErrors.push({
+        ruleId: `action-${taskType}`,
+        error: err && err.message ? err.message : String(err),
+        timestamp: nowIso(),
+      });
+    }
+  }
+  if (anyActionFired) domainSet.add('action-taken');
+
+  // 4. Question extraction — crude but effective: sentences containing
+  //    a literal '?' or starting with is/does/should/can become questions.
+  const sentences = rawText.split(/(?<=[.?!])\s+|\n+/);
+  for (const s of sentences) {
+    const trimmed = s && s.trim();
+    if (!trimmed) continue;
+    if (trimmed.endsWith('?') || /^(is|does|should|can|will|could|would|why|what|how)\b/i.test(trimmed)) {
+      parsed.questions.push(trimmed);
+    }
+  }
+  if (parsed.questions.length > 0) domainSet.add('question');
+
+  // 5. Severity auto-infer — only when caller left severityRaw null and
+  //    hasn't already auto-inferred. First matching heuristic wins.
+  const sevAlreadySet = obs.severityRaw != null;
+  const alreadyAutoInferred = obs.severityAutoInferred === true;
+  if (!sevAlreadySet && !alreadyAutoInferred) {
+    for (const entry of SEVERITY_HEURISTICS) {
+      if (!entry || !(entry.regex instanceof RegExp)) continue;
+      try {
+        if (entry.regex.test(rawText)) {
+          const mapped = severityFromHeuristic(entry.severity);
+          if (mapped) {
+            obs.severityRaw = mapped.severityRaw;
+            obs.severity = mapped.severity;
+            obs.severityAutoInferred = true;
+          }
+          break;
+        }
+      } catch (err) {
+        parsed.ruleErrors.push({
+          ruleId: `severity-${entry.severity}`,
+          error: err && err.message ? err.message : String(err),
+          timestamp: nowIso(),
+        });
+      }
+    }
+  }
+
+  // 6. Persist merged domains back to the observation.
+  obs.domains = Array.from(domainSet);
+
+  obs.parsed = parsed;
   return obs;
 }
 
 /**
- * Stub bulk-parser — mutates and returns the same array for section-01.
+ * Bulk parser — mutates and returns the same array. Collects
+ * per-observation rule errors into an index-level `ruleErrors[]`
+ * (consumed by `buildIndex` below).
+ *
  * @param {import('../observation-schema.js').Observation[]} obsArr
+ * @returns {import('../observation-schema.js').Observation[]}
  */
 export function parseAllObservations(obsArr) {
   if (!Array.isArray(obsArr)) return [];
@@ -255,12 +454,18 @@ function buildIndex(grow, profile) {
   const all = parseAllObservations(collectObservations(grow, profile));
   const byPlant = {};
   const byDomain = {};
+  const ruleErrors = [];
   for (const o of all) {
     if (o.plantId) {
       (byPlant[o.plantId] = byPlant[o.plantId] || []).push(o);
     }
     for (const d of o.domains) {
       (byDomain[d] = byDomain[d] || []).push(o);
+    }
+    if (o.parsed && Array.isArray(o.parsed.ruleErrors)) {
+      for (const err of o.parsed.ruleErrors) {
+        ruleErrors.push({ obsId: o.id, ...err });
+      }
     }
   }
   const index = {
@@ -270,7 +475,7 @@ function buildIndex(grow, profile) {
     byPlant,
     byDomain,
     all: Object.freeze(all),
-    ruleErrors: [],
+    ruleErrors,
   };
   return index;
 }
@@ -391,6 +596,150 @@ export function recordReferencedIn(obsIds, consumerId) {
 export function getCitationsFor(obsId) {
   const set = citations.get(obsId);
   return set ? Array.from(set) : [];
+}
+
+// ── Wizard-note compatibility shim (section-04) ──────────────────
+//
+// Legacy `profile-context-rules.js` exposed `parseProfileNotes(notes)`
+// that produced a flat ctx object. We preserve that shape here so the
+// onboarding / settings / plant-detail views don't have to change their
+// consumers. The shim runs the wizard-scoped KEYWORD_PATTERNS directly
+// against each step's rawText — no Observation plumbing required.
+//
+// Once section-03's `parseObservation` lands, this function still works:
+// it only reads entries from KEYWORD_PATTERNS that carry a `wizardStep`
+// tag, so any general keyword rules section-03 appends are ignored.
+
+const _PROFILE_DEFAULT_CTX = () => ({
+  plantType: null,
+  isAutoflower: false,
+  mediumDetail: null,
+  amendments: [],
+  amendmentDensity: 'none',
+  nutrientLine: null,
+  nutrientBrand: null,
+  lightBrand: null,
+  lightDistance: null,
+  lightDimming: null,
+  container: null,
+  waterSource: null,
+  waterPH: null,
+  irrigation: null,
+  ventilation: null,
+  ventilationBrand: null,
+  trainingIntent: null,
+  envConstraints: [],
+  previousProblems: [],
+  stealthRequired: false,
+  budgetConstrained: false,
+  noiseConscious: false,
+  trueFirstTimer: false,
+  feedingNeed: null,
+  stretchLevel: null,
+  heightLimit: null,
+  location: null,
+  rawUnmatched: [],
+});
+
+const _ARRAY_FIELDS = new Set(['amendments', 'previousProblems', 'envConstraints', 'sensitivities', 'rawUnmatched']);
+
+function _wizardRulesForStep(step) {
+  return KEYWORD_PATTERNS.filter(r => r.wizardStep === step);
+}
+
+function _handleWizardExtract(ctx, type, match, step) {
+  switch (type) {
+    case 'weeksOld':       ctx.weeksOld = parseInt(match[1], 10); break;
+    case 'daysOld':        ctx.daysOld = parseInt(match[1], 10); break;
+    case 'waterPH':        ctx.waterPH = parseFloat(match[1]); break;
+    case 'waterPPM':       ctx.waterPPM = parseInt(match[1], 10); break;
+    case 'lightDistance':  ctx.lightDistance = parseInt(match[1], 10); break;
+    case 'lightDimming':   ctx.lightDimming = parseInt(match[1], 10); break;
+    case 'lightWattageActual': ctx.lightWattageActual = parseInt(match[1], 10); break;
+    case 'flowerWeeks':    ctx.expectedFlowerWeeks = parseInt(match[1], 10); break;
+    case 'sensitivity':
+      if (!ctx.sensitivities) ctx.sensitivities = [];
+      ctx.sensitivities.push(match[1].toLowerCase());
+      break;
+    case 'tentSize':       ctx.tentSize = `${match[1]}x${match[2]}`; break;
+    case 'fanSize':        ctx.fanSize = parseInt(match[1], 10); break;
+    case 'heightLimit':    ctx.heightLimit = parseInt(match[1], 10); break;
+    case 'location':       ctx.location = match[1].toLowerCase(); break;
+    case 'previousProblem':
+      ctx.rawUnmatched.push({ step, text: match[0] });
+      break;
+    default:
+      // Unknown extract — preserved as raw unmatched.
+      ctx.rawUnmatched.push({ step, text: match[0] });
+  }
+}
+
+/**
+ * parseProfileText — replacement for the legacy `parseProfileNotes`.
+ *
+ * Accepts either the wizard `notes` map `{ stage, medium, lighting, ... }`
+ * OR a single `{ <customStep>: rawText }` entry. Returns a ctx object with
+ * the same shape that `parseProfileNotes` used to produce.
+ *
+ * @param {Object} notes
+ * @param {Object} [opts]
+ * @param {string} [opts.wizardStep] when provided, parses `notes` as a plain
+ *                                    string under that step (caller convenience)
+ * @returns {Object}
+ */
+export function parseProfileText(notes, opts = {}) {
+  const ctx = _PROFILE_DEFAULT_CTX();
+
+  let entries;
+  if (typeof notes === 'string' && opts.wizardStep) {
+    entries = [[opts.wizardStep, notes]];
+  } else if (notes && typeof notes === 'object') {
+    entries = Object.entries(notes);
+  } else {
+    return ctx;
+  }
+
+  for (const [step, text] of entries) {
+    if (!text || typeof text !== 'string') continue;
+    const rules = _wizardRulesForStep(step);
+    if (rules.length === 0) continue;
+
+    let unmatched = text;
+
+    for (const rule of rules) {
+      const match = text.match(rule.pattern);
+      if (!match) continue;
+
+      unmatched = unmatched.replace(match[0], '');
+
+      if (rule.extract) {
+        _handleWizardExtract(ctx, rule.extract, match, step);
+      } else if (rule.field && _ARRAY_FIELDS.has(rule.field)) {
+        if (!Array.isArray(ctx[rule.field])) ctx[rule.field] = [];
+        if (!ctx[rule.field].includes(rule.value)) ctx[rule.field].push(rule.value);
+      } else if (rule.field) {
+        ctx[rule.field] = rule.value;
+      }
+    }
+
+    const remaining = unmatched.trim().replace(/\s+/g, ' ');
+    if (remaining.length > 3) ctx.rawUnmatched.push({ step, text: remaining });
+  }
+
+  // Derived fields
+  ctx.isAutoflower = ctx.plantType === 'autoflower';
+
+  const count = ctx.amendments.length;
+  if (count === 0) ctx.amendmentDensity = 'none';
+  else if (count === 1) ctx.amendmentDensity = 'low';
+  else if (count === 2) ctx.amendmentDensity = 'medium';
+  else ctx.amendmentDensity = 'high';
+
+  if (ctx.amendmentDensity === 'high' && !ctx.mediumDetail) {
+    ctx.mediumDetail = 'amended';
+  }
+
+  return ctx;
 }
 
 // ── Test helper ───────────────────────────────────────────────────

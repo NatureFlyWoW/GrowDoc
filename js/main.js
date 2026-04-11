@@ -318,6 +318,8 @@ async function renderTestRunner(container) {
     { name: 'stage-timeline', path: './tests/stage-timeline.test.js' },
     { name: 'task-engine', path: './tests/task-engine.test.js' },
     { name: 'note-contextualizer', path: './tests/note-contextualizer.test.js' },
+    { name: 'note-contextualizer-merge', path: './tests/note-contextualizer-merge.test.js' },
+    { name: 'note-contextualizer-rules', path: './tests/note-contextualizer-rules.test.js' },
     { name: 'severity-chip', path: './tests/severity-chip.test.js' },
     { name: 'dashboard', path: './views/dashboard.js' },
     { name: 'vpd-widget', path: './components/vpd-widget.js' },

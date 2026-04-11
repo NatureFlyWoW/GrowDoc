@@ -4,7 +4,7 @@ import { navigate } from '../router.js';
 import { generateId } from '../utils.js';
 import { POT_SIZES } from '../data/constants.js';
 import { renderStarRating, renderEffectSelector } from '../components/star-rating.js';
-import { parseProfileNotes, NOTE_PLACEHOLDERS } from '../data/profile-context-rules.js';
+import { parseProfileText, NOTE_PLACEHOLDERS } from '../data/note-contextualizer/index.js';
 
 // ── Stage Options ──────────────────────────────────────────────────────
 
@@ -683,7 +683,7 @@ function _completeOnboarding({ skipNavigate = false } = {}) {
   for (const [key, val] of Object.entries(w.notes)) {
     rawNotes[key] = val || '';
   }
-  const context = parseProfileNotes(rawNotes);
+  const context = parseProfileText(rawNotes);
 
   const profile = {
     version: 1,

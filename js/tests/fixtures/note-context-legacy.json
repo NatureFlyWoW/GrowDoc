@@ -1,0 +1,80 @@
+[
+  {
+    "name": "ph + yellowing + lower leaves",
+    "input": { "rawText": "pH 5.8 runoff, yellowing on lower leaves" },
+    "expected": {
+      "keywordsIncludes": ["env-ph-before", "location-bottom"],
+      "domainsIncludes": ["nutrients", "health"],
+      "ctxHas": { "phExtracted": 5.8, "ph": 5.8, "symptomLocation": "bottom" },
+      "severity": "watch",
+      "severityRaw": "concern",
+      "severityAutoInferred": true
+    }
+  },
+  {
+    "name": "flush + just watered + happy",
+    "input": { "rawText": "just flushed with plain water yesterday, plants look happy" },
+    "expected": {
+      "keywordsIncludes": ["treatment-flush"],
+      "domainsIncludes": ["action-taken"],
+      "actionsIncludes": ["flush"]
+    }
+  },
+  {
+    "name": "heat stress — AC failure",
+    "input": { "rawText": "tent hit 95F today, AC failed, leaves tacoing hard" },
+    "expected": {
+      "keywordsIncludes": ["env-temp-f", "env-ac-failed"],
+      "domainsIncludes": ["environment"],
+      "ctxHas": { "tempExtracted": 35, "temp": 35, "envEvent": "ac-failure" },
+      "frankoOverridesIncludes": ["env-ac-failed"]
+    }
+  },
+  {
+    "name": "flower + coco + LED",
+    "input": { "rawText": "in flower now, running coco coir under LED panels" },
+    "expected": {
+      "keywordsIncludes": ["stage-flower", "medium-coco", "lighting-led"],
+      "domainsIncludes": ["timeline", "environment"],
+      "ctxHas": { "medium": "coco", "lighting": "led", "stage": "flower" }
+    }
+  },
+  {
+    "name": "root rot — slimy brown roots",
+    "input": { "rawText": "slimy roots in the DWC reservoir, smells bad" },
+    "expected": {
+      "keywordsIncludes": ["medium-dwc", "root-slimy"],
+      "domainsIncludes": ["root", "environment"],
+      "ctxHas": { "rootHealth": "slimy-roots" },
+      "frankoOverridesIncludes": ["root-slimy"]
+    }
+  },
+  {
+    "name": "rooted clone moved to veg",
+    "input": { "rawText": "rooted clone, moved into veg, using organic nutrients" },
+    "expected": {
+      "keywordsIncludes": ["plantType-clone", "feed-organic"],
+      "domainsIncludes": ["phenotype", "nutrients"],
+      "ctxHas": { "plantType": "clone", "feedType": "organic" }
+    }
+  },
+  {
+    "name": "question with mild severity",
+    "input": { "rawText": "is this spider mites? only slight webbing on new growth" },
+    "expected": {
+      "keywordsIncludes": ["location-top", "severity-mild"],
+      "domainsIncludes": ["health"],
+      "questionsNonEmpty": true
+    }
+  },
+  {
+    "name": "empty input — full default ctx",
+    "input": { "rawText": "" },
+    "expected": {
+      "keywords": [],
+      "domains": [],
+      "ctxDefaults": true,
+      "severityAutoInferred": false
+    }
+  }
+]

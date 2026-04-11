@@ -2,7 +2,7 @@
 
 import { getDaysInStage, STAGES } from '../data/stage-rules.js';
 import { TRAINING_METHODS, generateMilestones } from '../data/training-protocols.js';
-import { parseProfileNotes } from '../data/profile-context-rules.js';
+import { parseProfileText } from '../data/note-contextualizer/index.js';
 import { renderTimeline, advancePlantStage } from '../components/timeline-bar.js';
 import { POT_SIZES } from '../data/constants.js';
 import { daysSinceLog as _daysSince } from '../utils.js';
@@ -572,7 +572,9 @@ function _renderEditTab(container, plant, store, pageContainer, plantId) {
     const p = growSnap.plants.find(pp => pp.id === plant.id);
     if (p) {
       p.notes = raw;
-      p.context = parseProfileNotes({ plant: raw });
+      // `plant` is not a wizard step — parseProfileText returns the default
+      // ctx shape (same no-op behavior as the legacy parseProfileNotes call).
+      p.context = parseProfileText({ plant: raw });
       if (!p.details) p.details = {};
       p.details.severity = notesSeverityState.severity;
       store.commit('grow', growSnap);

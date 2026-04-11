@@ -70,15 +70,6 @@
     "file": "le-male-cannabis.html"
   },
   {
-    "id": "plant-doctor",
-    "title": "Plant Doctor",
-    "subtitle": "Interactive symptom diagnosis",
-    "icon": "🩺",
-    "status": "DONE",
-    "category": "tool",
-    "file": "tool-plant-doctor.html"
-  },
-  {
     "id": "env-dashboard",
     "title": "Environment Dashboard",
     "subtitle": "VPD + DLI calculator & chart",

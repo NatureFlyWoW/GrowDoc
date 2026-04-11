@@ -2,7 +2,7 @@
 
 import { renderStarRating, renderPriorityDisplay } from '../components/star-rating.js';
 import { calculateWeights } from '../data/priority-engine.js';
-import { parseProfileNotes, NOTE_PLACEHOLDERS } from '../data/profile-context-rules.js';
+import { parseProfileText, NOTE_PLACEHOLDERS } from '../data/note-contextualizer/index.js';
 import { exportAllData, importAllData, validateBackupSchema, getStorageBreakdown } from '../storage.js';
 import { navigate } from '../router.js';
 
@@ -252,7 +252,7 @@ function _renderNotesEditor(container, store) {
       const profileSnap = store.getSnapshot().profile || {};
       if (!profileSnap.notes) profileSnap.notes = {};
       profileSnap.notes[step] = textarea.value;
-      profileSnap.context = parseProfileNotes(profileSnap.notes);
+      profileSnap.context = parseProfileText(profileSnap.notes);
       store.commit('profile', profileSnap);
       store.publish('context:changed', { step });
     });

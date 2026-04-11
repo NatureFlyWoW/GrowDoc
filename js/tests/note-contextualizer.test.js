@@ -256,9 +256,12 @@ export async function runTests() {
     assert(Array.isArray(obs.parsed.frankoOverrides) && obs.parsed.frankoOverrides.length === 0, 'parseObservation: overrides empty');
   }
 
-  // 14 — mergeNoteContext stub returns empty object
+  // 14 — mergeNoteContext (real impl, section-04): empty input returns empty ctx shell
   {
-    assert(JSON.stringify(mergeNoteContext([])) === '{}', 'mergeNoteContext stub returns empty object');
+    const out = mergeNoteContext([]);
+    assert(out && typeof out === 'object', 'mergeNoteContext: returns object on empty input');
+    assert(out.ctx && Object.keys(out.ctx).length === 0, 'mergeNoteContext: empty ctx on empty input');
+    assert(Array.isArray(out.keywords) && out.keywords.length === 0, 'mergeNoteContext: empty keywords on empty input');
   }
 
   // 15 — findActionsTakenSince stub returns empty array
