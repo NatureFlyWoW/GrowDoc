@@ -113,6 +113,23 @@ function _saveName(store, plant, newName, container, plantId) {
 }
 
 function _renderOverview(container, plant, store) {
+  // Diagnose action — top of overview, prominent
+  const diagnoseRow = document.createElement('div');
+  diagnoseRow.style.marginBottom = 'var(--space-4)';
+
+  const diagnoseBtn = document.createElement('button');
+  diagnoseBtn.className = 'btn btn-primary';
+  diagnoseBtn.textContent = '🩺 Diagnose this plant';
+  diagnoseBtn.style.width = '100%';
+  diagnoseBtn.style.padding = '12px';
+  diagnoseBtn.addEventListener('click', () => {
+    const profile = store.state.profile || {};
+    const url = buildDiagnoseUrl(plant, profile);
+    navigate(url);
+  });
+  diagnoseRow.appendChild(diagnoseBtn);
+  container.appendChild(diagnoseRow);
+
   const stats = document.createElement('div');
   stats.className = 'plant-stats';
 
@@ -477,3 +494,23 @@ function _applyStageChange(store, plantId, newStage, daysInStage) {
   store.publish('stage:changed', { plantId, oldStage, newStage });
 }
 
+/**
+ * Build a Plant Doctor route URL with plant context as query params.
+ * Section 06 — exported for unit testing.
+ *
+ * Omits any params whose values are null/undefined so the URL is clean.
+ *
+ * @param {Object} plant - Plant record
+ * @param {Object} profile - User profile (for medium/lighting fallback)
+ * @returns {string} Hash route, e.g. '/tools/doctor?plantId=p1&medium=soil&lighting=led&stage=mid-flower'
+ */
+export function buildDiagnoseUrl(plant, profile) {
+  const params = new URLSearchParams();
+  if (plant?.id) params.set('plantId', plant.id);
+  const medium = plant?.mediumOverride || profile?.medium;
+  if (medium) params.set('medium', medium);
+  if (profile?.lighting) params.set('lighting', profile.lighting);
+  if (plant?.stage) params.set('stage', plant.stage);
+  const qs = params.toString();
+  return qs ? `/tools/doctor?${qs}` : '/tools/doctor';
+}

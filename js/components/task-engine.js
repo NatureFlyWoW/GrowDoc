@@ -30,6 +30,7 @@ export function generateTasks(store) {
     newTasks.push(...evaluateTrainingTriggers(plant, existingTasks));
     newTasks.push(...evaluateDiagnosisTriggers(plant, existingTasks));
     newTasks.push(...evaluateIPMTriggers(plant, profile, existingTasks));
+    newTasks.push(...evaluateDiagnoseTaskTriggers(plant, existingTasks));
   }
 
   newTasks.push(...evaluateEnvironmentTriggers(envData.readings || [], profile, existingTasks));
@@ -196,6 +197,89 @@ export function evaluateStageTriggers(plant, profile, existingTasks) {
     }));
   }
 
+  return tasks.filter(t => !isDuplicate(t, existingTasks));
+}
+
+// ── Diagnose Auto-Triggers ──────────────────────────────────────────
+//
+// Generates a 'diagnose' task for a plant when the journal contains
+// signals that warrant a Plant Doctor session. Idempotent: dedup
+// against existing pending diagnose tasks for the same plant.
+
+const DAY_MS = 86400000;
+
+/**
+ * Pure: returns { shouldCreate, reason } based on plant state.
+ * Does NOT touch the store. Section 06 callers handle the actual
+ * task creation + dedup.
+ */
+export function evaluateDiagnoseTriggers(plant, stageDurations, now = Date.now()) {
+  const logs = plant?.logs || [];
+
+  // Rule 1: urgent observe in the last 2 days
+  for (const log of logs) {
+    if (log.type !== 'observe') continue;
+    const sev = log.details?.severity;
+    if (sev !== 'urgent') continue;
+    const ts = new Date(log.timestamp || log.date).getTime();
+    if (Number.isFinite(ts) && (now - ts) <= 2 * DAY_MS) {
+      return { shouldCreate: true, reason: 'urgent-observe' };
+    }
+  }
+
+  // Rule 2: concern observe in the last 2 days
+  for (const log of logs) {
+    if (log.type !== 'observe') continue;
+    const sev = log.details?.severity;
+    if (sev !== 'concern') continue;
+    const ts = new Date(log.timestamp || log.date).getTime();
+    if (Number.isFinite(ts) && (now - ts) <= 2 * DAY_MS) {
+      return { shouldCreate: true, reason: 'concern-observe' };
+    }
+  }
+
+  // Rule 3: stuck in stage (now > 1.5 * typicalDays since stage start)
+  if (plant?.stage && plant?.stageStartDate && stageDurations) {
+    const typical = stageDurations[plant.stage]?.typicalDays;
+    if (typical && typical > 0) {
+      const stageStart = new Date(plant.stageStartDate).getTime();
+      if (Number.isFinite(stageStart)) {
+        const days = (now - stageStart) / DAY_MS;
+        if (days > 1.5 * typical) {
+          return { shouldCreate: true, reason: 'stuck-stage' };
+        }
+      }
+    }
+  }
+
+  return { shouldCreate: false };
+}
+
+function evaluateDiagnoseTaskTriggers(plant, existingTasks) {
+  const tasks = [];
+  // Skip if a pending diagnose task already exists for this plant
+  const alreadyHasDiagnose = (existingTasks || []).some(t =>
+    t.plantId === plant.id && t.type === 'diagnose' && t.status === 'pending'
+  );
+  if (alreadyHasDiagnose) return tasks;
+
+  const stageDurMap = {};
+  for (const s of STAGES) stageDurMap[s.id] = { typicalDays: s.typicalDays };
+
+  const result = evaluateDiagnoseTriggers(plant, stageDurMap);
+  if (!result.shouldCreate) return tasks;
+
+  const reasonMessage = {
+    'urgent-observe': 'Plant flagged urgent in your journal. Run a diagnostic to identify the issue.',
+    'concern-observe': 'Concerning observation logged. Run a diagnostic to confirm or rule out problems.',
+    'stuck-stage': `${plant.name} has been in ${plant.stage} longer than expected. Run a diagnostic to check for issues.`,
+  }[result.reason] || 'Diagnostic check recommended.';
+
+  tasks.push(_createTask(plant.id, 'diagnose', 'recommended', `Diagnose ${plant.name}`, {
+    beginner: reasonMessage,
+    intermediate: reasonMessage,
+    expert: reasonMessage,
+  }));
   return tasks.filter(t => !isDuplicate(t, existingTasks));
 }
 

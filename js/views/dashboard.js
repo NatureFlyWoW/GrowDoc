@@ -19,6 +19,15 @@ export function renderDashboard(container, store) {
     return;
   }
 
+  // Show welcome/aha-moment card ONLY when both conditions hold:
+  //   - flag is not yet set (true first visit)
+  //   - no plants exist
+  // Existing v1 users have plants but no flag — they must NOT see this.
+  if (shouldShowWelcomeCard(grow)) {
+    renderWelcomeCard(container, store);
+    return;
+  }
+
   const wrapper = document.createElement('div');
   wrapper.className = 'dashboard';
 
@@ -100,6 +109,80 @@ export function renderStatusBanner(container, store) {
   banner.textContent = text;
   banner.dataset.status = status;
   container.appendChild(banner);
+}
+
+/**
+ * Pure predicate: should we show the first-visit welcome card?
+ *
+ * Detection rule from Section 06: BOTH conditions must hold.
+ *   - grow.firstVisitComplete is not yet truthy (true first visit)
+ *   - grow.plants is empty or missing
+ *
+ * Existing v1 users have plants but undefined firstVisitComplete —
+ * they MUST NOT see this card. This is the regression guard from
+ * the Opus review.
+ */
+export function shouldShowWelcomeCard(grow) {
+  if (!grow) return true;
+  if (grow.firstVisitComplete === true) return false;
+  if (grow.plants && grow.plants.length > 0) return false;
+  return true;
+}
+
+/**
+ * Render the first-visit welcome card and quick-add plant flow.
+ */
+export function renderWelcomeCard(container, store) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'dashboard';
+
+  const card = document.createElement('div');
+  card.className = 'card welcome-card';
+  card.style.maxWidth = '600px';
+  card.style.margin = '40px auto';
+  card.style.padding = '32px';
+  card.style.textAlign = 'center';
+  card.style.background = 'var(--bg-elevated, #fafafa)';
+  card.style.borderRadius = '12px';
+  card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.06)';
+
+  const heading = document.createElement('h2');
+  heading.textContent = 'Your grow companion is ready';
+  heading.style.marginTop = '0';
+  card.appendChild(heading);
+
+  const body = document.createElement('p');
+  body.textContent = "Let's set up your first plant. You can add details now or fill them in later from the plant detail view.";
+  body.style.color = 'var(--text-muted)';
+  card.appendChild(body);
+
+  const cta = document.createElement('button');
+  cta.className = 'btn btn-primary';
+  cta.style.marginTop = '16px';
+  cta.style.padding = '12px 32px';
+  cta.style.fontSize = '1rem';
+  cta.textContent = 'Add Your First Plant';
+  cta.addEventListener('click', () => navigate('/grow/plants?addPlant=1'));
+  card.appendChild(cta);
+
+  const skip = document.createElement('div');
+  skip.style.marginTop = '12px';
+  const skipBtn = document.createElement('button');
+  skipBtn.className = 'btn btn-link';
+  skipBtn.style.fontSize = '0.85rem';
+  skipBtn.style.color = 'var(--text-muted)';
+  skipBtn.textContent = 'Skip for now';
+  skipBtn.addEventListener('click', () => {
+    const growSnap = store.getSnapshot().grow;
+    growSnap.firstVisitComplete = true;
+    store.commit('grow', growSnap);
+    renderDashboard(container, store);
+  });
+  skip.appendChild(skipBtn);
+  card.appendChild(skip);
+
+  wrapper.appendChild(card);
+  container.appendChild(wrapper);
 }
 
 /**
