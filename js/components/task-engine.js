@@ -2,8 +2,7 @@
 // Generates dynamic, per-plant, context-aware task recommendations.
 
 import { WATERING_FREQUENCY, VPD_TARGETS, DLI_TARGETS, NUTRIENT_TARGETS } from '../data/grow-knowledge.js';
-import { calculateWeights, blendTarget, getRecommendation } from '../data/priority-engine.js';
-import { STAGE_TRANSITIONS, getDaysInStage, shouldAutoAdvance, getCureBurpSchedule } from '../data/stage-rules.js';
+import { STAGE_TRANSITIONS, STAGES, getDaysInStage, shouldAutoAdvance, getCureBurpSchedule } from '../data/stage-rules.js';
 import { generateId } from '../utils.js';
 
 /**
@@ -21,6 +20,10 @@ export function generateTasks(store) {
   const newTasks = [];
 
   for (const plant of grow.plants) {
+    // Skip plants whose stage blocks task generation (e.g. 'done').
+    const stageDef = STAGES.find(s => s.id === plant.stage);
+    if (stageDef && stageDef.blocksTaskGeneration) continue;
+
     newTasks.push(...evaluateTimeTriggers(plant, profile, existingTasks));
     newTasks.push(...evaluateStageTriggers(plant, profile, existingTasks));
     newTasks.push(...evaluateTrainingTriggers(plant, existingTasks));
@@ -42,7 +45,6 @@ export function evaluateTimeTriggers(plant, profile, existingTasks) {
   const stage = plant.stage;
   const days = getDaysInStage(plant);
   const logs = plant.logs || [];
-  const weights = calculateWeights(profile.priorities || { yield: 3, quality: 3, terpenes: 3, effect: 3 });
 
   // Watering
   const waterFreq = _getWaterFrequency(medium, potSize, stage);
@@ -246,6 +248,104 @@ export function evaluateEnvironmentTriggers(readings, profile, existingTasks) {
   }
 
   return tasks.filter(t => !isDuplicate(t, existingTasks));
+}
+
+// ── Task Pruning ─────────────────────────────────────────────────────
+
+const PRUNE_DONE_AGE_DAYS = 7;
+const PRUNE_MAX_TASKS = 200;
+const INTERVAL_HISTORY_CAP = 30;
+
+/**
+ * Prune completed/dismissed tasks older than 7 days and cap the total
+ * task array at 200 entries. Before removing completed tasks, extract
+ * their completion dates into grow.taskStats.intervals so the pattern
+ * tracker (Section 04) can still learn from them.
+ *
+ * Must be called on the grow object returned by store.getSnapshot()
+ * (mutable), then committed via store.commit('grow', grow).
+ *
+ * Pending tasks are NEVER pruned regardless of age.
+ *
+ * @param {Object} grow — Mutable grow snapshot
+ * @returns {{removed: number, kept: number}}
+ */
+export function pruneTasks(grow) {
+  if (!grow || !Array.isArray(grow.tasks)) return { removed: 0, kept: 0 };
+
+  // Ensure taskStats shape exists for interval extraction and counters
+  if (!grow.taskStats) {
+    grow.taskStats = {
+      totalCompleted: 0,
+      totalDismissed: 0,
+      streaks: { water: 0, feed: 0, ipm: 0, log: 0 },
+      intervals: {},
+      weeklyHistory: [],
+      lastCompletedDate: null,
+    };
+  }
+  if (!grow.taskStats.intervals) grow.taskStats.intervals = {};
+
+  const now = Date.now();
+  const DAY = 86400000;
+  const keep = [];
+  let removedCompleted = 0;
+  let removedDismissed = 0;
+
+  for (const task of grow.tasks) {
+    if (task.status === 'pending' || task.status === 'snoozed') {
+      keep.push(task);
+      continue;
+    }
+
+    const completedAt = task.completedDate ? new Date(task.completedDate).getTime() : NaN;
+    const ageDays = Number.isFinite(completedAt) ? (now - completedAt) / DAY : Infinity;
+
+    if (ageDays > PRUNE_DONE_AGE_DAYS) {
+      // Extract interval data before dropping completed tasks
+      if (task.status === 'done' && task.plantId && task.type) {
+        const stage = task.stageAtCompletion || task.stage || 'unknown';
+        const plantIntervals = grow.taskStats.intervals[task.plantId] || {};
+        const typeIntervals = plantIntervals[task.type] || {};
+        const dateList = typeIntervals[stage] || [];
+        dateList.push(task.completedDate);
+        // Cap per (plant, type, stage) at INTERVAL_HISTORY_CAP entries
+        while (dateList.length > INTERVAL_HISTORY_CAP) dateList.shift();
+        typeIntervals[stage] = dateList;
+        plantIntervals[task.type] = typeIntervals;
+        grow.taskStats.intervals[task.plantId] = plantIntervals;
+      }
+
+      if (task.status === 'done') removedCompleted++;
+      else if (task.status === 'dismissed') removedDismissed++;
+      continue;
+    }
+
+    keep.push(task);
+  }
+
+  // Counters reflect all-time totals even though the task objects are dropped
+  grow.taskStats.totalCompleted = (grow.taskStats.totalCompleted || 0) + removedCompleted;
+  grow.taskStats.totalDismissed = (grow.taskStats.totalDismissed || 0) + removedDismissed;
+
+  // Cap total task count. Oldest-first removal, but never touch pending/snoozed.
+  if (keep.length > PRUNE_MAX_TASKS) {
+    const pendingOrSnoozed = keep.filter(t => t.status === 'pending' || t.status === 'snoozed');
+    const closed = keep.filter(t => t.status !== 'pending' && t.status !== 'snoozed');
+    closed.sort((a, b) => new Date(a.completedDate || 0) - new Date(b.completedDate || 0));
+    const dropCount = keep.length - PRUNE_MAX_TASKS;
+    const droppedClosed = closed.slice(0, dropCount);
+    for (const t of droppedClosed) {
+      if (t.status === 'done') grow.taskStats.totalCompleted++;
+      else if (t.status === 'dismissed') grow.taskStats.totalDismissed++;
+    }
+    const keptClosed = closed.slice(dropCount);
+    grow.tasks = [...pendingOrSnoozed, ...keptClosed];
+  } else {
+    grow.tasks = keep;
+  }
+
+  return { removed: (grow.tasks.length < (Array.isArray(grow.tasks) ? keep.length : 0)) ? 0 : removedCompleted + removedDismissed, kept: grow.tasks.length };
 }
 
 // ── Deduplication ────────────────────────────────────────────────────

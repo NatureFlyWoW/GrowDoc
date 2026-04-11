@@ -2,7 +2,8 @@
 
 import { getDaysInStage, STAGES } from '../data/stage-rules.js';
 import { TRAINING_METHODS, generateMilestones } from '../data/training-protocols.js';
-import { generateId } from '../utils.js';
+import { POT_SIZES } from '../data/constants.js';
+import { generateId, daysSinceLog as _daysSince } from '../utils.js';
 import { navigate } from '../router.js';
 
 /**
@@ -164,7 +165,7 @@ function _showAddPlantForm(container, store) {
   // Pot size
   const potSelect = document.createElement('select');
   potSelect.className = 'input';
-  for (const size of [1, 3, 5, 7, 10, 15, 20]) {
+  for (const size of POT_SIZES) {
     const opt = document.createElement('option');
     opt.value = size;
     opt.textContent = `${size}L`;
@@ -287,13 +288,6 @@ function _quickLog(store, plantId, type) {
 
 export function daysSince(plant, logType) {
   return _daysSince(plant, logType);
-}
-
-function _daysSince(plant, type) {
-  const logs = (plant.logs || []).filter(l => l.type === type);
-  if (logs.length === 0) return null;
-  const last = logs[logs.length - 1];
-  return Math.floor((Date.now() - new Date(last.date || last.timestamp)) / 86400000);
 }
 
 function _urgencyClass(days, threshold) {

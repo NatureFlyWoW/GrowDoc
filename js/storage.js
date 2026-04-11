@@ -150,6 +150,78 @@ export function checkCapacity() {
 }
 
 /**
+ * Quota monitor for growdoc-* keys. Sums character lengths of every
+ * key starting with 'growdoc-' and compares to a 4.5MB safety budget
+ * (under the typical 5MB browser limit).
+ *
+ * @returns {{used: number, total: number, percent: number, status: 'ok'|'warning'|'critical'}}
+ */
+export function checkQuota() {
+  const QUOTA_BUDGET = 4_500_000; // 4.5MB safety margin under 5MB browser limit
+  let used = 0;
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('growdoc-')) {
+        // Approximate UTF-16 byte count
+        used += (key.length + (localStorage.getItem(key)?.length || 0)) * 2;
+      }
+    }
+  } catch {
+    // Ignore — return zero usage on read failure
+  }
+  const percent = used / QUOTA_BUDGET;
+  let status = 'ok';
+  if (percent >= 0.95) status = 'critical';
+  else if (percent >= 0.80) status = 'warning';
+  return { used, total: QUOTA_BUDGET, percent: Math.round(percent * 100), status };
+}
+
+/**
+ * Lightweight schema validation. Returns a safe default if the input
+ * fails the per-key shape contract. NEVER throws — corruption results
+ * in falling back to defaults so the app can boot.
+ *
+ * @param {string} key - Top-level state key (profile|grow|environment|archive|outcomes|ui)
+ * @param {*} data
+ * @returns {*}
+ */
+export function validateShape(key, data) {
+  switch (key) {
+    case 'grow': {
+      if (!data || typeof data !== 'object' || Array.isArray(data)) {
+        return { plants: [], tasks: [], profile: {} };
+      }
+      const out = { ...data };
+      if (!Array.isArray(out.plants)) out.plants = [];
+      if (!Array.isArray(out.tasks)) out.tasks = [];
+      if (out.profile == null || typeof out.profile !== 'object') out.profile = {};
+      return out;
+    }
+    case 'profile': {
+      if (!data || typeof data !== 'object' || Array.isArray(data)) return {};
+      return data;
+    }
+    case 'environment': {
+      if (!data || typeof data !== 'object' || Array.isArray(data)) return { readings: [] };
+      const out = { ...data };
+      if (!Array.isArray(out.readings)) out.readings = [];
+      return out;
+    }
+    case 'archive':
+    case 'outcomes': {
+      return Array.isArray(data) ? data : [];
+    }
+    case 'ui': {
+      if (!data || typeof data !== 'object' || Array.isArray(data)) return { sidebarCollapsed: false };
+      return data;
+    }
+    default:
+      return data;
+  }
+}
+
+/**
  * Export all growdoc-companion-* keys as a single JSON object.
  * Used by error recovery and settings export.
  * @returns {Object}

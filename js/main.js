@@ -3,7 +3,8 @@
 import { initRouter, navigate } from './router.js';
 import { renderSidebar } from './components/sidebar.js';
 import { createStore } from './store.js';
-import { load, save, migrate, STORAGE_KEYS, compactEnvironmentReadings } from './storage.js';
+import { load, save, migrate, STORAGE_KEYS, compactEnvironmentReadings, validateShape, checkQuota } from './storage.js';
+import { debounce } from './utils.js';
 import { renderLanding, renderOnboarding } from './views/onboarding.js';
 import { renderDashboard } from './views/dashboard.js';
 import { renderEnvironmentView } from './views/environment.js';
@@ -23,13 +24,14 @@ import { preInitMigration, postInitMigration } from './migration.js';
 
 /** Initialize reactive store with persisted state. */
 function initStore() {
-  // Load and run schema migrations on each key
-  const profile = migrate('profile', load('profile') || {});
-  const grow = migrate('grow', load('grow') || {});
-  const environment = migrate('environment', load('environment') || { readings: [] });
-  const archive = migrate('archive', load('archive') || []);
-  const outcomes = migrate('outcomes', load('outcomes') || []);
-  const ui = migrate('ui', load('ui') || { sidebarCollapsed: false });
+  // Load, run schema migrations, then validate the shape so a corrupted
+  // localStorage entry can't crash the app on boot.
+  const profile = validateShape('profile', migrate('profile', load('profile') || {}));
+  const grow = validateShape('grow', migrate('grow', load('grow') || {}));
+  const environment = validateShape('environment', migrate('environment', load('environment') || { readings: [] }));
+  const archive = validateShape('archive', migrate('archive', load('archive') || []));
+  const outcomes = validateShape('outcomes', migrate('outcomes', load('outcomes') || []));
+  const ui = validateShape('ui', migrate('ui', load('ui') || { sidebarCollapsed: false }));
 
   const store = createStore({
     profile,
@@ -40,12 +42,13 @@ function initStore() {
     ui,
   });
 
-  // Auto-save on commit: persist each top-level key to localStorage
+  // Auto-save on commit: each top-level key gets its own debounced
+  // save function so rapid commits to one key don't cancel saves for
+  // unrelated keys. 300ms debounce window.
   const persistKeys = ['profile', 'grow', 'environment', 'archive', 'outcomes', 'ui'];
   for (const key of persistKeys) {
-    store.subscribe(key, () => {
-      save(key, store.state[key]);
-    });
+    const debouncedSave = debounce(() => save(key, store.state[key]), 300);
+    store.subscribe(key, () => debouncedSave());
   }
 
   return store;
@@ -121,6 +124,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run environment data compaction (daily to weekly for old readings)
     compactEnvironmentReadings();
+
+    // Quota snapshot — log warnings/critical on app boot so users know
+    // before they hit the wall. Section 11 builds a UI dashboard for this.
+    const quota = checkQuota();
+    if (quota.status === 'warning') {
+      console.warn(`Storage at ${quota.percent}% — consider exporting your data soon.`);
+    } else if (quota.status === 'critical') {
+      console.error(`Storage at ${quota.percent}% — almost full. Free up space in Settings.`);
+    }
 
     // Make store accessible for other modules
     window.__growdocStore = store;

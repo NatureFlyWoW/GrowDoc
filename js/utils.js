@@ -49,6 +49,23 @@ export function debounce(fn, ms) {
   };
 }
 
+/**
+ * Return whole days since the most recent log entry of the given type,
+ * or null if no matching log exists. Accepts either a plant object (with
+ * .logs) OR a logs array directly.
+ *
+ * @param {{logs?: Array}|Array} plantOrLogs
+ * @param {string} type - Log type e.g. 'water', 'feed'
+ * @returns {number|null}
+ */
+export function daysSinceLog(plantOrLogs, type) {
+  const logs = Array.isArray(plantOrLogs) ? plantOrLogs : (plantOrLogs?.logs || []);
+  const filtered = logs.filter(l => l.type === type);
+  if (filtered.length === 0) return null;
+  const last = filtered[filtered.length - 1];
+  return Math.floor((Date.now() - new Date(last.date || last.timestamp)) / 86400000);
+}
+
 
 // ── Tests ──────────────────────────────────────────────────────────────
 

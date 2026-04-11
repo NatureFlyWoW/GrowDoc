@@ -2,6 +2,7 @@
 
 import { navigate } from '../router.js';
 import { generateId } from '../utils.js';
+import { POT_SIZES } from '../data/constants.js';
 import { renderStarRating, renderEffectSelector } from '../components/star-rating.js';
 import { parseProfileNotes, NOTE_PLACEHOLDERS } from '../data/profile-context-rules.js';
 
@@ -36,8 +37,6 @@ const LIGHTS = [
   { id: 'cfl', label: 'CFL' },
   { id: 'fluorescent', label: 'Fluorescent' },
 ];
-
-const POT_SIZES = [1, 3, 5, 7, 10, 15, 20];
 
 const EXPERIENCE_LEVELS = [
   { id: 'first-grow', label: 'First Grow', desc: 'Brand new to growing' },

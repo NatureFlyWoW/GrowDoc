@@ -1,9 +1,10 @@
 // GrowDoc Companion — Dashboard (Today View)
 
-import { generateTasks, getExperienceDetail } from '../components/task-engine.js';
+import { generateTasks, pruneTasks, getExperienceDetail } from '../components/task-engine.js';
 import { renderTaskCard, renderCustomTaskForm } from '../components/task-card.js';
 import { renderTimeline } from '../components/timeline-bar.js';
 import { getDaysInStage } from '../data/stage-rules.js';
+import { daysSinceLog as _daysSinceLog } from '../utils.js';
 import { navigate } from '../router.js';
 
 /**
@@ -24,12 +25,19 @@ export function renderDashboard(container, store) {
   // Zone 1: Status Banner
   renderStatusBanner(wrapper, store);
 
-  // Generate and merge tasks
+  // Prune stale completed/dismissed tasks (keeps localStorage bounded and
+  // extracts interval data for the pattern tracker) then generate and
+  // merge new tasks.
+  const growSnap = store.getSnapshot().grow;
+  const beforeCount = (growSnap.tasks || []).length;
+  pruneTasks(growSnap);
   const newTasks = generateTasks(store);
   if (newTasks.length > 0) {
-    const growSnap = store.getSnapshot().grow;
     if (!growSnap.tasks) growSnap.tasks = [];
     growSnap.tasks.push(...newTasks);
+  }
+  // Commit if pruning or new tasks changed the state
+  if (newTasks.length > 0 || (growSnap.tasks || []).length !== beforeCount) {
     store.commit('grow', growSnap);
   }
 
@@ -242,13 +250,6 @@ function _saveNotes(store, taskId, notes) {
     task.notes = notes;
     store.commit('grow', grow);
   }
-}
-
-function _daysSinceLog(plant, type) {
-  const logs = (plant.logs || []).filter(l => l.type === type);
-  if (logs.length === 0) return null;
-  const last = logs[logs.length - 1];
-  return Math.floor((Date.now() - new Date(last.date || last.timestamp)) / 86400000);
 }
 
 function _daysSinceDate(dateStr) {

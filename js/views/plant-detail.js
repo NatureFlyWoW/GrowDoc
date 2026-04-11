@@ -4,6 +4,8 @@ import { getDaysInStage, STAGES } from '../data/stage-rules.js';
 import { TRAINING_METHODS, generateMilestones } from '../data/training-protocols.js';
 import { parseProfileNotes } from '../data/profile-context-rules.js';
 import { renderTimeline, advancePlantStage } from '../components/timeline-bar.js';
+import { POT_SIZES } from '../data/constants.js';
+import { daysSinceLog as _daysSince } from '../utils.js';
 import { navigate } from '../router.js';
 
 /**
@@ -275,7 +277,7 @@ function _renderEditTab(container, plant, store, pageContainer, plantId) {
   const potGroup = _editField('Pot Size');
   const potSelect = document.createElement('select');
   potSelect.className = 'input';
-  for (const size of [1, 3, 5, 7, 10, 15, 20]) {
+  for (const size of POT_SIZES) {
     const opt = document.createElement('option');
     opt.value = size;
     opt.textContent = `${size}L`;
@@ -475,9 +477,3 @@ function _applyStageChange(store, plantId, newStage, daysInStage) {
   store.publish('stage:changed', { plantId, oldStage, newStage });
 }
 
-function _daysSince(logs, type) {
-  const filtered = logs.filter(l => l.type === type);
-  if (filtered.length === 0) return null;
-  const last = filtered[filtered.length - 1];
-  return Math.floor((Date.now() - new Date(last.date || last.timestamp)) / 86400000);
-}

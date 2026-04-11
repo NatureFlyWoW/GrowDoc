@@ -123,6 +123,17 @@ export const STAGES = [
       { id: 'burp-reduce-2', name: 'Reduce to every 2-3 days', triggerDay: 14, icon: 'jar' },
       { id: 'cure-check', name: 'Cure quality check', triggerDay: 28, icon: 'check' }
     ]
+  },
+  {
+    // Terminal state: plants that have completed curing. Task engine skips
+    // these. Harvest outcome (Section 07) flips plants here.
+    id: 'done',
+    name: 'Completed',
+    typicalDays: 0,
+    minDays: 0,
+    maxDays: 0,
+    milestones: [],
+    blocksTaskGeneration: true,
   }
 ];
 

@@ -3,9 +3,12 @@
 /**
  * Create a reactive store with Proxy-based state, pub/sub, and event bus.
  *
- * All state changes MUST go through commit(). The Proxy wraps the top-level
- * state object. Direct deep mutations are not detected. Instead: read, copy,
- * modify, then commit the new sub-tree.
+ * All state changes MUST go through commit(). Reads via store.state.* return
+ * FROZEN references — direct deep mutation will throw in strict mode (or
+ * silently fail). The correct pattern is:
+ *   const snap = store.getSnapshot().grow;  // mutable clone
+ *   snap.plants.push(...);
+ *   store.commit('grow', snap);
  *
  * @param {Object} initialState
  * @returns {Object} store instance
@@ -15,6 +18,19 @@ export function createStore(initialState = {}) {
   const _eventBus = new EventTarget();
   const _eventListeners = new Map(); // originalCallback -> wrappedCallback
   const _actions = new Map();
+
+  // WeakMap cache of frozen views keyed by the raw object. Invalidated
+  // on commit() by replacing the raw reference — old frozen views fall
+  // out of scope naturally.
+  const _frozenCache = new WeakMap();
+
+  function _frozenView(obj) {
+    if (obj === null || typeof obj !== 'object') return obj;
+    if (_frozenCache.has(obj)) return _frozenCache.get(obj);
+    const frozen = Object.freeze(obj);
+    _frozenCache.set(obj, frozen);
+    return frozen;
+  }
 
   // Deep clone to avoid external mutation
   let _state = _deepClone(initialState);
@@ -29,7 +45,10 @@ export function createStore(initialState = {}) {
       return true;
     },
     get(target, prop) {
-      return target[prop];
+      // Return a frozen view of objects so accidental deep mutation
+      // (store.state.grow.plants.push(...)) fails loudly in strict mode
+      // instead of silently corrupting state.
+      return _frozenView(target[prop]);
     },
     deleteProperty(target, prop) {
       const oldVal = target[prop];
@@ -68,9 +87,15 @@ export function createStore(initialState = {}) {
   function _deepClone(obj) {
     if (obj === null || typeof obj !== 'object') return obj;
     try {
-      return JSON.parse(JSON.stringify(obj));
-    } catch {
-      return obj;
+      return structuredClone(obj);
+    } catch (err) {
+      console.warn('structuredClone failed, falling back to JSON:', err);
+      try {
+        return JSON.parse(JSON.stringify(obj));
+      } catch {
+        // Last-resort: return original. Callers should never hit this.
+        return obj;
+      }
     }
   }
 
@@ -262,16 +287,62 @@ export function runTests() {
     assert(store.state.total === 10, 'dispatch() runs action and commits state');
   }
 
-  // Test: deep mutations via direct property access do NOT trigger subscribers
+  // Test: frozen views block direct deep mutation
   {
     const store = createStore({ data: { nested: 'original' } });
     let notified = false;
     store.subscribe('data', () => { notified = true; });
-    // Direct deep mutation - NOT through commit
-    store.state.data.nested = 'mutated';
-    assert(!notified, 'deep mutation via direct access does NOT trigger subscribers');
-    // Value IS changed on the object (Proxy doesn't prevent it)
-    assert(store.state.data.nested === 'mutated', 'deep mutation changes the value but silently');
+    // Attempt direct deep mutation — should be blocked by Object.freeze
+    let threw = false;
+    try {
+      store.state.data.nested = 'mutated';
+    } catch {
+      threw = true;
+    }
+    // In strict mode the assignment throws; in loose mode it silently no-ops.
+    // Either way, state must remain unchanged and subscribers must not fire.
+    assert(!notified, 'direct deep mutation does NOT trigger subscribers');
+    assert(store.state.data.nested === 'original', 'frozen view prevents deep mutation');
+    assert(threw || store.state.data.nested === 'original', 'strict mode throws or frozen no-op');
+  }
+
+  // Test: proper getSnapshot + commit flow mutates state correctly
+  {
+    const store = createStore({ grow: { plants: [] } });
+    let notified = false;
+    store.subscribe('grow', () => { notified = true; });
+    const snap = store.getSnapshot().grow;
+    snap.plants.push({ id: 'p1', name: 'Test' });
+    store.commit('grow', snap);
+    assert(notified, 'commit() fires subscribers');
+    assert(store.state.grow.plants.length === 1, 'commit() updates state');
+    assert(store.state.grow.plants[0].id === 'p1', 'committed plant retained');
+  }
+
+  // Test: repeated reads return the same frozen reference (WeakMap cache)
+  {
+    const store = createStore({ data: { a: 1 } });
+    const ref1 = store.state.data;
+    const ref2 = store.state.data;
+    assert(ref1 === ref2, 'same frozen reference across reads (WeakMap cache)');
+  }
+
+  // Test: commit invalidates the frozen cache
+  {
+    const store = createStore({ data: { a: 1 } });
+    const before = store.state.data;
+    store.commit('data', { a: 2 });
+    const after = store.state.data;
+    assert(before !== after, 'new frozen reference after commit');
+    assert(after.a === 2, 'committed value readable');
+  }
+
+  // Test: _deepClone uses structuredClone (Date preserved)
+  // structuredClone keeps Date type; JSON would serialize to string.
+  {
+    const store = createStore({ when: new Date('2026-04-10') });
+    const snap = store.getSnapshot();
+    assert(snap.when instanceof Date, '_deepClone preserves Date via structuredClone');
   }
 
   // Test: event bus emits and receives

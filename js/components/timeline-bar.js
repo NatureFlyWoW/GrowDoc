@@ -1,6 +1,7 @@
 // GrowDoc Companion — Stage Timeline Bar & Dry/Cure Views
 
 import { STAGES, STAGE_TRANSITIONS, getDaysInStage, getStageById, getStageIndex, getCureBurpSchedule, DRYING_TARGETS, CURING_TARGETS, SMELL_OPTIONS_DRYING, SMELL_OPTIONS_CURING } from '../data/stage-rules.js';
+import { generateId } from '../utils.js';
 
 /**
  * renderTimeline(container, options) — Renders a horizontal progress bar timeline.
@@ -559,6 +560,7 @@ function _logDecisionNote(plantId, type, action, note, store) {
   if (!plant) return;
   if (!plant.logs) plant.logs = [];
   plant.logs.push({
+    id: generateId(),
     date: new Date().toISOString(),
     timestamp: new Date().toISOString(),
     type: 'decision',
