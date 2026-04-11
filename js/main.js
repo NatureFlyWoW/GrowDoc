@@ -3,7 +3,7 @@
 import { initRouter, navigate } from './router.js';
 import { renderSidebar } from './components/sidebar.js';
 import { createStore } from './store.js';
-import { load, save, migrate, STORAGE_KEYS, migrateFromLegacy, compactEnvironmentReadings } from './storage.js';
+import { load, save, migrate, STORAGE_KEYS, compactEnvironmentReadings } from './storage.js';
 import { renderLanding, renderOnboarding } from './views/onboarding.js';
 import { renderDashboard } from './views/dashboard.js';
 import { renderEnvironmentView } from './views/environment.js';
@@ -19,7 +19,7 @@ import { renderKnowledgeView, renderMythsView } from './views/knowledge.js';
 import { renderToolsView } from './views/tools.js';
 import { renderCalculators } from './views/calculators.js';
 import { renderSettingsView } from './views/settings.js';
-import { runMigration } from './migration.js';
+import { preInitMigration, postInitMigration } from './migration.js';
 
 /** Initialize reactive store with persisted state. */
 function initStore() {
@@ -109,14 +109,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   try {
-    // Run legacy migration (first load only)
-    migrateFromLegacy();
+    // Phase 1: Rewrite legacy v1 data into v2 localStorage keys
+    // BEFORE the store reads them. Idempotent via flag check.
+    preInitMigration();
 
-    // Initialize store with persisted state
+    // Initialize store with persisted state (now including migrated data)
     const store = initStore();
 
-    // Run v2 companion migration (after store init)
-    runMigration(store);
+    // Phase 2: Store-dependent migration steps (placeholder hook)
+    postInitMigration(store);
 
     // Run environment data compaction (daily to weekly for old readings)
     compactEnvironmentReadings();
