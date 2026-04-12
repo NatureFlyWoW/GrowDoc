@@ -5,6 +5,8 @@
 !docs/*.pdf
 
 .vercel
+.mcp.json
+.claude/mcp-servers/
 node_modules/
 test-results/
 playwright-report/
