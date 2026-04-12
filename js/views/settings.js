@@ -5,6 +5,7 @@ import { calculateWeights } from '../data/priority-engine.js';
 import { parseProfileText, NOTE_PLACEHOLDERS } from '../data/note-contextualizer/index.js';
 import { exportAllData, importAllData, validateBackupSchema, getStorageBreakdown } from '../storage.js';
 import { navigate } from '../router.js';
+import { getLastSavedAt } from '../main.js';
 
 /**
  * renderSettingsView(container, store) — Settings and data management view.
@@ -317,6 +318,21 @@ function _renderStorageUsage(container) {
 
     section.appendChild(row);
   }
+
+  const lastSaved = getLastSavedAt();
+  const savedLabel = document.createElement('div');
+  savedLabel.style.marginTop = '8px';
+  savedLabel.style.fontSize = '0.85rem';
+  savedLabel.style.color = 'var(--text-muted)';
+  if (lastSaved) {
+    const ago = Math.round((Date.now() - lastSaved) / 1000);
+    if (ago < 5) savedLabel.textContent = 'Last saved: just now';
+    else if (ago < 60) savedLabel.textContent = `Last saved: ${ago}s ago`;
+    else savedLabel.textContent = `Last saved: ${Math.round(ago / 60)}m ago`;
+  } else {
+    savedLabel.textContent = 'Last saved: not yet this session';
+  }
+  section.appendChild(savedLabel);
 
   container.appendChild(section);
 }

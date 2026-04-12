@@ -30,6 +30,12 @@ import { showCriticalError } from './components/error-banner.js';
 let getActiveEdgeCases = () => [];
 let _enginePromise = null;
 
+let _lastSavedAt = null;
+
+export function getLastSavedAt() {
+  return _lastSavedAt;
+}
+
 function _getEngine() {
   if (!_enginePromise) {
     _enginePromise = import('./data/edge-case-engine.js').catch(err => {
@@ -72,7 +78,10 @@ function initStore() {
   const persistKeys = ['profile', 'grow', 'environment', 'archive', 'outcomes', 'ui'];
   for (const key of persistKeys) {
     const debouncedSave = debounce(() => {
-      if (!save(key, store.state[key])) {
+      const ok = save(key, store.state[key]);
+      if (ok) {
+        _lastSavedAt = Date.now();
+      } else {
         showCriticalError('Data save failed \u2014 storage may be full');
       }
     }, 300);
@@ -354,7 +363,7 @@ function _hasBackupKeys() {
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key && key.startsWith('growdoc-companion-backup')) return true;
+      if (key && key.startsWith('growdoc-legacy-backup-')) return true;
     }
   } catch (err) { console.error('[main:backup-check]', err); }
   return false;
@@ -366,17 +375,18 @@ function restoreBackup() {
     const backupKeys = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key && key.startsWith('growdoc-companion-backup-')) backupKeys.push(key);
+      if (key && key.startsWith('growdoc-legacy-backup-')) backupKeys.push(key);
     }
     for (const bk of backupKeys) {
-      // Backup keys are: growdoc-companion-backup-{original-legacy-key}
+      // Backup keys are: growdoc-legacy-backup-{original-legacy-key}
       // Restore the original legacy key so the next migration re-imports it
-      const originalKey = bk.replace('growdoc-companion-backup-', '');
+      const originalKey = bk.replace('growdoc-legacy-backup-', '');
       const val = localStorage.getItem(bk);
       if (val) localStorage.setItem(originalKey, val);
     }
-    // Clear migration flag so re-import runs on reload
+    // Clear migration flags so re-import runs on reload
     localStorage.removeItem('growdoc-companion-migrated');
+    localStorage.removeItem('growdoc-companion-v2-migrated');
     location.reload();
   } catch (err) {
     alert('Restore failed: ' + err.message);
@@ -436,6 +446,7 @@ async function renderTestRunner(container) {
     { name: 'lazy-loader', path: './tests/lazy-loader.test.js' },
     { name: 'timeline-bar', path: './components/timeline-bar.js' },
     { name: 'doctor-ui', path: './plant-doctor/doctor-ui.js' },
+    { name: 'cultivation-data', path: './tests/cultivation-data.test.js' },
   ];
 
   let totalPass = 0;
