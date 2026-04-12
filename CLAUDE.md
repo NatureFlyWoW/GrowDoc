@@ -14,7 +14,7 @@ Collaborative cannabis cultivation documentation platform deployed on Vercel. Va
 
 1. **Never expose secrets.** `GITHUB_TOKEN`, `JWT_SECRET`, password hashes live only in Vercel env vars. Never commit `.env` files or log secrets.
 2. **Deploy is part of done.** After building any feature, run `vercel --prod` to deploy.
-3. **No frameworks.** This is intentionally vanilla JS/HTML/CSS with zero npm dependencies. Do not introduce React, Vue, bundlers, or transpilers.
+3. **No frameworks.** This is intentionally vanilla JS/HTML/CSS with zero npm dependencies. Do not introduce React, Vue, bundlers, or transpilers. **Exception:** Playwright (`@playwright/test`) is the only allowed npm devDependency — used for smoke testing only. It is not a runtime dependency and does not ship to production.
 4. **Preserve the design system.** All docs use the theme from `docs/_design-system.md`. Use those CSS custom properties — do not introduce new colors or fonts.
 5. **GitHub is the database.** All document content lives in `docs/` and metadata in `docs/docs.json`. Changes go through the `api/save.js` endpoint which commits via GitHub API.
 6. **Optimistic concurrency.** The save flow uses SHA-based conflict detection. Always pass the current SHA when saving `docs.json`.

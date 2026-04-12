@@ -8,6 +8,10 @@
     "node": ">=18"
   },
   "scripts": {
-    "setup-password": "node scripts/setup-password.js"
+    "setup-password": "node scripts/setup-password.js",
+    "test:smoke": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1"
   }
 }
