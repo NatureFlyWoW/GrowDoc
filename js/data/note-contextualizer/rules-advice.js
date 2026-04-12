@@ -290,7 +290,7 @@ export const ADVICE_RULES = Object.freeze([
     appliesTo: 'Magnesium Deficiency',
     condition: (ctx) => _hasTag(ctx.previousProblems, 'mg-deficiency'),
     headline: 'Foliar feed 1% Epsom salts',
-    detail: 'Mix 10 g Epsom salt per litre and spray leaves at lights-off. You will see green return to interveinal areas within 3–5 days.',
+    detail: 'Mix 10 g Epsom salt per litre and spray leaves 30 minutes before lights-on. You will see green return to interveinal areas within 3–5 days.',
     severity: 'alert',
   },
   {
@@ -342,7 +342,11 @@ export const ADVICE_RULES = Object.freeze([
   {
     id: 'advice-mites-raise-rh',
     appliesTo: 'Spider Mites',
-    condition: (ctx) => _isNum(ctx.rhExtracted) && ctx.rhExtracted < 40,
+    condition: (ctx) => {
+      const vegStages = ['seedling', 'early-veg', 'late-veg'];
+      if (ctx.stage && !vegStages.includes(ctx.stage)) return false;
+      return _isNum(ctx.rhExtracted) && ctx.rhExtracted < 40;
+    },
     headline: 'Raise humidity above 50%',
     detail: 'Mites thrive in dry air. Pump RH to 50–60% and they stop reproducing — single most effective environmental intervention.',
     severity: 'alert',
@@ -350,7 +354,10 @@ export const ADVICE_RULES = Object.freeze([
   {
     id: 'advice-mites-spray',
     appliesTo: 'Spider Mites',
-    condition: _truthy,
+    condition: (ctx) => {
+      const vegStages = ['seedling', 'early-veg', 'late-veg'];
+      return !ctx.stage || vegStages.includes(ctx.stage);
+    },
     headline: 'Neem oil the undersides',
     detail: 'Spray pure water onto leaf undersides first to shock them, then apply neem at lights-off. Repeat every 3 days for two weeks.',
     severity: 'watch',

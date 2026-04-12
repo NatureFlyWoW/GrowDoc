@@ -305,7 +305,7 @@ export function getStageIndex(stageId) {
 // ── Drying/Curing Target Conditions ──────────────────────────────────
 
 export const DRYING_TARGETS = {
-  temp: { min: 15, max: 21 },
+  temp: { min: 15, max: 18 },
   rh: { min: 55, max: 65 },
   terpenePriority: { temp: { min: 15, max: 17 }, notes: 'Terpene priority: cooler/slower dry (15-17C) preserves volatile terpenes' }
 };

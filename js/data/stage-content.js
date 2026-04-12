@@ -40,7 +40,7 @@ export const STAGE_CONTENT = {
     whatsHappening: 'Root mass is expanding fast while the shoot is still tiny — the plant is building infrastructure before it commits to leaves. Cotyledons are feeding everything until the first true leaves can photosynthesize. Overwatering now is the single biggest killer.',
     whatToDo: [
       'Light at 150-250 PPFD, ~50-60cm above canopy for most LEDs.',
-      'VPD 0.6-0.9 kPa, air temp 22-26C, RH 65-70%.',
+      'VPD 0.4-0.8 kPa, air temp 22-26C, RH 65-70%.',
       'Water in a 5-10cm ring around the stem, not on the stem.',
       'Let the starter pot lose real weight before the next watering.',
       'No nutrients for the first 10-14 days in a peat-based mix.',

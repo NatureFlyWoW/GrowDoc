@@ -65,8 +65,8 @@ export const VPD_TARGETS = {
   'late-flower': {
     dayTemp:   { min: 22, max: 25 },
     nightTemp: { min: 18, max: 21 },
-    dayRH:     { min: 35, max: 45 },
-    nightRH:   { min: 40, max: 50 },
+    dayRH:     { min: 45, max: 50 },
+    nightRH:   { min: 45, max: 50 },
     vpdRange:  { min: 1.2, max: 1.5 }
   },
   ripening: {
