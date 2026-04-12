@@ -1,0 +1,57 @@
+{
+  "plugin_root": "C:\\Users\\Caus\\.claude\\plugins\\cache\\piercelamb-plugins\\deep-implement\\0.2.1",
+  "sections_dir": "C:\\GrowDoc\\planning\\stabilization-sprint\\sections",
+  "target_dir": "C:\\GrowDoc",
+  "state_dir": "C:\\GrowDoc\\planning\\stabilization-sprint\\implementation",
+  "git_root": "C:\\GrowDoc",
+  "commit_style": "conventional",
+  "test_command": "uv run pytest",
+  "sections": [
+    "section-01-remove-top-level-awaits",
+    "section-02-error-handling",
+    "section-03-cultivation-contradictions",
+    "section-04-test-coverage",
+    "section-05-playwright-smoke",
+    "section-06-localstorage-hardening",
+    "section-07-service-worker-cache"
+  ],
+  "sections_state": {
+    "section-01-remove-top-level-awaits": {
+      "status": "complete",
+      "commit_hash": "046d0bf"
+    },
+    "section-02-error-handling": {
+      "status": "complete",
+      "commit_hash": "eca9008"
+    },
+    "section-03-cultivation-contradictions": {
+      "status": "complete",
+      "commit_hash": "929b16f"
+    },
+    "section-06-localstorage-hardening": {
+      "status": "complete",
+      "commit_hash": "1a6eb9c"
+    },
+    "section-04-test-coverage": {
+      "status": "complete",
+      "commit_hash": "3594286"
+    },
+    "section-05-playwright-smoke": {
+      "status": "complete",
+      "commit_hash": "5d61052"
+    },
+    "section-07-service-worker-cache": {
+      "status": "complete",
+      "commit_hash": "c5cad82"
+    }
+  },
+  "pre_commit": {
+    "present": false,
+    "type": "none",
+    "config_file": null,
+    "native_hook": null,
+    "may_modify_files": false,
+    "detected_formatters": []
+  },
+  "created_at": "2026-04-12T10:17:12.577223+00:00"
+}
