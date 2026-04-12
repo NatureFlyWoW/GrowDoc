@@ -26,16 +26,24 @@ import { renderFinish } from './views/finish.js';
 import { preInitMigration, postInitMigration } from './migration.js';
 import { initContextualizer } from './data/note-contextualizer/index.js';
 
-// Attempt to load edge-case engine at module initialisation time.
-// Top-level await is valid in ESM. If the module does not exist the
-// import fails silently and getActiveEdgeCases falls back to a no-op.
 let getActiveEdgeCases = () => [];
-try {
-  const edgeCaseModule = await import('./data/edge-case-engine.js');
-  if (typeof edgeCaseModule.getActiveEdgeCases === 'function') {
-    getActiveEdgeCases = edgeCaseModule.getActiveEdgeCases;
+let _enginePromise = null;
+
+function _getEngine() {
+  if (!_enginePromise) {
+    _enginePromise = import('./data/edge-case-engine.js').catch(err => {
+      console.error('[main:edge-case-import]', err);
+      return null;
+    });
   }
-} catch { /* engine not ready */ }
+  return _enginePromise;
+}
+
+_getEngine().then(mod => {
+  if (mod && typeof mod.getActiveEdgeCases === 'function') {
+    getActiveEdgeCases = mod.getActiveEdgeCases;
+  }
+}).catch(() => {});
 
 /** Initialize reactive store with persisted state. */
 function initStore() {
@@ -247,10 +255,8 @@ function boot() {
   }
 }
 
-// The top-level `await import('./data/edge-case-engine.js')` above delays
-// this module's evaluation past DOMContentLoaded in most browsers. Guard the
-// listener so we run boot() immediately if the event already fired, or wire
-// up a listener if it's still pending.
+// Guard the listener so we run boot() immediately if DOMContentLoaded
+// already fired, or wire up a listener if it's still pending.
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', boot);
 } else {
@@ -420,6 +426,9 @@ async function renderTestRunner(container) {
     { name: 'vpd-widget', path: './components/vpd-widget.js' },
     { name: 'feeding-calculator', path: './data/feeding-calculator.js' },
     { name: 'question-matcher', path: './data/question-matcher.js' },
+    { name: 'lazy-loader', path: './tests/lazy-loader.test.js' },
+    { name: 'timeline-bar', path: './components/timeline-bar.js' },
+    { name: 'doctor-ui', path: './plant-doctor/doctor-ui.js' },
   ];
 
   let totalPass = 0;
@@ -459,3 +468,5 @@ async function renderTestRunner(container) {
     ${totalFail > 0 ? 'SOME TESTS FAILED' : 'ALL TESTS PASSED'}: ${totalPass} passed, ${totalFail} failed
   </div>` + output.innerHTML;
 }
+
+export { getActiveEdgeCases };

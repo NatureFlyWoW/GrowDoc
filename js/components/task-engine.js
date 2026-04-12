@@ -16,14 +16,24 @@ import { checkRedundancy, checkContradiction, inferAlertTrigger, overrideSuppres
 
 let _getBlockedActions = null;
 let _getActiveWarnings = null;
+let _enginePromise = null;
 
-try {
-  const eceMod = await import('../data/edge-case-engine.js');
-  _getBlockedActions = eceMod.getBlockedActions;
-  _getActiveWarnings = eceMod.getActiveWarnings;
-} catch (_importErr) {
-  // edge-case-engine.js not yet available — use local fallback below.
+function _getEngine() {
+  if (!_enginePromise) {
+    _enginePromise = import('../data/edge-case-engine.js').catch(err => {
+      console.error('[task-engine:edge-case-import]', err);
+      return null;
+    });
+  }
+  return _enginePromise;
 }
+
+_getEngine().then(mod => {
+  if (mod) {
+    _getBlockedActions = mod.getBlockedActions || _getBlockedActions;
+    _getActiveWarnings = mod.getActiveWarnings || _getActiveWarnings;
+  }
+}).catch(() => {});
 
 if (!_getBlockedActions || !_getActiveWarnings) {
   let _EDGE_CASES = null;

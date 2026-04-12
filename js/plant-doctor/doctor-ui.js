@@ -12,14 +12,24 @@ import { generateContextualAdvice } from '../data/note-contextualizer/index.js';
 
 let _ecGetBlockedActions = null;
 let _ecGetActiveEdgeCases = null;
+let _enginePromise = null;
 
-try {
-  const eceMod = await import('../data/edge-case-engine.js');
-  _ecGetBlockedActions = eceMod.getBlockedActions;
-  _ecGetActiveEdgeCases = eceMod.getActiveEdgeCases;
-} catch (_importErr) {
-  // edge-case-engine.js not yet available — use local fallback below.
+function _getEngine() {
+  if (!_enginePromise) {
+    _enginePromise = import('../data/edge-case-engine.js').catch(err => {
+      console.error('[doctor-ui:edge-case-import]', err);
+      return null;
+    });
+  }
+  return _enginePromise;
 }
+
+_getEngine().then(mod => {
+  if (mod) {
+    _ecGetBlockedActions = mod.getBlockedActions || _ecGetBlockedActions;
+    _ecGetActiveEdgeCases = mod.getActiveEdgeCases || _ecGetActiveEdgeCases;
+  }
+}).catch(() => {});
 
 if (!_ecGetBlockedActions || !_ecGetActiveEdgeCases) {
   let _EDGE_CASES_DOCTOR = null;
@@ -538,4 +548,22 @@ async function applyDoctorSuppression(advice, plant, grow) {
     // Suppression must never crash the plant doctor.
     return { advice, suppressed: [] };
   }
+}
+
+export async function runTests() {
+  const results = [];
+  function assert(condition, msg) {
+    results.push({ pass: !!condition, msg });
+    if (!condition) console.error(`FAIL: ${msg}`);
+  }
+
+  const inputAdvice = [
+    { id: 'a1', symptom: 'Yellow leaves', severity: 'moderate' },
+    { id: 'a2', symptom: 'Slow growth', severity: 'mild' },
+  ];
+  const result = await applyDoctorSuppression(inputAdvice, null, {});
+  assert(result.advice.length === inputAdvice.length, 'applyDoctorSuppression passes through when plant is null');
+  assert(result.suppressed.length === 0, 'applyDoctorSuppression has zero suppressions when plant is null');
+
+  return results;
 }

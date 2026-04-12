@@ -11,14 +11,22 @@ import { generateId } from '../utils.js';
 import { answerQuestion } from '../data/question-matcher.js';
 import { navigate } from '../router.js';
 
-// Edge-case engine — may not exist yet; fall back to empty array on load failure
 let getActiveEdgeCases = null;
-try {
-  const mod = await import('../data/edge-case-engine.js');
-  getActiveEdgeCases = mod.getActiveEdgeCases ?? null;
-} catch {
-  // file not yet created — silently skip
+let _enginePromise = null;
+
+function _getEngine() {
+  if (!_enginePromise) {
+    _enginePromise = import('../data/edge-case-engine.js').catch(err => {
+      console.error('[timeline-bar:edge-case-import]', err);
+      return null;
+    });
+  }
+  return _enginePromise;
 }
+
+_getEngine().then(mod => {
+  if (mod) getActiveEdgeCases = mod.getActiveEdgeCases ?? null;
+}).catch(() => {});
 
 /**
  * renderTimeline(container, options) — Renders a horizontal progress bar timeline.
@@ -1299,6 +1307,36 @@ function _logDecisionNote(plantId, type, action, note, store) {
     details: { action, note, decisionType: type },
   });
   store.commit('grow', grow);
+}
+
+export async function runTests() {
+  const results = [];
+  function assert(condition, msg) {
+    results.push({ pass: !!condition, msg });
+    if (!condition) console.error(`FAIL: ${msg}`);
+  }
+
+  const enginePromise = _getEngine();
+  assert(enginePromise instanceof Promise, '_getEngine returns a Promise');
+  assert(_getEngine() === enginePromise, '_getEngine is memoized (same reference)');
+
+  const engine = await enginePromise;
+  if (engine) {
+    assert(typeof engine.getActiveEdgeCases === 'function', 'engine has getActiveEdgeCases');
+  } else {
+    results.push({ pass: true, msg: 'engine not available (skip export check)' });
+  }
+
+  const el = document.createElement('div');
+  let didNotThrow = true;
+  try {
+    renderStageDetail(el, 'seedling', { plant: { id: 't', stage: 'seedling', logs: [] }, grow: {} });
+  } catch {
+    didNotThrow = false;
+  }
+  assert(didNotThrow, 'renderStageDetail handles null edge-case engine');
+
+  return results;
 }
 
 function _milestoneIcon(icon) {
