@@ -29,7 +29,7 @@ export function searchStrains(query, database) {
 function getCustomStrains() {
   try {
     return JSON.parse(localStorage.getItem('growdoc-companion-custom-strains') || '{}');
-  } catch { return {}; }
+  } catch (err) { console.error('[strain-picker:load]', err); return {}; }
 }
 
 /** Save custom strain to localStorage. */

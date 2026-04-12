@@ -21,6 +21,7 @@
 
 import { generateId } from './utils.js';
 import { save, load, LEGACY_KEYS, STORAGE_KEYS } from './storage.js';
+import { showCriticalError } from './components/error-banner.js';
 
 const V1_FLAG = 'growdoc-companion-migrated';
 const V2_FLAG = 'growdoc-companion-v2-migrated';
@@ -37,7 +38,8 @@ function _readLegacyKey(key) {
   try {
     const raw = localStorage.getItem(key);
     return raw ? JSON.parse(raw) : null;
-  } catch {
+  } catch (err) {
+    console.error('[migration:read-legacy]', err);
     return null;
   }
 }
@@ -47,7 +49,8 @@ function _backupLegacyKey(key) {
   if (val === null) return;
   try {
     localStorage.setItem(`growdoc-legacy-backup-${key}`, val);
-  } catch {
+  } catch (err) {
+    console.error('[migration:backup-legacy]', err);
     // Ignore backup failures — original key is still intact.
   }
 }
@@ -205,7 +208,8 @@ export function preInitMigration() {
 
     return { migrated: importedKeys.length > 0, keys: importedKeys };
   } catch (err) {
-    console.error('preInitMigration error:', err);
+    console.error('[migration:pre-init]', err);
+    showCriticalError('Data migration failed \u2014 your data may need recovery');
     return { migrated: false, reason: 'error', error: err.message };
   }
 }

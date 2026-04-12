@@ -464,7 +464,8 @@ function _recordRuleError(ruleId, err) {
         source: 'advice',
       });
     }
-  } catch {
+  } catch (err) {
+    console.error('[rules-advice:record-error]', err);
     // Swallow — index may be unavailable in tests.
   }
 }

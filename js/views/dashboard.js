@@ -131,7 +131,7 @@ export function renderStatusBanner(container, store) {
     if (alertObs.length > 0) {
       const obs = alertObs[0];
       // Section-10: citation for dashboard banner trail.
-      try { recordReferencedIn([obs.id], 'dashboard:statusBanner'); } catch { /* best-effort */ }
+      try { recordReferencedIn([obs.id], 'dashboard:statusBanner'); } catch (err) { console.error('[dashboard:observation-record]', err); }
       const noteBanner = document.createElement('div');
       noteBanner.className = 'status-banner-note';
       const raw = typeof obs.rawText === 'string' ? obs.rawText.trim() : '';
@@ -176,7 +176,7 @@ function _collectAlertObservations(store, opts) {
     if (idx && Array.isArray(idx.all) && idx.all.length > 0) {
       return _filterObs(idx.all, opts);
     }
-  } catch (_) { /* fall through */ }
+  } catch (err) { console.error('[dashboard:status-check]', err); }
 
   // Fallback: project on the fly (tests path).
   if (!store || !store.state) return [];

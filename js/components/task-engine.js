@@ -42,7 +42,8 @@ if (!_getBlockedActions || !_getActiveWarnings) {
     try {
       const mod = await import('../data/edge-case-knowledge.js');
       _EDGE_CASES = mod.EDGE_CASES || [];
-    } catch (_e) {
+    } catch (err) {
+      console.error('[task-engine:suppression-init]', err);
       _EDGE_CASES = [];
     }
     return _EDGE_CASES;
@@ -167,7 +168,8 @@ function _collectPlantObservations(grow, profile) {
       byPlant[obs.plantId].push(obs);
     }
     return byPlant;
-  } catch (_err) {
+  } catch (err) {
+    console.error('[task-engine:suppression]', err);
     return {};
   }
 }
@@ -310,7 +312,7 @@ export function evaluateTimeTriggers(plant, profile, existingTasks, plantObserva
         // Section-10: citation for suppressed-task trail.
         try {
           recordReferencedIn(check.obsIds, `task-engine:suppress:${t.type}:${t.plantId}`);
-        } catch (_err) { /* best-effort */ }
+        } catch (err) { console.error('[task-engine:citation-write]', err); }
       }
     }
   }
@@ -498,7 +500,7 @@ function evaluateDiagnoseTaskTriggers(plant, existingTasks, plantObservations = 
     // Section-10: citation for diagnose-trigger trail.
     try {
       recordReferencedIn(alertTrigger.obsIds, `task-engine:diagnose-trigger:${plant.id}`);
-    } catch (_err) { /* best-effort */ }
+    } catch (err) { console.error('[task-engine:observation-record]', err); }
   }
   tasks.push(task);
   return tasks.filter(t => !isDuplicate(t, existingTasks));
@@ -616,7 +618,7 @@ export function evaluateEnvironmentTriggers(readings, profile, existingTasks, ob
         // Section-10: citation for env-discrepancy trail.
         try {
           recordReferencedIn([conflict.obsId], `task-engine:env-discrepancy:${plantId}`);
-        } catch (_err) { /* best-effort */ }
+        } catch (err) { console.error('[task-engine:observation-record-2]', err); }
         tasks.push(task);
       }
     }
@@ -993,7 +995,8 @@ export async function applyEdgeCaseSuppression(tasks, plant, grow) {
     }));
 
     return [...warningTasks, ...surviving];
-  } catch (_err) {
+  } catch (err) {
+    console.error('[task-engine:edge-case-suppression]', err);
     // Edge-case suppression must never crash the task engine.
     return tasks;
   }

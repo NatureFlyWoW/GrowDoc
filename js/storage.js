@@ -57,7 +57,8 @@ export function save(key, data) {
         try {
           localStorage.setItem(storageKey, JSON.stringify(data));
           return true;
-        } catch {
+        } catch (err) {
+          console.error('[storage:save-retry]', err);
           // Still over quota
         }
       }
@@ -136,7 +137,8 @@ export function checkCapacity() {
         used += (key.length + (localStorage.getItem(key)?.length || 0)) * 2;
       }
     }
-  } catch {
+  } catch (err) {
+    console.error('[storage:capacity-read]', err);
     // If we can't read, estimate 0
   }
 
@@ -167,7 +169,8 @@ export function exportAllData() {
       if (raw === null) continue;
       try {
         data[key] = JSON.parse(raw);
-      } catch {
+      } catch (err) {
+        console.error('[storage:export-parse]', err);
         data[key] = raw;
       }
     }
@@ -311,7 +314,8 @@ export function checkQuota() {
         used += (key.length + (localStorage.getItem(key)?.length || 0)) * 2;
       }
     }
-  } catch {
+  } catch (err) {
+    console.error('[storage:quota-read]', err);
     // Ignore — return zero usage on read failure
   }
   const percent = used / QUOTA_BUDGET;
@@ -378,12 +382,14 @@ export function exportAll() {
       if (key && key.startsWith('growdoc-companion')) {
         try {
           data[key] = JSON.parse(localStorage.getItem(key));
-        } catch {
+        } catch (err) {
+          console.error('[storage:export-all-parse]', err);
           data[key] = localStorage.getItem(key);
         }
       }
     }
-  } catch {
+  } catch (err) {
+    console.error('[storage:export-all]', err);
     // Return what we have
   }
   return data;
@@ -400,7 +406,8 @@ export function clearArchive() {
     archive.shift();
     save('archive', archive);
     return true;
-  } catch {
+  } catch (err) {
+    console.error('[storage:clear-archive]', err);
     return false;
   }
 }

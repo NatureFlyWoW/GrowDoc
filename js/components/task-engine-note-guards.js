@@ -52,7 +52,8 @@ export function checkRedundancy(taskType, plantObservations, now = Date.now()) {
   let matches;
   try {
     matches = findActionsTakenSince(plantObservations, taskType, windowHours);
-  } catch (_err) {
+  } catch (err) {
+    console.error('[note-guards:observation]', err);
     return { suppressed: false, obsIds: [], noteRef: null };
   }
 
@@ -211,5 +212,5 @@ export function overrideSuppression(store, _taskId, plantId, taskType) {
  * reaching into the private contextualizer module.
  */
 export function _getRuleErrors() {
-  try { return getObservationIndex().ruleErrors || []; } catch { return []; }
+  try { return getObservationIndex().ruleErrors || []; } catch (err) { console.error('[note-guards:rule-errors]', err); return []; }
 }

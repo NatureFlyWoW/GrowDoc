@@ -31,7 +31,8 @@ function _readPhotos() {
   try {
     const raw = localStorage.getItem(PHOTOS_KEY);
     return raw ? JSON.parse(raw) : {};
-  } catch {
+  } catch (err) {
+    console.error('[photos:load]', err);
     return {};
   }
 }
@@ -145,7 +146,8 @@ export function checkPhotoQuota() {
       const parsed = JSON.parse(raw);
       count = Object.keys(parsed).length;
     }
-  } catch {
+  } catch (err) {
+    console.error('[photos:quota-check]', err);
     // ignore
   }
   const percent = used / PHOTO_BUDGET_BYTES;

@@ -47,7 +47,8 @@ export function runDiagnosis(symptoms, context = {}) {
   if (context && context.ctx && typeof context.ctx === 'object') {
     try {
       adjustScoresFromNotes(scores, context.ctx);
-    } catch (_err) {
+    } catch (err) {
+      console.error('[doctor-engine:note-adjust]', err);
       // adjustScoresFromNotes is defensive; this catch is insurance only.
     }
   }
@@ -71,7 +72,7 @@ export function runDiagnosis(symptoms, context = {}) {
       if (obsIds.length > 0) {
         recordReferencedIn(obsIds, `plant-doctor:runDiagnosis:${context.plantId}`);
       }
-    } catch (_err) { /* citation write is best-effort */ }
+    } catch (err) { console.error('[doctor-engine:citation-write]', err); }
   }
 
   return results.slice(0, 10); // Top 10
@@ -132,7 +133,8 @@ export function buildContext(store) {
       });
       const merged = mergeNoteContext(observations);
       ctx = (merged && merged.ctx) || {};
-    } catch (_err) {
+    } catch (err) {
+      console.error('[doctor-engine:observation]', err);
       observations = [];
       ctx = {};
     }

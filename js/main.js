@@ -25,6 +25,7 @@ import { renderJournal } from './views/journal.js';
 import { renderFinish } from './views/finish.js';
 import { preInitMigration, postInitMigration } from './migration.js';
 import { initContextualizer } from './data/note-contextualizer/index.js';
+import { showCriticalError } from './components/error-banner.js';
 
 let getActiveEdgeCases = () => [];
 let _enginePromise = null;
@@ -70,7 +71,11 @@ function initStore() {
   // unrelated keys. 300ms debounce window.
   const persistKeys = ['profile', 'grow', 'environment', 'archive', 'outcomes', 'ui'];
   for (const key of persistKeys) {
-    const debouncedSave = debounce(() => save(key, store.state[key]), 300);
+    const debouncedSave = debounce(() => {
+      if (!save(key, store.state[key])) {
+        showCriticalError('Data save failed \u2014 storage may be full');
+      }
+    }, 300);
     store.subscribe(key, () => debouncedSave());
   }
 
@@ -122,7 +127,7 @@ const viewMap = {
     let edgeCases = [];
     try {
       edgeCases = getActiveEdgeCases({ plant: currentPlant, grow });
-    } catch { /* engine not ready */ }
+    } catch (err) { console.error('[main:edge-case-timeline]', err); }
 
     // Stage detail panel target — populated by showDetail()
     const detailTarget = document.createElement('div');
@@ -250,7 +255,8 @@ function boot() {
       });
     }
   } catch (err) {
-    console.error('App initialization failed:', err);
+    console.error('[main:boot]', err);
+    showCriticalError('App failed to start \u2014 try reloading');
     showErrorScreen('Something went wrong during startup.');
   }
 }
@@ -350,7 +356,7 @@ function _hasBackupKeys() {
       const key = localStorage.key(i);
       if (key && key.startsWith('growdoc-companion-backup')) return true;
     }
-  } catch { /* ignore */ }
+  } catch (err) { console.error('[main:backup-check]', err); }
   return false;
 }
 
@@ -426,6 +432,7 @@ async function renderTestRunner(container) {
     { name: 'vpd-widget', path: './components/vpd-widget.js' },
     { name: 'feeding-calculator', path: './data/feeding-calculator.js' },
     { name: 'question-matcher', path: './data/question-matcher.js' },
+    { name: 'error-banner', path: './components/error-banner.js' },
     { name: 'lazy-loader', path: './tests/lazy-loader.test.js' },
     { name: 'timeline-bar', path: './components/timeline-bar.js' },
     { name: 'doctor-ui', path: './plant-doctor/doctor-ui.js' },

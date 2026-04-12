@@ -36,7 +36,7 @@ export function renderDebugWaterfall(mountEl) {
   closeBtn.textContent = '×';
   closeBtn.title = 'Close waterfall';
   closeBtn.addEventListener('click', () => {
-    try { sessionStorage.removeItem('growdoc-debug-notes'); } catch {}
+    try { sessionStorage.removeItem('growdoc-debug-notes'); } catch (err) { console.error('[debug-waterfall:session-clear]', err); }
     if (mountEl.parentNode) mountEl.parentNode.removeChild(mountEl);
   });
   mountEl.appendChild(closeBtn);
@@ -47,7 +47,7 @@ export function renderDebugWaterfall(mountEl) {
   mountEl.appendChild(title);
 
   let index;
-  try { index = getObservationIndex(); } catch { index = null; }
+  try { index = getObservationIndex(); } catch (err) { console.error('[debug-waterfall:observation-index]', err); index = null; }
   const all = (index && Array.isArray(index.all)) ? index.all.slice() : [];
 
   all.sort((a, b) => (Date.parse(b.observedAt) || 0) - (Date.parse(a.observedAt) || 0));
@@ -86,7 +86,7 @@ export function renderDebugWaterfall(mountEl) {
     try {
       const merged = mergeNoteContext([obs]);
       tdCtx.textContent = JSON.stringify(merged.ctx || {});
-    } catch { tdCtx.textContent = '—'; }
+    } catch (err) { console.error('[debug-waterfall:context]', err); tdCtx.textContent = '—'; }
     tr.appendChild(tdCtx);
 
     const tdWeight = document.createElement('td');
@@ -96,7 +96,7 @@ export function renderDebugWaterfall(mountEl) {
 
     const tdCited = document.createElement('td');
     let cites;
-    try { cites = getCitationsFor(obs.id); } catch { cites = []; }
+    try { cites = getCitationsFor(obs.id); } catch (err) { console.error('[debug-waterfall:citations]', err); cites = []; }
     tdCited.textContent = (Array.isArray(cites) && cites.length > 0) ? cites.join(', ') : '—';
     tr.appendChild(tdCited);
 

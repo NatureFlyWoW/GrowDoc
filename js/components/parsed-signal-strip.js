@@ -74,7 +74,8 @@ export function mountParsedSignalStrip(anchor, options = {}) {
       parseObservation(obs);
       const kws = (obs.parsed && Array.isArray(obs.parsed.keywords)) ? obs.parsed.keywords : [];
       renderChips(kws);
-    } catch (_err) {
+    } catch (err) {
+      console.error('[signal-strip:parse]', err);
       strip.innerHTML = '';
       delete strip.dataset.placeholder;
     }

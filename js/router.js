@@ -133,7 +133,8 @@ function _handleRoute() {
 function _hasProfile() {
   try {
     return !!localStorage.getItem('growdoc-companion-profile');
-  } catch {
+  } catch (err) {
+    console.error('[router:profile-check]', err);
     return false;
   }
 }

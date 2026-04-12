@@ -38,7 +38,8 @@ if (!_ecGetBlockedActions || !_ecGetActiveEdgeCases) {
     try {
       const mod = await import('../data/edge-case-knowledge.js');
       _EDGE_CASES_DOCTOR = mod.EDGE_CASES || [];
-    } catch (_e) {
+    } catch (err) {
+      console.error('[doctor-ui:suppression-init]', err);
       _EDGE_CASES_DOCTOR = [];
     }
     return _EDGE_CASES_DOCTOR;
@@ -544,7 +545,8 @@ async function applyDoctorSuppression(advice, plant, grow) {
     });
 
     return { advice: kept, suppressed };
-  } catch (_err) {
+  } catch (err) {
+    console.error('[doctor-ui:suppression]', err);
     // Suppression must never crash the plant doctor.
     return { advice, suppressed: [] };
   }

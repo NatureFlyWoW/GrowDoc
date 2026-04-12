@@ -92,7 +92,8 @@ export function createStore(initialState = {}) {
       console.warn('structuredClone failed, falling back to JSON:', err);
       try {
         return JSON.parse(JSON.stringify(obj));
-      } catch {
+      } catch (err) {
+        console.error('[store:listener]', err);
         // Last-resort: return original. Callers should never hit this.
         return obj;
       }

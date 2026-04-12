@@ -31,7 +31,7 @@ export function mountRecentObservationsWidget(mountEl, activePlantId) {
 
   function refresh() {
     let index;
-    try { index = getObservationIndex(); } catch { index = null; }
+    try { index = getObservationIndex(); } catch (err) { console.error('[recent-obs:observation-index]', err); index = null; }
     const all = (index && Array.isArray(index.all)) ? index.all : [];
     const relevant = all
       .filter(o => o && o.plantId === activePlantId)

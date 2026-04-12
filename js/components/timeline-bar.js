@@ -237,7 +237,7 @@ export function renderStageDetail(container, stageId, options = {}) {
   if (Array.isArray(edgeCasesOpt)) {
     edgeCases = edgeCasesOpt;
   } else if (getActiveEdgeCases && plant) {
-    try { edgeCases = getActiveEdgeCases(plant) || []; } catch { edgeCases = []; }
+    try { edgeCases = getActiveEdgeCases(plant) || []; } catch (err) { console.error('[timeline-bar:edge-cases]', err); edgeCases = []; }
   }
 
   // Stage history for past variant

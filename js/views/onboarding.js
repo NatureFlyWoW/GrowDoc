@@ -149,7 +149,8 @@ export function renderOnboarding(container, store) {
         }
       }
     }
-  } catch {
+  } catch (err) {
+    console.error('[onboarding:guard]', err);
     // If anything fails, fall through and run the wizard
   }
 
@@ -735,7 +736,7 @@ function _completeOnboarding({ skipNavigate = false } = {}) {
   // 5. Also persist profile key for router's first-visit detection
   try {
     localStorage.setItem('growdoc-companion-profile', JSON.stringify(profile));
-  } catch { /* handled by store auto-save */ }
+  } catch (err) { console.error('[onboarding:save]', err); }
 
   // 6. Redirect to dashboard
   if (!skipNavigate) navigate('/dashboard');

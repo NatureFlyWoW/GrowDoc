@@ -412,7 +412,8 @@ export function collectObservations(grow, profile, opts = {}) {
   // observations are grow-wide (no plantId) and carry source:'cure'.
   try {
     _walkCureTracker(out, createdAt);
-  } catch (_err) {
+  } catch (err) {
+    console.error('[contextualizer:init]', err);
     // Malformed localStorage → skip silently, never break projection.
   }
 
@@ -450,10 +451,10 @@ export function collectObservations(grow, profile, opts = {}) {
 function _walkCureTracker(out, createdAt) {
   if (typeof localStorage === 'undefined') return;
   let raw;
-  try { raw = localStorage.getItem('growdoc-cure-tracker'); } catch { return; }
+  try { raw = localStorage.getItem('growdoc-cure-tracker'); } catch (err) { console.error('[contextualizer:cure-read]', err); return; }
   if (!raw) return;
   let state;
-  try { state = JSON.parse(raw); } catch { return; }
+  try { state = JSON.parse(raw); } catch (err) { console.error('[contextualizer:cure-parse]', err); return; }
   if (!state || typeof state !== 'object') return;
 
   const curingLogs = Array.isArray(state.curingLogs) ? state.curingLogs : [];
@@ -520,10 +521,10 @@ function computeHash(grow, profile) {
     }
   }
   const growJson = (() => {
-    try { return JSON.stringify(grow); } catch { return ''; }
+    try { return JSON.stringify(grow); } catch (err) { console.error('[contextualizer:grow-serialize]', err); return ''; }
   })();
   const profileJson = (() => {
-    try { return JSON.stringify(profile); } catch { return ''; }
+    try { return JSON.stringify(profile); } catch (err) { console.error('[contextualizer:profile-serialize]', err); return ''; }
   })();
   // Section-09: cure-tracker state participates in the hash so cure-only
   // edits invalidate the cache even though the cure tracker has no store
@@ -534,7 +535,7 @@ function computeHash(grow, profile) {
       const raw = localStorage.getItem('growdoc-cure-tracker') || '';
       cureDigest = raw.length + ':' + stringHash(raw);
     }
-  } catch { /* ignore */ }
+  } catch (err) { console.error('[contextualizer:subscribe]', err); }
   return [
     plantCount,
     taskCount,

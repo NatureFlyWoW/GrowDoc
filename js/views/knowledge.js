@@ -102,7 +102,8 @@ async function loadScienceData() {
   try {
     const mod = await import('../data/knowledge-science.js');
     return mod.KNOWLEDGE_SCIENCE || null;
-  } catch {
+  } catch (err) {
+    console.error('[knowledge:load]', err);
     return null;
   }
 }
@@ -691,7 +692,8 @@ export function renderMythsView(container) {
           shareBtn.classList.remove('copied');
           shareBtn.childNodes[1].textContent = 'Copy link';
         }, 2000);
-      } catch {
+      } catch (err) {
+        console.error('[knowledge:deep-dive]', err);
         // Fallback: prompt
         window.prompt('Copy this link:', url);
       }

@@ -145,7 +145,8 @@ export function renderTaskCard(container, task, options = {}) {
           if (store.state.ui?.activePlantId !== task.plantId) {
             store.commit('ui', { ...store.state.ui, activePlantId: task.plantId });
           }
-        } catch (_err) {
+        } catch (err) {
+          console.error('[task-card:citation]', err);
           // non-fatal — navigation still proceeds
         }
       });

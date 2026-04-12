@@ -334,7 +334,8 @@ function _recordRuleError(ruleId, err) {
         source: 'score-adjust',
       });
     }
-  } catch {
+  } catch (err) {
+    console.error('[rules-score:record-error]', err);
     // Index may be unavailable during tests — swallow.
   }
 }
