@@ -1,33 +1,24 @@
 # GrowDoc
 
-Collaborative cannabis cultivation documentation platform deployed on Vercel. Vanilla JS frontend + Vercel serverless API + GitHub as data store.
-
-## Quick Reference
-
-- [Architecture & Stack](CLAUDE/architecture.md)
-- [Code Conventions](CLAUDE/conventions.md)
-- [API Reference](CLAUDE/api.md)
-- [Deployment](CLAUDE/deployment.md)
-- [Interactive Tools](CLAUDE/tools.md)
+Cannabis cultivation documentation platform. Vanilla JS + Vercel serverless + GitHub as data store.
 
 ## Critical Rules
 
 1. **Never expose secrets.** `GITHUB_TOKEN`, `JWT_SECRET`, password hashes live only in Vercel env vars. Never commit `.env` files or log secrets.
-2. **Deploy is part of done.** After building any feature, run `vercel --prod` to deploy.
-3. **No frameworks.** This is intentionally vanilla JS/HTML/CSS with zero npm dependencies. Do not introduce React, Vue, bundlers, or transpilers. **Exception:** Playwright (`@playwright/test`) is the only allowed npm devDependency — used for smoke testing only. It is not a runtime dependency and does not ship to production.
+2. **Deploy is part of done.** Run `vercel --prod` after every feature or fix.
+3. **No frameworks.** Vanilla JS/HTML/CSS with zero npm runtime dependencies. Do not introduce React, Vue, bundlers, or transpilers. **Exception:** Playwright (`@playwright/test`) is the only allowed npm devDependency — smoke testing only, does not ship to production.
 4. **Preserve the design system.** All docs use the theme from `docs/_design-system.md`. Use those CSS custom properties — do not introduce new colors or fonts.
-5. **GitHub is the database.** All document content lives in `docs/` and metadata in `docs/docs.json`. Changes go through the `api/save.js` endpoint which commits via GitHub API.
+5. **GitHub is the database.** All document content lives in `docs/` and metadata in `docs/docs.json`. Changes go through `api/save.js` which commits via GitHub API.
 6. **Optimistic concurrency.** The save flow uses SHA-based conflict detection. Always pass the current SHA when saving `docs.json`.
 
-## Working With This Repo
+## Repo Map
 
 ```
 GrowDoc/
-  api/              # Vercel serverless functions (login, save, state)
-  api/_lib/         # Shared backend: auth (scrypt+JWT), cors, github client
-  docs/             # Published HTML documents + docs.json metadata + JS data files
+  api/              # Vercel serverless (Node.js ESM)      — conventions in api/CLAUDE.md
+  docs/             # Published content, tools, data files  — conventions in docs/CLAUDE.md
   planning/         # Implementation plans and specs (not deployed)
-  .claude/agents/   # Franco (practitioner) + Professor (academic researcher)
+  .claude/agents/   # Franco (practitioner), Professor (academic), note-contextualizer
   .claude/skills/   # 7 cannabis cultivation skill domains
   index.html        # Public read-only viewer
   admin.html        # Authenticated editor
@@ -39,9 +30,20 @@ GrowDoc/
 
 `TEAM_PASSWORD_HASH`, `TEAM_PASSWORD_SALT`, `JWT_SECRET`, `GITHUB_TOKEN`, `GITHUB_REPO_OWNER`, `GITHUB_REPO_NAME`
 
-## Common Tasks
+## Git
 
-- **Add a new interactive tool**: Create `docs/tool-{name}.html` using the design system, add entry to `docs.json` with `category: "tool"`
-- **Modify API**: Edit files in `api/` — these are Vercel serverless functions (Node.js ESM)
-- **Update a doc**: Edit the HTML file in `docs/`, update `docs.json` if metadata changed
-- **Add data files**: JS data modules go in `docs/` (e.g., `plant-doctor-data.js`, `note-context-rules.js`)
+- Commit messages: descriptive, present tense
+- Branch: `main` (feature branches for multi-step work)
+- Never commit: `.env`, secrets, `node_modules/`, `.vercel/`
+
+## Team & Dispatch Rules
+
+See [CLAUDE/team.md](CLAUDE/team.md) — agent roster, dispatch rules, domain boundaries, MCP servers.
+
+## Workflows & Patterns
+
+See [CLAUDE/workflows.md](CLAUDE/workflows.md) — planning pipeline, parallel dispatch checklist, token efficiency, testing, deploy.
+
+## Product Vision
+
+See [CLAUDE/vision.md](CLAUDE/vision.md) — north star, principles, deferrals, authority hierarchy.
