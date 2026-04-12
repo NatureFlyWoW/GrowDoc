@@ -554,38 +554,36 @@ function _synthesiseTitle(ec) {
 
 // ── Self-test suite ───────────────────────────────────────────────────
 //
-// Keeps assertions under 10 to respect the quality bar.
-// Run with: node -e "import('./js/data/edge-case-engine.js').then(m=>m.runTests())"
+// Run with: node -e "import('./js/data/edge-case-engine.js').then(m=>m.runTests().then(r=>console.table(r)))"
 
 /**
- * Minimal inline assertion helper.
- *
- * @param {boolean} condition
- * @param {string}  message
- */
-function assert(condition, message) {
-  if (!condition) {
-    throw new Error(`FAIL: ${message}`);
-  }
-  console.log(`PASS: ${message}`);
-}
-
-/**
- * Run the built-in smoke tests. Returns true on full pass, throws on failure.
+ * Run the built-in smoke tests.
  *
  * Tests:
  *   1. Post-transplant plant in early-veg returns 'fresh-transplant-early-veg-no-feed'.
- *   2. Autoflower plant returns auto-specific rules when plantFlags includes
- *      'plantType:autoflower', and does NOT return them without that flag.
+ *   2a. Autoflower plant returns auto-specific rules when plantFlags includes
+ *       'plantType:autoflower'.
+ *   2b. Non-autoflower plant does NOT return auto-specific rules.
  *   3. getBlockedActions returns a non-empty Set.
  *   4. getActiveWarnings returns an array.
  *   5. Plant with no logs / empty stage returns empty array.
  *   6. Event-bud-rot in mid-flower activates 'bud-rot-defol-contraindicated'.
  *   7. Event-hermie in early-flower activates 'hermie-nanners-no-stress-advice'.
+ *   8. getActiveEdgeCases is exported and is a function.
+ *   9. getActiveEdgeCases with a valid minimal context returns an array.
+ *  10. getActiveEdgeCases with null plant returns empty array.
+ *  11. getBlockedActions with valid context returns an array or Set.
  *
- * @returns {boolean}
+ * @returns {Promise<Array<{pass: boolean, msg: string}>>}
  */
-export function runTests() {
+export async function runTests() {
+  const results = [];
+
+  function assert(condition, msg) {
+    results.push({ pass: !!condition, msg });
+    if (!condition) console.error(`FAIL: ${msg}`);
+  }
+
   const NOW = 1_700_000_000_000; // stable anchor epoch for determinism
 
   // ── Test 1: post-transplant early-veg returns the no-feed guardrail ──
@@ -735,6 +733,40 @@ export function runTests() {
     'Test 7: event-hermie in early-flower activates hermie-nanners-no-stress-advice',
   );
 
-  console.log('All edge-case-engine tests passed.');
-  return true;
+  // ── Test 8: getActiveEdgeCases is exported and is a function ──
+
+  assert(
+    typeof getActiveEdgeCases === 'function',
+    'Test 8: getActiveEdgeCases is exported and is a function',
+  );
+
+  // ── Test 9: getActiveEdgeCases with a valid minimal context returns an array ──
+
+  const minimalContext = {
+    plant: { id: 'x', stage: 'early-veg', logs: [] },
+    grow: { medium: 'soil' },
+  };
+  const cases9 = getActiveEdgeCases(minimalContext);
+  assert(
+    Array.isArray(cases9),
+    'Test 9: getActiveEdgeCases with valid minimal context returns an array',
+  );
+
+  // ── Test 10: getActiveEdgeCases with null plant returns empty array ──
+
+  const cases10 = getActiveEdgeCases({ plant: null, grow: {} });
+  assert(
+    Array.isArray(cases10) && cases10.length === 0,
+    'Test 10: getActiveEdgeCases with null plant returns empty array',
+  );
+
+  // ── Test 11: getBlockedActions with valid context returns an array or Set ──
+
+  const blocked11 = getBlockedActions(minimalContext);
+  assert(
+    blocked11 instanceof Set || Array.isArray(blocked11),
+    'Test 11: getBlockedActions with valid context returns an array or Set',
+  );
+
+  return results;
 }

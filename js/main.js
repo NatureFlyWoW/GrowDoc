@@ -419,6 +419,7 @@ async function renderTestRunner(container) {
     { name: 'utils', path: './utils.js' },
     { name: 'store', path: './store.js' },
     { name: 'storage', path: './storage.js' },
+    { name: 'migration', path: './tests/migration.test.js' },
     { name: 'router', path: './router.js' },
     { name: 'sidebar', path: './components/sidebar.js' },
     { name: 'onboarding', path: './views/onboarding.js' },
@@ -435,6 +436,7 @@ async function renderTestRunner(container) {
     { name: 'note-contextualizer', path: './tests/note-contextualizer.test.js' },
     { name: 'note-contextualizer-merge', path: './tests/note-contextualizer-merge.test.js' },
     { name: 'note-contextualizer-rules', path: './tests/note-contextualizer-rules.test.js' },
+    { name: 'stage-sources', path: './tests/stage-sources.test.js' },
     { name: 'doctor-engine', path: './tests/doctor-engine.test.js' },
     { name: 'severity-chip', path: './tests/severity-chip.test.js' },
     { name: 'ui-note-contextualizer', path: './tests/ui-note-contextualizer.test.js' },
@@ -447,6 +449,10 @@ async function renderTestRunner(container) {
     { name: 'timeline-bar', path: './components/timeline-bar.js' },
     { name: 'doctor-ui', path: './plant-doctor/doctor-ui.js' },
     { name: 'cultivation-data', path: './tests/cultivation-data.test.js' },
+    { name: 'edge-case-engine', path: './data/edge-case-engine.js' },
+    { name: 'plant-picker', path: './tests/plant-picker.test.js' },
+    { name: 'journal', path: './tests/journal.test.js' },
+    { name: 'data-schema', path: './tests/data-schema.test.js' },
   ];
 
   let totalPass = 0;

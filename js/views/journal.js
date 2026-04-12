@@ -349,7 +349,7 @@ function _relativeTime(iso) {
  * @param {Object} store
  * @returns {Array}
  */
-function _aggregateNotes(store) {
+export function _aggregateNotes(store) {
   const grow = store.state.grow;
   const profile = store.state.profile;
   const entries = [];
