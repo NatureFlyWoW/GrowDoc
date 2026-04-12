@@ -718,3 +718,74 @@
   padding: var(--space-2) 0;
   font-style: italic;
 }
+
+/* Question matcher — Answer button and inline answer display */
+
+.btn-answer-question {
+  background: rgba(143, 184, 86, 0.12);
+  border: 1px solid rgba(143, 184, 86, 0.3);
+  color: var(--accent-green);
+  font-size: 0.78rem;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-answer-question:hover {
+  background: rgba(143, 184, 86, 0.22);
+  border-color: rgba(143, 184, 86, 0.55);
+}
+
+.btn-answer-question[aria-expanded="true"] {
+  background: rgba(143, 184, 86, 0.08);
+  color: var(--text-secondary);
+}
+
+.stage-question-answer {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.stage-question-answer-item {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  border-left: 2px solid var(--accent-green);
+}
+
+.stage-question-answer-source {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.stage-question-answer-title {
+  margin: var(--space-1) 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.stage-question-answer-body {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+}
+
+.stage-question-answer-matched-terms {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-top: var(--space-1);
+  margin-bottom: var(--space-2);
+}
+
+.stage-question-answer-empty {
+  padding: var(--space-3);
+  color: var(--text-muted);
+  font-style: italic;
+}

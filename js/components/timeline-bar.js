@@ -8,6 +8,7 @@ import { createStageNote, createStageQuestion, getStageObservations, markQuestio
 import { getStageDeepDive } from '../data/knowledge-deep-dives.js';
 import { getStrainClassAdjustments, getStrainClass } from '../data/strain-class-adjustments.js';
 import { generateId } from '../utils.js';
+import { answerQuestion } from '../data/question-matcher.js';
 import { navigate } from '../router.js';
 
 // Edge-case engine — may not exist yet; fall back to empty array on load failure
@@ -691,16 +692,97 @@ export function renderStageDetail(container, stageId, options = {}) {
 
           const qMeta = document.createElement('div');
           qMeta.className = 'stage-question-chip-meta';
-          qMeta.textContent = 'QUEUED FOR NEXT ADVICE RUN';
+          qMeta.textContent = 'Tap Answer to search GrowDoc\'s knowledge base';
           li.appendChild(qMeta);
 
           const qActions = document.createElement('div');
           qActions.className = 'stage-question-actions';
 
-          const answerBtn = document.createElement('button');
-          answerBtn.className = 'btn btn-sm';
-          answerBtn.textContent = 'Mark answered';
-          answerBtn.addEventListener('click', () => {
+          // Answer button — searches local knowledge base inline
+          const kbAnswerBtn = document.createElement('button');
+          kbAnswerBtn.className = 'btn btn-sm btn-answer-question';
+          kbAnswerBtn.textContent = 'Answer';
+          kbAnswerBtn.setAttribute('aria-expanded', 'false');
+
+          const answerPanel = document.createElement('div');
+          answerPanel.className = 'stage-question-answer';
+          answerPanel.hidden = true;
+
+          kbAnswerBtn.addEventListener('click', () => {
+            const alreadyOpen = kbAnswerBtn.getAttribute('aria-expanded') === 'true';
+            if (alreadyOpen) {
+              // Toggle hide
+              answerPanel.hidden = true;
+              kbAnswerBtn.textContent = 'Answer';
+              kbAnswerBtn.setAttribute('aria-expanded', 'false');
+              return;
+            }
+
+            // Mark expanded and disable re-search (show Hide toggle instead)
+            kbAnswerBtn.setAttribute('aria-expanded', 'true');
+            kbAnswerBtn.textContent = 'Hide';
+            answerPanel.hidden = false;
+            answerPanel.innerHTML = '';
+
+            const questionText = q.details?.notes || '';
+            const plantFlags = plant?.flags ?? [];
+            const matches = answerQuestion(questionText, {
+              currentStage: plant?.stage ?? null,
+              plantFlags,
+            });
+
+            if (matches.length === 0) {
+              const empty = document.createElement('div');
+              empty.className = 'stage-question-answer-empty';
+              empty.textContent = 'GrowDoc\'s knowledge base doesn\'t have a specific answer for this one yet.';
+              answerPanel.appendChild(empty);
+            } else {
+              for (const item of matches) {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'stage-question-answer-item';
+
+                const sourceBadge = document.createElement('div');
+                sourceBadge.className = 'stage-question-answer-source';
+                sourceBadge.textContent = item.source;
+                itemEl.appendChild(sourceBadge);
+
+                const titleEl = document.createElement('h5');
+                titleEl.className = 'stage-question-answer-title';
+                titleEl.textContent = item.title;
+                itemEl.appendChild(titleEl);
+
+                const bodyEl = document.createElement('p');
+                bodyEl.className = 'stage-question-answer-body';
+                bodyEl.textContent = item.body;
+                itemEl.appendChild(bodyEl);
+
+                if (item.matchedTerms && item.matchedTerms.length > 0) {
+                  const termsEl = document.createElement('div');
+                  termsEl.className = 'stage-question-answer-matched-terms';
+                  termsEl.textContent = 'matched: ' + item.matchedTerms.join(', ');
+                  itemEl.appendChild(termsEl);
+                }
+
+                const helpfulBtn = document.createElement('button');
+                helpfulBtn.className = 'btn btn-sm';
+                helpfulBtn.textContent = 'Helpful';
+                helpfulBtn.addEventListener('click', () => {
+                  markQuestionAnswered(store, q.id, { answerObsId: 'matcher:' + item.id });
+                  const freshObs = getStageObservations(store, { plantId: plant.id, stageId });
+                  const oldList = document.getElementById(questionsListId);
+                  if (oldList) oldList.replaceWith(buildQuestionsList(freshObs.openQuestions));
+                });
+                itemEl.appendChild(helpfulBtn);
+
+                answerPanel.appendChild(itemEl);
+              }
+            }
+          });
+
+          const markAnsweredBtn = document.createElement('button');
+          markAnsweredBtn.className = 'btn btn-sm';
+          markAnsweredBtn.textContent = 'Mark answered';
+          markAnsweredBtn.addEventListener('click', () => {
             markQuestionAnswered(store, q.id);
             const freshObs = getStageObservations(store, { plantId: plant.id, stageId });
             const oldList = document.getElementById(questionsListId);
@@ -717,9 +799,11 @@ export function renderStageDetail(container, stageId, options = {}) {
             if (oldList) oldList.replaceWith(buildQuestionsList(freshObs.openQuestions));
           });
 
-          qActions.appendChild(answerBtn);
+          qActions.appendChild(kbAnswerBtn);
+          qActions.appendChild(markAnsweredBtn);
           qActions.appendChild(dismissBtn);
           li.appendChild(qActions);
+          li.appendChild(answerPanel);
           ul.appendChild(li);
         }
       }

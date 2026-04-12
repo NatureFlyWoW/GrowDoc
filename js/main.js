@@ -419,6 +419,7 @@ async function renderTestRunner(container) {
     { name: 'dashboard', path: './views/dashboard.js' },
     { name: 'vpd-widget', path: './components/vpd-widget.js' },
     { name: 'feeding-calculator', path: './data/feeding-calculator.js' },
+    { name: 'question-matcher', path: './data/question-matcher.js' },
   ];
 
   let totalPass = 0;
